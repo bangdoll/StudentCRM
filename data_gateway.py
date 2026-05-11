@@ -41,8 +41,8 @@ class StudentDataGateway:
         self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
         self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
         self.supabase_key = (
-            os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
-            or os.getenv("SUPABASE_ANON_KEY", "").strip()
+            os.getenv("SUPABASE_ANON_KEY", "").strip()
+            or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
         )
 
     def load_students(self) -> list[dict[str, Any]]:

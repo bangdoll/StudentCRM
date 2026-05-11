@@ -41,7 +41,7 @@ python3 main.py
 ```bash
 export STUDENTCRM_DATA_BACKEND=supabase
 export SUPABASE_URL="https://vwgbbvodfzsagrtyuybl.supabase.co"
-export SUPABASE_SERVICE_ROLE_KEY="YOUR_SERVICE_ROLE_KEY"
+export SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
 python3 main.py
 ```
 
@@ -78,7 +78,7 @@ Supabase 安全邊界請見 `StudentCRM/docs/SUPABASE_SECURITY.md`。
 ```bash
 python3 StudentCRM/scripts/supabase_smoke_test.py --api http://127.0.0.1:8888
 ```
-若已完成 Supabase schema / RLS / migrate，可再加上 `--supabase` 檢查 REST 欄位與筆數；檢查範圍包含 `students` 與蘋果總裁班拆表。
+若已完成 Supabase schema / RLS / migrate，可再加上 `--supabase` 檢查 REST 欄位與筆數；檢查範圍包含 `students` 與蘋果總裁班拆表。網站與 Vercel production 應設定 `SUPABASE_ANON_KEY`；`SUPABASE_SERVICE_ROLE_KEY` 僅供本機遷移工具或受控後端 Worker 使用。
 
 目前 schema 已包含一對一學員、教學紀錄與蘋果總裁班拆表：
 *   `students`
