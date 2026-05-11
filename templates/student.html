@@ -48,7 +48,7 @@
                         <strong>判斷原因：</strong><br>{{ student.prediction.reason }}
                     </p>
                     <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
-                    <h4 style="margin-bottom: 10px; font-size: 0.9em; color: var(--text-secondary);">觀測特徵 (Features)</h4>
+                    <h4 style="margin-bottom: 10px; font-size: 0.9em; color: var(--text-secondary);">觀測特徵</h4>
                     <ul class="meta-info" style="list-style: none; padding-left: 0; line-height: 1.6;">
                         <li>• 距離上次上課：{{ '未記錄' if student.features.days_since_last_lesson == -1 else student.features.days_since_last_lesson ~ ' 天' }}</li>
                         <li>• 近期平均字數：{{ student.features.average_word_count }} 字</li>

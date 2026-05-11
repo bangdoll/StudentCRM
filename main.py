@@ -907,7 +907,7 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
 
     table_body = "\n".join(rows)
     if not table_body:
-        table_body = '<tr><td colspan="4">尚未在 Supabase 找到課後紀錄；目前先顯示學員摘要。</td></tr>'
+        table_body = '<tr><td colspan="4">尚未在雲端資料庫找到課後紀錄；目前先顯示學員摘要。</td></tr>'
 
     tags = "、".join(student.get("tags", [])) if isinstance(student.get("tags"), list) else ""
     latest_date = html_lib.escape(str(student.get('latest_date') or '未記錄'))
@@ -917,7 +917,7 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
     tag_label = html_lib.escape(tags or '無')
     return f"""
     <section>
-        <p><strong>雲端摘要模式</strong>：Vercel 部署未包含本地 Markdown 檔案，目前改由 Supabase 資料顯示。</p>
+        <p><strong>雲端摘要模式</strong>：雲端部署未包含本地時光軸檔案，目前改由雲端資料庫顯示。</p>
         <table>
             <tbody>
                 <tr><th>最近上課</th><td>{latest_date}</td></tr>
@@ -929,7 +929,7 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
         </table>
     </section>
     <section>
-        <h3>Supabase 課後紀錄</h3>
+        <h3>雲端課後紀錄</h3>
         <table>
             <thead>
                 <tr><th>日期</th><th>堂數</th><th>標題</th><th>重點</th></tr>
