@@ -101,6 +101,19 @@ class StudentDataGateway:
             except DataGatewayError:
                 return self._empty_apple_ceo_program()
 
+    def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
+        if self.backend != "supabase" or not student_id:
+            return []
+
+        encoded_student_id = quote(student_id, safe="")
+        try:
+            return self._load_supabase_table(
+                "teaching_records",
+                query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
+            )
+        except DataGatewayError:
+            return []
+
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
             return self._read_json(self.status_file)

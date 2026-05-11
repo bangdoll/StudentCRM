@@ -8,6 +8,7 @@ import json
 import re
 import glob
 import hashlib
+import html as html_lib
 import subprocess
 import uuid
 from datetime import datetime, timedelta
@@ -890,6 +891,64 @@ def inject_badges(html: str) -> str:
     return re.sub(r'<a href="([^"]+)">[^<]+</a>', replace_link, html)
 
 
+def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -> str:
+    rows = []
+    for record in teaching_records[:20]:
+        raw = record.get("raw") if isinstance(record.get("raw"), dict) else {}
+        focus = raw.get("focus") or raw.get("transcript") or ""
+        rows.append(
+            "<tr>"
+            f"<td>{html_lib.escape(str(record.get('date') or '未記錄'))}</td>"
+            f"<td>{html_lib.escape(str(record.get('lesson_num') or ''))}</td>"
+            f"<td>{html_lib.escape(str(record.get('title') or '教學紀錄'))}</td>"
+            f"<td>{html_lib.escape(str(focus[:80]))}</td>"
+            "</tr>"
+        )
+
+    table_body = "\n".join(rows)
+    if not table_body:
+        table_body = '<tr><td colspan="4">尚未在 Supabase 找到課後紀錄；目前先顯示學員摘要。</td></tr>'
+
+    tags = "、".join(student.get("tags", [])) if isinstance(student.get("tags"), list) else ""
+    latest_date = html_lib.escape(str(student.get('latest_date') or '未記錄'))
+    next_lesson = html_lib.escape(str(student.get('next_lesson') or '尚未安排'))
+    lessons_count = html_lib.escape(str(student.get('lessons_count', 0)))
+    recurring_schedule = html_lib.escape(str(student.get('recurring_schedule') or '未設定'))
+    tag_label = html_lib.escape(tags or '無')
+    return f"""
+    <section>
+        <p><strong>雲端摘要模式</strong>：Vercel 部署未包含本地 Markdown 檔案，目前改由 Supabase 資料顯示。</p>
+        <table>
+            <tbody>
+                <tr><th>最近上課</th><td>{latest_date}</td></tr>
+                <tr><th>下次上課</th><td>{next_lesson}</td></tr>
+                <tr><th>累計堂數</th><td>{lessons_count}</td></tr>
+                <tr><th>固定排程</th><td>{recurring_schedule}</td></tr>
+                <tr><th>標籤</th><td>{tag_label}</td></tr>
+            </tbody>
+        </table>
+    </section>
+    <section>
+        <h3>Supabase 課後紀錄</h3>
+        <table>
+            <thead>
+                <tr><th>日期</th><th>堂數</th><th>標題</th><th>重點</th></tr>
+            </thead>
+            <tbody>{table_body}</tbody>
+        </table>
+    </section>
+    """
+
+
+def build_cloud_student_meta(student: dict) -> dict:
+    return {
+        "hardware": [],
+        "first_lesson_date": student.get("latest_date") or "未記錄",
+        "lessons_count": student.get("lessons_count", 0),
+        "last_lesson_date": student.get("latest_date") or "未記錄",
+    }
+
+
 def get_student_lesson_paths(student_id: str) -> list:
     """Get sorted lesson cache paths for a student from their .md timeline."""
     students = load_students()
@@ -1236,15 +1295,16 @@ async def read_voice_console(request: Request):
 @app.get("/student/{student_id}", response_class=HTMLResponse)
 async def read_student(request: Request, student_id: str):
     students = load_students()
-    student = next((s for s in students if s['id'] == student_id), None)
+    student = next((s for s in students if s.get('id') == student_id), None)
     if not student:
         return HTMLResponse(content="Student not found", status_code=404)
 
-    file_path = os.path.join(BASE_DIR, student['file'].lstrip('/'))
+    file_value = student.get('file') or ""
+    file_path = os.path.join(BASE_DIR, file_value.lstrip('/')) if file_value else ""
 
     # NEW: Dynamic calculation for detail page
     if 'recurring_schedule' in student and not student.get('next_lesson'):
-        doc_exceptions = get_document_exceptions(file_path)
+        doc_exceptions = get_document_exceptions(file_path) if file_path else []
         json_exceptions = student.get('schedule_exceptions', [])
         all_exceptions = list(set(json_exceptions + doc_exceptions))
 
@@ -1252,6 +1312,18 @@ async def read_student(request: Request, student_id: str):
             student['recurring_schedule'],
             all_exceptions
         )
+
+    if not file_path or not os.path.exists(file_path):
+        teaching_records = student_gateway.load_teaching_records(student_id)
+        student['meta'] = build_cloud_student_meta(student)
+        student['features'] = analyze_student_features(student_id)
+        student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
+        return templates.TemplateResponse(request, "student.html", {
+            "request": request,
+            "student": student,
+            "timeline_html": render_cloud_student_timeline(student, teaching_records),
+            "student_id": student_id,
+        })
 
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()

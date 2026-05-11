@@ -83,6 +83,27 @@ def test_voice_page():
     assert "課後紀錄" in response.text
 
 
+def test_student_page_cloud_fallback(monkeypatch):
+    """雲端部署缺本地 Markdown 檔時，學員詳情頁不可回 500"""
+    import main as studentcrm_main
+
+    monkeypatch.setattr(studentcrm_main, "load_students", lambda: [{
+        "id": "cloud-student",
+        "name": "雲端學員",
+        "file": "/missing-student.md",
+        "tags": ["測試"],
+        "lessons_count": 3,
+        "latest_date": "2026-05-10",
+        "next_lesson": "2026-05-17",
+    }])
+    monkeypatch.setattr(studentcrm_main.student_gateway, "load_teaching_records", lambda student_id: [])
+
+    response = client.get("/student/cloud-student")
+    assert response.status_code == 200
+    assert "雲端學員" in response.text
+    assert "雲端摘要模式" in response.text
+
+
 def test_voice_draft_api():
     """語音草稿 API 只產生預覽，不直接寫入資料"""
     response = client.post("/api/voice/draft", json={
