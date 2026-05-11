@@ -6,8 +6,9 @@ from fastapi.templating import Jinja2Templates
 import os
 import json
 import re
-import subprocess
 import glob
+import hashlib
+import subprocess
 from datetime import datetime, timedelta
 import calendar
 from data_gateway import StudentDataGateway
@@ -67,6 +68,7 @@ def render_fallback_page(title: str, body: str) -> HTMLResponse:
         <nav class="nav">
             <a href="/dashboard">學員看板</a>
             <a href="/program/apple-ceo">蘋果總裁班</a>
+            <a href="/voice">語音工作台</a>
             <a href="/api/students">API</a>
         </nav>
     </header>
@@ -106,6 +108,23 @@ class AttendancePreviewRequest(BaseModel):
     venue: str = "玫瑰客廳"
     attendees: list[str] = []
     note: str = ""
+
+
+class VoiceDraftRequest(BaseModel):
+    transcript: str = Field(..., min_length=1)
+    source: str = "voice"
+
+
+class VoiceQueryRequest(BaseModel):
+    query: str = Field(..., min_length=1)
+
+
+class VoiceWorkflowRequest(BaseModel):
+    transcript: str = Field(..., min_length=1)
+
+
+class VoiceCommitRequest(BaseModel):
+    draft: dict
 
 
 @app.get("/__health")
@@ -176,12 +195,312 @@ async def api_preview_apple_ceo_attendance(payload: AttendancePreviewRequest):
     }
 
 
+@app.post("/api/voice/draft")
+async def api_voice_draft(payload: VoiceDraftRequest):
+    students = load_students()
+    draft = build_voice_crm_draft(payload.transcript, students, payload.source)
+    return {
+        "status": "draft_only",
+        "requires_human_confirmation": True,
+        "will_write": False,
+        "draft": draft,
+    }
+
+
+@app.post("/api/voice/query")
+async def api_voice_query(payload: VoiceQueryRequest):
+    students = load_students()
+    apple_program = load_apple_ceo_program()
+    apple_summary = summarize_apple_ceo_program(apple_program)
+    return answer_voice_query(payload.query, students, apple_summary)
+
+
+@app.post("/api/voice/workflow")
+async def api_voice_workflow(payload: VoiceWorkflowRequest):
+    students = load_students()
+    return build_voice_workflow(payload.transcript, students)
+
+
+@app.post("/api/voice/commit")
+async def api_voice_commit(payload: VoiceCommitRequest):
+    draft = payload.draft
+    if not draft.get("teaching_record"):
+        return {
+            "status": "not_written",
+            "reason": "缺少 teaching_record 草稿，未執行寫入。",
+            "will_write": False,
+        }
+    if not draft.get("matched_student", {}).get("id"):
+        return {
+            "status": "not_written",
+            "reason": "尚未確認學員身分，未執行寫入。",
+            "will_write": False,
+        }
+
+    try:
+        result = student_gateway.write_voice_crm_draft(draft)
+    except Exception as exc:
+        return {
+            "status": "write_failed",
+            "reason": str(exc),
+            "will_write": True,
+        }
+
+    return {
+        **result,
+        "will_write": result.get("status") == "written",
+        "requires_human_confirmation": False,
+    }
+
+
 def load_students():
     return student_gateway.load_students()
 
 
 def load_apple_ceo_program():
     return student_gateway.load_apple_ceo_program()
+
+
+def normalize_voice_text(value: str) -> str:
+    return re.sub(r"\s+", "", value or "").lower()
+
+
+def parse_voice_date(value: str) -> str:
+    text = value or ""
+    match = re.search(r"(20\d{2})[-/.年](\d{1,2})[-/.月](\d{1,2})", text)
+    if match:
+        year, month, day = map(int, match.groups())
+        try:
+            return datetime(year, month, day).strftime("%Y-%m-%d")
+        except ValueError:
+            return ""
+
+    match = re.search(r"(\d{1,2})月(\d{1,2})[日號]?", text)
+    if match:
+        month, day = map(int, match.groups())
+        try:
+            return datetime(datetime.now().year, month, day).strftime("%Y-%m-%d")
+        except ValueError:
+            return ""
+    return ""
+
+
+def parse_lesson_number(value: str) -> int | None:
+    patterns = [
+        r"第\s*(\d+)\s*[堂課堂]",
+        r"上\s*(\d+)\s*[堂課堂]",
+        r"累計\s*(\d+)\s*[堂課堂]",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, value or "")
+        if match:
+            return int(match.group(1))
+    return None
+
+
+def match_voice_student(transcript: str, students: list[dict]) -> dict:
+    normalized = normalize_voice_text(transcript)
+    best = None
+    best_score = 0
+    for student in students:
+        names = [student.get("name", ""), student.get("id", ""), *student.get("aliases", [])]
+        for name in names:
+            key = normalize_voice_text(name)
+            if not key:
+                continue
+            score = len(key) if key in normalized else 0
+            if score > best_score:
+                best = student
+                best_score = score
+    return best or {}
+
+
+def extract_focus_text(transcript: str) -> str:
+    markers = ["練了", "學了", "今天", "內容", "重點", "複習"]
+    for marker in markers:
+        if marker in transcript:
+            tail = transcript.split(marker, 1)[-1].strip(" ，。")
+            return tail[:120]
+    return transcript[:120]
+
+
+def build_voice_crm_draft(transcript: str, students: list[dict], source: str = "voice") -> dict:
+    student = match_voice_student(transcript, students)
+    lesson_number = parse_lesson_number(transcript)
+    lesson_date = parse_voice_date(transcript) or datetime.now().strftime("%Y-%m-%d")
+    next_lesson = ""
+    for marker in ["下一堂", "下次", "下堂"]:
+        if marker in transcript:
+            next_lesson = parse_voice_date(transcript.split(marker, 1)[-1])
+            break
+
+    student_id = student.get("id", "")
+    student_name = student.get("name", "")
+    record_seed = f"{student_id}:{lesson_date}:{transcript}"
+    record_id = "voice-" + hashlib.sha1(record_seed.encode("utf-8")).hexdigest()[:12]
+    current_lessons = student.get("lessons_count", 0) if student else 0
+    proposed_lessons = lesson_number or (current_lessons + 1 if student else None)
+
+    changes = []
+    if student:
+        changes.append({
+            "field": "latest_date",
+            "before": student.get("latest_date") or "",
+            "after": lesson_date,
+        })
+        if proposed_lessons is not None:
+            changes.append({
+                "field": "lessons_count",
+                "before": current_lessons,
+                "after": proposed_lessons,
+            })
+        if next_lesson:
+            changes.append({
+                "field": "next_lesson",
+                "before": student.get("next_lesson") or "",
+                "after": next_lesson,
+            })
+
+    warnings = []
+    if not student:
+        warnings.append("尚未從口述內容辨識出既有學員，請先手動指定學員。")
+    if not next_lesson:
+        warnings.append("尚未辨識下次上課日期，可稍後手動補上。")
+
+    return {
+        "id": record_id,
+        "source": source,
+        "raw_transcript": transcript,
+        "matched_student": {
+            "id": student_id,
+            "name": student_name,
+        },
+        "teaching_record": {
+            "id": record_id,
+            "student_id": student_id,
+            "student_name": student_name,
+            "title": f"{student_name or '未指定學員'} {lesson_date} 語音教學紀錄",
+            "date": lesson_date,
+            "lesson_num": proposed_lessons,
+            "lesson_sub": "",
+            "raw": {
+                "transcript": transcript,
+                "focus": extract_focus_text(transcript),
+            },
+        },
+        "student_updates": changes,
+        "warnings": warnings,
+        "next_step": "請確認學員、日期、堂數與下次上課日後，再寫入 Supabase。",
+    }
+
+
+def answer_voice_query(query: str, students: list[dict], apple_summary: dict) -> dict:
+    matched = match_voice_student(query, students)
+    normalized = normalize_voice_text(query)
+
+    if "場地" in query or "餘額" in query:
+        return {
+            "status": "ok",
+            "intent": "apple_program_balance",
+            "answer": f"蘋果總裁班目前場地餘額是 {apple_summary.get('latest_balance_label', '$0')}，狀態是{apple_summary.get('balance_status', '未判定')}。",
+            "data": {
+                "latest_balance": apple_summary.get("latest_balance", 0),
+                "balance_status": apple_summary.get("balance_status", ""),
+            },
+        }
+
+    if "續班" in query:
+        names = [item.get("student_name", "") for item in apple_summary.get("completed_students", [])[:8]]
+        answer = "目前沒有明確的續班提醒。" if not names else f"目前需要優先續班提醒的是：{'、'.join(names)}。"
+        return {
+            "status": "ok",
+            "intent": "renewal_followup",
+            "answer": answer,
+            "data": {"students": names},
+        }
+
+    if ("沒排" in query or "未排" in query or "沒有排" in query) and ("課" in query or "下次" in query):
+        unscheduled = [student.get("name", "") for student in students if not parse_voice_date(student.get("next_lesson", ""))][:12]
+        return {
+            "status": "ok",
+            "intent": "unscheduled_students",
+            "answer": "目前未排下次課的學員：" + ("、".join(unscheduled) if unscheduled else "沒有找到。"),
+            "data": {"students": unscheduled},
+        }
+
+    if matched:
+        answer_parts = [
+            f"{matched.get('name')} 目前累計 {matched.get('lessons_count', 0)} 堂。",
+            f"最近上課日：{matched.get('latest_date') or '未記錄'}。",
+            f"下次上課：{matched.get('next_lesson') or '尚未安排'}。",
+        ]
+        return {
+            "status": "ok",
+            "intent": "student_status",
+            "answer": "".join(answer_parts),
+            "data": {"student": matched},
+        }
+
+    return {
+        "status": "needs_clarification",
+        "intent": "unknown",
+        "answer": "我還無法判斷你要查哪一位學員或哪一個班務指標，請補上學員姓名、續班、場地餘額或未排課等關鍵字。",
+        "data": {"normalized_query": normalized},
+    }
+
+
+def build_voice_workflow(transcript: str, students: list[dict]) -> dict:
+    student = match_voice_student(transcript, students)
+    due_date = parse_voice_date(transcript)
+    actions = []
+
+    if any(word in transcript for word in ["提醒", "記得", "追蹤", "續班"]):
+        actions.append({
+            "type": "reminder",
+            "title": "建立提醒草稿",
+            "target": student.get("name", "未指定學員"),
+            "due_date": due_date,
+            "content": transcript,
+            "will_write": False,
+        })
+
+    if any(word in transcript for word in ["寄信", "通知", "傳訊息", "發訊息"]):
+        actions.append({
+            "type": "message_draft",
+            "title": "產生通知草稿",
+            "target": student.get("name", "未指定對象"),
+            "content": transcript,
+            "will_send": False,
+        })
+
+    if any(word in transcript for word in ["查", "列出", "看一下", "確認"]):
+        actions.append({
+            "type": "query",
+            "title": "執行查詢建議",
+            "query": transcript,
+            "will_write": False,
+        })
+
+    if not actions:
+        actions.append({
+            "type": "crm_draft",
+            "title": "轉成 CRM 草稿",
+            "target": student.get("name", "未指定學員"),
+            "content": transcript,
+            "will_write": False,
+        })
+
+    return {
+        "status": "draft_only",
+        "requires_human_confirmation": True,
+        "will_write": False,
+        "matched_student": {
+            "id": student.get("id", ""),
+            "name": student.get("name", ""),
+        },
+        "actions": actions,
+        "safety_note": "目前只產生工作流草稿；發送訊息、建立行事曆、寫入 Supabase 都需要人工確認。",
+    }
 
 
 def add_months(base_date: datetime, months: int) -> datetime:
@@ -767,7 +1086,7 @@ async def read_root(request: Request):
     if use_fallback_pages("index.html"):
         return render_dashboard_fallback(sorted_students, apple_summary, student_gateway.status())
 
-    return templates.TemplateResponse("index.html", {
+    return templates.TemplateResponse(request, "index.html", {
         "request": request,
         "students": sorted_students,
         "apple_program": apple_program["program"],
@@ -801,7 +1120,7 @@ async def read_apple_ceo_program(request: Request):
         </section>
         """
         return render_fallback_page("蘋果總裁班", body)
-    return templates.TemplateResponse("program_apple_ceo.html", {
+    return templates.TemplateResponse(request, "program_apple_ceo.html", {
         "request": request,
         "program": program_data["program"],
         "venue": program_data["venue"],
@@ -868,7 +1187,7 @@ async def read_dashboard(request: Request):
     if use_fallback_pages("dashboard.html"):
         return render_dashboard_fallback(students, apple_summary, student_gateway.status())
 
-    return templates.TemplateResponse("dashboard.html", {
+    return templates.TemplateResponse(request, "dashboard.html", {
         "request": request,
         "students": students,
         "student_count": len(students),
@@ -879,6 +1198,22 @@ async def read_dashboard(request: Request):
         "stable_students": stable_students,
         "apple_program": apple_program["program"],
         "apple_summary": apple_summary,
+        "sync_status": student_gateway.status(),
+    })
+
+
+@app.get("/voice", response_class=HTMLResponse)
+async def read_voice_console(request: Request):
+    if use_fallback_pages("voice.html"):
+        body = """
+        <section class="card">
+            <h2>語音工作台</h2>
+            <p class="muted">目前此部署未載入完整模板，但 API 已可使用：/api/voice/draft、/api/voice/query、/api/voice/workflow。</p>
+        </section>
+        """
+        return render_fallback_page("StudentCRM 語音工作台", body)
+    return templates.TemplateResponse(request, "voice.html", {
+        "request": request,
         "sync_status": student_gateway.status(),
     })
 
@@ -917,7 +1252,7 @@ async def read_student(request: Request, student_id: str):
     student['meta'] = get_student_metadata(file_path)
     student['features'] = analyze_student_features(student_id)
     student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
-    return templates.TemplateResponse("student.html", {
+    return templates.TemplateResponse(request, "student.html", {
         "request": request,
         "student": student,
         "timeline_html": html_content,
@@ -958,7 +1293,7 @@ async def open_file(request: Request, path: str):
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
 
-    return templates.TemplateResponse("note.html", {
+    return templates.TemplateResponse(request, "note.html", {
         "request": request,
         "filename": filename,
         "content_html": html_content,
@@ -1030,7 +1365,7 @@ async def search(request: Request, q: str = ""):
                 "preview": preview,
             })
 
-    return templates.TemplateResponse("search.html", {
+    return templates.TemplateResponse(request, "search.html", {
         "request": request,
         "q": q,
         "results": results,

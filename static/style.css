@@ -156,6 +156,13 @@ h1 {
     text-decoration: none;
 }
 
+.voice-entry-card {
+    border-color: rgba(126, 231, 135, 0.25);
+    background:
+        radial-gradient(circle at top right, rgba(126, 231, 135, 0.14), transparent 34%),
+        rgba(22, 27, 34, 0.88);
+}
+
 .secondary-link {
     background: rgba(88, 166, 255, 0.08);
     border: 1px solid rgba(88, 166, 255, 0.2);
@@ -1142,9 +1149,133 @@ th {
     border-style: dashed;
 }
 
+.voice-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.voice-hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.voice-hero h2,
+.voice-result-panel h2 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+}
+
+.voice-mode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(110px, 1fr));
+    gap: 10px;
+    min-width: 390px;
+}
+
+.voice-mode-button,
+.voice-record-button,
+.voice-example-list button {
+    min-height: 42px;
+    border: 1px solid rgba(139, 148, 158, 0.24);
+    border-radius: 10px;
+    background: rgba(13, 17, 23, 0.62);
+    color: var(--text-primary);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 800;
+    padding: 0 14px;
+}
+
+.voice-mode-button.active {
+    color: #aff5b4;
+    border-color: rgba(126, 231, 135, 0.5);
+    background: rgba(126, 231, 135, 0.14);
+}
+
+.voice-console-grid {
+    display: grid;
+    grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.1fr);
+    gap: 20px;
+}
+
+.voice-recorder {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 18px 0;
+}
+
+.voice-record-button {
+    color: #7cc3ff;
+    border-color: rgba(88, 166, 255, 0.34);
+    background: rgba(88, 166, 255, 0.1);
+}
+
+.voice-record-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.voice-input-field textarea {
+    min-height: 220px;
+}
+
+.voice-example-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0 18px;
+}
+
+.voice-example-list button {
+    min-height: 36px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+}
+
+.voice-result-box {
+    min-height: 420px;
+    padding: 16px;
+    border: 1px dashed rgba(139, 148, 158, 0.24);
+    border-radius: 12px;
+    background: rgba(13, 17, 23, 0.42);
+    overflow: auto;
+}
+
+.voice-result-box pre {
+    margin: 0;
+    color: var(--text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+    font: 0.9rem/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.voice-commit-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.voice-commit-button {
+    border-color: rgba(126, 231, 135, 0.5);
+    background: rgba(126, 231, 135, 0.18);
+}
+
+.voice-commit-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
 @media (max-width: 900px) {
     .program-entry-card,
     .program-hero-card,
+    .voice-hero,
     .program-entry-heading,
     .program-toolbar,
     .ops-radar-grid,
@@ -1155,8 +1286,15 @@ th {
 
     .ops-radar-grid,
     .program-layout,
+    .voice-console-grid,
     .attendance-preview-form,
     .attendance-preview-round {
+        grid-template-columns: 1fr;
+    }
+
+    .voice-mode-grid {
+        min-width: 0;
+        width: 100%;
         grid-template-columns: 1fr;
     }
 
