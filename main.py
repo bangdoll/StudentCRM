@@ -35,6 +35,10 @@ def template_exists(name: str) -> bool:
     return os.path.exists(os.path.join(TEMPLATES_DIR, name))
 
 
+def use_fallback_pages(name: str) -> bool:
+    return bool(os.getenv("VERCEL")) or not template_exists(name)
+
+
 def render_fallback_page(title: str, body: str) -> HTMLResponse:
     return HTMLResponse(f"""<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -760,7 +764,7 @@ async def read_root(request: Request):
     apple_program = load_apple_ceo_program()
     apple_summary = summarize_apple_ceo_program(apple_program)
 
-    if not template_exists("index.html"):
+    if use_fallback_pages("index.html"):
         return render_dashboard_fallback(sorted_students, apple_summary, student_gateway.status())
 
     return templates.TemplateResponse("index.html", {
@@ -775,7 +779,7 @@ async def read_root(request: Request):
 async def read_apple_ceo_program(request: Request):
     program_data = load_apple_ceo_program()
     summary = summarize_apple_ceo_program(program_data)
-    if not template_exists("program_apple_ceo.html"):
+    if use_fallback_pages("program_apple_ceo.html"):
         rows = "\n".join(
             f"<tr><td>{record.get('date', '')}</td><td>{record.get('venue', '')}</td><td>{record.get('attendee_count', 0)}</td></tr>"
             for record in program_data.get("attendance_records", [])[:80]
@@ -861,7 +865,7 @@ async def read_dashboard(request: Request):
         item.get('name', ''),
     ))
 
-    if not template_exists("dashboard.html"):
+    if use_fallback_pages("dashboard.html"):
         return render_dashboard_fallback(students, apple_summary, student_gateway.status())
 
     return templates.TemplateResponse("dashboard.html", {
