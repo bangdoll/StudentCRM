@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜尋：{{ q }} | StudentCRM</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .result-card:hover { border-color: var(--accent-color); }
+        .result-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+        }
+        .result-student {
+            background: rgba(88,166,255,0.12);
+            color: var(--accent-color);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        .result-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: block;
+        }
+        .result-title:hover { color: var(--accent-color); text-decoration: none; }
+        .result-preview {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            border-left: 3px solid var(--border-color);
+            padding-left: 12px;
+        }
+        .no-results {
+            text-align: center;
+            padding: 80px 0;
+            color: var(--text-secondary);
+        }
+        .result-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+        .result-count strong { color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>搜尋結果</h1>
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" value="{{ q }}" placeholder="搜尋課程內容、工具、關鍵字..." class="search-input" autocomplete="off">
+            <button type="submit" class="search-btn">搜尋</button>
+        </form>
+    </header>
+
+    <div class="container">
+        <div style="margin-bottom: 20px;">
+            <a href="/" style="color: var(--text-secondary);">← 返回學員列表</a>
+        </div>
+
+        {% if q %}
+        <div class="result-count">
+            關鍵字 <strong>「{{ q }}」</strong> 共找到 <strong>{{ count }}</strong> 筆課程記錄
+        </div>
+
+        {% if results %}
+            {% for r in results %}
+            <div class="result-card">
+                <div class="result-meta">
+                    <span>{{ r.date }}</span>
+                    <a href="/student/{{ r.student_id }}" class="result-student">{{ r.student_name }}</a>
+                </div>
+                <a href="/open_file?path={{ r.path }}" class="result-title">{{ r.title }}</a>
+                {% if r.preview %}
+                <div class="result-preview">{{ r.preview }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="no-results">
+            <p style="font-size: 2rem; margin-bottom: 12px;">🔍</p>
+            <p>沒有找到包含「{{ q }}」的課程記錄</p>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

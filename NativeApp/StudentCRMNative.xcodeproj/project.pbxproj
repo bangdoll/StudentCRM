@@ -1,0 +1,292 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A00100011A00100011A00100 /* StudentCRMNativeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110011A00100011A00100 /* StudentCRMNativeApp.swift */; };
+		A00100021A00100011A00100 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110021A00100011A00100 /* Models.swift */; };
+		A00100031A00100011A00100 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110031A00100011A00100 /* AppStore.swift */; };
+		A00100041A00100011A00100 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110041A00100011A00100 /* DatabaseManager.swift */; };
+		A00100051A00100011A00100 /* JSONImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110051A00100011A00100 /* JSONImportService.swift */; };
+		A00100061A00100011A00100 /* RootSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110061A00100011A00100 /* RootSplitView.swift */; };
+		A00100071A00100011A00100 /* StudentsOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110071A00100011A00100 /* StudentsOverviewView.swift */; };
+		A00100081A00100011A00100 /* AppleCEOProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110081A00100011A00100 /* AppleCEOProgramView.swift */; };
+		A00100091A00100011A00100 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110091A00100011A00100 /* NotificationManager.swift */; };
+		A00100101A00100011A00100 /* TeachingRecordProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110101A00100011A00100 /* TeachingRecordProvider.swift */; };
+		A00100111A00100011A00100 /* HeptabaseOAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A00000011A00100011A00100 /* StudentCRMNative.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudentCRMNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A00110011A00100011A00100 /* StudentCRMNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCRMNativeApp.swift; sourceTree = "<group>"; };
+		A00110021A00100011A00100 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		A00110031A00100011A00100 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
+		A00110041A00100011A00100 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		A00110051A00100011A00100 /* JSONImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONImportService.swift; sourceTree = "<group>"; };
+		A00110061A00100011A00100 /* RootSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootSplitView.swift; sourceTree = "<group>"; };
+		A00110071A00100011A00100 /* StudentsOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsOverviewView.swift; sourceTree = "<group>"; };
+		A00110081A00100011A00100 /* AppleCEOProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleCEOProgramView.swift; sourceTree = "<group>"; };
+		A00110091A00100011A00100 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		A00110101A00100011A00100 /* TeachingRecordProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeachingRecordProvider.swift; sourceTree = "<group>"; };
+		A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeptabaseOAuthManager.swift; sourceTree = "<group>"; };
+		A00200011A00100011A00100 /* StudentCRMNative-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StudentCRMNative-Info.plist"; sourceTree = "<group>"; };
+		A00200021A00100011A00100 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A00200031A00100011A00100 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A00010011A00100011A00100 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00020011A00100011A00100 = {
+			isa = PBXGroup;
+			children = (
+				A00030011A00100011A00100 /* StudentCRMNative */,
+				A00040011A00100011A00100 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00030011A00100011A00100 /* StudentCRMNative */ = {
+			isa = PBXGroup;
+			children = (
+				A00200011A00100011A00100 /* StudentCRMNative-Info.plist */,
+				A00200021A00100011A00100 /* README.md */,
+				A00200031A00100011A00100 /* Package.swift */,
+				A00050011A00100011A00100 /* Sources */,
+			);
+			path = StudentCRMNative;
+			sourceTree = "<group>";
+		};
+		A00040011A00100011A00100 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A00000011A00100011A00100 /* StudentCRMNative.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A00050011A00100011A00100 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A00110011A00100011A00100 /* StudentCRMNativeApp.swift */,
+				A00110021A00100011A00100 /* Models.swift */,
+				A00110031A00100011A00100 /* AppStore.swift */,
+				A00110041A00100011A00100 /* DatabaseManager.swift */,
+				A00110051A00100011A00100 /* JSONImportService.swift */,
+				A00110061A00100011A00100 /* RootSplitView.swift */,
+				A00110071A00100011A00100 /* StudentsOverviewView.swift */,
+				A00110081A00100011A00100 /* AppleCEOProgramView.swift */,
+				A00110091A00100011A00100 /* NotificationManager.swift */,
+				A00110101A00100011A00100 /* TeachingRecordProvider.swift */,
+				A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */,
+			);
+			path = Sources/StudentCRMNative;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A00060011A00100011A00100 /* StudentCRMNative */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A00090011A00100011A00100 /* Build configuration list for PBXNativeTarget "StudentCRMNative" */;
+			buildPhases = (
+				A00070011A00100011A00100 /* Sources */,
+				A00010011A00100011A00100 /* Frameworks */,
+				A00080011A00100011A00100 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StudentCRMNative;
+			productName = StudentCRMNative;
+			productReference = A00000011A00100011A00100 /* StudentCRMNative.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A000A0011A00100011A00100 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A00060011A00100011A00100 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = A000B0011A00100011A00100 /* Build configuration list for PBXProject "StudentCRMNative" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = zh_Hant;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				zh_Hant,
+			);
+			mainGroup = A00020011A00100011A00100;
+			productRefGroup = A00040011A00100011A00100 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A00060011A00100011A00100 /* StudentCRMNative */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A00080011A00100011A00100 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A00070011A00100011A00100 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A00100011A00100011A00100 /* StudentCRMNativeApp.swift in Sources */,
+				A00100021A00100011A00100 /* Models.swift in Sources */,
+				A00100031A00100011A00100 /* AppStore.swift in Sources */,
+				A00100041A00100011A00100 /* DatabaseManager.swift in Sources */,
+				A00100051A00100011A00100 /* JSONImportService.swift in Sources */,
+				A00100061A00100011A00100 /* RootSplitView.swift in Sources */,
+				A00100071A00100011A00100 /* StudentsOverviewView.swift in Sources */,
+				A00100081A00100011A00100 /* AppleCEOProgramView.swift in Sources */,
+				A00100091A00100011A00100 /* NotificationManager.swift in Sources */,
+				A00100101A00100011A00100 /* TeachingRecordProvider.swift in Sources */,
+				A00100111A00100011A00100 /* HeptabaseOAuthManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A000C0011A00100011A00100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A000C0021A00100011A00100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		A000D0011A00100011A00100 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "StudentCRMNative-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = coach.rd.StudentCRMNative;
+				PRODUCT_NAME = StudentCRMNative;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A000D0021A00100011A00100 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "StudentCRMNative-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsqlite3",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = coach.rd.StudentCRMNative;
+				PRODUCT_NAME = StudentCRMNative;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00090011A00100011A00100 /* Build configuration list for PBXNativeTarget "StudentCRMNative" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A000D0011A00100011A00100 /* Debug */,
+				A000D0021A00100011A00100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A000B0011A00100011A00100 /* Build configuration list for PBXProject "StudentCRMNative" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A000C0011A00100011A00100 /* Debug */,
+				A000C0021A00100011A00100 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A000A0011A00100011A00100 /* Project object */;
+}

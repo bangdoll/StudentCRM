@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.name }} | 學員個人檔案</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div style="margin-bottom: 20px;">
+            <a href="/" style="color: var(--text-secondary);">← 返回列表</a>
+        </div>
+        <h1>{{ student.name }}</h1>
+        <div class="tag-list" style="justify-content: center; margin-top: 10px;">
+            {% for tag in student.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+    </header>
+
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px;">
+            <aside>
+                <div class="student-card" style="cursor: default;">
+                    <h3>硬體設備</h3>
+                    <ul class="meta-info" style="list-style: disc; padding-left: 20px;">
+                        {% for item in student.meta.hardware %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+                    <h3>學習概況</h3>
+                    <p class="meta-info">首次授課：{{ student.meta.first_lesson_date }}</p>
+                    <p class="meta-info">累計次數：{{ student.meta.lessons_count }}</p>
+                </div>
+
+                <div class="student-card" style="cursor: default; margin-top: 20px;">
+                    <h3>🤖 AI 狀態預測</h3>
+                    {% if student.prediction %}
+                    <div style="margin: 10px 0;">
+                        <span class="note-badge {{ student.prediction.class }}" style="padding: 4px 8px; font-size: 0.9em;">
+                            {{ student.prediction.badge }} {{ student.prediction.status }}
+                        </span>
+                    </div>
+                    <p class="meta-info" style="line-height: 1.5; color: var(--text-color);">
+                        <strong>判斷原因：</strong><br>{{ student.prediction.reason }}
+                    </p>
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 20px 0;">
+                    <h4 style="margin-bottom: 10px; font-size: 0.9em; color: var(--text-secondary);">觀測特徵 (Features)</h4>
+                    <ul class="meta-info" style="list-style: none; padding-left: 0; line-height: 1.6;">
+                        <li>• 距離上次上課：{{ '未記錄' if student.features.days_since_last_lesson == -1 else student.features.days_since_last_lesson ~ ' 天' }}</li>
+                        <li>• 近期平均字數：{{ student.features.average_word_count }} 字</li>
+                    </ul>
+                    {% else %}
+                    <p class="meta-info">系統無預測資料</p>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <main class="timeline-content">
+                <h2>教學時光軸</h2>
+                <div class="markdown-body">
+                    {{ timeline_html | safe }}
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

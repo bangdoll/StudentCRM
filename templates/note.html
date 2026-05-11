@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教學筆記 | {{ filename }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .note-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            line-height: 1.8;
+        }
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 20px;
+            gap: 20px;
+        }
+        .note-header h1 {
+            font-size: 1.4rem;
+            background: none;
+            -webkit-text-fill-color: var(--text-primary);
+            margin: 0;
+            flex: 1;
+        }
+        .note-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+        }
+        .btn-open {
+            background: var(--accent-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .btn-open:hover { opacity: 0.8; text-decoration: none; }
+        .markdown-body h1 { font-size: 1.6rem; color: var(--accent-color); }
+        .markdown-body h2 { font-size: 1.3rem; color: var(--accent-color); }
+        .markdown-body h3 { font-size: 1.1rem; color: var(--accent-color); }
+        .markdown-body h4 { color: #bc8cff; }
+        .markdown-body ul { list-style: disc; padding-left: 30px; margin: 15px 0; }
+        .markdown-body ol { padding-left: 30px; margin: 15px 0; }
+        .markdown-body li { margin-bottom: 6px; }
+        .markdown-body table {
+            width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.9rem;
+        }
+        .markdown-body th {
+            background: rgba(88,166,255,0.15); color: var(--accent-color);
+            padding: 10px 14px; text-align: left; border: 1px solid var(--border-color);
+        }
+        .markdown-body td {
+            padding: 9px 14px; border: 1px solid var(--border-color);
+        }
+        .markdown-body tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+        .markdown-body hr { border: 0; border-top: 1px solid var(--border-color); margin: 30px 0; }
+        .markdown-body strong { color: #e6edf3; }
+        .markdown-body code {
+            background: rgba(88,166,255,0.1); padding: 2px 6px;
+            border-radius: 4px; font-size: 0.85em; font-family: monospace;
+        }
+        /* Prev / Next nav */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            gap: 12px;
+        }
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            background: rgba(88,166,255,0.08);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+            min-width: 160px;
+        }
+        .nav-btn:hover {
+            border-color: var(--accent-color);
+            background: rgba(88,166,255,0.15);
+            text-decoration: none;
+        }
+        .nav-btn .nav-dir {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .nav-btn .nav-date { font-size: 0.95rem; color: var(--accent-color); font-weight: 600; }
+        .nav-btn.next { text-align: right; }
+        .nav-spacer { flex: 1; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 20px; display: flex; gap: 20px; align-items: center;">
+            <a href="javascript:history.back()" style="color: var(--text-secondary);">← 返回時間軸</a>
+            {% if student_id %}
+            <a href="/student/{{ student_id }}" style="color: var(--text-secondary); font-size: 0.85rem;">⬆ 學員檔案</a>
+            {% endif %}
+        </div>
+
+        <div class="note-container">
+            <div class="note-header">
+                <div>
+                    <h1>{{ filename }}</h1>
+                    <div class="note-meta">{{ word_count }} 字 · 約 {{ read_minutes }} 分鐘閱讀</div>
+                </div>
+                <a href="/trigger_open?path={{ path }}" class="btn-open">在外部開啟</a>
+            </div>
+
+            <div class="markdown-body">
+                {{ content_html | safe }}
+            </div>
+
+            <!-- Prev / Next navigation -->
+            <div class="lesson-nav">
+                {% if prev_path %}
+                <a href="/open_file?path={{ prev_path }}" class="nav-btn prev">
+                    <span class="nav-dir">← 上一堂</span>
+                    <span class="nav-date">{{ prev_label }}</span>
+                </a>
+                {% else %}
+                <div class="nav-spacer"></div>
+                {% endif %}
+
+                {% if next_path %}
+                <a href="/open_file?path={{ next_path }}" class="nav-btn next">
+                    <span class="nav-dir">下一堂 →</span>
+                    <span class="nav-date">{{ next_label }}</span>
+                </a>
+                {% else %}
+                <div class="nav-spacer"></div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

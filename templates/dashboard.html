@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudentCRM Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <header class="dashboard-header">
+        <div class="dashboard-header-inner">
+            <div>
+                <p class="section-kicker">StudentCRM Web Dashboard</p>
+                <h1>學員行動看板</h1>
+                <p class="meta-info">同步來源：{{ sync_status.engine }} · {{ sync_status.source }}</p>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="/" class="dashboard-nav-link">學員牆</a>
+                <a href="/program/apple-ceo" class="dashboard-nav-link">蘋果總裁班</a>
+                <a href="/api/students" class="dashboard-nav-link">API</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-shell">
+        <section class="dashboard-kpi-grid">
+            <article class="dashboard-kpi-card">
+                <span>全部學員</span>
+                <strong>{{ student_count }}</strong>
+                <p>目前一對一與專案學員總數</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>14 天內上課</span>
+                <strong>{{ upcoming_students|length }}</strong>
+                <p>{% if upcoming_students %}{{ upcoming_students[:4]|map(attribute='name')|join('、') }}{% else %}近期尚無排課{% endif %}</p>
+            </article>
+            <article class="dashboard-kpi-card dashboard-kpi-warn">
+                <span>需優先關心</span>
+                <strong>{{ risk_students|length + freezing_students|length }}</strong>
+                <p>高流失風險 {{ risk_students|length }} 位，冰凍期 {{ freezing_students|length }} 位</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>{{ apple_program.name }}</span>
+                <strong>{{ apple_summary.active_student_count }}</strong>
+                <p>場地餘額 {{ apple_summary.latest_balance_label }} · 續班提醒 {{ apple_summary.completed_student_count }} 位</p>
+            </article>
+        </section>
+
+        <section class="dashboard-panel">
+            <div class="dashboard-panel-header">
+                <div>
+                    <h2>學員狀態列表</h2>
+                    <p class="meta-info">用搜尋與狀態篩選快速確認今日交付節奏。</p>
+                </div>
+                <div class="dashboard-controls">
+                    <input id="studentSearch" type="search" placeholder="搜尋學員、標籤、下次上課" class="dashboard-input">
+                    <select id="statusFilter" class="dashboard-select">
+                        <option value="all">全部狀態</option>
+                        <option value="穩定留存">穩定留存</option>
+                        <option value="冰凍期">冰凍期</option>
+                        <option value="高流失風險">高流失風險</option>
+                        <option value="無預測資料">無預測資料</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>學員</th>
+                            <th>狀態</th>
+                            <th>下次上課</th>
+                            <th>累計堂數</th>
+                            <th>最近上課</th>
+                            <th>標籤</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentRows">
+                        {% for student in students %}
+                        {% set status = student.prediction.status if student.prediction else '無預測資料' %}
+                        <tr class="dashboard-row" data-search="{{ student.name }} {{ student.next_lesson }} {{ student.tags|join(' ') }}" data-status="{{ status }}">
+                            <td>
+                                <a href="/student/{{ student.id }}" class="dashboard-student-link">{{ student.name }}</a>
+                            </td>
+                            <td>
+                                <span class="note-badge {{ student.prediction.class if student.prediction else 'badge-placeholder' }}">
+                                    {{ student.prediction.badge if student.prediction else '' }} {{ status }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if student.next_lesson_days is not none %}
+                                <strong>{{ student.next_lesson }}</strong>
+                                <span class="dashboard-muted">剩 {{ student.next_lesson_days }} 天</span>
+                                {% else %}
+                                <span class="dashboard-muted">{{ student.next_lesson or '安排中' }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ student.meta.lessons_count or student.lessons_count or 0 }}</td>
+                            <td>{{ student.meta.last_lesson_date or student.latest_date or '未記錄' }}</td>
+                            <td>
+                                <div class="dashboard-tags">
+                                    {% for tag in student.tags %}
+                                    <span>{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="dashboard-grid-two">
+            <article class="dashboard-panel">
+                <h2>近期上課</h2>
+                <div class="dashboard-list">
+                    {% for student in upcoming_students[:8] %}
+                    <a href="/student/{{ student.id }}" class="dashboard-list-item">
+                        <strong>{{ student.name }}</strong>
+                        <span>{{ student.next_lesson }}</span>
+                    </a>
+                    {% else %}
+                    <p class="meta-info">未找到 14 天內排課。</p>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <article class="dashboard-panel">
+                <h2>班務提醒</h2>
+                <div class="dashboard-list">
+                    <div class="dashboard-list-item">
+                        <strong>已滿 8 堂</strong>
+                        <span>{{ apple_summary.completed_student_count }} 位需續班通知</span>
+                    </div>
+                    <div class="dashboard-list-item">
+                        <strong>即將到期</strong>
+                        <span>{{ apple_summary.expiring_soon_student_count }} 位需確認效期</span>
+                    </div>
+                    <div class="dashboard-list-item">
+                        <strong>場地餘額</strong>
+                        <span>{{ apple_summary.latest_balance_label }} · {{ apple_summary.balance_status }}</span>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+        const studentSearch = document.getElementById('studentSearch');
+        const statusFilter = document.getElementById('statusFilter');
+        const rows = Array.from(document.querySelectorAll('.dashboard-row'));
+
+        function applyFilters() {
+            const query = studentSearch.value.trim().toLowerCase();
+            const status = statusFilter.value;
+            rows.forEach((row) => {
+                const matchesText = row.dataset.search.toLowerCase().includes(query);
+                const matchesStatus = status === 'all' || row.dataset.status.includes(status);
+                row.hidden = !(matchesText && matchesStatus);
+            });
+        }
+
+        studentSearch.addEventListener('input', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+    </script>
+</body>
+</html>

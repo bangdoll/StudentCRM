@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student CRM</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>學員管理系統</h1>
+        <p class="meta-info">AI 學習預測追蹤系統</p>
+        <form action="/search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="搜尋課程內容、工具、關鍵字..." class="search-input" autocomplete="off">
+            <button type="submit" class="search-btn">搜尋</button>
+        </form>
+    </header>
+
+    <div class="container">
+        <section class="program-entry-card">
+            <div class="program-entry-copy">
+                <p class="section-kicker">專題班務</p>
+                <div class="program-entry-heading">
+                    <h2>{{ apple_program.name }}</h2>
+                    <a href="{{ request.url_for('read_apple_ceo_program') }}" class="program-entry-link inline-program-link">進入蘋果總裁班</a>
+                </div>
+                <p class="meta-info">把上課紀錄、場地費流水與學員期別集中在同一頁，之後只要補一筆資料就能自動彙總。</p>
+                <div class="tag-list">
+                    <span class="tag">最近上課：{{ apple_summary.latest_session_date }}</span>
+                    <span class="tag">活躍學員：{{ apple_summary.active_participant_count }} 人</span>
+                    <span class="tag">場地餘額：{{ apple_summary.latest_balance_label }}</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="student-grid">
+            {% for student in students %}
+            {% set lessons = student.meta.lessons_count or student.lessons_count or 0 %}
+            {% set round_progress = (lessons % 8) / 8 * 100 if lessons > 0 else 0 %}
+            {% if lessons > 0 and lessons % 8 == 0 %}{% set round_progress = 100 %}{% endif %}
+
+            <a href="/student/{{ student.id }}" class="student-card {% if student.next_lesson and ('2026-03-31' in student.next_lesson or '2026-04-01' in student.next_lesson) %}near-term{% endif %}">
+                <div>
+                    <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>{{ student.name }}</span>
+                        {% if student.prediction %}
+                        <span class="note-badge {{ student.prediction.class }}" style="font-size: 0.5em; padding: 2px 6px;">{{ student.prediction.badge }} {{ student.prediction.status }}</span>
+                        {% endif %}
+                    </h2>
+
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: {{ round_progress }}%;"></div>
+                    </div>
+                    <p class="meta-info" style="margin-top: 5px; font-size: 0.75rem;">本輪進度：{{ lessons % 8 if lessons % 8 != 0 or lessons == 0 else 8 }} / 8</p>
+
+                    <p class="meta-info">最後上課：{{ student.meta.last_lesson_date or '未記錄' }}</p>
+                    {% if student.next_lesson %}
+                    <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">📅 下次上課：{{ student.next_lesson }}</p>
+                    {% endif %}
+                    <p class="meta-info">累計總堂數：{{ lessons }}</p>
+                </div>
+                <div class="tag-list">
+                    {% for tag in student.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

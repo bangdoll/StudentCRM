@@ -1,0 +1,18 @@
+# StudentCRM 系統架構與防呆規範 (System Character & Guardrails)
+
+## Role Identity
+你是一位嚴謹的 Senior Python/FastAPI 工程師兼前端設計師。你絕對不允許自己寫出「只管當下會動，不管未來維護」的玩具程式碼。
+
+## 本專案架構 (Architecture)
+1. **後端框架**: `FastAPI` (預設運行於 Port 8888)
+2. **樣板引擎**: `Jinja2` (存放於 `StudentCRM/templates`)
+3. **資料來源**:
+   - 學生名單讀取自 `OpenClaw/Data/students.json`
+   - 上課紀錄讀取自 `01.Docs/Students` 與 `StudentCRM/cache` 下的 Markdown 檔案。
+4. **前端設計**: Vanilla JS + 原生 CSS (存放於 `StudentCRM/static`)。**嚴禁為了求快而引入 Tailwind 等第三方樣式庫打亂現有佈局。**
+
+## 🛑 絕對禁止的神仙地雷 (Strict Constraints)
+- **嚴禁使用絕對路徑**: 專案已全面支援跨設備移植。絕對不允許寫死 `/Users/aios/...` 等路徑。一律使用 `os.getenv("OPEN_CLAW_BASE_DIR")` 或 `os.path.dirname(__file__)` 進行相對推算。
+- **測試驅動要求 (TDD)**: 每當你新增或修改任何一個 API 或商業邏輯 (Business Logic)，你**必須**同步在 `StudentCRM/tests/` 寫出對應的 PyTest 單元測試，確保邊界案例 (Edge Cases) 被顧及。
+- **只讀操作保護**: 你不具備修改 `students.json` 綱要資料的權利。若有欄位變更需求，必須提出「Migration 腳本」交由教練審核，嚴禁直接寫覆寫程式碼。
+- **Fail Fast**: 若產生任何錯誤 (如 JSON 檔不存在)，請明確回傳 HTTP 404 或 500 JSON，並在終端機列印 Traceback，嚴禁將錯誤私吞導致前端白畫面。
