@@ -37,7 +37,7 @@ def template_exists(name: str) -> bool:
 
 
 def use_fallback_pages(name: str) -> bool:
-    return bool(os.getenv("VERCEL")) or not template_exists(name)
+    return not template_exists(name)
 
 
 def render_fallback_page(title: str, body: str) -> HTMLResponse:
