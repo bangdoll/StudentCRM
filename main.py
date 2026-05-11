@@ -9,6 +9,7 @@ import re
 import glob
 import hashlib
 import subprocess
+import uuid
 from datetime import datetime, timedelta
 import calendar
 from data_gateway import StudentDataGateway
@@ -337,7 +338,7 @@ def build_voice_crm_draft(transcript: str, students: list[dict], source: str = "
     student_id = student.get("id", "")
     student_name = student.get("name", "")
     record_seed = f"{student_id}:{lesson_date}:{transcript}"
-    record_id = "voice-" + hashlib.sha1(record_seed.encode("utf-8")).hexdigest()[:12]
+    record_id = str(uuid.uuid5(uuid.NAMESPACE_URL, record_seed))
     current_lessons = student.get("lessons_count", 0) if student else 0
     proposed_lessons = lesson_number or (current_lessons + 1 if student else None)
 
