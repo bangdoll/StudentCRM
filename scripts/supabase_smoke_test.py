@@ -6,6 +6,8 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from dotenv import load_dotenv
+
 
 REQUIRED_STUDENT_KEYS = {
     "id",
@@ -144,6 +146,7 @@ def check_supabase_apple_ceo(url: str, key: str) -> None:
 
 
 def main() -> int:
+    load_dotenv(repo_root() / ".env")
     parser = argparse.ArgumentParser(description="StudentCRM 雲端同步 smoke test")
     parser.add_argument("--api", default="", help="檢查 FastAPI base URL，例如 http://127.0.0.1:8888")
     parser.add_argument("--supabase", action="store_true", help="檢查 Supabase REST；需要環境變數")

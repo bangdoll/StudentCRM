@@ -22,7 +22,121 @@ def chunked(items: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]
     return [items[i : i + size] for i in range(0, len(items), size)]
 
 
+TABLE_COLUMNS = {
+    "students": [
+        "id",
+        "name",
+        "aliases",
+        "file",
+        "lessons_count",
+        "latest_date",
+        "next_lesson",
+        "tags",
+        "recurring_schedule",
+        "schedule_exceptions",
+        "raw",
+    ],
+    "teaching_records": [
+        "id",
+        "student_id",
+        "student_name",
+        "title",
+        "date",
+        "lesson_num",
+        "lesson_sub",
+        "created",
+        "edited",
+        "raw",
+    ],
+    "apple_programs": [
+        "id",
+        "name",
+        "url",
+        "description",
+        "schedule",
+        "capacity",
+        "round_size",
+        "price_per_student",
+        "validity_rule",
+        "leave_rule",
+        "join_rule",
+        "raw",
+    ],
+    "apple_venues": [
+        "id",
+        "program_id",
+        "name",
+        "address",
+        "parking",
+        "metro",
+        "cost_per_person",
+        "raw",
+    ],
+    "apple_attendance_records": [
+        "id",
+        "program_id",
+        "date",
+        "venue",
+        "attendee_count",
+        "attendees",
+        "note",
+        "raw",
+    ],
+    "apple_venue_ledger": [
+        "id",
+        "program_id",
+        "date",
+        "type",
+        "amount",
+        "payer",
+        "headcount",
+        "note",
+        "balance_after",
+        "raw",
+    ],
+    "apple_student_rounds": [
+        "id",
+        "program_id",
+        "student_name",
+        "label",
+        "payment_status",
+        "sessions",
+        "attended_count",
+        "sort_order",
+        "raw",
+    ],
+}
+
+COLUMN_DEFAULTS: dict[str, Any] = {
+    "aliases": [],
+    "tags": [],
+    "schedule_exceptions": [],
+    "sessions": [],
+    "attendees": [],
+    "lessons_count": 0,
+    "round_size": 8,
+    "price_per_student": 0,
+    "cost_per_person": 0,
+    "attendee_count": 0,
+    "amount": 0,
+    "balance_after": 0,
+    "attended_count": 0,
+    "sort_order": 0,
+}
+
+
+def normalize_rows(table: str, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    columns = TABLE_COLUMNS.get(table)
+    if not columns:
+        return rows
+    return [
+        {column: row[column] if column in row and row[column] is not None else COLUMN_DEFAULTS.get(column) for column in columns}
+        for row in rows
+    ]
+
+
 def supabase_upsert(url: str, key: str, table: str, rows: list[dict[str, Any]], dry_run: bool) -> None:
+    rows = normalize_rows(table, rows)
     if dry_run:
         print(f"[DRY-RUN] 會 upsert {len(rows)} 筆至 {table}")
         return
@@ -36,7 +150,11 @@ def supabase_upsert(url: str, key: str, table: str, rows: list[dict[str, Any]], 
     }
     for batch in chunked(rows, 100):
         response = requests.post(endpoint, headers=headers, json=batch, timeout=30)
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except requests.HTTPError as exc:
+            print(f"{table} 寫入失敗：{response.status_code} {response.text}", file=sys.stderr)
+            raise exc
 
 
 def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -55,6 +173,7 @@ def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> l
     for record in records_list:
         payload = {
             "id": record.get("card_id"),
+            "student_id": None,
             "title": record.get("title"),
             "date": record.get("date"),
             "lesson_num": record.get("lesson_num"),
@@ -62,6 +181,7 @@ def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> l
             "student_name": record.get("student_name"),
             "created": record.get("created"),
             "edited": record.get("edited"),
+            "raw": record,
         }
         student_id = name_to_id.get(record.get("student_name"))
         if student_id:
