@@ -146,5 +146,21 @@ def test_voice_commit_local_backend_not_written():
     if payload["status"] == "not_written":
         assert payload["will_write"] is False
 
+
+def test_voice_commit_rejects_wrong_pin(monkeypatch):
+    """設定寫入 PIN 時，PIN 錯誤不可寫入"""
+    monkeypatch.setenv("STUDENTCRM_WRITE_PIN", "1234")
+    response = client.post("/api/voice/commit", json={
+        "write_pin": "0000",
+        "draft": {
+            "matched_student": {"id": "student-1", "name": "測試學員"},
+            "teaching_record": {"id": "voice-test"},
+        },
+    })
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "not_written"
+    assert "PIN" in payload["reason"]
+
 # 如果現在跑 `pytest`，若未來有任何人改爛了 get_note_quality 或少了 dotenv，
 # Sisyphus 都會第一時間捕捉到！

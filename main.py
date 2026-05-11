@@ -126,6 +126,7 @@ class VoiceWorkflowRequest(BaseModel):
 
 class VoiceCommitRequest(BaseModel):
     draft: dict
+    write_pin: str = ""
 
 
 @app.get("/__health")
@@ -225,6 +226,19 @@ async def api_voice_workflow(payload: VoiceWorkflowRequest):
 @app.post("/api/voice/commit")
 async def api_voice_commit(payload: VoiceCommitRequest):
     draft = payload.draft
+    required_pin = os.getenv("STUDENTCRM_WRITE_PIN", "").strip()
+    if os.getenv("VERCEL") and not required_pin:
+        return {
+            "status": "not_written",
+            "reason": "正式環境尚未設定 STUDENTCRM_WRITE_PIN，為避免公開寫入，未執行寫入。",
+            "will_write": False,
+        }
+    if required_pin and payload.write_pin.strip() != required_pin:
+        return {
+            "status": "not_written",
+            "reason": "寫入 PIN 不正確，未執行寫入。",
+            "will_write": False,
+        }
     if not draft.get("teaching_record"):
         return {
             "status": "not_written",

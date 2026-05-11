@@ -182,13 +182,18 @@
             const studentName = latestDraft.matched_student?.name || '此學員';
             const confirmed = window.confirm(`確認要把 ${studentName} 的課後紀錄寫入資料庫嗎？`);
             if (!confirmed) return;
+            const writePin = window.prompt('請輸入寫入 PIN');
+            if (!writePin) {
+                commitStatus.textContent = '已取消寫入。';
+                return;
+            }
             commitButton.disabled = true;
             commitStatus.textContent = '正在寫入資料庫...';
             try {
                 const response = await fetch('/api/voice/commit', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ draft: latestDraft }),
+                    body: JSON.stringify({ draft: latestDraft, write_pin: writePin }),
                 });
                 const payload = await response.json();
                 renderJson(payload);
