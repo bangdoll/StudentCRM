@@ -14,17 +14,21 @@ from data_gateway import StudentDataGateway
 
 app = FastAPI()
 
-# Paths - 支援跨系統動態捕獲根目錄
-BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Paths - 支援大倉庫本機開發與 Vercel 獨立 repo 部署
+APP_DIR = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_BASE_DIR = os.path.dirname(APP_DIR) if os.path.isdir(os.path.join(os.path.dirname(APP_DIR), "OpenClaw")) else APP_DIR
+BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", DEFAULT_BASE_DIR)
+STATIC_DIR = os.path.join(APP_DIR, "static")
+TEMPLATES_DIR = os.path.join(APP_DIR, "templates")
 STUDENTS_FILE = os.path.join(BASE_DIR, "OpenClaw/Data/students.json")
 APPLE_CEO_FILE = os.path.join(BASE_DIR, "OpenClaw/Data/apple_ceo_class.json")
 STUDENT_DOCS_DIR = os.path.join(BASE_DIR, "01.Docs/Students")
-CACHE_DIR = os.path.join(BASE_DIR, "StudentCRM/cache")
+CACHE_DIR = os.getenv("STUDENTCRM_CACHE_DIR", "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(APP_DIR, "cache"))
 TEACHING_DIR = os.path.join(BASE_DIR, "01.Docs/teaching")
 student_gateway = StudentDataGateway(BASE_DIR)
 
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "StudentCRM/static")), name="static")
-templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "StudentCRM/templates"))
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 
 class AttendancePreviewRequest(BaseModel):

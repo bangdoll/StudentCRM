@@ -31,6 +31,18 @@ class StudentDataGatewayTests(unittest.TestCase):
             self.assertEqual(students[0]["name"], "測試學員")
             self.assertEqual(gateway.status()["engine"], "local")
 
+    def test_local_engine_returns_empty_when_local_files_missing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.dict(os.environ, {"STUDENTCRM_DATA_BACKEND": "local"}, clear=False):
+                gateway = StudentDataGateway(tmp)
+                students = gateway.load_students()
+                program = gateway.load_apple_ceo_program()
+
+            self.assertEqual(students, [])
+            self.assertEqual(gateway.status()["engine"], "unavailable")
+            self.assertEqual(program["program"]["id"], "apple-ceo")
+            self.assertEqual(program["student_rounds"], [])
+
     def test_supabase_engine_falls_back_to_local_when_env_missing(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

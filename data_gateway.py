@@ -29,9 +29,11 @@ class StudentDataGateway:
 
     def __init__(self, base_dir: str) -> None:
         self.base_dir = base_dir
+        self.app_dir = os.path.join(base_dir, "StudentCRM") if os.path.isdir(os.path.join(base_dir, "StudentCRM")) else base_dir
         self.students_file = os.path.join(base_dir, "OpenClaw/Data/students.json")
         self.apple_ceo_file = os.path.join(base_dir, "OpenClaw/Data/apple_ceo_class.json")
-        self.cache_dir = os.path.join(base_dir, "StudentCRM/cache")
+        default_cache_dir = "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(self.app_dir, "cache")
+        self.cache_dir = os.getenv("STUDENTCRM_CACHE_DIR", default_cache_dir)
         self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
         self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
         self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
@@ -45,9 +47,13 @@ class StudentDataGateway:
 
     def load_students(self) -> list[dict[str, Any]]:
         if self.backend != "supabase":
-            students = self._load_local_students()
-            self._write_status(GatewayStatus("local", self.students_file, self.students_cache_file))
-            return students
+            try:
+                students = self._load_local_students()
+                self._write_status(GatewayStatus("local", self.students_file, self.students_cache_file))
+                return students
+            except DataGatewayError as exc:
+                self._write_status(GatewayStatus("unavailable", self.students_file, self.students_cache_file, str(exc)))
+                return []
 
         try:
             students = self._load_supabase_table("students")
@@ -62,13 +68,22 @@ class StudentDataGateway:
                 )
                 return cached
 
-            students = self._load_local_students()
-            self._write_status(GatewayStatus("local_fallback", self.students_file, self.students_cache_file, str(exc)))
-            return students
+            try:
+                students = self._load_local_students()
+                self._write_status(GatewayStatus("local_fallback", self.students_file, self.students_cache_file, str(exc)))
+                return students
+            except DataGatewayError as local_exc:
+                self._write_status(
+                    GatewayStatus("unavailable", self.students_file, self.students_cache_file, f"{exc}; {local_exc}")
+                )
+                return []
 
     def load_apple_ceo_program(self) -> dict[str, Any]:
         if self.backend != "supabase":
-            return self._load_local_apple_ceo_program()
+            try:
+                return self._load_local_apple_ceo_program()
+            except DataGatewayError:
+                return self._empty_apple_ceo_program()
 
         try:
             payload = self._load_supabase_apple_ceo_program()
@@ -77,7 +92,10 @@ class StudentDataGateway:
         except DataGatewayError:
             if os.path.exists(self.apple_ceo_cache_file):
                 return self._read_json(self.apple_ceo_cache_file)
-            return self._load_local_apple_ceo_program()
+            try:
+                return self._load_local_apple_ceo_program()
+            except DataGatewayError:
+                return self._empty_apple_ceo_program()
 
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
@@ -91,10 +109,44 @@ class StudentDataGateway:
         }
 
     def _load_local_students(self) -> list[dict[str, Any]]:
+        if not os.path.exists(self.students_file):
+            raise DataGatewayError(f"找不到本地 students 檔案：{self.students_file}")
         return self._read_json(self.students_file)
 
     def _load_local_apple_ceo_program(self) -> dict[str, Any]:
+        if not os.path.exists(self.apple_ceo_file):
+            raise DataGatewayError(f"找不到本地蘋果總裁班檔案：{self.apple_ceo_file}")
         return self._read_json(self.apple_ceo_file)
+
+    @staticmethod
+    def _empty_apple_ceo_program() -> dict[str, Any]:
+        return {
+            "program": {
+                "id": "apple-ceo",
+                "name": "蘋果總裁班",
+                "url": "",
+                "description": "",
+                "schedule": "",
+                "capacity": "",
+                "round_size": 8,
+                "price_per_student": 0,
+                "validity_rule": "",
+                "leave_rule": "",
+                "join_rule": "",
+            },
+            "venue": {
+                "name": "",
+                "address": "",
+                "parking": "",
+                "metro": "",
+                "cost_per_person": 0,
+            },
+            "attendance_records": [],
+            "venue_ledger": [],
+            "student_rounds": [],
+            "active_participants": [],
+            "legacy_note": "",
+        }
 
     def _load_supabase_apple_ceo_program(self) -> dict[str, Any]:
         programs = self._load_supabase_table("apple_programs")
