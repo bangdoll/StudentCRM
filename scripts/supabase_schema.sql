@@ -13,6 +13,18 @@ create table if not exists public.students (
   updated_at timestamptz not null default now()
 );
 
+alter table public.students add column if not exists name text;
+alter table public.students add column if not exists aliases jsonb not null default '[]'::jsonb;
+alter table public.students add column if not exists file text;
+alter table public.students add column if not exists lessons_count integer not null default 0;
+alter table public.students add column if not exists latest_date text;
+alter table public.students add column if not exists next_lesson text;
+alter table public.students add column if not exists tags jsonb not null default '[]'::jsonb;
+alter table public.students add column if not exists recurring_schedule text;
+alter table public.students add column if not exists schedule_exceptions jsonb not null default '[]'::jsonb;
+alter table public.students add column if not exists raw jsonb;
+alter table public.students add column if not exists updated_at timestamptz not null default now();
+
 create table if not exists public.teaching_records (
   id text primary key,
   student_id text references public.students(id) on delete set null,
@@ -26,6 +38,17 @@ create table if not exists public.teaching_records (
   raw jsonb,
   updated_at timestamptz not null default now()
 );
+
+alter table public.teaching_records add column if not exists student_id text references public.students(id) on delete set null;
+alter table public.teaching_records add column if not exists student_name text;
+alter table public.teaching_records add column if not exists title text;
+alter table public.teaching_records add column if not exists date text;
+alter table public.teaching_records add column if not exists lesson_num integer;
+alter table public.teaching_records add column if not exists lesson_sub text;
+alter table public.teaching_records add column if not exists created text;
+alter table public.teaching_records add column if not exists edited text;
+alter table public.teaching_records add column if not exists raw jsonb;
+alter table public.teaching_records add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists idx_students_latest_date on public.students(latest_date);
 create index if not exists idx_students_next_lesson on public.students(next_lesson);
@@ -48,6 +71,19 @@ create table if not exists public.apple_programs (
   updated_at timestamptz not null default now()
 );
 
+alter table public.apple_programs add column if not exists name text;
+alter table public.apple_programs add column if not exists url text;
+alter table public.apple_programs add column if not exists description text;
+alter table public.apple_programs add column if not exists schedule text;
+alter table public.apple_programs add column if not exists capacity text;
+alter table public.apple_programs add column if not exists round_size integer not null default 8;
+alter table public.apple_programs add column if not exists price_per_student integer not null default 0;
+alter table public.apple_programs add column if not exists validity_rule text;
+alter table public.apple_programs add column if not exists leave_rule text;
+alter table public.apple_programs add column if not exists join_rule text;
+alter table public.apple_programs add column if not exists raw jsonb;
+alter table public.apple_programs add column if not exists updated_at timestamptz not null default now();
+
 create table if not exists public.apple_venues (
   id text primary key,
   program_id text references public.apple_programs(id) on delete cascade,
@@ -60,6 +96,15 @@ create table if not exists public.apple_venues (
   updated_at timestamptz not null default now()
 );
 
+alter table public.apple_venues add column if not exists program_id text references public.apple_programs(id) on delete cascade;
+alter table public.apple_venues add column if not exists name text;
+alter table public.apple_venues add column if not exists address text;
+alter table public.apple_venues add column if not exists parking text;
+alter table public.apple_venues add column if not exists metro text;
+alter table public.apple_venues add column if not exists cost_per_person integer not null default 0;
+alter table public.apple_venues add column if not exists raw jsonb;
+alter table public.apple_venues add column if not exists updated_at timestamptz not null default now();
+
 create table if not exists public.apple_attendance_records (
   id text primary key,
   program_id text references public.apple_programs(id) on delete cascade,
@@ -71,6 +116,15 @@ create table if not exists public.apple_attendance_records (
   raw jsonb,
   updated_at timestamptz not null default now()
 );
+
+alter table public.apple_attendance_records add column if not exists program_id text references public.apple_programs(id) on delete cascade;
+alter table public.apple_attendance_records add column if not exists date text;
+alter table public.apple_attendance_records add column if not exists venue text;
+alter table public.apple_attendance_records add column if not exists attendee_count integer not null default 0;
+alter table public.apple_attendance_records add column if not exists attendees jsonb not null default '[]'::jsonb;
+alter table public.apple_attendance_records add column if not exists note text;
+alter table public.apple_attendance_records add column if not exists raw jsonb;
+alter table public.apple_attendance_records add column if not exists updated_at timestamptz not null default now();
 
 create table if not exists public.apple_venue_ledger (
   id text primary key,
@@ -86,6 +140,17 @@ create table if not exists public.apple_venue_ledger (
   updated_at timestamptz not null default now()
 );
 
+alter table public.apple_venue_ledger add column if not exists program_id text references public.apple_programs(id) on delete cascade;
+alter table public.apple_venue_ledger add column if not exists date text;
+alter table public.apple_venue_ledger add column if not exists type text;
+alter table public.apple_venue_ledger add column if not exists amount integer not null default 0;
+alter table public.apple_venue_ledger add column if not exists payer text;
+alter table public.apple_venue_ledger add column if not exists headcount integer;
+alter table public.apple_venue_ledger add column if not exists note text;
+alter table public.apple_venue_ledger add column if not exists balance_after integer not null default 0;
+alter table public.apple_venue_ledger add column if not exists raw jsonb;
+alter table public.apple_venue_ledger add column if not exists updated_at timestamptz not null default now();
+
 create table if not exists public.apple_student_rounds (
   id text primary key,
   program_id text references public.apple_programs(id) on delete cascade,
@@ -98,6 +163,16 @@ create table if not exists public.apple_student_rounds (
   raw jsonb,
   updated_at timestamptz not null default now()
 );
+
+alter table public.apple_student_rounds add column if not exists program_id text references public.apple_programs(id) on delete cascade;
+alter table public.apple_student_rounds add column if not exists student_name text;
+alter table public.apple_student_rounds add column if not exists label text;
+alter table public.apple_student_rounds add column if not exists payment_status text;
+alter table public.apple_student_rounds add column if not exists sessions jsonb not null default '[]'::jsonb;
+alter table public.apple_student_rounds add column if not exists attended_count integer not null default 0;
+alter table public.apple_student_rounds add column if not exists sort_order integer not null default 0;
+alter table public.apple_student_rounds add column if not exists raw jsonb;
+alter table public.apple_student_rounds add column if not exists updated_at timestamptz not null default now();
 
 create index if not exists idx_apple_attendance_program_date on public.apple_attendance_records(program_id, date);
 create index if not exists idx_apple_venue_ledger_program_date on public.apple_venue_ledger(program_id, date);
