@@ -232,15 +232,17 @@ def resolve_note_detail(
     prev_label = next_label = ""
 
     if is_apple_ceo and apple_notes:
-        note_filenames = [n.get("filename") for n in apple_notes]
+        # 依日期由舊到新排序，確保 idx - 1 恆為上一篇（歷史課堂），idx + 1 恆為下一篇（後續課堂）
+        sorted_notes = sorted(apple_notes, key=lambda x: x.get("date", ""))
+        note_filenames = [n.get("filename") for n in sorted_notes]
         if filename in note_filenames:
             idx = note_filenames.index(filename)
             if idx > 0:
-                prev_path = apple_notes[idx - 1].get("path")
-                prev_label = apple_notes[idx - 1].get("date") or "上一篇"
-            if idx < len(apple_notes) - 1:
-                next_path = apple_notes[idx + 1].get("path")
-                next_label = apple_notes[idx + 1].get("date") or "下一篇"
+                prev_path = sorted_notes[idx - 1].get("path")
+                prev_label = sorted_notes[idx - 1].get("date") or "上一篇"
+            if idx < len(sorted_notes) - 1:
+                next_path = sorted_notes[idx + 1].get("path")
+                next_label = sorted_notes[idx + 1].get("date") or "下一篇"
     elif record_match:
         # 如果是同一個學員的課堂紀錄，依日期排序串接上一堂與下一堂
         same_student_records = [r for r in cloud_records if r.get("student_id") == sid or (student_name and r.get("student_name") == student_name)]
