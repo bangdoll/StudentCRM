@@ -36,7 +36,23 @@ class StudentDataGateway:
         else:
             self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
         self.students_file = os.path.join(base_dir, "OpenClaw/Data/students.json")
+        if (os.getenv("VERCEL") or base_dir == self.app_dir) and not os.path.exists(self.students_file):
+            bundled_students = os.path.join(self.app_dir, "data/students.json")
+            if os.path.exists(bundled_students):
+                self.students_file = bundled_students
+
         self.apple_ceo_file = os.path.join(base_dir, "OpenClaw/Data/apple_ceo_class.json")
+        if (os.getenv("VERCEL") or base_dir == self.app_dir) and not os.path.exists(self.apple_ceo_file):
+            bundled_apple = os.path.join(self.app_dir, "data/apple_ceo_class.json")
+            if os.path.exists(bundled_apple):
+                self.apple_ceo_file = bundled_apple
+
+        self.teaching_records_file = os.path.join(self.app_dir, "data/teaching_records.json")
+        if not os.path.exists(self.teaching_records_file):
+            cache_teaching = os.path.join(self.app_dir, "cache/teaching_records.json")
+            if os.path.exists(cache_teaching):
+                self.teaching_records_file = cache_teaching
+
         default_cache_dir = "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(self.app_dir, "cache")
         self.cache_dir = os.getenv("STUDENTCRM_CACHE_DIR", default_cache_dir)
         self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
@@ -107,29 +123,38 @@ class StudentDataGateway:
                 return self._empty_apple_ceo_program()
 
     def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
-        if self.backend != "supabase" or not student_id:
+        if not student_id:
             return []
 
-        encoded_student_id = quote(student_id, safe="")
-        try:
-            return self._load_supabase_table(
-                "teaching_records",
-                query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
-            )
-        except DataGatewayError:
-            return []
+        if self.backend == "supabase":
+            encoded_student_id = quote(student_id, safe="")
+            try:
+                return self._load_supabase_table(
+                    "teaching_records",
+                    query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
+                )
+            except DataGatewayError:
+                pass
+
+        all_records = self.load_all_teaching_records()
+        return [r for r in all_records if r.get("student_id") == student_id]
 
     def load_all_teaching_records(self) -> list[dict[str, Any]]:
-        if self.backend != "supabase":
-            return []
+        if self.backend == "supabase":
+            try:
+                return self._load_supabase_table(
+                    "teaching_records",
+                    query="select=*&order=date.desc",
+                )
+            except DataGatewayError:
+                pass
 
-        try:
-            return self._load_supabase_table(
-                "teaching_records",
-                query="select=*&order=date.desc",
-            )
-        except DataGatewayError:
-            return []
+        if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
+            try:
+                return self._read_json(self.teaching_records_file)
+            except Exception:
+                pass
+        return []
 
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):

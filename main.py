@@ -45,7 +45,16 @@ BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", DEFAULT_BASE_DIR)
 STATIC_DIR = os.path.join(APP_DIR, "static")
 TEMPLATES_DIR = os.path.join(APP_DIR, "templates")
 STUDENTS_FILE = os.path.join(BASE_DIR, "OpenClaw/Data/students.json")
+if not os.path.exists(STUDENTS_FILE):
+    bundled_students = os.path.join(APP_DIR, "data/students.json")
+    if os.path.exists(bundled_students):
+        STUDENTS_FILE = bundled_students
+
 APPLE_CEO_FILE = os.path.join(BASE_DIR, "OpenClaw/Data/apple_ceo_class.json")
+if not os.path.exists(APPLE_CEO_FILE):
+    bundled_apple = os.path.join(APP_DIR, "data/apple_ceo_class.json")
+    if os.path.exists(bundled_apple):
+        APPLE_CEO_FILE = bundled_apple
 STUDENT_DOCS_DIR = os.path.join(BASE_DIR, "01.Docs/Students")
 CACHE_DIR = os.getenv("STUDENTCRM_CACHE_DIR", "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(APP_DIR, "cache"))
 TEACHING_DIR = os.path.join(BASE_DIR, "01.Docs/teaching")
@@ -471,6 +480,8 @@ def load_cloud_digital_management_notes() -> list[dict]:
     rows = student_gateway.load_all_teaching_records()
     notes = []
     for row in rows:
+        if not isinstance(row, dict):
+            continue
         raw = row.get("raw") if isinstance(row.get("raw"), dict) else {}
         source = raw.get("source") or "Supabase teaching_records"
         if source == "local_teaching":

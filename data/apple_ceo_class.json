@@ -1,0 +1,1125 @@
+{
+  "program": {
+    "id": "apple-ceo",
+    "name": "蘋果總裁班",
+    "url": "https://rd.coach/apple-ceo/",
+    "description": "小班制教學，4-10 人，一輪共 8 堂課，一次 3 小時。",
+    "schedule": "每週四 14:00-17:00",
+    "capacity": "4-10",
+    "round_size": 8,
+    "price_per_student": 8000,
+    "validity_rule": "從第一堂課起算 4 個月內有效",
+    "leave_rule": "如需請假，請提前告知蔡教練",
+    "join_rule": "可插班上課",
+    "session_duration_hours": 3
+  },
+  "venue": {
+    "name": "玫瑰客廳",
+    "address": "台北市民族東路767號2樓之1",
+    "parking": "開車停松山機場第一停車場，步行 3-5 分鐘。",
+    "metro": "文湖線松山機場站 2 號出口，步行 3-5 分鐘。",
+    "cost_per_person": 150
+  },
+  "active_participants": [
+    "劉邦寧",
+    "方柏敦",
+    "Roger老師",
+    "Lucia",
+    "王太太",
+    "方敏穎"
+  ],
+  "attendance_records": [
+    {
+      "id": "apple-ceo-attendance-2025-07-30",
+      "date": "2025-07-30",
+      "venue": "玫瑰客廳",
+      "attendee_count": 5,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-08-07",
+      "date": "2025-08-07",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-08-14",
+      "date": "2025-08-14",
+      "venue": "玫瑰客廳",
+      "attendee_count": 5,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-08-28",
+      "date": "2025-08-28",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-09-04",
+      "date": "2025-09-04",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-09-11",
+      "date": "2025-09-11",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-09-18",
+      "date": "2025-09-18",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-09-25",
+      "date": "2025-09-25",
+      "venue": "玫瑰客廳",
+      "attendee_count": 7,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-10-02",
+      "date": "2025-10-02",
+      "venue": "小樹屋",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": "小樹屋場地費 960，另付，不計入玫瑰客廳儲值餘額"
+    },
+    {
+      "id": "apple-ceo-attendance-2025-10-09",
+      "date": "2025-10-09",
+      "venue": "小樹屋",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": "小樹屋場地費 960，另付，不計入玫瑰客廳儲值餘額"
+    },
+    {
+      "id": "apple-ceo-attendance-2025-10-16",
+      "date": "2025-10-16",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-10-23",
+      "date": "2025-10-23",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-10-30",
+      "date": "2025-10-30",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-11-06",
+      "date": "2025-11-06",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-11-13",
+      "date": "2025-11-13",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-11-20",
+      "date": "2025-11-20",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-11-27",
+      "date": "2025-11-27",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-12-04",
+      "date": "2025-12-04",
+      "venue": "休息",
+      "attendee_count": 0,
+      "attendees": [],
+      "note": "休息一次"
+    },
+    {
+      "id": "apple-ceo-attendance-2025-12-11",
+      "date": "2025-12-11",
+      "venue": "玫瑰客廳",
+      "attendee_count": 5,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2025-12-18",
+      "date": "2025-12-18",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-01-08",
+      "date": "2026-01-08",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-01-15",
+      "date": "2026-01-15",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-01-29",
+      "date": "2026-01-29",
+      "venue": "玫瑰客廳",
+      "attendee_count": 5,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-02-05",
+      "date": "2026-02-05",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-02-26",
+      "date": "2026-02-26",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-03-05",
+      "date": "2026-03-05",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-03-12",
+      "date": "2026-03-12",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-03-19",
+      "date": "2026-03-19",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-03-26",
+      "date": "2026-03-26",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [
+        "Roger老師",
+        "邦寧大哥",
+        "方醫師"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-04-09",
+      "date": "2026-04-09",
+      "venue": "玫瑰客廳",
+      "attendee_count": 5,
+      "attendees": [
+        "Roger老師",
+        "邦寧大哥",
+        "方醫師",
+        "Lucia",
+        "敏穎"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-04-16",
+      "date": "2026-04-16",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [
+        "Roger老師",
+        "邦寧大哥",
+        "王太太"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-04-23",
+      "date": "2026-04-23",
+      "venue": "玫瑰客廳",
+      "attendee_count": 2,
+      "attendees": [
+        "Roger老師",
+        "邦寧大哥"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-04-30",
+      "date": "2026-04-30",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [
+        "Roger老師",
+        "邦寧大哥",
+        "方醫師"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-05-07",
+      "date": "2026-05-07",
+      "venue": "玫瑰客廳",
+      "attendee_count": 4,
+      "attendees": [
+        "Roger老師",
+        "方醫師",
+        "Lucia",
+        "敏穎"
+      ],
+      "note": ""
+    },
+    {
+      "id": "apple-ceo-attendance-2026-05-14",
+      "date": "2026-05-14",
+      "venue": "玫瑰客廳",
+      "attendee_count": 3,
+      "attendees": [
+        "Roger老師",
+        "方醫師",
+        "Lucia"
+      ],
+      "note": ""
+    }
+  ],
+  "venue_ledger": [
+    {
+      "id": "apple-ceo-ledger-2025-07-30-income-3000-12",
+      "date": "2025-07-30",
+      "type": "收入",
+      "amount": 3000,
+      "payer": "Roger老師",
+      "headcount": null,
+      "note": "儲值在 Roger 老師",
+      "balance_after": 3000
+    },
+    {
+      "id": "apple-ceo-ledger-2025-07-30-expense-750-10",
+      "date": "2025-07-30",
+      "type": "支出",
+      "amount": -750,
+      "payer": "",
+      "headcount": 5,
+      "note": "玫瑰客廳 150*5",
+      "balance_after": 2250
+    },
+    {
+      "id": "apple-ceo-ledger-2025-08-07-expense-300-10",
+      "date": "2025-08-07",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": 1950
+    },
+    {
+      "id": "apple-ceo-ledger-2025-08-14-expense-750-10",
+      "date": "2025-08-14",
+      "type": "支出",
+      "amount": -750,
+      "payer": "",
+      "headcount": 5,
+      "note": "玫瑰客廳 150*5",
+      "balance_after": 1200
+    },
+    {
+      "id": "apple-ceo-ledger-2025-08-28-expense-600-10",
+      "date": "2025-08-28",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": 600
+    },
+    {
+      "id": "apple-ceo-ledger-2025-09-04-expense-450-10",
+      "date": "2025-09-04",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": 150
+    },
+    {
+      "id": "apple-ceo-ledger-2025-09-11-income-3000-5",
+      "date": "2025-09-11",
+      "type": "收入",
+      "amount": 3000,
+      "payer": "Roger老師",
+      "headcount": null,
+      "note": "場地費儲值",
+      "balance_after": 3150
+    },
+    {
+      "id": "apple-ceo-ledger-2025-09-11-expense-600-10",
+      "date": "2025-09-11",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": 2550
+    },
+    {
+      "id": "apple-ceo-ledger-2025-09-18-expense-300-10",
+      "date": "2025-09-18",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": 2250
+    },
+    {
+      "id": "apple-ceo-ledger-2025-09-25-expense-1050-10",
+      "date": "2025-09-25",
+      "type": "支出",
+      "amount": -1050,
+      "payer": "",
+      "headcount": 7,
+      "note": "玫瑰客廳 150*7",
+      "balance_after": 1200
+    },
+    {
+      "id": "apple-ceo-ledger-2025-10-02-expense-960-23",
+      "date": "2025-10-02",
+      "type": "另付",
+      "amount": -960,
+      "payer": "",
+      "headcount": 4,
+      "note": "小樹屋場地費 960，另付，不計入玫瑰客廳餘額",
+      "balance_after": 1200
+    },
+    {
+      "id": "apple-ceo-ledger-2025-10-09-expense-960-23",
+      "date": "2025-10-09",
+      "type": "另付",
+      "amount": -960,
+      "payer": "",
+      "headcount": 3,
+      "note": "小樹屋場地費 960，另付，不計入玫瑰客廳餘額",
+      "balance_after": 1200
+    },
+    {
+      "id": "apple-ceo-ledger-2025-10-16-expense-300-10",
+      "date": "2025-10-16",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": 900
+    },
+    {
+      "id": "apple-ceo-ledger-2025-10-23-expense-600-10",
+      "date": "2025-10-23",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": 300
+    },
+    {
+      "id": "apple-ceo-ledger-2025-10-30-expense-300-10",
+      "date": "2025-10-30",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": 0
+    },
+    {
+      "id": "apple-ceo-ledger-2025-11-06-expense-450-10",
+      "date": "2025-11-06",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -450
+    },
+    {
+      "id": "apple-ceo-ledger-2025-11-13-income-3000-11",
+      "date": "2025-11-13",
+      "type": "收入",
+      "amount": 3000,
+      "payer": "Roger老師",
+      "headcount": null,
+      "note": "11/13 場地費儲值",
+      "balance_after": 2550
+    },
+    {
+      "id": "apple-ceo-ledger-2025-11-13-expense-300-10",
+      "date": "2025-11-13",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": 2250
+    },
+    {
+      "id": "apple-ceo-ledger-2025-11-20-expense-450-10",
+      "date": "2025-11-20",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": 1800
+    },
+    {
+      "id": "apple-ceo-ledger-2025-11-27-expense-600-10",
+      "date": "2025-11-27",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": 1200
+    },
+    {
+      "id": "apple-ceo-ledger-2025-12-11-expense-750-10",
+      "date": "2025-12-11",
+      "type": "支出",
+      "amount": -750,
+      "payer": "",
+      "headcount": 5,
+      "note": "玫瑰客廳 150*5",
+      "balance_after": 450
+    },
+    {
+      "id": "apple-ceo-ledger-2025-12-18-expense-600-10",
+      "date": "2025-12-18",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": -150
+    },
+    {
+      "id": "apple-ceo-ledger-2026-01-08-expense-300-10",
+      "date": "2026-01-08",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": -450
+    },
+    {
+      "id": "apple-ceo-ledger-2026-01-15-expense-300-10",
+      "date": "2026-01-15",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": -750
+    },
+    {
+      "id": "apple-ceo-ledger-2026-01-29-income-3000-10",
+      "date": "2026-01-29",
+      "type": "收入",
+      "amount": 3000,
+      "payer": "Roger老師",
+      "headcount": null,
+      "note": "1/29 場地費儲值",
+      "balance_after": 2250
+    },
+    {
+      "id": "apple-ceo-ledger-2026-01-29-expense-750-10",
+      "date": "2026-01-29",
+      "type": "支出",
+      "amount": -750,
+      "payer": "",
+      "headcount": 5,
+      "note": "玫瑰客廳 150*5",
+      "balance_after": 1500
+    },
+    {
+      "id": "apple-ceo-ledger-2026-02-05-expense-450-10",
+      "date": "2026-02-05",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": 1050
+    },
+    {
+      "id": "apple-ceo-ledger-2026-02-26-expense-450-10",
+      "date": "2026-02-26",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": 600
+    },
+    {
+      "id": "apple-ceo-ledger-2026-03-05-expense-450-10",
+      "date": "2026-03-05",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": 150
+    },
+    {
+      "id": "apple-ceo-ledger-2026-03-12-expense-450-10",
+      "date": "2026-03-12",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -300
+    },
+    {
+      "id": "apple-ceo-ledger-2026-03-19-expense-600-10",
+      "date": "2026-03-19",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": -900
+    },
+    {
+      "id": "apple-ceo-ledger-2026-03-26-expense-450-10",
+      "date": "2026-03-26",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -1350
+    },
+    {
+      "id": "apple-ceo-ledger-2026-04-09-income-2000-5",
+      "date": "2026-04-09",
+      "type": "收入",
+      "amount": 2000,
+      "payer": "Roger老師、邦寧大哥、方醫師",
+      "headcount": null,
+      "note": "場地費儲值",
+      "balance_after": 650
+    },
+    {
+      "id": "apple-ceo-ledger-2026-04-09-expense-750-10",
+      "date": "2026-04-09",
+      "type": "支出",
+      "amount": -750,
+      "payer": "",
+      "headcount": 5,
+      "note": "玫瑰客廳 150*5",
+      "balance_after": -100
+    },
+    {
+      "id": "apple-ceo-ledger-2026-04-16-expense-450-10",
+      "date": "2026-04-16",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -550
+    },
+    {
+      "id": "apple-ceo-ledger-2026-04-23-expense-300-10",
+      "date": "2026-04-23",
+      "type": "支出",
+      "amount": -300,
+      "payer": "",
+      "headcount": 2,
+      "note": "玫瑰客廳 150*2",
+      "balance_after": -850
+    },
+    {
+      "id": "apple-ceo-ledger-2026-04-30-expense-450-10",
+      "date": "2026-04-30",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -1300
+    },
+    {
+      "id": "apple-ceo-ledger-2026-05-07-expense-600-10",
+      "date": "2026-05-07",
+      "type": "支出",
+      "amount": -600,
+      "payer": "",
+      "headcount": 4,
+      "note": "玫瑰客廳 150*4",
+      "balance_after": -1900
+    },
+    {
+      "id": "apple-ceo-ledger-2026-05-14-expense-450-10",
+      "date": "2026-05-14",
+      "type": "支出",
+      "amount": -450,
+      "payer": "",
+      "headcount": 3,
+      "note": "玫瑰客廳 150*3",
+      "balance_after": -2350
+    }
+  ],
+  "student_rounds": [
+    {
+      "student_name": "方柏敦",
+      "aliases": [
+        "方醫師"
+      ],
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "未標示收款",
+          "sessions": [
+            "2026-03-26",
+            "2026-04-09",
+            "2026-04-30",
+            "2026-05-07",
+            "2026-05-14",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2025 冬季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-11-27",
+            "2025-12-11",
+            "2025-12-18",
+            "2026-01-29",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2025 秋季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-09-25",
+            "2025-10-02",
+            "2025-10-09",
+            "2025-10-23",
+            "2025-10-30",
+            "2025-11-06",
+            "2025-11-13",
+            "2025-11-20"
+          ]
+        },
+        {
+          "label": "2025 夏季梯次",
+          "payment_status": "第 8 堂原始資料為 7/14，需人工確認是否為 8/14",
+          "sessions": [
+            "2025-06-12",
+            "2025-06-19",
+            "2025-07-03",
+            "2025-07-10",
+            "2025-07-24",
+            "2025-07-31",
+            "2025-08-07",
+            "2025-07-14"
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "劉邦寧",
+      "aliases": [
+        "邦寧大哥"
+      ],
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "4/12 收到學費 $8000；3/27 原始註記未收",
+          "sessions": [
+            "2026-03-27",
+            "2026-04-09",
+            "2026-04-16",
+            "2026-04-23",
+            "2026-04-30",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2025 冬季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-11-27",
+            "2025-12-11",
+            "2025-12-18",
+            "2026-01-29",
+            "2026-02-05",
+            "2026-02-26",
+            "2026-03-12",
+            "2026-03-19"
+          ]
+        },
+        {
+          "label": "2025 夏秋梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-07-31",
+            "2025-07-14",
+            "2025-08-28",
+            "2025-09-25",
+            "2025-10-02",
+            "2025-10-09",
+            "2025-10-23",
+            "2025-11-20"
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "方敏穎",
+      "aliases": [
+        "敏穎"
+      ],
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "進度",
+          "sessions": [
+            "2026-03-19",
+            "2026-04-09",
+            "2026-05-07",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2025 梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-03-21",
+            "2025-04-18",
+            "2025-05-09",
+            "2025-06-13",
+            "2025-08-01",
+            "2025-09-26",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "Andy哥",
+      "rounds": [
+        {
+          "label": "歷史梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-06-27",
+            "2025-08-08",
+            "2025-08-22",
+            "2025-10-17",
+            "2025-11-14",
+            "2026-01-09",
+            "2026-01-23",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "王太太",
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-09-11",
+            "2026-01-29",
+            "2026-02-05",
+            "2026-02-26",
+            "2026-03-05",
+            "2026-04-16",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2025 夏季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-05-22",
+            "2025-05-29",
+            "2025-07-03",
+            "2025-07-10",
+            "2025-07-24",
+            "2025-07-31",
+            "2025-08-28",
+            "2025-09-04"
+          ]
+        },
+        {
+          "label": "2024 冬季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2024-10-24",
+            "2024-11-07",
+            "2024-11-14",
+            "2024-11-21",
+            "2024-11-28",
+            "2024-12-05",
+            "2024-12-12",
+            "2025-01-02"
+          ]
+        },
+        {
+          "label": "2025 春季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-01-09",
+            "2025-01-16",
+            "2025-01-23",
+            "2025-02-06",
+            "2025-02-13",
+            "2025-04-24",
+            "2025-05-08",
+            "2025-05-15"
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "Roger老師",
+      "aliases": [
+        "Roger"
+      ],
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "4/9 收到學費 $8000；第 5 堂由原始 4/7 依出勤紀錄校正為 5/7",
+          "sessions": [
+            "2026-04-09",
+            "2026-04-16",
+            "2026-04-23",
+            "2026-04-30",
+            "2026-05-07",
+            "2026-05-14",
+            "",
+            ""
+          ]
+        },
+        {
+          "label": "2026 冬春梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2026-01-15",
+            "2026-01-29",
+            "2026-02-05",
+            "2026-02-26",
+            "2026-03-05",
+            "2026-03-12",
+            "2026-03-19",
+            "2026-03-26"
+          ]
+        },
+        {
+          "label": "2025 冬季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-10-30",
+            "2025-11-06",
+            "2025-11-13",
+            "2025-11-20",
+            "2025-11-27",
+            "2025-12-11",
+            "2025-12-18",
+            "2026-01-08"
+          ]
+        },
+        {
+          "label": "2025 秋季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-07-24",
+            "2025-07-31",
+            "2025-08-28",
+            "2025-09-11",
+            "2025-09-18",
+            "2025-09-25",
+            "2025-10-16",
+            "2025-10-23"
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "林永青",
+      "rounds": [
+        {
+          "label": "歷史梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-07-24",
+            "2025-07-31",
+            "2025-07-14",
+            "2025-09-11",
+            "2025-09-18",
+            "2025-09-25",
+            "2025-10-02",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "陳總",
+      "rounds": [
+        {
+          "label": "歷史梯次",
+          "payment_status": "原來的一對一 $12000 轉為總裁班",
+          "sessions": [
+            "2025-07-14",
+            "2025-09-04",
+            "2025-09-11",
+            "2025-09-25",
+            "2025-12-11",
+            "",
+            "",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "student_name": "Lucia",
+      "aliases": [
+        "Lucia 徐露華"
+      ],
+      "rounds": [
+        {
+          "label": "最新梯次 (進行中)",
+          "payment_status": "進度",
+          "sessions": [
+            "2026-01-29",
+            "2026-03-05",
+            "2026-03-12",
+            "2026-03-19",
+            "2026-04-09",
+            "2026-05-07",
+            "2026-05-14",
+            ""
+          ]
+        },
+        {
+          "label": "2025 冬季梯次",
+          "payment_status": "進度",
+          "sessions": [
+            "2025-10-09",
+            "2025-10-16",
+            "2025-10-23",
+            "2025-11-27",
+            "2025-12-11",
+            "2025-12-18",
+            "2026-01-08",
+            "2026-01-15"
+          ]
+        }
+      ]
+    }
+  ],
+  "tuition_records": [
+    {
+      "date": "2026-04-09",
+      "student_name": "Roger老師",
+      "amount": 8000,
+      "note": "收到 Roger 學費"
+    },
+    {
+      "date": "2026-04-12",
+      "student_name": "劉邦寧",
+      "amount": 8000,
+      "note": "收到邦寧大哥學費"
+    }
+  ],
+  "legacy_note": "2026-05-17 依使用者提供文字重建：課程規則、場地資訊、場地流水、出勤紀錄與學員 8 堂梯次。小樹屋兩筆場地費保留於出勤與流水備註，但不併入玫瑰客廳預付餘額。",
+  "duplicate_report": {
+    "duplicate_attendance_dates": [],
+    "duplicate_ledger_ids": [],
+    "duplicate_sessions_by_student": {}
+  }
+}
