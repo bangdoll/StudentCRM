@@ -1,422 +1,5 @@
 [
   {
-    "id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
-    "name": "郭姐",
-    "aliases": [
-      "郭姐"
-    ],
-    "file": "/01.Docs/Students/郭姐.md",
-    "lessons_count": 7,
-    "latest_date": "2026-05-04",
-    "next_lesson": "2026-11-06",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-07-23",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "b946040e-8957-445b-a97a-d8c301ccf478",
-    "name": "柏宇",
-    "aliases": [
-      "柏宇"
-    ],
-    "file": "/01.Docs/Students/bo_yu.md",
-    "lessons_count": 6,
-    "latest_date": "2026-08-23",
-    "next_lesson": "2026-09-27",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-11-22",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
-    "name": "益堯哥",
-    "aliases": [
-      "益堯哥"
-    ],
-    "file": "/01.Docs/Students/bill_yang.md",
-    "lessons_count": 1,
-    "latest_date": "2026-04-24",
-    "next_lesson": "2026-10-23",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-02-22",
-    "current_cycle_lesson": 1
-  },
-  {
-    "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
-    "name": "Yvonne",
-    "aliases": [
-      "Yvonne"
-    ],
-    "file": "/01.Docs/Students/Yvonne.md",
-    "lessons_count": 37,
-    "latest_date": "2026-07-07",
-    "next_lesson": "2026-11-17",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-11-08",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "3037a53b-0c97-4253-bd2a-d236af440191",
-    "name": "政佑",
-    "aliases": [
-      "政佑"
-    ],
-    "file": "/01.Docs/Students/zheng_you.md",
-    "lessons_count": 7,
-    "latest_date": "2026-07-26",
-    "next_lesson": "2026-09-06",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-08-02",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "63e43675-2491-4d5c-b149-40019be779ef",
-    "name": "Calvin",
-    "aliases": [
-      "Calvin"
-    ],
-    "file": "/01.Docs/Students/Calvin.md",
-    "lessons_count": 8,
-    "latest_date": "2026-08-27",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2020-01-29",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
-    "name": "Lily老師",
-    "aliases": [
-      "Lily老師"
-    ],
-    "file": "/01.Docs/Students/lily_teacher.md",
-    "lessons_count": 4,
-    "latest_date": "2026-04-02",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-06-18",
-    "current_cycle_lesson": 4
-  },
-  {
-    "id": "bea3a100-3534-4183-9d8c-db789f71302f",
-    "name": "大腳旅行社曹淑鈴Crystal",
-    "aliases": [
-      "大腳旅行社曹淑鈴Crystal"
-    ],
-    "file": "/01.Docs/Students/crystal_cao.md",
-    "lessons_count": 21,
-    "latest_date": "2026-08-17",
-    "next_lesson": "2026-10-12",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-07-11",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
-    "name": "徐玉芳",
-    "aliases": [
-      "徐玉芳"
-    ],
-    "file": "/01.Docs/Students/徐玉芳.md",
-    "lessons_count": 15,
-    "latest_date": "2025-12-29",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-11-19",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
-    "name": "陸總",
-    "aliases": [
-      "陸總"
-    ],
-    "file": "/01.Docs/Students/陸總.md",
-    "lessons_count": 5,
-    "latest_date": "2025-11-22",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-04-19",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
-    "name": "彭老師",
-    "aliases": [
-      "彭老師"
-    ],
-    "file": "/01.Docs/Students/peng_lao_shi.md",
-    "lessons_count": 38,
-    "latest_date": "2026-08-07",
-    "next_lesson": "2026-10-02",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-01-03",
-    "current_cycle_lesson": 3
-  },
-  {
-    "id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
-    "name": "顧蓓華",
-    "aliases": [
-      "顧蓓華"
-    ],
-    "file": "/01.Docs/Students/gu_bei_hua.md",
-    "lessons_count": 6,
-    "latest_date": "2026-05-10",
-    "next_lesson": "2026-09-13",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-11-09",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "b5b5aef3-3514-478e-bbca-b0c568434551",
-    "name": "Shelley 陳萱玲",
-    "aliases": [
-      "Shelley",
-      "陳萱玲"
-    ],
-    "file": "/01.Docs/Students/shelley_chen.md",
-    "lessons_count": 21,
-    "latest_date": "2026-09-03",
-    "next_lesson": "2026-09-17",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-12-10",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "name": "曾小米",
-    "aliases": [
-      "曾小米",
-      "小米"
-    ],
-    "file": "/01.Docs/Students/曾小米.md",
-    "lessons_count": 14,
-    "latest_date": "2026-08-25",
-    "next_lesson": "2026-09-15",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-01-15",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "553599e9-053b-4270-b43f-44687278d256",
-    "name": "鄺姐",
-    "aliases": [
-      "鄺姐"
-    ],
-    "file": "/01.Docs/Students/鄺姐.md",
-    "lessons_count": 10,
-    "latest_date": "2026-06-26",
-    "next_lesson": "2026-11-13",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-06-16",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
-    "name": "Bill 楊文祥",
-    "aliases": [
-      "Bill",
-      "楊文祥"
-    ],
-    "file": "/01.Docs/Students/bill_yang.md",
-    "lessons_count": 5,
-    "latest_date": "2026-07-25",
-    "next_lesson": "2026-09-11",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-12-03",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
-    "name": "邱醫師",
-    "aliases": [
-      "邱醫師",
-      "邱 頂溪捷運站2號出口",
-      "邱頂溪捷運站2號出口",
-      "邱 311,208",
-      "邱311,208",
-      "邱 311",
-      "邱311",
-      "邱"
-    ],
-    "file": "/01.Docs/Students/邱醫師.md",
-    "lessons_count": 50,
-    "latest_date": "2026-08-11",
-    "next_lesson": "2026-09-15",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-03-02",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "name": "禮品公會",
-    "aliases": [],
-    "file": "/01.Docs/Students/gift_association_2.md",
-    "lessons_count": 8,
-    "latest_date": "2026-07-28",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-03-10",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "03045081-17a6-423a-a877-c6012824dffb",
-    "name": "陳海陸 20 4",
-    "aliases": [],
-    "file": "/01.Docs/Students/chen_hai_lu.md",
-    "lessons_count": 25,
-    "latest_date": "2026-08-28",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "f492999f-8dd3-4b9b-a4c9-da5da25ff2a9",
-    "name": "禮品公會 03",
-    "aliases": [],
-    "file": "/01.Docs/Students/gift_association_2.md",
-    "lessons_count": 8,
-    "latest_date": "2026-07-28",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-03-10",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
-    "name": "Charlotte",
-    "aliases": [
-      "陳姐",
-      "陳姐Charlotte",
-      "陳姐 Charlotte"
-    ],
-    "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 74,
-    "latest_date": "2026-08-31",
-    "next_lesson": "2026-09-11",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
-    "name": "蘋果總裁班",
-    "aliases": [
-      "Apple CEO Class",
-      "Apple CEO",
-      "蘋果總裁班"
-    ],
-    "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1362,
-    "latest_date": "2026-09-03",
-    "next_lesson": "2026-09-10",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-01-04",
-    "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "f4aff43b-59d6-43ed-98b6-a5d8c78b0e6f",
-    "name": "Peng Mama L1",
-    "aliases": [],
-    "file": "/01.Docs/Students/peng_mama.md",
-    "lessons_count": 1,
-    "latest_date": "2026-03-26",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-03-26",
-    "current_cycle_lesson": 1
-  },
-  {
-    "id": "3d310981-0e3c-4c08-a5c7-8010e6a2b0fb",
-    "name": "Teresa Test",
-    "aliases": [],
-    "file": "/01.Docs/Students/Teresa.md",
-    "lessons_count": 2,
-    "latest_date": "2026-03-25",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-03-17",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "e8e3e5fa-5d74-4e20-95af-de0593d850ab",
-    "name": "Gift Association 2 L2",
-    "aliases": [],
-    "file": "/01.Docs/Students/gift_association_2.md",
-    "lessons_count": 8,
-    "latest_date": "2026-07-28",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-03-10",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
-    "name": "Teresa",
-    "aliases": [],
-    "file": "/01.Docs/Students/Teresa.md",
-    "lessons_count": 15,
-    "latest_date": "2026-08-18",
-    "next_lesson": "2026-09-08",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-06-30",
-    "current_cycle_lesson": 7
-  },
-  {
     "id": "be1c9162-c39e-4689-a316-85402600a2ef",
     "name": "Amy",
     "aliases": [],
@@ -429,370 +12,6 @@
     ],
     "first_lesson_date": "2026-03-14",
     "current_cycle_lesson": 7
-  },
-  {
-    "id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "name": "查米",
-    "aliases": [
-      "315.查米",
-      "Chami",
-      "Chami BNI Management",
-      "Chami BNI Management 38 6",
-      "查米",
-      "查米 315"
-    ],
-    "file": "/01.Docs/Students/Chami.md",
-    "lessons_count": 45,
-    "latest_date": "2026-07-27",
-    "next_lesson": "2026-09-10",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-03-10",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "28542702-b599-49e8-87be-babc374f4962",
-    "name": "Gift Association 2 L1",
-    "aliases": [],
-    "file": "/01.Docs/Students/gift_association_2.md",
-    "lessons_count": 8,
-    "latest_date": "2026-07-28",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2026-03-10",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
-    "name": "元偉琴",
-    "aliases": [],
-    "file": "/01.Docs/Students/元偉琴.md",
-    "lessons_count": 23,
-    "latest_date": "2025-12-26",
-    "next_lesson": "2026-09-20",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-08-23",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
-    "name": "琳琳律師",
-    "aliases": [],
-    "file": "/01.Docs/Students/琳琳律師.md",
-    "lessons_count": 6,
-    "latest_date": "2025-08-30",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-09-08",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
-    "name": "Kelly Woo",
-    "aliases": [],
-    "file": "/01.Docs/Students/kelly_woo.md",
-    "lessons_count": 67,
-    "latest_date": "2026-07-28",
-    "next_lesson": "2026-09-08",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 3
-  },
-  {
-    "id": "1620effd-74bc-455b-8ba0-a32f0ed0f769",
-    "name": "桃園-9023",
-    "aliases": [],
-    "file": "/01.Docs/Students/taoyuan_group.md",
-    "lessons_count": 6,
-    "latest_date": "2024-11-29",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-03-15",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
-    "name": "張素幸",
-    "aliases": [],
-    "file": "/01.Docs/Students/zhang_su_xing.md",
-    "lessons_count": 16,
-    "latest_date": "2026-08-31",
-    "next_lesson": "2026-09-07",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-08-12",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
-    "name": "王太太",
-    "aliases": [],
-    "file": "/01.Docs/Students/王太太.md",
-    "lessons_count": 6,
-    "latest_date": "2025-08-17",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-12-08",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
-    "name": "青玫姐",
-    "aliases": [
-      "青玫"
-    ],
-    "file": "/01.Docs/Students/qing_mei_jie.md",
-    "lessons_count": 108,
-    "latest_date": "2026-05-15",
-    "next_lesson": "2026-10-23",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-01-10",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
-    "name": "王敏賢",
-    "aliases": [],
-    "file": "/01.Docs/Students/王敏賢.md",
-    "lessons_count": 22,
-    "latest_date": "2026-04-27",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2023-04-17",
-    "current_cycle_lesson": 14
-  },
-  {
-    "id": "488bb965-ccbe-4909-b45a-cdce45778281",
-    "name": "陳海陸",
-    "aliases": [],
-    "file": "/01.Docs/Students/chen_hai_lu.md",
-    "lessons_count": 25,
-    "latest_date": "2026-08-28",
-    "next_lesson": "2026-09-04",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
-    "name": "古金桃",
-    "aliases": [],
-    "file": "/01.Docs/Students/gu_jin_tao.md",
-    "lessons_count": 7,
-    "latest_date": "2025-12-16",
-    "next_lesson": "2026-09-24",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-07-14",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
-    "name": "Julie 陳怡君",
-    "aliases": [],
-    "file": "/01.Docs/Students/julie_chen.md",
-    "lessons_count": 64,
-    "latest_date": "2026-08-10",
-    "next_lesson": "2026-10-26",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-09-03",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
-    "name": "Roger 黃凱亮",
-    "aliases": [],
-    "file": "/01.Docs/Students/Roger老師.md",
-    "lessons_count": 15,
-    "latest_date": "2026-07-20",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2023-12-11",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "7071583c-13d4-4a2b-bf91-a52c9e968322",
-    "name": "金桃",
-    "aliases": [],
-    "file": "/01.Docs/Students/gu_jin_tao.md",
-    "lessons_count": 2,
-    "latest_date": "2025-06-24",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-06-03",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
-    "name": "許娜",
-    "aliases": [],
-    "file": "/01.Docs/Students/許娜.md",
-    "lessons_count": 8,
-    "latest_date": "2025-11-17",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-11-14",
-    "current_cycle_lesson": 8
-  },
-  {
-    "id": "e0cf4cfd-1676-4c6e-bab8-1a9ef66a9a39",
-    "name": "小花",
-    "aliases": [],
-    "file": "/01.Docs/Students/小花.md",
-    "lessons_count": 2,
-    "latest_date": "2025-05-26",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2020-11-17",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
-    "name": "黃奕溱",
-    "aliases": [],
-    "file": "/01.Docs/Students/黃奕溱.md",
-    "lessons_count": 22,
-    "latest_date": "2026-08-25",
-    "next_lesson": "2027-01-22",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2020-03-26",
-    "current_cycle_lesson": 6
-  },
-  {
-    "id": "e1afbba6-6fd9-4515-b587-0e89d0312edb",
-    "name": "國英老師",
-    "aliases": [
-      "國英老師",
-      "國英",
-      "國英（買電子書閱讀器）",
-      "和國英老師"
-    ],
-    "file": "/01.Docs/Students/國英老師.md",
-    "lessons_count": 7,
-    "latest_date": "2025-05-13",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-08-23",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "b86cade3-c211-41c5-b33c-2124ee34d743",
-    "name": "林佳",
-    "aliases": [],
-    "file": "/01.Docs/Students/林佳.md",
-    "lessons_count": 5,
-    "latest_date": "2026-01-10",
-    "next_lesson": "2027-01-12",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-11-10",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "368cbe6e-935e-4ff2-9c4a-52748fbc1bf0",
-    "name": "明志",
-    "aliases": [],
-    "file": "/01.Docs/Students/ming_zhi.md",
-    "lessons_count": 5,
-    "latest_date": "2026-04-20",
-    "next_lesson": "2026-11-09",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-04-22",
-    "current_cycle_lesson": 5
-  },
-  {
-    "id": "912a251a-c72d-437b-9cf4-37bf0eb18f4e",
-    "name": "吳蒼宜",
-    "aliases": [],
-    "file": "/01.Docs/Students/吳蒼宜.md",
-    "lessons_count": 7,
-    "latest_date": "2025-05-04",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-01-08",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",
-    "name": "羅懿芬",
-    "aliases": [],
-    "file": "/01.Docs/Students/羅懿芬.md",
-    "lessons_count": 7,
-    "latest_date": "2025-05-03",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-07-10",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "d9951845-6b4f-4c1b-8552-d313dada17f1",
-    "name": "若麟",
-    "aliases": [],
-    "file": "/01.Docs/Students/若麟.md",
-    "lessons_count": 3,
-    "latest_date": "2026-07-09",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2025-03-16",
-    "current_cycle_lesson": 3
-  },
-  {
-    "id": "3a7f7764-ddc1-45cb-9912-463275a51336",
-    "name": "宥錚",
-    "aliases": [],
-    "file": "/01.Docs/Students/宥錚.md",
-    "lessons_count": 8,
-    "latest_date": "2025-03-24",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-06-09",
-    "current_cycle_lesson": 8
   },
   {
     "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
@@ -816,130 +35,118 @@
     "current_cycle_lesson": 6
   },
   {
-    "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
-    "name": "蕭世典",
-    "aliases": [],
-    "file": "/01.Docs/Students/蕭世典.md",
-    "lessons_count": 6,
-    "latest_date": "2026-09-01",
-    "next_lesson": "2026-11-10",
+    "id": "e8d71234-9abc-4def-a123-567890abcdef",
+    "name": "Annie",
+    "aliases": [
+      "腦波Annie",
+      "安妮",
+      "安妮老師",
+      "Annie老師"
+    ],
+    "file": "/01.Docs/Students/Annie.md",
+    "lessons_count": 81,
+    "latest_date": "2026-08-02",
+    "next_lesson": "2026-09-05",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2024-04-10",
-    "current_cycle_lesson": 2
-  },
-  {
-    "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
-    "name": "Stanley",
-    "aliases": [],
-    "file": "/01.Docs/Students/Stanley.md",
-    "lessons_count": 20,
-    "latest_date": "2025-01-20",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-09-10",
-    "current_cycle_lesson": 4
-  },
-  {
-    "id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
-    "name": "瓊方",
-    "aliases": [],
-    "file": "/01.Docs/Students/瓊方.md",
-    "lessons_count": 52,
-    "latest_date": "2024-10-22",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-04-12",
-    "current_cycle_lesson": 4
-  },
-  {
-    "id": "e50a010c-1668-4b23-b159-faa86f2cb23c",
-    "name": "建榮哥",
-    "aliases": [],
-    "file": "/01.Docs/Students/建榮哥.md",
-    "lessons_count": 19,
-    "latest_date": "2025-10-31",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-10-12",
-    "current_cycle_lesson": 3
-  },
-  {
-    "id": "04aa738c-77cf-474d-ae1c-0e7004ca3437",
-    "name": "Roger黃凱亮-線上",
-    "aliases": [],
-    "file": "/01.Docs/Students/Roger老師.md",
-    "lessons_count": 15,
-    "latest_date": "2026-07-20",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2023-12-11",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
-    "name": "桃園",
-    "aliases": [],
-    "file": "/01.Docs/Students/taoyuan_group.md",
-    "lessons_count": 100,
-    "latest_date": "2026-07-03",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2018-09-06",
-    "current_cycle_lesson": 4
-  },
-  {
-    "id": "2b207c9b-7b6e-492b-a12c-64d8263abe6f",
-    "name": "洪儀甄",
-    "aliases": [],
-    "file": "/01.Docs/Students/洪儀甄.md",
-    "lessons_count": 7,
-    "latest_date": "2024-08-16",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-04-16",
-    "current_cycle_lesson": 7
-  },
-  {
-    "id": "95bc7f83-011b-4b16-aa13-b525446e2468",
-    "name": "芳瑜公司",
-    "aliases": [],
-    "file": "/01.Docs/Students/芳瑜公司.md",
-    "lessons_count": 1,
-    "latest_date": "2024-08-12",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2024-08-12",
+    "first_lesson_date": "2021-03-06",
     "current_cycle_lesson": 1
   },
   {
-    "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
-    "name": "陳媽媽",
-    "aliases": [],
-    "file": "/01.Docs/Students/陳媽媽.md",
-    "lessons_count": 14,
-    "latest_date": "2025-10-27",
+    "id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
+    "name": "Bill 楊文祥",
+    "aliases": [
+      "Bill",
+      "楊文祥"
+    ],
+    "file": "/01.Docs/Students/bill_yang.md",
+    "lessons_count": 5,
+    "latest_date": "2026-07-25",
+    "next_lesson": "2026-09-11",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-12-03",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "63e43675-2491-4d5c-b149-40019be779ef",
+    "name": "Calvin",
+    "aliases": [
+      "Calvin"
+    ],
+    "file": "/01.Docs/Students/Calvin.md",
+    "lessons_count": 8,
+    "latest_date": "2026-08-27",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2022-12-05",
-    "current_cycle_lesson": 6
+    "first_lesson_date": "2020-01-29",
+    "current_cycle_lesson": 8
+  },
+  {
+    "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "name": "Charlotte",
+    "aliases": [
+      "陳姐",
+      "陳姐Charlotte",
+      "陳姐 Charlotte"
+    ],
+    "file": "/01.Docs/Students/Charlotte.md",
+    "lessons_count": 74,
+    "latest_date": "2026-08-31",
+    "next_lesson": "2026-09-11",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2023-12-07",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "name": "Julie 陳怡君",
+    "aliases": [],
+    "file": "/01.Docs/Students/julie_chen.md",
+    "lessons_count": 64,
+    "latest_date": "2026-08-10",
+    "next_lesson": "2026-10-26",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-09-03",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "name": "Kelly Woo",
+    "aliases": [],
+    "file": "/01.Docs/Students/kelly_woo.md",
+    "lessons_count": 67,
+    "latest_date": "2026-07-28",
+    "next_lesson": "2026-09-08",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2020-10-30",
+    "current_cycle_lesson": 3
+  },
+  {
+    "id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
+    "name": "Lily老師",
+    "aliases": [
+      "Lily老師"
+    ],
+    "file": "/01.Docs/Students/lily_teacher.md",
+    "lessons_count": 4,
+    "latest_date": "2026-04-02",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-06-18",
+    "current_cycle_lesson": 4
   },
   {
     "id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
@@ -956,27 +163,270 @@
     "current_cycle_lesson": 2
   },
   {
-    "id": "bb6e8cde-291d-4554-9afa-5b5bad0bc5ee",
-    "name": "湘祺",
+    "id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
+    "name": "Roger 黃凱亮",
     "aliases": [
-      "湘琪",
-      "湘祺姐",
-      "湘琪姐"
+      "Roger黃凱亮-線上"
     ],
-    "file": "/01.Docs/Students/xiang_qi_jie.md",
+    "file": "/01.Docs/Students/Roger老師.md",
     "lessons_count": 15,
-    "latest_date": "2026-07-17",
-    "next_lesson": "2027-01-15",
+    "latest_date": "2026-07-20",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2021-07-22",
+    "first_lesson_date": "2023-12-11",
     "current_cycle_lesson": 7
+  },
+  {
+    "id": "b5b5aef3-3514-478e-bbca-b0c568434551",
+    "name": "Shelley 陳萱玲",
+    "aliases": [
+      "Shelley",
+      "陳萱玲"
+    ],
+    "file": "/01.Docs/Students/shelley_chen.md",
+    "lessons_count": 21,
+    "latest_date": "2026-09-03",
+    "next_lesson": "2026-09-17",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-12-10",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
+    "name": "Stanley",
+    "aliases": [],
+    "file": "/01.Docs/Students/Stanley.md",
+    "lessons_count": 20,
+    "latest_date": "2025-01-20",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-09-10",
+    "current_cycle_lesson": 4
+  },
+  {
+    "id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
+    "name": "Teresa",
+    "aliases": [
+      "Teresa Test"
+    ],
+    "file": "/01.Docs/Students/Teresa.md",
+    "lessons_count": 15,
+    "latest_date": "2026-08-18",
+    "next_lesson": "2026-09-08",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-06-30",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
+    "name": "Yvonne",
+    "aliases": [
+      "Yvonne"
+    ],
+    "file": "/01.Docs/Students/Yvonne.md",
+    "lessons_count": 37,
+    "latest_date": "2026-07-07",
+    "next_lesson": "2026-11-17",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-11-08",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
+    "name": "元偉琴",
+    "aliases": [],
+    "file": "/01.Docs/Students/元偉琴.md",
+    "lessons_count": 23,
+    "latest_date": "2025-12-26",
+    "next_lesson": "2026-09-20",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-08-23",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
+    "name": "古金桃",
+    "aliases": [
+      "金桃"
+    ],
+    "file": "/01.Docs/Students/gu_jin_tao.md",
+    "lessons_count": 7,
+    "latest_date": "2025-12-16",
+    "next_lesson": "2026-09-24",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-06-03",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "912a251a-c72d-437b-9cf4-37bf0eb18f4e",
+    "name": "吳蒼宜",
+    "aliases": [],
+    "file": "/01.Docs/Students/吳蒼宜.md",
+    "lessons_count": 7,
+    "latest_date": "2025-05-04",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-01-08",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "d2f9ac0e-0e8c-4d06-acbf-a26963241eaa",
+    "name": "唐寶珠",
+    "aliases": [],
+    "file": "/01.Docs/Students/唐寶珠.md",
+    "lessons_count": 3,
+    "latest_date": "2024-04-01",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-03-26",
+    "current_cycle_lesson": 3
+  },
+  {
+    "id": "e1afbba6-6fd9-4515-b587-0e89d0312edb",
+    "name": "國英老師",
+    "aliases": [
+      "國英老師",
+      "國英",
+      "國英（買電子書閱讀器）",
+      "和國英老師"
+    ],
+    "file": "/01.Docs/Students/國英老師.md",
+    "lessons_count": 7,
+    "latest_date": "2025-05-13",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-08-23",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "5dc16e4f-fbdb-4aa8-8bf3-9105ef7abc83",
+    "name": "大安妮",
+    "aliases": [
+      "大安妮",
+      "大安妮老師"
+    ],
+    "file": "/01.Docs/Students/大安妮.md",
+    "lessons_count": 3,
+    "latest_date": "2024-02-20",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-06-16",
+    "current_cycle_lesson": 3
+  },
+  {
+    "id": "bea3a100-3534-4183-9d8c-db789f71302f",
+    "name": "大腳旅行社曹淑鈴Crystal",
+    "aliases": [
+      "大腳旅行社曹淑鈴Crystal"
+    ],
+    "file": "/01.Docs/Students/crystal_cao.md",
+    "lessons_count": 21,
+    "latest_date": "2026-08-17",
+    "next_lesson": "2026-10-12",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-07-11",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "3a7f7764-ddc1-45cb-9912-463275a51336",
+    "name": "宥錚",
+    "aliases": [],
+    "file": "/01.Docs/Students/宥錚.md",
+    "lessons_count": 8,
+    "latest_date": "2025-03-24",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-06-09",
+    "current_cycle_lesson": 8
+  },
+  {
+    "id": "6e05699e-d21c-432e-b59b-0b1b916fef07",
+    "name": "小腸",
+    "aliases": [],
+    "file": "/01.Docs/Students/小腸.md",
+    "lessons_count": 1,
+    "latest_date": "2024-02-25",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-02-21",
+    "current_cycle_lesson": 1
+  },
+  {
+    "id": "e0cf4cfd-1676-4c6e-bab8-1a9ef66a9a39",
+    "name": "小花",
+    "aliases": [],
+    "file": "/01.Docs/Students/小花.md",
+    "lessons_count": 2,
+    "latest_date": "2025-05-26",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2020-11-17",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "e50a010c-1668-4b23-b159-faa86f2cb23c",
+    "name": "建榮哥",
+    "aliases": [],
+    "file": "/01.Docs/Students/建榮哥.md",
+    "lessons_count": 19,
+    "latest_date": "2025-10-31",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-10-12",
+    "current_cycle_lesson": 3
+  },
+  {
+    "id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
+    "name": "張素幸",
+    "aliases": [],
+    "file": "/01.Docs/Students/zhang_su_xing.md",
+    "lessons_count": 16,
+    "latest_date": "2026-08-31",
+    "next_lesson": "2026-09-07",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-08-12",
+    "current_cycle_lesson": 8
   },
   {
     "id": "e101d0f5-8aa6-40b3-a4f3-1e3f02f3c98c",
     "name": "彭媽媽",
-    "aliases": [],
+    "aliases": [
+      "Peng Mama L1"
+    ],
     "file": "/01.Docs/Students/peng_mama.md",
     "lessons_count": 7,
     "latest_date": "2026-07-30",
@@ -1002,6 +452,152 @@
     "current_cycle_lesson": 5
   },
   {
+    "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
+    "name": "彭老師",
+    "aliases": [
+      "彭老師"
+    ],
+    "file": "/01.Docs/Students/peng_lao_shi.md",
+    "lessons_count": 38,
+    "latest_date": "2026-08-07",
+    "next_lesson": "2026-10-02",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-01-03",
+    "current_cycle_lesson": 3
+  },
+  {
+    "id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
+    "name": "徐玉芳",
+    "aliases": [
+      "徐玉芳"
+    ],
+    "file": "/01.Docs/Students/徐玉芳.md",
+    "lessons_count": 15,
+    "latest_date": "2025-12-29",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-11-19",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "3037a53b-0c97-4253-bd2a-d236af440191",
+    "name": "政佑",
+    "aliases": [
+      "政佑"
+    ],
+    "file": "/01.Docs/Students/zheng_you.md",
+    "lessons_count": 7,
+    "latest_date": "2026-07-26",
+    "next_lesson": "2026-09-06",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-08-02",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "368cbe6e-935e-4ff2-9c4a-52748fbc1bf0",
+    "name": "明志",
+    "aliases": [],
+    "file": "/01.Docs/Students/ming_zhi.md",
+    "lessons_count": 5,
+    "latest_date": "2026-04-20",
+    "next_lesson": "2026-11-09",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-04-22",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "name": "曾小米",
+    "aliases": [
+      "曾小米",
+      "小米"
+    ],
+    "file": "/01.Docs/Students/曾小米.md",
+    "lessons_count": 14,
+    "latest_date": "2026-08-25",
+    "next_lesson": "2026-09-15",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2026-01-15",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "b86cade3-c211-41c5-b33c-2124ee34d743",
+    "name": "林佳",
+    "aliases": [],
+    "file": "/01.Docs/Students/林佳.md",
+    "lessons_count": 5,
+    "latest_date": "2026-01-10",
+    "next_lesson": "2027-01-12",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-11-10",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "b946040e-8957-445b-a97a-d8c301ccf478",
+    "name": "柏宇",
+    "aliases": [
+      "柏宇"
+    ],
+    "file": "/01.Docs/Students/bo_yu.md",
+    "lessons_count": 6,
+    "latest_date": "2026-08-23",
+    "next_lesson": "2026-09-27",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-11-22",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
+    "name": "查米",
+    "aliases": [
+      "315.查米",
+      "Chami",
+      "Chami BNI Management",
+      "Chami BNI Management 38 6",
+      "查米",
+      "查米 315"
+    ],
+    "file": "/01.Docs/Students/Chami.md",
+    "lessons_count": 45,
+    "latest_date": "2026-07-27",
+    "next_lesson": "2026-09-10",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-03-10",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
+    "name": "桃園",
+    "aliases": [
+      "桃園-9023"
+    ],
+    "file": "/01.Docs/Students/taoyuan_group.md",
+    "lessons_count": 100,
+    "latest_date": "2026-07-03",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-09-06",
+    "current_cycle_lesson": 4
+  },
+  {
     "id": "d233701d-0c16-427c-a9fe-71499a35d673",
     "name": "楊-捷運台北橋站",
     "aliases": [],
@@ -1016,18 +612,348 @@
     "current_cycle_lesson": 5
   },
   {
-    "id": "d2f9ac0e-0e8c-4d06-acbf-a26963241eaa",
-    "name": "唐寶珠",
+    "id": "2b207c9b-7b6e-492b-a12c-64d8263abe6f",
+    "name": "洪儀甄",
     "aliases": [],
-    "file": "/01.Docs/Students/唐寶珠.md",
-    "lessons_count": 3,
-    "latest_date": "2024-04-01",
+    "file": "/01.Docs/Students/洪儀甄.md",
+    "lessons_count": 7,
+    "latest_date": "2024-08-16",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2024-03-26",
+    "first_lesson_date": "2024-04-16",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "bb6e8cde-291d-4554-9afa-5b5bad0bc5ee",
+    "name": "湘祺",
+    "aliases": [
+      "湘琪",
+      "湘祺姐",
+      "湘琪姐"
+    ],
+    "file": "/01.Docs/Students/xiang_qi_jie.md",
+    "lessons_count": 15,
+    "latest_date": "2026-07-17",
+    "next_lesson": "2027-01-15",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-07-22",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
+    "name": "王太太",
+    "aliases": [],
+    "file": "/01.Docs/Students/王太太.md",
+    "lessons_count": 6,
+    "latest_date": "2025-08-17",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-12-08",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
+    "name": "王敏賢",
+    "aliases": [],
+    "file": "/01.Docs/Students/王敏賢.md",
+    "lessons_count": 22,
+    "latest_date": "2026-04-27",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2023-04-17",
+    "current_cycle_lesson": 14
+  },
+  {
+    "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
+    "name": "琳琳律師",
+    "aliases": [],
+    "file": "/01.Docs/Students/琳琳律師.md",
+    "lessons_count": 6,
+    "latest_date": "2025-08-30",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-09-08",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
+    "name": "瓊方",
+    "aliases": [],
+    "file": "/01.Docs/Students/瓊方.md",
+    "lessons_count": 52,
+    "latest_date": "2024-10-22",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2021-04-12",
+    "current_cycle_lesson": 4
+  },
+  {
+    "id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
+    "name": "益堯哥",
+    "aliases": [
+      "益堯哥"
+    ],
+    "file": "/01.Docs/Students/yi_yao_ge.md",
+    "lessons_count": 1,
+    "latest_date": "2026-04-24",
+    "next_lesson": "2026-10-23",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-02-22",
+    "current_cycle_lesson": 1
+  },
+  {
+    "id": "2944f0c1-48fb-4751-be82-9f6195607294",
+    "name": "禮品公會",
+    "aliases": [
+      "禮品公會 03",
+      "Gift Association 2 L1",
+      "Gift Association 2 L2"
+    ],
+    "file": "/01.Docs/Students/gift_association_2.md",
+    "lessons_count": 8,
+    "latest_date": "2026-07-28",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2026-03-10",
+    "current_cycle_lesson": 8
+  },
+  {
+    "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",
+    "name": "羅懿芬",
+    "aliases": [],
+    "file": "/01.Docs/Students/羅懿芬.md",
+    "lessons_count": 7,
+    "latest_date": "2025-05-03",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2019-07-10",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "95bc7f83-011b-4b16-aa13-b525446e2468",
+    "name": "芳瑜公司",
+    "aliases": [],
+    "file": "/01.Docs/Students/芳瑜公司.md",
+    "lessons_count": 1,
+    "latest_date": "2024-08-12",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-08-12",
+    "current_cycle_lesson": 1
+  },
+  {
+    "id": "d9951845-6b4f-4c1b-8552-d313dada17f1",
+    "name": "若麟",
+    "aliases": [],
+    "file": "/01.Docs/Students/若麟.md",
+    "lessons_count": 3,
+    "latest_date": "2026-07-09",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-03-16",
     "current_cycle_lesson": 3
+  },
+  {
+    "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
+    "name": "蕭世典",
+    "aliases": [],
+    "file": "/01.Docs/Students/蕭世典.md",
+    "lessons_count": 6,
+    "latest_date": "2026-09-01",
+    "next_lesson": "2026-11-10",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-04-10",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
+    "name": "蘋果總裁班",
+    "aliases": [
+      "Apple CEO Class",
+      "Apple CEO",
+      "蘋果總裁班"
+    ],
+    "file": "/01.Docs/Students/Apple_CEO_Class.md",
+    "lessons_count": 1362,
+    "latest_date": "2026-09-03",
+    "next_lesson": "2026-09-10",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-01-04",
+    "recurring_schedule": "weekly:3:14:00",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
+    "name": "許娜",
+    "aliases": [],
+    "file": "/01.Docs/Students/許娜.md",
+    "lessons_count": 8,
+    "latest_date": "2025-11-17",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-11-14",
+    "current_cycle_lesson": 8
+  },
+  {
+    "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "name": "邱醫師",
+    "aliases": [
+      "邱醫師",
+      "邱 頂溪捷運站2號出口",
+      "邱頂溪捷運站2號出口",
+      "邱 311,208",
+      "邱311,208",
+      "邱 311",
+      "邱311",
+      "邱"
+    ],
+    "file": "/01.Docs/Students/邱醫師.md",
+    "lessons_count": 50,
+    "latest_date": "2026-08-11",
+    "next_lesson": "2026-09-15",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-03-02",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
+    "name": "郭姐",
+    "aliases": [
+      "郭姐"
+    ],
+    "file": "/01.Docs/Students/郭姐.md",
+    "lessons_count": 7,
+    "latest_date": "2026-05-04",
+    "next_lesson": "2026-11-06",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-07-23",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "553599e9-053b-4270-b43f-44687278d256",
+    "name": "鄺姐",
+    "aliases": [
+      "鄺姐"
+    ],
+    "file": "/01.Docs/Students/鄺姐.md",
+    "lessons_count": 10,
+    "latest_date": "2026-06-26",
+    "next_lesson": "2026-11-13",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-06-16",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
+    "name": "陳媽媽",
+    "aliases": [],
+    "file": "/01.Docs/Students/陳媽媽.md",
+    "lessons_count": 14,
+    "latest_date": "2025-10-27",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-12-05",
+    "current_cycle_lesson": 6
+  },
+  {
+    "id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "name": "陳海陸",
+    "aliases": [
+      "陳海陸 20 4"
+    ],
+    "file": "/01.Docs/Students/chen_hai_lu.md",
+    "lessons_count": 25,
+    "latest_date": "2026-08-28",
+    "next_lesson": "2026-09-04",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-11-28",
+    "current_cycle_lesson": 7
+  },
+  {
+    "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
+    "name": "陸總",
+    "aliases": [
+      "陸總"
+    ],
+    "file": "/01.Docs/Students/陸總.md",
+    "lessons_count": 5,
+    "latest_date": "2025-11-22",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-04-19",
+    "current_cycle_lesson": 5
+  },
+  {
+    "id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
+    "name": "青玫姐",
+    "aliases": [
+      "青玫"
+    ],
+    "file": "/01.Docs/Students/qing_mei_jie.md",
+    "lessons_count": 108,
+    "latest_date": "2026-05-15",
+    "next_lesson": "2026-10-23",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2018-01-10",
+    "current_cycle_lesson": 2
+  },
+  {
+    "id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
+    "name": "顧蓓華",
+    "aliases": [
+      "顧蓓華"
+    ],
+    "file": "/01.Docs/Students/gu_bei_hua.md",
+    "lessons_count": 6,
+    "latest_date": "2026-05-10",
+    "next_lesson": "2026-09-13",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2025-11-09",
+    "current_cycle_lesson": 6
   },
   {
     "id": "8c4fb758-70fe-4a68-838c-5003b9de8624",
@@ -1044,54 +970,17 @@
     "current_cycle_lesson": 1
   },
   {
-    "id": "6e05699e-d21c-432e-b59b-0b1b916fef07",
-    "name": "小腸",
+    "id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
+    "name": "黃奕溱",
     "aliases": [],
-    "file": "/01.Docs/Students/小腸.md",
-    "lessons_count": 1,
-    "latest_date": "2024-02-25",
-    "next_lesson": "安排中",
+    "file": "/01.Docs/Students/黃奕溱.md",
+    "lessons_count": 22,
+    "latest_date": "2026-08-25",
+    "next_lesson": "2027-01-22",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2024-02-21",
-    "current_cycle_lesson": 1
-  },
-  {
-    "id": "5dc16e4f-fbdb-4aa8-8bf3-9105ef7abc83",
-    "name": "大安妮",
-    "aliases": [
-      "大安妮",
-      "大安妮老師"
-    ],
-    "file": "/01.Docs/Students/大安妮.md",
-    "lessons_count": 3,
-    "latest_date": "2024-02-20",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-06-16",
-    "current_cycle_lesson": 3
-  },
-  {
-    "id": "e8d71234-9abc-4def-a123-567890abcdef",
-    "name": "Annie",
-    "aliases": [
-      "Annie",
-      "腦波Annie",
-      "安妮",
-      "安妮老師",
-      "Annie老師"
-    ],
-    "file": "/01.Docs/Students/Annie.md",
-    "lessons_count": 81,
-    "latest_date": "2026-08-02",
-    "next_lesson": "2026-09-05",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2021-03-06",
-    "current_cycle_lesson": 1
+    "first_lesson_date": "2020-03-26",
+    "current_cycle_lesson": 6
   }
 ]
