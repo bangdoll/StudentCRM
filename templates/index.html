@@ -28,6 +28,13 @@
                 <p class="meta-info">蔡教練 數位管理教學 ‧ AI 學習預測追蹤系統</p>
             </div>
         </a>
+        {% if admin_user %}
+        <div class="admin-session-badge" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.25); color: #58a6ff; padding: 5px 12px; border-radius: 20px;">
+            <span>🛡️</span>
+            <span>管理員：<strong>{{ admin_user }}</strong></span>
+            <a href="/logout" title="登出並鎖定系統" style="color: #8b949e; text-decoration: none; margin-left: 6px; font-weight: 500;">✕ 登出</a>
+        </div>
+        {% endif %}
         <form action="/search" method="get" class="search-form" id="search-form">
             <div class="search-input-wrapper">
                 <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">

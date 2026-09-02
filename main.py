@@ -14,6 +14,7 @@ import uuid
 from datetime import datetime, timedelta
 import calendar
 import time
+from urllib.parse import quote, unquote
 from data_gateway import StudentDataGateway
 from teaching_sync import (
     build_student_match_index,
@@ -66,13 +67,32 @@ from note_service import (
 
 app = FastAPI()
 
-COACH_PASSKEY = os.getenv("COACH_PASSKEY", "zzzz")
+# 雙管理員密鑰系統（Coach Tsai & Mrs. Tsai Admin Passkeys）
+COACH_PASSKEY = os.getenv("COACH_PASSKEY", "tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b")
+WIFE_PASSKEY = os.getenv("WIFE_PASSKEY", "amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
+LEGACY_PASSKEY = os.getenv("LEGACY_PASSKEY", "zzzz")
+
+ADMIN_PASSKEYS = {
+    COACH_PASSKEY: {"role": "coach", "name": "蔡教練"},
+    WIFE_PASSKEY: {"role": "admin", "name": "師母 (Amanda)"},
+    LEGACY_PASSKEY: {"role": "coach", "name": "蔡教練"},
+}
 SESSION_COOKIE_NAME = "coach_session"
+ADMIN_USER_COOKIE_NAME = "crm_admin_user"
 
 
 def get_session_token() -> str:
-    """生成教練驗證 session 簽名 Token。"""
-    return hashlib.sha256(f"crm_coach_salt_{COACH_PASSKEY}".encode()).hexdigest()[:32]
+    """生成管理員驗證 session 簽名 Token。"""
+    secret = os.getenv("CRM_AUTH_SECRET", "openclaw_crm_admin_master_secret_2026")
+    return hashlib.sha256(f"crm_admin_salt_{secret}".encode()).hexdigest()[:32]
+
+
+VALID_SESSION_TOKENS = {
+    get_session_token(),
+    hashlib.sha256(f"crm_coach_salt_{COACH_PASSKEY}".encode()).hexdigest()[:32],
+    hashlib.sha256(f"crm_coach_salt_{WIFE_PASSKEY}".encode()).hexdigest()[:32],
+    hashlib.sha256(b"crm_coach_salt_zzzz").hexdigest()[:32],
+}
 
 
 @app.middleware("http")
@@ -105,17 +125,17 @@ async def coach_auth_middleware(request: Request, call_next):
     ):
         return await call_next(request)
 
-    # 2. 學員專屬筆記存取（攜帶 token 參數）
+    # 2. 學員專屬筆記存取（攜帶 token 參數，僅限合法 UUID）
     if path in ("/note", "/open_file"):
         token_param = request.query_params.get("token")
         if token_param:
             students = load_students()
-            if get_student_by_id(token_param, students) or resolve_student_by_name(token_param, students):
+            if get_student_by_id(token_param, students):
                 return await call_next(request)
 
-    # 3. 教練 Session Cookie 檢查（已解鎖裝置直接通行）
+    # 3. 教練與管理員 Session Cookie 檢查（已解鎖裝置直接通行）
     coach_cookie = request.cookies.get(SESSION_COOKIE_NAME)
-    if coach_cookie == get_session_token():
+    if coach_cookie and (coach_cookie == get_session_token() or coach_cookie in VALID_SESSION_TOKENS):
         return await call_next(request)
 
     # 4. 未授權攔截：陌生人或未授權訪客一律顯示隱私保護提示，絕不洩漏學員名單與後台
@@ -1222,11 +1242,15 @@ async def read_root(request: Request):
     apple_summary = summarize_apple_ceo_program(apple_program)
     renewal_radar = get_global_renewal_radar(sorted_students)
 
+    admin_user_cookie = request.cookies.get(ADMIN_USER_COOKIE_NAME, "")
+    admin_user = unquote(admin_user_cookie) if admin_user_cookie else "管理員"
+
     if use_fallback_pages("index.html"):
         return render_dashboard_fallback(sorted_students, apple_summary, student_gateway.status())
 
     return templates.TemplateResponse(request, "index.html", {
         "request": request,
+        "admin_user": admin_user,
         "students": sorted_students,
         "apple_program": apple_program["program"],
         "apple_summary": apple_summary,
@@ -1501,14 +1525,22 @@ async def read_student(request: Request, student_id: str):
 @app.get("/coach/{key}")
 @app.get("/admin/{key}")
 async def coach_magic_link(request: Request, key: str, next: str = "/"):
-    """【專屬無密碼通行】以專屬私鑰直接解鎖進入教練管理後台，零輸入免密碼。"""
-    if key == COACH_PASSKEY:
+    """【專屬無密碼通行】以專屬私鑰直接解鎖進入教練與管理員後台，零輸入免密碼。"""
+    if key in ADMIN_PASSKEYS:
+        admin_info = ADMIN_PASSKEYS[key]
         response = RedirectResponse(url=next or "/", status_code=303)
         response.set_cookie(
             key=SESSION_COOKIE_NAME,
             value=get_session_token(),
             max_age=180 * 86400,
             httponly=True,
+            samesite="lax",
+        )
+        response.set_cookie(
+            key=ADMIN_USER_COOKIE_NAME,
+            value=quote(admin_info["name"]),
+            max_age=180 * 86400,
+            httponly=False,
             samesite="lax",
         )
         return response
@@ -1519,6 +1551,7 @@ async def coach_magic_link(request: Request, key: str, next: str = "/"):
 async def logout():
     response = RedirectResponse(url="/", status_code=303)
     response.delete_cookie(SESSION_COOKIE_NAME)
+    response.delete_cookie(ADMIN_USER_COOKIE_NAME)
     return response
 
 

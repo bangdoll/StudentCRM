@@ -83,12 +83,25 @@ def test_coach_magic_link_flow_and_privacy_lock():
     assert unauth_resp.status_code == 403
     assert "學員隱私安全保護空間" in unauth_resp.text
 
-    # 2. 教練點擊專屬通行連結 /coach/zzzz -> 303 轉址並設定 session cookie
-    login_resp = client.get("/coach/zzzz", follow_redirects=False)
-    assert login_resp.status_code == 303
-    assert "coach_session" in login_resp.cookies
+    # 2. 蔡教練專屬私鑰 /coach/tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b -> 303 轉址並設定 session cookie
+    coach_resp = client.get("/coach/tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b", follow_redirects=False)
+    assert coach_resp.status_code == 303
+    assert "coach_session" in coach_resp.cookies
+    assert "crm_admin_user" in coach_resp.cookies
 
-    # 3. 攜帶 session cookie 即可自由進入首頁
-    cookie_val = login_resp.cookies["coach_session"]
+    # 3. 師母專屬私鑰 /coach/amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d -> 303 轉址並設定 session cookie
+    wife_resp = client.get("/coach/amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d", follow_redirects=False)
+    assert wife_resp.status_code == 303
+    assert "coach_session" in wife_resp.cookies
+    assert "crm_admin_user" in wife_resp.cookies
+
+    # 4. 任意非法/猜測密鑰 -> 403 門禁鎖
+    bad_resp = client.get("/coach/hacker-key-12345", follow_redirects=False)
+    assert bad_resp.status_code == 403
+    assert "學員隱私安全保護空間" in bad_resp.text
+
+    # 5. 攜帶 session cookie 即可自由進入首頁
+    cookie_val = coach_resp.cookies["coach_session"]
     auth_resp = client.get("/", cookies={"coach_session": cookie_val}, headers={"X-Test-Auth": "true"})
     assert auth_resp.status_code == 200
+    assert "學員管理系統" in auth_resp.text
