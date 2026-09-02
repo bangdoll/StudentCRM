@@ -286,7 +286,11 @@
   {
     "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
     "name": "Charlotte",
-    "aliases": [],
+    "aliases": [
+      "陳姐",
+      "陳姐Charlotte",
+      "陳姐 Charlotte"
+    ],
     "file": "/01.Docs/Students/Charlotte.md",
     "lessons_count": 96,
     "latest_date": "2026-08-31",
@@ -615,11 +619,16 @@
   },
   {
     "id": "e1afbba6-6fd9-4515-b587-0e89d0312edb",
-    "name": "國英（買電子書閱讀器）",
-    "aliases": [],
-    "file": "/01.Docs/Students/國英（買電子書閱讀器）.md",
-    "lessons_count": 1,
-    "latest_date": "2019-08-23",
+    "name": "國英老師",
+    "aliases": [
+      "國英老師",
+      "國英",
+      "國英（買電子書閱讀器）",
+      "和國英老師"
+    ],
+    "file": "/01.Docs/Students/國英老師.md",
+    "lessons_count": 15,
+    "latest_date": "2025-05-13",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"

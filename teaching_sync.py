@@ -65,6 +65,15 @@ MANUAL_ALIASES = {
     "邱311": "邱醫師",
     "邱醫師": "邱醫師",
     "邱": "邱醫師",
+    "陳姐": "Charlotte",
+    "陳姐charlotte": "Charlotte",
+    "charlotte陳姐": "Charlotte",
+    "charlotte": "Charlotte",
+    "國英": "國英老師",
+    "國英老師": "國英老師",
+    "國英（買電子書閱讀器）": "國英老師",
+    "國英買電子書閱讀器": "國英老師",
+    "和國英老師": "國英老師",
 }
 
 
