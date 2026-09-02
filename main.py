@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel, Field
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -1022,6 +1022,7 @@ def get_student_teaching_notes(student: dict) -> list[dict]:
     sname = student.get("name", "")
     aliases = student.get("aliases", [])
     target_names = {sname.lower()} | {a.lower() for a in aliases}
+    is_apple_ceo = "總裁班" in sname or any("總裁班" in a for a in aliases)
 
     local_notes = load_local_digital_management_notes()
     if not local_notes:
@@ -1029,6 +1030,15 @@ def get_student_teaching_notes(student: dict) -> list[dict]:
 
     matched = []
     seen = set()
+
+    if is_apple_ceo:
+        apple_program = load_apple_ceo_program()
+        for an in apple_program.get("teaching_notes", []):
+            key = an.get("path") or f"{an.get('date')}:{an.get('title')}"
+            if key not in seen:
+                seen.add(key)
+                matched.append(an)
+
     for n in local_notes:
         note_sid = n.get("student_id", "")
         note_name = (n.get("student_name") or "").lower()
@@ -1149,14 +1159,15 @@ def analyze_student_features(student_id: str, use_cache: bool = True) -> dict:
     students = load_students()
     student = next((s for s in students if s.get('id') == student_id), None)
     if student:
-        if features['days_since_last_lesson'] == -1:
-            latest_str = student.get('latest_date') or student.get('last_lesson_date')
-            if latest_str and latest_str != "未記錄":
-                try:
-                    ld = datetime.strptime(latest_str, "%Y-%m-%d")
-                    features['days_since_last_lesson'] = max(0, (datetime.now() - ld).days)
-                except ValueError:
-                    pass
+        latest_str = student.get('latest_date') or student.get('last_lesson_date')
+        if latest_str and latest_str != "未記錄":
+            try:
+                ld = datetime.strptime(latest_str, "%Y-%m-%d")
+                meta_days = max(0, (datetime.now() - ld).days)
+                if features['days_since_last_lesson'] == -1 or meta_days < features['days_since_last_lesson']:
+                    features['days_since_last_lesson'] = meta_days
+            except ValueError:
+                pass
         if features['average_word_count'] == 0:
             student_notes = get_student_teaching_notes(student)
             total_words = 0
@@ -1494,8 +1505,18 @@ async def read_digital_management_student(request: Request, student_id: str):
 
 
 
+MERGED_STUDENT_REDIRECTS = {
+    "d892570c-70d2-4fba-9f2e-614ba775232b": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # 查米 315 -> 查米
+    "0e6b6b92-ebe9-4252-a6cf-3907b78700f7": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # Chami BNI Management 38 6 -> 查米
+}
+
+
 @app.get("/student/{student_id}", response_class=HTMLResponse)
 async def read_student(request: Request, student_id: str):
+    if student_id in MERGED_STUDENT_REDIRECTS:
+        target_id = MERGED_STUDENT_REDIRECTS[student_id]
+        return RedirectResponse(url=f"/student/{target_id}", status_code=301)
+
     students = load_students()
     student = next((s for s in students if s.get('id') == student_id), None)
     if not student:

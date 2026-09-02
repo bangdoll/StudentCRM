@@ -331,11 +331,12 @@
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
     "lessons_count": 423,
     "latest_date": "2026-08-27",
-    "next_lesson": "2026-09-03",
+    "next_lesson": "2026-09-03（四）14:00",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2018-01-04"
+    "first_lesson_date": "2018-01-04",
+    "recurring_schedule": "weekly:3:14:00"
   },
   {
     "id": "f4aff43b-59d6-43ed-98b6-a5d8c78b0e6f",
@@ -362,19 +363,6 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-03-17"
-  },
-  {
-    "id": "0e6b6b92-ebe9-4252-a6cf-3907b78700f7",
-    "name": "Chami BNI Management 38 6",
-    "aliases": [],
-    "file": "/01.Docs/Students/Chami BNI Management 38 6.md",
-    "lessons_count": 52,
-    "latest_date": "2026-07-27",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-03-10"
   },
   {
     "id": "e8e3e5fa-5d74-4e20-95af-de0593d850ab",
@@ -418,8 +406,15 @@
   {
     "id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
     "name": "查米",
-    "aliases": [],
-    "file": "/01.Docs/Students/查米.md",
+    "aliases": [
+      "315.查米",
+      "Chami",
+      "Chami BNI Management",
+      "Chami BNI Management 38 6",
+      "查米",
+      "查米 315"
+    ],
+    "file": "/01.Docs/Students/Chami.md",
     "lessons_count": 52,
     "latest_date": "2026-07-27",
     "next_lesson": "2026-09-10",
@@ -572,19 +567,6 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-07-14"
-  },
-  {
-    "id": "d892570c-70d2-4fba-9f2e-614ba775232b",
-    "name": "查米 315",
-    "aliases": [],
-    "file": "/01.Docs/Students/查米 315.md",
-    "lessons_count": 52,
-    "latest_date": "2026-07-27",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ],
-    "first_lesson_date": "2019-03-10"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",

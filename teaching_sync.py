@@ -14,6 +14,10 @@ DIGITAL_MANAGEMENT_LABEL = "數位管理教學"
 MANUAL_ALIASES = {
     "chami": "查米",
     "chamibnimanagement": "查米",
+    "chami 315": "查米",
+    "查米 315": "查米",
+    "查米315": "查米",
+    "315.查米": "查米",
     "charlotte": "Charlotte",
     "陳姐": "Charlotte",
     "陳姐charlotte": "Charlotte",
