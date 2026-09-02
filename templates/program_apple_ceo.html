@@ -301,7 +301,7 @@
                 {% set history_rounds = student.rounds[1:] %}
                 <details class="round-student-card student-accordion"
                          data-is-active="{{ 'true' if ns.active_count > 0 else 'false' }}"
-                         data-is-followup="{{ 'true' if (latest_round and latest_round.attended_count in (6, 7)) else 'false' }}"
+                         data-is-followup="{{ 'true' if (latest_round and '進行中' in latest_round.label and not latest_round.is_expired and latest_round.attended_count in (6, 7)) else 'false' }}"
                          {% if ns.priority_count > 0 or ns.active_count > 0 %}open{% endif %}>
                     <summary class="round-student-summary">
                         <div class="round-student-header">
@@ -333,7 +333,7 @@
                                     <span>{{ latest_round.remaining_count }} 堂待上</span>
                                 </div>
                             </div>
-                            {% if latest_round.attended_count in (6, 7) %}
+                            {% if latest_round.attended_count in (6, 7) and '進行中' in latest_round.label and not latest_round.is_expired %}
                             <div class="round-followup-flag">接近完成，建議本堂課預告續約下一輪</div>
                             {% endif %}
                             {% if latest_round.is_expiring_soon %}

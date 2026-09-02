@@ -1436,8 +1436,8 @@
       "student_name": "Andy哥",
       "rounds": [
         {
-          "label": "歷史梯次",
-          "payment_status": "進度",
+          "label": "歷史梯次 (已過期)",
+          "payment_status": "進度 (四個月效期已屆滿)",
           "sessions": [
             "2025-06-27",
             "2025-08-08",
@@ -1455,8 +1455,8 @@
       "student_name": "林永青",
       "rounds": [
         {
-          "label": "歷史梯次",
-          "payment_status": "進度",
+          "label": "歷史梯次 (已過期)",
+          "payment_status": "進度 (四個月效期已屆滿)",
           "sessions": [
             "2025-07-24",
             "2025-07-31",

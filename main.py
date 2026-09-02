@@ -977,18 +977,18 @@ def summarize_apple_ceo_program(program_data: dict) -> dict:
                     "student_name": student.get("student_name", ""),
                     **round_item,
                 })
-            if attended_count in (6, 7):
-                student_priority_count += 1
-                followup_rounds.append({
-                    "student_name": student.get("student_name", ""),
-                    **round_item,
-                })
-            if attended_count >= 8:
-                student_priority_count += 1
-                completed_rounds.append({
-                    "student_name": student.get("student_name", ""),
-                    **round_item,
-                })
+                if attended_count in (6, 7) and not round_item.get("is_expired"):
+                    student_priority_count += 1
+                    followup_rounds.append({
+                        "student_name": student.get("student_name", ""),
+                        **round_item,
+                    })
+                if attended_count >= 8:
+                    student_priority_count += 1
+                    completed_rounds.append({
+                        "student_name": student.get("student_name", ""),
+                        **round_item,
+                    })
 
         student_statuses.append({
             "student_name": student.get("student_name", ""),
