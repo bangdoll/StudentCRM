@@ -353,12 +353,12 @@
                                 📅 {{ note.date or '課堂紀錄' }}
                             </span>
                         </div>
-                        <a href="/note?path={{ note.path|urlencode }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 14px;">
+                        <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 14px;">
                             閱讀完整筆記 ➔
                         </a>
                     </div>
 
-                    <a href="/note?path={{ note.path|urlencode }}" class="note-title-link">
+                    <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="note-title-link">
                         {{ note.title or note.filename }}
                     </a>
 

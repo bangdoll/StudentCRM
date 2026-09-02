@@ -68,3 +68,20 @@ def test_read_student_hub_redirect_merged_student():
 def test_read_student_hub_not_found():
     response = client.get("/my/invalid-token-12345")
     assert response.status_code == 404
+
+
+def test_coach_magic_link_flow_and_privacy_lock():
+    # 1. 訪客未授權進入首頁 -> 顯示 403 隱私保護鎖定頁
+    unauth_resp = client.get("/", headers={"X-Test-Auth": "true"})
+    assert unauth_resp.status_code == 403
+    assert "學員隱私安全保護空間" in unauth_resp.text
+
+    # 2. 教練點擊專屬通行連結 /coach/zzzz -> 303 轉址並設定 session cookie
+    login_resp = client.get("/coach/zzzz", follow_redirects=False)
+    assert login_resp.status_code == 303
+    assert "coach_session" in login_resp.cookies
+
+    # 3. 攜帶 session cookie 即可自由進入首頁
+    cookie_val = login_resp.cookies["coach_session"]
+    auth_resp = client.get("/", cookies={"coach_session": cookie_val}, headers={"X-Test-Auth": "true"})
+    assert auth_resp.status_code == 200

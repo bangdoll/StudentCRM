@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>學員隱私保護空間 | 漫遊數位</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='/favicon.svg') }}">
+    <meta name="theme-color" content="#0d1117">
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: #0d1117;
+            background-image: radial-gradient(circle at 50% 30%, rgba(56, 139, 253, 0.12) 0%, rgba(13, 17, 23, 0.98) 75%);
+        }
+        .lock-card {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(22, 27, 34, 0.95);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 20px;
+            padding: 40px 32px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+        .lock-icon {
+            font-size: 3.2rem;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+        .lock-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin: 0 0 12px;
+        }
+        .lock-desc {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            margin: 0 0 24px;
+        }
+        .lock-box {
+            background: rgba(13, 17, 23, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 0.85rem;
+            color: #79c0ff;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .lock-footer {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="lock-card">
+        <div class="lock-icon">🛡️</div>
+        <h1 class="lock-title">學員隱私安全保護空間</h1>
+        <p class="lock-desc">
+            本系統為蔡教練數位管理學員專屬私密空間，全面啟動個人隱私隔離機制。
+        </p>
+        <div class="lock-box">
+            💡 <strong>學員專屬指引：</strong><br>
+            若您是學員，請由蔡教練在 LINE 發送給您的「專屬個人連結 (如 /my/專屬代碼)」進入您的個人學習空間。
+        </div>
+        <div class="lock-footer">
+            蔡教練 ‧ 漫遊數位管理教學 · 隱私至上 🧠
+        </div>
+    </div>
+</body>
+</html>
