@@ -60,10 +60,55 @@
             </aside>
 
             <main class="timeline-content">
-                <h2>教學時光軸</h2>
-                <div class="markdown-body">
-                    {{ timeline_html | safe }}
-                </div>
+                <section class="teaching-notes-section" style="margin-bottom: 36px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                        <h2 style="margin: 0; font-size: 1.4rem;">📚 教學筆記 ({{ student_notes|length }} 篇)</h2>
+                        {% if student_notes %}
+                        <span class="tag" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color); font-weight: 600;">最新上課：{{ student_notes[0].date or '未記錄' }}</span>
+                        {% endif %}
+                    </div>
+
+                    {% if student_notes %}
+                    <div class="digital-record-list">
+                        {% for note in student_notes %}
+                        <div class="digital-record digital-note-record" style="background: rgba(22, 27, 34, 0.85); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; margin-bottom: 14px; transition: border-color 0.2s;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
+                                <div>
+                                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
+                                        {% if note.lesson_number %}
+                                        <span class="digital-lesson-number" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">第 {{ note.lesson_number }}{% if note.lesson_sub %}-{{ note.lesson_sub }}{% endif %} 堂</span>
+                                        {% endif %}
+                                        <strong style="color: var(--text-primary); font-size: 0.95rem;">{{ note.date or '未記錄日期' }}</strong>
+                                    </div>
+                                    <h3 style="margin: 0; font-size: 1.15rem; color: #f0f6fc; font-weight: 600; line-height: 1.4;">{{ note.title }}</h3>
+                                </div>
+                                {% if note.url or note.path %}
+                                <a href="{{ note.url or ('/open_file?path=' ~ note.path) }}" class="search-btn" style="padding: 6px 14px; font-size: 0.85rem; text-decoration: none; display: inline-block; white-space: nowrap; flex-shrink: 0;">開啟筆記 →</a>
+                                {% endif %}
+                            </div>
+                            {% if note.preview %}
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; background: rgba(0, 0, 0, 0.25); padding: 10px 14px; border-radius: 8px; border-left: 3px solid var(--accent-color);">
+                                {{ note.preview }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="student-card" style="padding: 24px; text-align: center; color: var(--text-secondary);">
+                        <p style="margin: 0;">尚未在教學庫中找到專屬教學筆記。</p>
+                    </div>
+                    {% endif %}
+                </section>
+
+                {% if timeline_html and timeline_html.strip() %}
+                <section class="legacy-timeline-section" style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border-color);">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 16px; color: var(--text-secondary);">📝 學員時光軸 / 備忘檔案</h2>
+                    <div class="markdown-body">
+                        {{ timeline_html | safe }}
+                    </div>
+                </section>
+                {% endif %}
             </main>
         </div>
     </div>

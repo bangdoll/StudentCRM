@@ -19,6 +19,7 @@ from teaching_sync import (
     resolve_student,
     normalize_match_text,
     parse_teaching_file,
+    parse_date_from_title,
 )
 
 app = FastAPI()
@@ -1212,43 +1213,80 @@ def build_cloud_student_meta(student: dict) -> dict:
     }
 
 
+def get_student_teaching_notes(student: dict) -> list[dict]:
+    """取得特定學員的所有教學筆記（支援本地 teaching 檔案與雲端快取）。"""
+    sid = student.get("id", "")
+    sname = student.get("name", "")
+    aliases = student.get("aliases", [])
+    target_names = {sname.lower()} | {a.lower() for a in aliases}
+
+    local_notes = load_local_digital_management_notes()
+    if not local_notes:
+        local_notes = load_cloud_digital_management_notes()
+
+    matched = []
+    seen = set()
+    for n in local_notes:
+        note_sid = n.get("student_id", "")
+        note_name = (n.get("student_name") or "").lower()
+        if note_sid == sid or (note_name and note_name in target_names):
+            key = n.get("id") or n.get("path") or f"{n.get('date')}:{n.get('title')}"
+            if key not in seen:
+                seen.add(key)
+                matched.append(n)
+    return sorted(matched, key=lambda x: x.get("date") or "", reverse=True)
+
+
 def get_student_lesson_paths(student_id: str) -> list:
-    """Get sorted lesson cache paths for a student from their .md timeline."""
+    """Get sorted lesson cache and teaching paths for a student."""
     students = load_students()
     student = next((s for s in students if s['id'] == student_id), None)
     if not student:
         return []
-    file_path = os.path.join(BASE_DIR, student['file'].lstrip('/'))
-    if not os.path.exists(file_path):
-        return []
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-    paths = re.findall(
-        r'/open_file\?path=([^\s\)\'">\n]+Lesson_\d{8}_[^\s\)\'">\n]+\.md)',
-        content
-    )
+    
+    paths = []
+    file_path = os.path.join(BASE_DIR, student.get('file', '').lstrip('/'))
+    if os.path.exists(file_path):
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        paths.extend(re.findall(
+            r'/open_file\?path=([^\s\)\'">\n]+\.md)',
+            content
+        ))
+
+    student_notes = get_student_teaching_notes(student)
+    for n in student_notes:
+        if n.get("path"):
+            paths.append(n["path"])
 
     def date_key(p):
-        m = re.search(r'Lesson_(\d{8})_', p)
-        return m.group(1) if m else ''
+        fname = os.path.basename(p)
+        date = parse_date_from_title(fname)
+        return date.replace("-", "") if date else fname
 
     return sorted(set(paths), key=date_key)
 
 
 def student_id_from_path(path: str) -> str:
-    """Derive student_id from a lesson cache filename."""
+    """Derive student_id from a lesson cache filename or teaching note path."""
     fname = os.path.basename(path)
     m = re.match(r'Lesson_\d{8}_(.+)\.md', fname)
-    if not m:
-        return ""
-    student_name = m.group(1)
     students = load_students()
-    for s in students:
-        if s['name'] == student_name or s['id'] == student_name.lower():
-            return s['id']
-        if student_name in s.get('aliases', []):
-            return s['id']
-    return student_name.lower()
+    if m:
+        student_name = m.group(1)
+        for s in students:
+            if s['name'] == student_name or s['id'] == student_name.lower():
+                return s['id']
+            if student_name in s.get('aliases', []):
+                return s['id']
+        return student_name.lower()
+
+    rec = parse_teaching_file(path)
+    if rec and rec.get("student_name"):
+        student, _ = resolve_student(rec["student_name"], students)
+        if student:
+            return student.get("id", "")
+    return ""
 
 
 def analyze_student_features(student_id: str) -> dict:
@@ -1265,12 +1303,21 @@ def analyze_student_features(student_id: str) -> dict:
 
     # Parse the latest lesson date
     latest_path = paths[-1]
-    m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', latest_path)
-    if m:
-        y, mo, d = map(int, m.groups())
-        latest_date = datetime(y, mo, d)
-        today = datetime.now()
-        features['days_since_last_lesson'] = (today - latest_date).days
+    date_str = parse_date_from_title(os.path.basename(latest_path))
+    if date_str:
+        try:
+            latest_date = datetime.strptime(date_str, "%Y-%m-%d")
+            today = datetime.now()
+            features['days_since_last_lesson'] = (today - latest_date).days
+        except ValueError:
+            pass
+    else:
+        m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', latest_path)
+        if m:
+            y, mo, d = map(int, m.groups())
+            latest_date = datetime(y, mo, d)
+            today = datetime.now()
+            features['days_since_last_lesson'] = (today - latest_date).days
 
     # Parse average word count from the last 3 lessons
     recent_paths = paths[-3:]
@@ -1608,7 +1655,7 @@ async def read_student(request: Request, student_id: str):
     file_value = student.get('file') or ""
     file_path = os.path.join(BASE_DIR, file_value.lstrip('/')) if file_value else ""
 
-    # NEW: Dynamic calculation for detail page
+    # Dynamic calculation for detail page
     if 'recurring_schedule' in student and not student.get('next_lesson'):
         doc_exceptions = get_document_exceptions(file_path) if file_path else []
         json_exceptions = student.get('schedule_exceptions', [])
@@ -1619,6 +1666,8 @@ async def read_student(request: Request, student_id: str):
             all_exceptions
         )
 
+    student_notes = get_student_teaching_notes(student)
+
     if not file_path or not os.path.exists(file_path):
         teaching_records = student_gateway.load_teaching_records(student_id)
         student['meta'] = build_cloud_student_meta(student)
@@ -1627,6 +1676,7 @@ async def read_student(request: Request, student_id: str):
         return templates.TemplateResponse(request, "student.html", {
             "request": request,
             "student": student,
+            "student_notes": student_notes,
             "timeline_html": render_cloud_student_timeline(student, teaching_records),
             "student_id": student_id,
         })
@@ -1648,6 +1698,7 @@ async def read_student(request: Request, student_id: str):
     return templates.TemplateResponse(request, "student.html", {
         "request": request,
         "student": student,
+        "student_notes": student_notes,
         "timeline_html": html_content,
         "student_id": student_id,
     })
@@ -1655,11 +1706,20 @@ async def read_student(request: Request, student_id: str):
 
 @app.get("/open_file", response_class=HTMLResponse)
 async def open_file(request: Request, path: str):
-    if not (os.path.exists(path) and path.startswith(BASE_DIR)):
-        return HTMLResponse(content="Insecure or missing path", status_code=403)
+    filename = os.path.basename(path)
+    content = ""
 
-    with open(path, 'r', encoding='utf-8', errors='ignore') as f:
-        content = f.read()
+    if os.path.exists(path) and path.startswith(BASE_DIR):
+        with open(path, 'r', encoding='utf-8', errors='ignore') as f:
+            content = f.read()
+    else:
+        # Fallback for cloud/Vercel or cache
+        records = load_cloud_digital_management_notes()
+        record = next((r for r in records if r.get("path") == path or r.get("filename") == filename or r.get("id") == path), None)
+        if record:
+            content = f"# {record.get('title')}\n\n**上課日期**：{record.get('date')}\n\n**堂數**：第 {record.get('lesson_number') or '-'} 堂\n\n**重點摘要**：\n\n{record.get('preview')}"
+        else:
+            return HTMLResponse(content="Insecure or missing path", status_code=403 if path.startswith("..") else 404)
 
     import markdown
     html_content = markdown.markdown(content, extensions=['tables'])
