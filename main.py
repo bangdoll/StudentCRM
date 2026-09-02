@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel, Field
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 import os
@@ -89,6 +89,23 @@ student_gateway = StudentDataGateway(BASE_DIR)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
+
+
+@app.get("/apple-touch-icon.png", include_in_schema=False)
+@app.get("/apple-touch-icon-precomposed.png", include_in_schema=False)
+@app.get("/apple-touch-icon-180x180.png", include_in_schema=False)
+async def apple_touch_icon():
+    return FileResponse(os.path.join(STATIC_DIR, "apple-touch-icon.png"), media_type="image/png")
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon_ico():
+    return FileResponse(os.path.join(STATIC_DIR, "favicon-32x32.png"), media_type="image/png")
+
+
+@app.get("/site.webmanifest", include_in_schema=False)
+async def site_webmanifest():
+    return FileResponse(os.path.join(STATIC_DIR, "site.webmanifest"), media_type="application/manifest+json")
 
 
 def template_exists(name: str) -> bool:
