@@ -80,17 +80,20 @@ def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
     """為個別學員產生客製化 LINE 續課席位保留提醒文案。"""
     name = student.get("name", "同學")
     total_lessons = student.get("lessons_count", 0)
-    mod = total_lessons % 8
+    cycle_lesson = student.get("current_cycle_lesson")
+    if cycle_lesson is None:
+        cycle_lesson = (total_lessons % 8) or (8 if total_lessons > 0 else 0)
+
     cycle_num = ((total_lessons - 1) // 8) + 1 if total_lessons > 0 else 1
 
-    if mod == 0 and total_lessons > 0:
+    if cycle_lesson == 8 and total_lessons > 0:
         headline = f"已圓滿完成第 {cycle_num} 輪（滿 8 堂，累計達 {total_lessons} 堂課）！🎉"
         subtext = f"感謝您一路以來的實作投入與專注學習！為確保您每週專屬輔導時段不受影響，教練已優先為您保留下期（第 {cycle_num + 1} 期・8 堂）上課名額。"
-    elif mod == 7:
+    elif cycle_lesson == 7:
         headline = f"即將完成本輪第 7/8 堂課（累計已達 {total_lessons} 堂）！🎉"
         subtext = f"下週即將迎來本輪最後一堂總結課。為確保下階段專屬時段無縫延續，教練已優先為您預留續班名額。"
     else:
-        headline = f"目前已完成 {total_lessons} 堂課！"
+        headline = f"目前已完成 {total_lessons} 堂課（本期第 {cycle_lesson}/8 堂）！"
         subtext = "感謝您的持續學習與實踐，為確保專屬時段不中斷，教練已為您預留後續名額。"
 
     return (
@@ -113,13 +116,18 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
         cnt = s.get("lessons_count", 0)
         if cnt <= 0:
             continue
-        mod = cnt % 8
-        if mod == 0:
+
+        # 優先以 Google 日曆標題精準解析之當期堂數為主，未登錄時 fallback 至 cnt % 8
+        cycle_lesson = s.get("current_cycle_lesson")
+        if cycle_lesson is None:
+            cycle_lesson = (cnt % 8) or (8 if cnt > 0 else 0)
+
+        if cycle_lesson == 8:
             status_code = "completed"
             status_text = "已滿 8/8 堂 (圓滿結訓)"
             badge_class = "badge-full"
             action_text = "📋 複製續班提醒"
-        elif mod == 7:
+        elif cycle_lesson == 7:
             status_code = "warning"
             status_text = "即將滿 7/8 堂 (請提前預留)"
             badge_class = "badge-short"
@@ -134,7 +142,8 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
             "id": s.get("id"),
             "name": name,
             "lessons_count": cnt,
-            "progress_ratio": f"{mod or 8}/8",
+            "current_cycle_lesson": cycle_lesson,
+            "progress_ratio": f"{cycle_lesson}/8",
             "status_code": status_code,
             "status_text": status_text,
             "badge_class": badge_class,
