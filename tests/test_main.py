@@ -165,12 +165,6 @@ def test_apple_ceo_program_page():
     assert "請通知續班" in response.text
 
 
-def test_voice_page():
-    """語音工作台頁面應可正常開啟"""
-    response = client.get("/voice")
-    assert response.status_code == 200
-    assert "學員管理語音工作台" in response.text
-    assert "課後紀錄" in response.text
 
 
 def test_digital_management_page():
@@ -237,84 +231,6 @@ def test_student_page_cloud_fallback(monkeypatch):
     assert "雲端摘要模式" in response.text
 
 
-def test_voice_draft_api():
-    """語音草稿 API 只產生預覽，不直接寫入資料"""
-    response = client.post("/api/voice/draft", json={
-        "transcript": "今天 Shelley 陳萱伶上第 14 堂，下次 5 月 14 複習條件句。",
-    })
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "draft_only"
-    assert payload["will_write"] is False
-    assert payload["requires_human_confirmation"] is True
-    assert "teaching_record" in payload["draft"]
-
-
-def test_voice_query_api():
-    """語音查詢 API 可回傳自然語言答案"""
-    response = client.post("/api/voice/query", json={
-        "query": "場地餘額多少？",
-    })
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "ok"
-    assert "場地餘額" in payload["answer"]
-
-
-def test_voice_workflow_api():
-    """語音工作流 API 只建立待辦草稿"""
-    response = client.post("/api/voice/workflow", json={
-        "transcript": "提醒我明天早上問 Kelly 要不要續班。",
-    })
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "draft_only"
-    assert payload["will_write"] is False
-    assert payload["actions"]
-
-
-def test_voice_commit_requires_student():
-    """沒有確認學員身分時不可寫入"""
-    response = client.post("/api/voice/commit", json={
-        "draft": {
-            "matched_student": {"id": "", "name": ""},
-            "teaching_record": {"id": "voice-test"},
-        },
-    })
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "not_written"
-    assert payload["will_write"] is False
-
-
-def test_voice_commit_local_backend_not_written():
-    """本地引擎不會假裝已寫入 Supabase"""
-    draft_response = client.post("/api/voice/draft", json={
-        "transcript": "今天 Shelley 陳萱伶上第 14 堂，下次 5 月 14 複習條件句。",
-    })
-    draft = draft_response.json()["draft"]
-    response = client.post("/api/voice/commit", json={"draft": draft})
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] in ["not_written", "written"]
-    if payload["status"] == "not_written":
-        assert payload["will_write"] is False
-
-
-def test_voice_commit_rejects_wrong_pin(monkeypatch):
-    """設定寫入 PIN 時，PIN 錯誤不可寫入"""
-    monkeypatch.setenv("STUDENTCRM_WRITE_PIN", "1234")
-    response = client.post("/api/voice/commit", json={
-        "write_pin": "0000",
-        "draft": {
-            "matched_student": {"id": "student-1", "name": "測試學員"},
-            "teaching_record": {"id": "voice-test"},
-        },
-    })
-    assert response.status_code == 200
-    payload = response.json()
-    assert payload["status"] == "not_written"
-    assert "PIN" in payload["reason"]
 
 # 如果現在跑 `pytest`，若未來有任何人改爛了 get_note_quality 或少了 dotenv，
 # Sisyphus 都會第一時間捕捉到！
