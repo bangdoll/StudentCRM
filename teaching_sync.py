@@ -15,14 +15,26 @@ MANUAL_ALIASES = {
     "chami": "查米",
     "chamibnimanagement": "查米",
     "charlotte": "Charlotte",
+    "陳姐": "Charlotte",
+    "陳姐charlotte": "Charlotte",
     "kellywoo": "Kelly Woo",
     "lucia": "Lucia 徐露華",
     "roger": "Roger 黃凱亮",
     "roger黃凱亮": "Roger 黃凱亮",
     "anna蕭": "Anna 蕭",
     "anna": "Anna 蕭",
+    "amanda": "Anna 蕭",
+    "amanda蕭秉慧": "Anna 蕭",
+    "蕭秉慧": "Anna 蕭",
     "amy": "Amy",
     "annie": "大安妮",
+    "大乘旅運": "大腳旅行社曹淑鈴Crystal",
+    "大腳旅行社曹淑鈴crystal": "大腳旅行社曹淑鈴Crystal",
+    "大腳旅行社曹淑鈴crystal曹姐": "大腳旅行社曹淑鈴Crystal",
+    "曹淑鈴crystal": "大腳旅行社曹淑鈴Crystal",
+    "曹淑鈴crystal曹姐": "大腳旅行社曹淑鈴Crystal",
+    "曹淑鈴": "大腳旅行社曹淑鈴Crystal",
+    "曹姐": "大腳旅行社曹淑鈴Crystal",
     "蘋果總裁班": "Apple CEO Class",
     "蘋果總裁班休息": "Apple CEO Class",
     "蘋果總裁班休息一次": "Apple CEO Class",
@@ -30,6 +42,16 @@ MANUAL_ALIASES = {
     "蘋果總裁班暫停一次": "Apple CEO Class",
     "楊老師": "楊-捷運台北橋站",
     "楊老師捷運台北橋站": "楊-捷運台北橋站",
+    "shelley": "Shelley 陳萱玲",
+    "shelley陳萱玲": "Shelley 陳萱玲",
+    "shelley陳萱伶": "Shelley 陳萱玲",
+    "陳萱玲": "Shelley 陳萱玲",
+    "陳萱伶": "Shelley 陳萱玲",
+    "julie陳怡君醫師": "Julie 陳怡君",
+    "julie陳怡君": "Julie 陳怡君",
+    "陳怡君": "Julie 陳怡君",
+    "bill楊文祥": "Bill 楊文祥",
+    "楊文祥": "Bill 楊文祥",
 }
 
 
@@ -126,8 +148,9 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
 
     date = parse_date_from_title(title)
     title_without_date = re.sub(r"(20\d{2})[-_ ./年]?(\d{2})[-_ ./月]?(\d{2})", "", title, count=1).strip()
+    title_without_date = title_without_date.lstrip(" .-_#")
     lesson_num, lesson_sub = parse_lesson_parts(title_without_date)
-    if lesson_num is None:
+    if lesson_num is None and not date:
         lesson_num, lesson_sub = parse_lesson_parts(title)
     candidate_name = candidate_name_from_title(title)
     if not candidate_name:
@@ -174,7 +197,9 @@ def build_student_match_index(students: list[dict[str, Any]]) -> list[dict[str, 
 
     unique = {}
     for item in candidates:
-        unique[(item["key"], item["student"].get("id", ""))] = item
+        candidate_key = (item["key"], item["student"].get("id", ""))
+        if candidate_key not in unique:
+            unique[candidate_key] = item
     return sorted(unique.values(), key=lambda item: len(item["key"]), reverse=True)
 
 
