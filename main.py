@@ -1730,7 +1730,13 @@ async def open_file(request: Request, path: str):
     else:
         # Fallback for cloud/Vercel or cache
         records = load_cloud_digital_management_notes()
-        record = next((r for r in records if r.get("path") == path or r.get("filename") == filename or r.get("id") == path), None)
+        record = next((
+            r for r in records
+            if r.get("path") == path
+            or r.get("filename") == filename
+            or os.path.basename(r.get("path", "")) == filename
+            or r.get("id") == path
+        ), None)
         if record:
             content = f"# {record.get('title')}\n\n**上課日期**：{record.get('date')}\n\n**堂數**：第 {record.get('lesson_number') or '-'} 堂\n\n**重點摘要**：\n\n{record.get('preview')}"
         else:

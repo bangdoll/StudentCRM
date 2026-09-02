@@ -161,8 +161,11 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     except OSError:
         content = ""
 
-    stat = file_path.stat()
-    mtime = datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat().replace("+00:00", "Z")
+    try:
+        stat = file_path.stat()
+        mtime = datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat().replace("+00:00", "Z")
+    except OSError:
+        mtime = ""
     return {
         "card_id": hashlib.sha1(str(file_path).encode("utf-8")).hexdigest(),
         "title": f"#{title}",
