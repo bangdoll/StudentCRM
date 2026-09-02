@@ -103,10 +103,17 @@
                 {% if summary.followup_student_count %}
                 <div class="ops-radar-list">
                     {% for round in summary.followup_students %}
-                    <div class="ops-radar-item">
-                        <strong>{{ round.student_name }}</strong>
-                        <span>學員本人</span>
-                        <span style="color: #f6c177; font-weight: 700;">{{ round.attended_count }}/8 堂</span>
+                    <div class="ops-radar-item" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                        <div>
+                            <strong>{{ round.student_name }}</strong>
+                            <span style="color: #f6c177; font-weight: 700; margin-left: 6px;">{{ round.attended_count }}/8 堂</span>
+                            {% if round.expiry_date %}
+                            <span class="meta-info" style="font-size: 0.76rem; display: block; color: var(--text-secondary);">效期至 {{ round.expiry_date }}（剩餘 {{ round.days_until_expiry }} 天）</span>
+                            {% endif %}
+                        </div>
+                        <button type="button" class="btn-copy-reminder" data-msg="{{ round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字">
+                            📋 複製提醒
+                        </button>
                     </div>
                     {% endfor %}
                 </div>
@@ -387,8 +394,15 @@
                             <div class="round-complete-flag">🏁 已於四個月內滿 8 堂圓滿結訓，請通知續班</div>
                             {% endif %}
                             {% if latest_round.expiry_date and not latest_round.is_expired and latest_round.attended_count < 8 %}
-                            <div class="meta-info" style="margin-top: 6px; font-size: 0.82rem; color: #58a6ff;">
-                                ⏳ 效期追蹤：{{ latest_round.validity_base }} 起算四個月至 <strong>{{ latest_round.expiry_date }}</strong>（剩餘 {{ latest_round.days_until_expiry }} 天）
+                            <div class="meta-info" style="margin-top: 6px; font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                <span style="color: {% if latest_round.days_until_expiry <= 14 %}#f85149{% elif latest_round.days_until_expiry <= 30 %}#f0883e{% else %}#58a6ff{% endif %}; font-weight: 500;">
+                                    ⏳ 效期追蹤：{{ latest_round.validity_base }} 起算四個月至 <strong>{{ latest_round.expiry_date }}</strong>（剩餘 {{ latest_round.days_until_expiry }} 天）
+                                </span>
+                                {% if latest_round.attended_count in (6, 7) %}
+                                <button type="button" class="btn-copy-reminder" data-msg="{{ latest_round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字">
+                                    📋 複製通知
+                                </button>
+                                {% endif %}
                             </div>
                             {% endif %}
 
@@ -691,6 +705,28 @@
                 }
             });
         }
+
+        // 一鍵複製續班提醒文字 (LINE/簡訊專用)
+        const copyBtns = document.querySelectorAll('.btn-copy-reminder');
+        copyBtns.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const msg = btn.getAttribute('data-msg');
+                if (!msg) return;
+                try {
+                    await navigator.clipboard.writeText(msg);
+                    const orig = btn.innerHTML;
+                    btn.innerHTML = '✅ 已複製！';
+                    btn.classList.add('btn-copied');
+                    setTimeout(() => {
+                        btn.innerHTML = orig;
+                        btn.classList.remove('btn-copied');
+                    }, 2000);
+                } catch (err) {
+                    alert('複製失敗，請手動複製以下內容：\n\n' + msg);
+                }
+            });
+        });
 
         // 場地費流水展開/收合
         const toggleLedgerBtn = document.getElementById('toggleLedgerBtn');
