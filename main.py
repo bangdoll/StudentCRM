@@ -603,6 +603,7 @@ def load_local_digital_management_notes() -> list[dict]:
             "url": f"/open_file?path={path}" if path.startswith(BASE_DIR) else "",
             "path": path,
             "preview": record.get("preview", ""),
+            "content": record.get("content", ""),
             "source": "本地 teaching 檔案",
             "matched_by": matched_by,
             "matched_to_official_student": True,
@@ -1548,8 +1549,18 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
 
     student_notes = get_student_teaching_notes(student)
     for note in student_notes:
-        preview_content = note.get("preview") or ""
-        note["micro_cards"] = extract_micro_action_cards(preview_content, note.get("title") or "")
+        content = note.get("content") or ""
+        if not content:
+            path = note.get("path") or ""
+            if path and os.path.exists(path):
+                try:
+                    with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                        content = f.read()
+                except OSError:
+                    pass
+        if not content:
+            content = note.get("preview") or ""
+        note["micro_cards"] = extract_micro_action_cards(content, note.get("title") or "")
 
     cnt = student.get("lessons_count") or len(student_notes)
     cycle = student.get("current_cycle_lesson")

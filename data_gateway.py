@@ -358,7 +358,11 @@ class StudentDataGateway:
     @staticmethod
     def _write_json(path: str, payload: Any) -> None:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        tmp_path = f"{path}.tmp"
+        tmp_path = f"{path}.{os.getpid()}.tmp"
         with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
-        os.replace(tmp_path, path)
+        try:
+            os.replace(tmp_path, path)
+        except OSError:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
