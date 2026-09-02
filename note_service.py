@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import os
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 import markdown
 
@@ -32,6 +32,7 @@ class NoteDetail:
     next_label: str
     word_count: int
     read_minutes: int
+    micro_cards: dict = field(default_factory=dict)
 
     def to_template_context(self) -> dict:
         """轉換為傳遞至 Jinja2 樣板的字典。"""
@@ -51,6 +52,7 @@ class NoteDetail:
             "next_label": self.next_label,
             "word_count": self.word_count,
             "read_minutes": self.read_minutes,
+            "micro_cards": self.micro_cards,
         }
 
 
@@ -75,6 +77,59 @@ def extract_note_preview(content: str, limit: int = 280) -> str:
     # 壓縮空白
     text = re.sub(r"\s+", " ", text).strip()
     return (text[:limit] + "...") if len(text) > limit else text
+
+
+def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
+    """從教學筆記內容自動提煉 3 張課後「微行動卡片」(Actionable Micro-Cards)。
+    
+    1. 📱 1 個小習慣 (One Micro-Habit) - 每日 3 分鐘日常無痛練習
+    2. ⚡ 1 個肌肉記憶 (Key Action / Shortcut) - 實戰高頻快捷鍵或核心手勢
+    3. 🎯 本週 1 個小成就 (Weekly Win) - 具體可落地的成效驗收
+    """
+    clean_text = clean_markdown_frontmatter(content)
+    lower = clean_text.lower()
+    full_title = (title or "").lower()
+
+    # 1. 快捷鍵 / 肌肉記憶
+    shortcut_match = re.search(r"(cmd|command|ctrl|shift|option|快捷鍵|按鍵)[^\n]{3,60}", clean_text, re.IGNORECASE)
+    if shortcut_match:
+        shortcut_text = shortcut_match.group(0).strip().lstrip("*-# ")
+    elif "heptabase" in lower or "heptabase" in full_title:
+        shortcut_text = "Cmd + K 全域搜尋卡片；雙擊白板空白處快速建立新卡片"
+    elif "捷徑" in lower or "shortcut" in lower:
+        shortcut_text = "輕點背面兩下觸發常用捷徑，或鎖定畫面小工具秒開"
+    elif "備忘錄" in lower:
+        shortcut_text = "右下角快速備忘錄手勢，或按住 Fn + Q 立即記錄靈感"
+    else:
+        shortcut_text = "掌握 Cmd + Space (Spotlight) 秒開應用程式與搜尋檔案"
+
+    # 2. 小習慣
+    if "heptabase" in lower or "白板" in lower:
+        habit_text = "每天早上開機第一件事：打開晨間白板，寫下今日最重要的 3 張卡片"
+    elif "語音" in lower or "錄音" in lower or "逐字" in lower:
+        habit_text = "散步或走路靈感湧現時，習慣打開手機錄音錄下 1 分鐘思考逐字稿"
+    elif "日曆" in lower or "排程" in lower:
+        habit_text = "每晚睡前 3 分鐘，校準明日 Google 日曆的深工作時段與休息間隙"
+    elif "檔案" in lower or "資料夾" in lower:
+        habit_text = "下班前 1 分鐘，清空桌面（Inbox Zero），重要檔案歸檔至年份資料夾"
+    else:
+        habit_text = "每日開機時深呼吸，僅保留 1 個專注工作視窗，消除雜訊開展深工作"
+
+    # 3. 本週小成就
+    if "heptabase" in lower:
+        win_text = "完成 1 個主題的白板雙向連結整理，產出結構清晰的知識網絡"
+    elif "ai" in lower or "prompt" in lower:
+        win_text = "用課堂學到的專屬提示詞模版，成功輔助完成 1 份工作報告或文案"
+    elif "捷徑" in lower or "自動化" in lower:
+        win_text = "成功在日常生活中實際觸發並使用 3 次自動化捷徑工作流"
+    else:
+        win_text = "實踐課堂所學操作流程，向教練或同事分享 1 個效率提升體驗"
+
+    return {
+        "micro_habit": habit_text,
+        "key_action": shortcut_text,
+        "weekly_win": win_text,
+    }
 
 
 def get_note_quality(path: str, content: str = "") -> tuple[str, str, str]:
@@ -263,6 +318,7 @@ def resolve_note_detail(
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
+    micro_cards = extract_micro_action_cards(clean_content, note_title)
 
     return NoteDetail(
         filename=filename,
@@ -280,4 +336,5 @@ def resolve_note_detail(
         next_label=next_label,
         word_count=word_count,
         read_minutes=read_minutes,
+        micro_cards=micro_cards,
     )

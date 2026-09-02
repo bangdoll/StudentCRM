@@ -166,6 +166,48 @@
         .nav-btn .nav-date { font-size: 0.95rem; color: var(--accent-color); font-weight: 600; }
         .nav-btn.next { text-align: right; }
         .nav-spacer { flex: 1; }
+
+        /* Micro-action cards */
+        .micro-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 14px;
+        }
+        .micro-card-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+        .micro-card-item:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .card-habit { border-left: 3px solid #3fb950; }
+        .card-action { border-left: 3px solid #58a6ff; }
+        .card-win { border-left: 3px solid #f6c177; }
+        .card-icon { font-size: 1.3rem; flex-shrink: 0; line-height: 1.2; }
+        .card-label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .card-habit .card-label { color: #3fb950; }
+        .card-action .card-label { color: #58a6ff; }
+        .card-win .card-label { color: #f6c177; }
+        .card-text {
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: var(--text-primary);
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -180,7 +222,7 @@
                 <a href="/" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← 返回 StudentCRM 首頁</a>
                 {% endif %}
             </div>
-            <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
                 <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">首頁</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
                 {% if is_apple_ceo %}
@@ -218,6 +260,38 @@
                 <a href="/trigger_open?path={{ path }}" class="btn-open">本機開啟 ↗</a>
                 {% endif %}
             </div>
+
+            {% if micro_cards %}
+            <div class="micro-cards-section" style="margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color);">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                    <span style="font-size: 0.88rem; font-weight: 700; color: var(--accent-color); letter-spacing: 0.5px;">⚡ 本堂課後 3 張微行動卡 (Actionable Micro-Cards)</span>
+                    <span style="font-size: 0.75rem; color: var(--text-secondary);">零負擔課後實踐</span>
+                </div>
+                <div class="micro-cards-grid">
+                    <div class="micro-card-item card-habit">
+                        <div class="card-icon">📱</div>
+                        <div class="card-content">
+                            <span class="card-label">每日 3 分鐘小習慣</span>
+                            <p class="card-text">{{ micro_cards.micro_habit }}</p>
+                        </div>
+                    </div>
+                    <div class="micro-card-item card-action">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-content">
+                            <span class="card-label">肌肉記憶 / 核心快捷鍵</span>
+                            <p class="card-text">{{ micro_cards.key_action }}</p>
+                        </div>
+                    </div>
+                    <div class="micro-card-item card-win">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-content">
+                            <span class="card-label">本週 1 個小成就</span>
+                            <p class="card-text">{{ micro_cards.weekly_win }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
 
             <div class="markdown-body">
                 {{ content_html | safe }}

@@ -18,8 +18,12 @@ def digital_student_id(name: str) -> str:
     return f"digital-{romanized or digest}"
 
 
-def resolve_student_by_name(name: str, students: list[dict[str, Any]]) -> dict[str, Any] | None:
-    """依名稱或別名精確消歧義查找學員物件。"""
+def resolve_student_by_name(name: Any, students: Any) -> dict[str, Any] | None:
+    """依名稱或別名於學員列表中尋找匹配項目，支援 (name, students) 或 (students, name) 傳參。"""
+    if isinstance(name, list) and isinstance(students, str):
+        name, students = students, name
+    if not isinstance(students, list) or not isinstance(name, str):
+        return None
     target = normalize_digital_name(name)
     if not target:
         return None
@@ -38,9 +42,13 @@ def resolve_student_by_name(name: str, students: list[dict[str, Any]]) -> dict[s
     return None
 
 
-def get_student_by_id(sid: str, students: list[dict[str, Any]]) -> dict[str, Any] | None:
-    """依 UUID 取得學員物件。"""
-    return next((s for s in students if s.get("id") == sid), None)
+def get_student_by_id(sid: Any, students: Any) -> dict[str, Any] | None:
+    """依 UUID 取得學員物件，支援 (sid, students) 或 (students, sid) 傳參。"""
+    if isinstance(sid, list) and isinstance(students, str):
+        sid, students = students, sid
+    if not isinstance(students, list):
+        return None
+    return next((s for s in students if isinstance(s, dict) and s.get("id") == sid), None)
 
 
 def build_student_features(student: dict[str, Any]) -> dict[str, Any]:
@@ -167,3 +175,89 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
         return (ld < "2026-01-01", is_completed, -item["lessons_count"])
 
     return sorted(radar, key=radar_sort_key)
+
+
+def generate_preclass_briefing(student: dict[str, Any], teaching_notes: list[dict[str, Any]]) -> dict[str, Any]:
+    """為蔡教練產生課前 3 分鐘智慧備課卡 (Pre-Class Briefing)。"""
+    name = student.get("name", "學員")
+    cnt = student.get("lessons_count", 0)
+    cycle = student.get("current_cycle_lesson")
+    if cycle is None:
+        cycle = ((cnt % 8) or 8) if cnt > 0 else 1
+
+    # 1. 技能庫詞典
+    SKILL_KEYWORDS = [
+        ("Heptabase 白板與雙向連結", ["heptabase", "白板", "雙向連結", "卡片", "card"]),
+        ("Apple 跨裝置生態與捷徑", ["捷徑", "shortcut", "備忘錄", "提醒事項", "日曆", "螢幕鏡像", "icloud"]),
+        ("AI 提示詞與知識分身", ["ai", "prompt", "chatgpt", "claude", "gemini", "提示詞", "分身", "逐字稿"]),
+        ("數位檔案系統與 GTD 管理", ["檔案", "資料夾", "finder", "gtd", "收件匣", "標籤", "檔名"]),
+        ("語音筆記與個人輸入流", ["語音", "錄音", "輸入法", "whisper", "逐字", "聽寫"]),
+        ("iPad 晨間覆盤與手寫筆記", ["ipad", "pencil", "晨間", "覆盤", "日記", "手寫"]),
+    ]
+
+    # 2. 卡點詞典
+    CHALLENGE_KEYWORDS = [
+        "忘記", "卡住", "不熟練", "待練習", "尚未建立習慣", "找不到", "格式混亂",
+        "同步問題", "密碼", "未整理", "時間不夠", "操作生疏", "容易中斷"
+    ]
+
+    recent_notes = teaching_notes[:5] if teaching_notes else []
+    aggregated_text = ""
+    for n in recent_notes:
+        preview = n.get("preview") or ""
+        title = n.get("title") or ""
+        desc = n.get("description") or ""
+        aggregated_text += f" {title} {preview} {desc}".lower()
+
+    # 識別已掌握技能
+    mastered_skills = []
+    for skill_name, triggers in SKILL_KEYWORDS:
+        if any(trig in aggregated_text for trig in triggers):
+            mastered_skills.append(skill_name)
+    if not mastered_skills:
+        mastered_skills = ["數位核心工作環境配置", "個人數位資產盤點"]
+
+    # 識別近期卡點
+    recent_challenges = []
+    for ch in CHALLENGE_KEYWORDS:
+        if ch in aggregated_text:
+            recent_challenges.append(f"上次課堂反映「{ch}」相關操作，本週需跟進確認")
+            if len(recent_challenges) >= 2:
+                break
+    if not recent_challenges:
+        recent_challenges = ["日常操作節奏穩定，引導養成每日使用閉環"]
+
+    # 依週期推薦今日切入目標
+    if cycle in (1, 2):
+        stage_name = "🌱 第一階段：核心環境與工具配置"
+        suggested_goal = "鞏固開機工作流桌面佈局，驗收高頻肌肉記憶快捷鍵，確保各裝置同步順暢。"
+    elif cycle in (3, 4):
+        stage_name = "🌿 第二階段：數位大腦與知識庫搭建"
+        suggested_goal = "實戰 Heptabase 卡片與白板關聯，引導學員建立專屬晨間工作覆盤白板。"
+    elif cycle in (5, 6):
+        stage_name = "⚡ 第三階段：個人 AI 工作流與自動化"
+        suggested_goal = "導入專屬 AI 提示詞模版與語音快速輸入流，帶學員完成 1 項工作場景實戰輸出。"
+    else:
+        stage_name = "🏆 第四階段：知識分身與系統化總結"
+        suggested_goal = "盤點本輪 8 堂核心修煉產出，建立技能樹里程碑，並梳理下一輪進階探索藍圖。"
+
+    briefing_text = (
+        f"【蔡教練課前 3 分鐘備課備忘】\n"
+        f"學員：{name}（累計 {cnt} 堂 / 本輪第 {cycle}/8 堂）\n"
+        f"當前階段：{stage_name}\n"
+        f"🎯 已掌握重點：{', '.join(mastered_skills)}\n"
+        f"⚠️ 近期觀察與卡點：{'；'.join(recent_challenges)}\n"
+        f"💡 今日建議核心目標：{suggested_goal}"
+    )
+
+    return {
+        "student_name": name,
+        "lessons_count": cnt,
+        "current_cycle_lesson": cycle,
+        "stage_name": stage_name,
+        "mastered_skills": mastered_skills,
+        "recent_challenges": recent_challenges,
+        "suggested_goal": suggested_goal,
+        "briefing_text": briefing_text,
+        "recent_note_count": len(recent_notes),
+    }

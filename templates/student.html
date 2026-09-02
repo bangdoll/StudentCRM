@@ -21,8 +21,19 @@
 </head>
 <body>
     <header>
-        <div style="margin-bottom: 20px;">
-            <a href="/" style="color: var(--text-secondary);">← 返回列表</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+            <a href="/" style="color: var(--text-secondary);">← 返回學員列表</a>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="copy-reminder-btn" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 20px;"
+                        data-student="{{ student.name }}"
+                        data-text="{{ student.name }} 您好！&#10;這是為您整理的專屬個人「數位管理學習空間」：&#10;🔗 https://student-crm-flax.vercel.app/my/{{ student.id }}&#10;&#10;💡 小撇步：&#10;用 iPhone / iPad 的 Safari 打開後，點擊下方「分享」按鈕 ➔ 選擇「加入主畫面」，就能像 App 一樣隨時秒開複習歷次課堂重點與小練習囉！"
+                        onclick="copyRadarReminder(this)">
+                    📋 複製學員 LINE 專屬 Hub 邀請
+                </button>
+                <a href="/hub/{{ student.id }}" target="_blank" class="hub-header-link" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.35); border-radius: 20px; color: var(--accent-color); font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
+                    <span>📲</span> 預覽學員專屬視圖 (Hub) ➔
+                </a>
+            </div>
         </div>
         <h1>{{ student.name }}</h1>
         <div class="tag-list" style="justify-content: center; margin-top: 10px;">
@@ -97,6 +108,53 @@
                     <p class="meta-info">系統無預測資料</p>
                     {% endif %}
                 </div>
+
+                {% if briefing %}
+                <div class="student-card briefing-card" style="cursor: default; margin-top: 20px; border-color: rgba(88, 166, 255, 0.35); background: linear-gradient(180deg, rgba(22, 27, 34, 0.95), rgba(13, 17, 23, 0.98));">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 style="margin: 0; font-size: 1.05rem; display: flex; align-items: center; gap: 6px;">
+                            <span>📋</span> 課前 3 分鐘智慧備課
+                        </h3>
+                        <span class="note-badge badge-full" style="font-size: 0.72rem; padding: 2px 8px;">AI 備課</span>
+                    </div>
+                    
+                    <p style="font-size: 0.82em; color: var(--accent-color); margin: 0 0 10px; font-weight: 600;">
+                        {{ briefing.stage_name }}
+                    </p>
+
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 0.78rem; color: var(--text-secondary); display: block; margin-bottom: 4px;">🎯 已掌握核心技能：</span>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                            {% for skill in briefing.mastered_skills %}
+                            <span class="tag" style="font-size: 0.72rem; padding: 2px 7px; background: rgba(88, 166, 255, 0.12); color: #79c0ff; border: 1px solid rgba(88, 166, 255, 0.2);">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 12px;">
+                        <span style="font-size: 0.78rem; color: #f6c177; display: block; margin-bottom: 4px;">⚠️ 近期課堂卡點與觀察：</span>
+                        <ul style="margin: 0; padding-left: 16px; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5;">
+                            {% for ch in briefing.recent_challenges %}
+                            <li>{{ ch }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 14px; padding: 10px; background: rgba(56, 139, 253, 0.08); border-radius: 8px; border-left: 3px solid var(--accent-color);">
+                        <span style="font-size: 0.78rem; color: #79c0ff; display: block; margin-bottom: 2px; font-weight: 600;">💡 今日建議核心目標：</span>
+                        <p style="margin: 0; font-size: 0.8rem; color: var(--text-color); line-height: 1.5;">
+                            {{ briefing.suggested_goal }}
+                        </p>
+                    </div>
+
+                    <button type="button" class="copy-reminder-btn radar-copy-btn" style="width: 100%;"
+                            data-student="{{ student.name }}"
+                            data-text="{{ briefing.briefing_text|e }}"
+                            onclick="copyRadarReminder(this)">
+                        📋 複製完整備課備忘
+                    </button>
+                </div>
+                {% endif %}
             </aside>
 
             <main class="timeline-content">

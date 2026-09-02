@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel, Field
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -40,6 +40,7 @@ from student_service import (
     calculate_student_stats,
     get_global_renewal_radar,
     generate_student_renewal_reminder,
+    generate_preclass_briefing,
 )
 from schedule_service import (
     get_document_exceptions,
@@ -60,6 +61,7 @@ from note_service import (
     get_note_quality,
     get_architect_insight,
     resolve_note_detail,
+    extract_micro_action_cards,
 )
 
 app = FastAPI()
@@ -1401,6 +1403,7 @@ async def read_student(request: Request, student_id: str):
     student['features'] = analyze_student_features(student_id)
     student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
     renewal_message = generate_student_renewal_reminder(student)
+    briefing = generate_preclass_briefing(student, student_notes)
 
     if not file_path or not os.path.exists(file_path):
         teaching_records = student_gateway.load_teaching_records(student_id)
@@ -1411,6 +1414,7 @@ async def read_student(request: Request, student_id: str):
             "timeline_html": render_cloud_student_timeline(student, teaching_records),
             "student_id": student_id,
             "renewal_message": renewal_message,
+            "briefing": briefing,
         })
 
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -1431,6 +1435,51 @@ async def read_student(request: Request, student_id: str):
         "timeline_html": html_content,
         "student_id": student_id,
         "renewal_message": renewal_message,
+        "briefing": briefing,
+    })
+
+
+@app.get("/my/{token}")
+@app.get("/hub/{student_id}")
+async def read_student_hub(request: Request, token: str | None = None, student_id: str | None = None):
+    """【方案 A】專屬無感 Token 學習空間 (My Learning Hub)。
+
+    提供學員專屬視圖：八堂修煉技能樹、歷次筆記與微行動卡片。
+    100% 隱私與視野隔離，無需帳號密碼，支援 PWA 加入 iPhone 主畫面秒開。
+    """
+    lookup_key = token or student_id
+    if not lookup_key:
+        raise HTTPException(status_code=404, detail="請提供學員專屬 Token 或 ID")
+
+    redirects = get_merged_redirects()
+    if lookup_key in redirects:
+        target_id = redirects[lookup_key]
+        return RedirectResponse(url=f"/my/{target_id}", status_code=301)
+
+    students = load_students()
+    student = get_student_by_id(lookup_key, students)
+    if not student:
+        # 也嘗試用姓名解析
+        student = resolve_student_by_name(lookup_key, students)
+    if not student:
+        raise HTTPException(status_code=404, detail="找不到此專屬學員空間，請確認連結是否正確")
+
+    student_notes = get_student_teaching_notes(student)
+    for note in student_notes:
+        preview_content = note.get("preview") or ""
+        note["micro_cards"] = extract_micro_action_cards(preview_content, note.get("title") or "")
+
+    cnt = student.get("lessons_count") or len(student_notes)
+    cycle = student.get("current_cycle_lesson")
+    if cycle is None:
+        cycle = ((cnt % 8) or 8) if cnt > 0 else 1
+
+    return templates.TemplateResponse(request, "hub.html", {
+        "request": request,
+        "student": student,
+        "student_notes": student_notes,
+        "cycle_lesson": cycle,
+        "token": lookup_key,
     })
 
 

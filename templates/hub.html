@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.name }} 的專屬數位學習空間 | Student Hub</title>
+    
+    <!-- Apple Touch Icon & PWA (iPhone 主畫面專用圖標) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', path='/apple-touch-icon.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{{ url_for('static', path='/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', path='/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', path='/favicon-16x16.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='/favicon.svg') }}">
+    <link rel="manifest" href="{{ url_for('static', path='/site.webmanifest') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="{{ student.name }} Hub">
+    <meta name="application-name" content="{{ student.name }} Hub">
+    <meta name="theme-color" content="#0d1117">
+
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        .hub-hero {
+            max-width: 920px;
+            margin: 24px auto 32px;
+            padding: 32px 36px;
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.95), rgba(33, 38, 45, 0.9));
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .hub-hero::after {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.2) 0%, rgba(88, 166, 255, 0) 70%);
+            pointer-events: none;
+        }
+        .hub-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: rgba(56, 139, 253, 0.15);
+            border: 1px solid rgba(56, 139, 253, 0.35);
+            border-radius: 20px;
+            color: var(--accent-color);
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .hub-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin: 0 0 10px;
+            line-height: 1.3;
+        }
+        .hub-subtitle {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0 0 20px;
+            line-height: 1.6;
+        }
+
+        /* PWA prompt bar */
+        .pwa-tip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: #7ee787;
+            margin-top: 18px;
+        }
+
+        /* Progress Grid */
+        .progress-stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+        .stat-card {
+            background: rgba(13, 17, 23, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 18px;
+        }
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1.2;
+            margin-top: 4px;
+        }
+        .stat-lbl {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Skill Tree */
+        .skill-tree-section {
+            max-width: 920px;
+            margin: 0 auto 40px;
+        }
+        .skill-tree-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-tree-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+        }
+        .skill-node {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            position: relative;
+            transition: all 0.25s ease;
+        }
+        .skill-node.completed {
+            border-color: rgba(63, 185, 80, 0.45);
+            background: linear-gradient(180deg, rgba(63, 185, 80, 0.08), rgba(22, 27, 34, 0.8));
+        }
+        .skill-node.current {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 18px rgba(88, 166, 255, 0.25);
+            background: linear-gradient(180deg, rgba(88, 166, 255, 0.1), rgba(22, 27, 34, 0.85));
+        }
+        .skill-node.locked {
+            opacity: 0.65;
+            filter: grayscale(0.5);
+        }
+        .node-stage {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .skill-node.completed .node-stage { color: #3fb950; }
+        .skill-node.current .node-stage { color: #58a6ff; }
+        .skill-node.locked .node-stage { color: var(--text-secondary); }
+        .node-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin: 0 0 8px;
+        }
+        .node-desc {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* Hub Notes List */
+        .hub-notes-section {
+            max-width: 920px;
+            margin: 0 auto 60px;
+        }
+        .hub-note-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px 26px;
+            margin-bottom: 20px;
+            transition: all 0.2s;
+        }
+        .hub-note-card:hover {
+            border-color: rgba(88, 166, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        .note-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .note-title-link {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .note-title-link:hover {
+            color: var(--accent-color);
+        }
+        .micro-summary-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(240, 246, 252, 0.1);
+        }
+        .micro-chip {
+            font-size: 0.8rem;
+            line-height: 1.45;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px solid var(--border-color);
+        }
+        .micro-chip.habit { border-left: 3px solid #3fb950; }
+        .micro-chip.action { border-left: 3px solid #58a6ff; }
+        .micro-chip.win { border-left: 3px solid #f6c177; }
+        .micro-chip strong { display: block; font-size: 0.72rem; margin-bottom: 2px; }
+        .micro-chip.habit strong { color: #3fb950; }
+        .micro-chip.action strong { color: #58a6ff; }
+        .micro-chip.win strong { color: #f6c177; }
+    </style>
+</head>
+<body>
+    <div class="container" style="max-width: 960px; padding: 20px 16px;">
+        
+        <!-- Hero Header -->
+        <header class="hub-hero">
+            <div class="hub-badge">
+                <span>🛡️</span> 專屬學員修煉空間 · 隱私已安全隔離
+            </div>
+            <h1 class="hub-title">{{ student.name }} 的數位管理學習 Hub</h1>
+            <p class="hub-subtitle">
+                歡迎回到專屬空間！這裡完整收錄您在蔡教練指導下的所有課堂實戰筆記、微行動卡片與個人數位技能樹，陪伴您將數位技能轉化為不可取代的長期競爭力。
+            </p>
+
+            <div class="progress-stat-grid">
+                <div class="stat-card">
+                    <div class="stat-lbl">📊 累計授課</div>
+                    <div class="stat-val">{{ student.lessons_count or student_notes|length }} <span style="font-size: 0.9rem; font-weight: normal; color: var(--text-secondary);">堂</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-lbl">🎯 本期修煉進度</div>
+                    <div class="stat-val">{{ cycle_lesson }}/8 <span style="font-size: 0.9rem; font-weight: normal; color: var(--text-secondary);">堂</span></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-lbl">🌱 啟程日期</div>
+                    <div class="stat-val" style="font-size: 1.1rem; padding-top: 6px;">{{ student.first_lesson_date or '已建檔' }}</div>
+                </div>
+                {% if student.next_lesson %}
+                <div class="stat-card">
+                    <div class="stat-lbl">📅 下次預約</div>
+                    <div class="stat-val" style="font-size: 1.1rem; padding-top: 6px; color: #4fc3f7;">{{ student.next_lesson }}</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- PWA iPhone Pin Tip -->
+            <div class="pwa-tip">
+                <span style="font-size: 1.3rem;">📲</span>
+                <div>
+                    <strong>加入手機主畫面秒開：</strong> 點擊 Safari 底部的「分享」按鈕 ➔ 選擇「加入主畫面」，即可像原生 App 一樣隨時離線查看筆記與打卡小練習！
+                </div>
+            </div>
+        </header>
+
+        <!-- Skill Tree Section -->
+        <section class="skill-tree-section">
+            <div class="skill-tree-header">
+                <h2 style="margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+                    <span>🌳</span> 數位管理八堂修煉技能樹 (Skill Tree)
+                </h2>
+                <span class="tag" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color);">
+                    當前階段：第 {{ cycle_lesson }}/8 堂
+                </span>
+            </div>
+
+            <div class="skill-tree-grid">
+                <!-- Stage 1 -->
+                <div class="skill-node {% if cycle_lesson > 2 %}completed{% elif cycle_lesson in (1, 2) %}current{% else %}locked{% endif %}">
+                    <div class="node-stage">
+                        <span>階段 1 (第 1-2 堂)</span>
+                        <span>{% if cycle_lesson > 2 %}✅ 已結業{% elif cycle_lesson in (1, 2) %}⚡ 進行中{% else %}🔒 待解鎖{% endif %}</span>
+                    </div>
+                    <div class="node-title">🌱 核心環境與工具配置</div>
+                    <p class="node-desc">打造極簡無干擾桌面，建構跨裝置肌肉記憶快捷鍵與資料夾結構。</p>
+                </div>
+
+                <!-- Stage 2 -->
+                <div class="skill-node {% if cycle_lesson > 4 %}completed{% elif cycle_lesson in (3, 4) %}current{% else %}locked{% endif %}">
+                    <div class="node-stage">
+                        <span>階段 2 (第 3-4 堂)</span>
+                        <span>{% if cycle_lesson > 4 %}✅ 已結業{% elif cycle_lesson in (3, 4) %}⚡ 進行中{% else %}🔒 待解鎖{% endif %}</span>
+                    </div>
+                    <div class="node-title">🌿 數位大腦與知識庫搭建</div>
+                    <p class="node-desc">精熟 Heptabase 白板與雙向連結，落實晨間覆盤與卡片網絡化。</p>
+                </div>
+
+                <!-- Stage 3 -->
+                <div class="skill-node {% if cycle_lesson > 6 %}completed{% elif cycle_lesson in (5, 6) %}current{% else %}locked{% endif %}">
+                    <div class="node-stage">
+                        <span>階段 3 (第 5-6 堂)</span>
+                        <span>{% if cycle_lesson > 6 %}✅ 已結業{% elif cycle_lesson in (5, 6) %}⚡ 進行中{% else %}🔒 待解鎖{% endif %}</span>
+                    </div>
+                    <div class="node-title">⚡ 個人 AI 工作流與自動化</div>
+                    <p class="node-desc">建立專屬 Prompt 知識庫、語音快速輸入流與 iOS/Mac 自動化捷徑。</p>
+                </div>
+
+                <!-- Stage 4 -->
+                <div class="skill-node {% if cycle_lesson >= 8 %}completed{% elif cycle_lesson in (7, 8) %}current{% else %}locked{% endif %}">
+                    <div class="node-stage">
+                        <span>階段 4 (第 7-8 堂)</span>
+                        <span>{% if cycle_lesson >= 8 %}🏆 圓滿達成{% elif cycle_lesson in (7, 8) %}⚡ 衝刺中{% else %}🔒 待解鎖{% endif %}</span>
+                    </div>
+                    <div class="node-title">🏆 知識分身與系統化輸出</div>
+                    <p class="node-desc">產出一套屬於您自己的數位管理作業系統，邁向一人公司自驅運作。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="hub-notes-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="margin: 0; font-size: 1.3rem; display: flex; align-items: center; gap: 8px;">
+                    <span>📚</span> 歷次課堂實戰筆記 ({{ student_notes|length }} 篇)
+                </h2>
+                <span style="font-size: 0.85rem; color: var(--text-secondary);">點擊即可閱讀完整課堂細節</span>
+            </div>
+
+            {% if student_notes %}
+                {% for note in student_notes %}
+                <div class="hub-note-card">
+                    <div class="note-top">
+                        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <span class="digital-lesson-number" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">
+                                {{ note.lesson or '實戰課' }}
+                            </span>
+                            <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;">
+                                📅 {{ note.date or '課堂紀錄' }}
+                            </span>
+                        </div>
+                        <a href="/note?path={{ note.path|urlencode }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 14px;">
+                            閱讀完整筆記 ➔
+                        </a>
+                    </div>
+
+                    <a href="/note?path={{ note.path|urlencode }}" class="note-title-link">
+                        {{ note.title or note.filename }}
+                    </a>
+
+                    {% if note.preview %}
+                    <p style="margin: 8px 0 0; font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55;">
+                        {{ note.preview }}
+                    </p>
+                    {% endif %}
+
+                    {% if note.micro_cards %}
+                    <div class="micro-summary-bar">
+                        <div class="micro-chip habit">
+                            <strong>📱 每日 3 分鐘小習慣</strong>
+                            {{ note.micro_cards.micro_habit }}
+                        </div>
+                        <div class="micro-chip action">
+                            <strong>⚡ 肌肉記憶快捷鍵</strong>
+                            {{ note.micro_cards.key_action }}
+                        </div>
+                        <div class="micro-chip win">
+                            <strong>🎯 本週 1 個小成就</strong>
+                            {{ note.micro_cards.weekly_win }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="hub-note-card" style="text-align: center; padding: 40px 20px;">
+                    <p style="color: var(--text-secondary); margin: 0;">目前尚未有課堂筆記歸檔，新筆記將在課後自動同步發布於此！</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <footer style="text-align: center; margin: 40px 0 20px; font-size: 0.85rem; color: var(--text-secondary);">
+            蔡教練 ‧ 漫遊數位管理教學 · 為每位學員打造專屬數位大腦 🧠
+        </footer>
+    </div>
+
+    <!-- PWA Service Worker 離線快取註冊 -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
