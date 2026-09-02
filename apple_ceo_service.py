@@ -85,6 +85,7 @@ def load_apple_ceo_teaching_notes(
             "path": f"/01.Docs/teaching/{os.path.basename(file_path)}",
             "preview": preview or "點擊查看課堂筆記全文",
             "word_count": len(content),
+            "content": content,
         })
 
     notes.sort(key=lambda x: x["date"], reverse=True)

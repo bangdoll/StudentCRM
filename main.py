@@ -1547,6 +1547,7 @@ async def read_student(request: Request, student_id: str):
     })
 
 
+@app.get("/note", response_class=HTMLResponse)
 @app.get("/open_file", response_class=HTMLResponse)
 async def open_file(request: Request, path: str):
     filename = os.path.basename(path)
@@ -1554,8 +1555,20 @@ async def open_file(request: Request, path: str):
     note_title = filename.replace(".md", "")
     note_date = ""
     lesson_label = ""
+    is_apple_ceo = False
 
-    # Look up teaching record for metadata / content fallback
+    # 1. 優先比對「蘋果總裁班」教學筆記 (82 篇)
+    apple_program = load_apple_ceo_program()
+    apple_notes = apple_program.get("teaching_notes", [])
+    apple_match = next((
+        n for n in apple_notes
+        if n.get("path") == path
+        or n.get("filename") == filename
+        or os.path.basename(n.get("path", "")) == filename
+        or (path and path.endswith(n.get("filename", "---")))
+    ), None)
+
+    # 2. 次要比對數位管理教學筆記
     records = load_cloud_digital_management_notes()
     record = next((
         r for r in records
@@ -1565,7 +1578,13 @@ async def open_file(request: Request, path: str):
         or r.get("id") == path
     ), None)
 
-    if record:
+    if apple_match:
+        is_apple_ceo = True
+        note_title = apple_match.get("title", filename.replace(".md", ""))
+        note_date = apple_match.get("date", "")
+        lesson_label = "蘋果總裁班"
+        content = apple_match.get("content") or ""
+    elif record:
         note_title = record.get("title", "").lstrip("#")
         note_date = record.get("date", "")
         if record.get("lesson_number"):
@@ -1574,18 +1593,34 @@ async def open_file(request: Request, path: str):
                 lesson_label += f"-{record.get('lesson_sub')}"
             lesson_label += " 堂"
 
-    if os.path.exists(path) and path.startswith(BASE_DIR):
-        with open(path, 'r', encoding='utf-8', errors='ignore') as f:
-            content = f.read()
-    elif record:
-        content = record.get("content") or ""
-        if not content:
-            content = f"# {record.get('title')}\n\n**上課日期**：{record.get('date')}\n\n**堂數**：第 {record.get('lesson_number') or '-'} 堂\n\n**重點摘要**：\n\n{record.get('preview')}"
-    else:
-        return HTMLResponse(content="Insecure or missing path", status_code=403 if path.startswith("..") else 404)
+    # 如果本地實體檔案存在，以本地即時內容優先
+    resolved_paths = [
+        path,
+        os.path.join(BASE_DIR, path.lstrip('/')),
+        os.path.join(BASE_DIR, "01.Docs", "teaching", filename),
+    ]
+    for p in resolved_paths:
+        if p and os.path.exists(p) and os.path.isfile(p):
+            try:
+                with open(p, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                break
+            except OSError:
+                pass
+
+    if not content:
+        if apple_match:
+            content = f"# {apple_match.get('title')}\n\n**上課日期**：{apple_match.get('date')}\n\n**重點摘要**：\n\n{apple_match.get('preview')}"
+        elif record:
+            content = record.get("content") or f"# {record.get('title')}\n\n**上課日期**：{record.get('date')}\n\n**堂數**：第 {record.get('lesson_number') or '-'} 堂\n\n**重點摘要**：\n\n{record.get('preview')}"
+        else:
+            return HTMLResponse(content="<h3>找不到此筆記或路徑無效 (404)</h3><p><a href='/'>返回首頁</a></p>", status_code=404)
+
+    # 清除開頭 frontmatter（若有）
+    clean_markdown = re.sub(r"^---[\s\S]*?---\s*", "", content)
 
     import markdown
-    html_content = markdown.markdown(content, extensions=['tables', 'fenced_code', 'nl2br'])
+    html_content = markdown.markdown(clean_markdown, extensions=['tables', 'fenced_code', 'nl2br'])
 
     # Derive student_id and student_name
     sid = student_id_from_path(path)
@@ -1593,28 +1628,41 @@ async def open_file(request: Request, path: str):
         sid = record.get("student_id")
 
     student_name = ""
-    students = load_students()
-    student_match = next((s for s in students if s.get("id") == sid), None)
-    if student_match:
-        student_name = student_match.get("name", "")
-    elif record and record.get("student_name"):
-        student_name = record.get("student_name")
-
-    lesson_paths = get_student_lesson_paths(sid) if sid else []
+    if is_apple_ceo:
+        student_name = "蘋果總裁班"
+    else:
+        students = load_students()
+        student_match = next((s for s in students if s.get("id") == sid), None)
+        if student_match:
+            student_name = student_match.get("name", "")
+        elif record and record.get("student_name"):
+            student_name = record.get("student_name")
 
     prev_path = next_path = None
     prev_label = next_label = ""
 
-    if path in lesson_paths:
-        idx = lesson_paths.index(path)
-        if idx > 0:
-            prev_path = lesson_paths[idx - 1]
-            fname = os.path.basename(prev_path)
-            prev_label = parse_date_from_title(fname) or "上一堂"
-        if idx < len(lesson_paths) - 1:
-            next_path = lesson_paths[idx + 1]
-            fname = os.path.basename(next_path)
-            next_label = parse_date_from_title(fname) or "下一堂"
+    if is_apple_ceo and apple_notes:
+        note_filenames = [n.get("filename") for n in apple_notes]
+        if filename in note_filenames:
+            idx = note_filenames.index(filename)
+            if idx > 0:
+                prev_path = f"/note?path={apple_notes[idx - 1].get('path')}"
+                prev_label = apple_notes[idx - 1].get("date") or "上一篇"
+            if idx < len(apple_notes) - 1:
+                next_path = f"/note?path={apple_notes[idx + 1].get('path')}"
+                next_label = apple_notes[idx + 1].get("date") or "下一篇"
+    else:
+        lesson_paths = get_student_lesson_paths(sid) if sid else []
+        if path in lesson_paths:
+            idx = lesson_paths.index(path)
+            if idx > 0:
+                prev_path = lesson_paths[idx - 1]
+                fname = os.path.basename(prev_path)
+                prev_label = parse_date_from_title(fname) or "上一堂"
+            if idx < len(lesson_paths) - 1:
+                next_path = lesson_paths[idx + 1]
+                fname = os.path.basename(next_path)
+                next_label = parse_date_from_title(fname) or "下一堂"
 
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
@@ -1629,6 +1677,7 @@ async def open_file(request: Request, path: str):
         "path": path,
         "student_id": sid,
         "student_name": student_name,
+        "is_apple_ceo": is_apple_ceo,
         "prev_path": prev_path,
         "prev_label": prev_label,
         "next_path": next_path,

@@ -74,15 +74,24 @@ header {
 
 @media (max-width: 600px) {
     .brand-badge {
-        flex-direction: column;
+        flex-direction: row;
+        align-items: center;
         gap: 12px;
+        margin-bottom: 8px;
     }
     .brand-text {
-        text-align: center;
+        text-align: left;
     }
     .brand-logo {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+    .brand-text h1 {
+        font-size: 1.45rem;
+    }
+    .brand-text .meta-info {
+        font-size: 0.78rem;
     }
 }
 
@@ -1808,5 +1817,243 @@ th {
     background: rgba(46, 160, 67, 0.2);
     border-color: #3fb950;
     color: #3fb950;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   📱 Mobile View & iPhone Optimization (max-width: 640px)
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+    /* 1. Header & Brand Badge */
+    header {
+        padding: 20px 16px 14px;
+    }
+    .brand-badge {
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+    .brand-logo {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+    .brand-text {
+        text-align: left;
+    }
+    .brand-text h1 {
+        font-size: 1.45rem;
+        letter-spacing: -0.01em;
+    }
+    .brand-text .meta-info {
+        font-size: 0.78rem;
+        margin-top: 2px;
+        color: var(--text-secondary);
+    }
+
+    /* 2. Search Bar */
+    .search-form {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 0 14px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 12px;
+    }
+    .search-input-wrapper {
+        flex: 1;
+        min-width: 0;
+    }
+    .search-input {
+        padding: 10px 12px 10px 36px;
+        font-size: 0.88rem;
+        height: 42px;
+        box-sizing: border-box;
+        border-radius: 12px;
+    }
+    .search-kbd-hint {
+        display: none !important;
+    }
+    .search-icon {
+        left: 10px;
+        width: 16px;
+        height: 16px;
+    }
+    .search-btn {
+        padding: 0 14px;
+        font-size: 0.82rem;
+        height: 42px;
+        line-height: 42px;
+        flex-shrink: 0;
+        white-space: nowrap;
+        border-radius: 12px;
+    }
+
+    /* 3. Horizontal Scrolling Filter Carousel */
+    .filter-controls {
+        padding: 0;
+        width: 100%;
+        box-sizing: border-box;
+        gap: 6px;
+        margin-top: 10px;
+    }
+    .filter-pills {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 4px 16px 8px;
+        box-sizing: border-box;
+        gap: 8px;
+        scrollbar-width: none;
+    }
+    .filter-pills::-webkit-scrollbar {
+        display: none;
+    }
+    .filter-pill {
+        flex-shrink: 0;
+        white-space: nowrap;
+        font-size: 0.82rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        min-height: 34px;
+    }
+    .filter-status-text {
+        font-size: 0.78rem;
+        margin-top: 2px;
+        text-align: center;
+    }
+
+    /* 4. Portal Cards */
+    .container {
+        width: 100%;
+        padding: 0 14px;
+        margin: 12px auto 40px;
+        box-sizing: border-box;
+    }
+    .program-entry-card {
+        padding: 18px 16px;
+        margin-bottom: 12px;
+        border-radius: 16px;
+        display: block;
+    }
+    .program-entry-copy {
+        width: 100%;
+    }
+    .program-entry-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+    .program-entry-heading h2 {
+        font-size: 1.28rem;
+        margin: 0;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+    .inline-program-link {
+        width: 100%;
+        padding: 11px 16px;
+        font-size: 0.88rem;
+        text-align: center;
+        border-radius: 10px;
+        box-sizing: border-box;
+        display: block;
+    }
+    .program-entry-copy .meta-info {
+        font-size: 0.8rem;
+        line-height: 1.45;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .tag-list {
+        margin-top: 8px;
+        gap: 6px;
+    }
+    .tag {
+        font-size: 0.75rem;
+        padding: 3px 10px;
+    }
+
+    /* 5. Student Grid & Cards */
+    .student-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .student-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    .student-card h2 {
+        font-size: 1.22rem;
+        margin-bottom: 6px;
+    }
+    .student-card .meta-info {
+        font-size: 0.82rem;
+    }
+    .progress-bar-container {
+        margin: 10px 0 6px;
+    }
+
+    /* 6. Apple CEO Program View */
+    .program-nav-bar {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    .program-nav-pill {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+        flex-shrink: 0;
+    }
+    .summary-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .summary-card {
+        padding: 12px 14px;
+    }
+    .summary-card h3 {
+        font-size: 1.35rem;
+    }
+    .teaching-notes-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .teaching-note-card {
+        padding: 16px;
+        border-radius: 14px;
+    }
+    .teaching-note-title {
+        font-size: 1.05rem;
+        line-height: 1.35;
+    }
+    .teaching-note-preview {
+        font-size: 0.82rem;
+        line-height: 1.5;
+        -webkit-line-clamp: 2;
+    }
+
+    /* 7. Note Reader */
+    .note-container {
+        padding: 24px 18px;
+        margin: 16px auto 40px;
+        border-radius: 14px;
+    }
+    .note-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .note-header h1 {
+        font-size: 1.3rem;
+    }
 }
 

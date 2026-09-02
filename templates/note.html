@@ -172,7 +172,9 @@
     <div class="container">
         <div style="margin: 30px auto 0; max-width: 860px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
             <div>
-                {% if student_id %}
+                {% if is_apple_ceo %}
+                <a href="/program/apple-ceo" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回蘋果總裁班</a>
+                {% elif student_id %}
                 <a href="/student/{{ student_id }}" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回學員個人檔案{% if student_name %}（{{ student_name }}）{% endif %}</a>
                 {% else %}
                 <a href="/" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← 返回 StudentCRM 首頁</a>
@@ -181,7 +183,10 @@
             <div>
                 <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">首頁</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
-                {% if student_id %}
+                {% if is_apple_ceo %}
+                <a href="/program/apple-ceo" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">蘋果總裁班</a>
+                <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
+                {% elif student_id %}
                 <a href="/student/{{ student_id }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">{{ student_name or '學員檔案' }}</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
                 {% endif %}

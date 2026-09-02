@@ -231,6 +231,17 @@ def test_student_page_cloud_fallback(monkeypatch):
     assert "雲端摘要模式" in response.text
 
 
+def test_note_endpoint_apple_ceo():
+    """驗證 /note 路由能成功讀取蘋果總裁班教學筆記全文。"""
+    response = client.get("/note?path=/01.Docs/teaching/20260813%201359.蘋果總裁班.md")
+    assert response.status_code == 200
+    assert "1359.蘋果總裁班" in response.text
+    assert "返回蘋果總裁班" in response.text
+    assert "教學筆記" in response.text
 
-# 如果現在跑 `pytest`，若未來有任何人改爛了 get_note_quality 或少了 dotenv，
-# Sisyphus 都會第一時間捕捉到！
+
+def test_note_endpoint_filename_fallback():
+    """驗證 /note 路由即使僅傳入檔名也能在雲端 fallback 比對中成功解析。"""
+    response = client.get("/note?path=20260813%201359.蘋果總裁班.md")
+    assert response.status_code == 200
+    assert "1359.蘋果總裁班" in response.text
