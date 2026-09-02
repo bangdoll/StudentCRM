@@ -100,6 +100,16 @@ def generate_renewal_reminder_message(student_name: str, round_info: dict) -> st
     expiry_desc = f"，四個月效期至 {expiry}" if expiry else ""
     days_desc = f"（尚餘 {days} 天）" if days is not None and days >= 0 else ""
 
+    if attended >= 8:
+        return (
+            f"【蘋果總裁班・續班提醒】\n"
+            f"親愛的 {student_name} 您好！\n"
+            f"恭喜您在蘋果總裁班已圓滿完成本輪 8 堂課程！🎉\n"
+            f"感謝您這段期間的專注投入與扎實實作。\n"
+            f"為確保後續 AI 實戰與數位管理進度持續推進，特別為您保留下期專屬席位。\n"
+            f"若希望繼續續班下一輪（8 堂），歡迎隨時與教練聯繫確認最新時段安排！"
+        )
+
     return (
         f"【蘋果總裁班・續班預告提醒】\n"
         f"親愛的 {student_name} 您好！\n"
@@ -268,7 +278,8 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
         student_priority_count = 0
         student_total_attended = 0
         latest_session = ""
-        for round_item in student.get("rounds", []):
+        rounds = student.get("rounds", [])
+        for round_item in rounds:
             sessions = round_item.get("sessions", [])
             actual_sessions = [s for s in sessions if s]
             normalized_sessions = [extract_session_date(s) for s in actual_sessions]
@@ -359,14 +370,24 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
                     **round_item,
                 })
 
-            if "進行中" in round_item.get("label", ""):
+            # 判斷是否為學員之最新一期（rounds[0]）
+            is_latest_round = bool(rounds and round_item is rounds[0])
+            is_active_label = "進行中" in round_item.get("label", "") or (is_latest_round and "待續班" in round_item.get("label", ""))
+
+            # 若為最新一輪且已滿 8 堂（如方博敦/方醫師），亦視為活躍與待續班對象
+            if is_latest_round and attended_count >= 8 and not round_item.get("is_expired"):
+                is_active = True
+            else:
+                is_active = is_active_label
+
+            if is_active:
                 student_active_count += 1
                 active_rounds.append({
                     "student_name": student.get("student_name", ""),
                     **round_item,
                 })
-                # 續班提醒僅針對進行中且未逾期的學員
-                if attended_count in (6, 7) and not round_item.get("is_expired"):
+                # 續班提醒：包含 6/8, 7/8 接近完成，或最新一輪已滿 8 堂（8/8）待續約之學員
+                if (attended_count in (6, 7) or (is_latest_round and attended_count >= 8)) and not round_item.get("is_expired"):
                     student_priority_count += 1
                     followup_rounds.append({
                         "student_name": student.get("student_name", ""),

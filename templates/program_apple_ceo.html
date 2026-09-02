@@ -109,17 +109,23 @@
 
             <article class="ops-radar-card">
                 <p class="section-kicker">續班提醒</p>
-                <h2>{{ summary.followup_student_count }} 位學員接近完成</h2>
-                <p class="meta-info">6/8 或 7/8 的學員應先預告續班，避免上完才補追。</p>
+                <h2>{{ summary.followup_student_count }} 位學員待續班或接近完成</h2>
+                <p class="meta-info">已滿 8 堂或達 6/8、7/8 的學員應即時追蹤續班，保留專屬席位。</p>
                 {% if summary.followup_student_count %}
                 <div class="ops-radar-list">
                     {% for round in summary.followup_students %}
                     <div class="ops-radar-item" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
                         <div>
                             <strong>{{ round.student_name }}</strong>
+                            {% if round.attended_count >= 8 %}
+                            <span style="color: #58a6ff; font-weight: 700; margin-left: 6px;">8/8 堂（滿額待續班）</span>
+                            {% else %}
                             <span style="color: #f6c177; font-weight: 700; margin-left: 6px;">{{ round.attended_count }}/8 堂</span>
-                            {% if round.expiry_date %}
+                            {% endif %}
+                            {% if round.expiry_date and round.attended_count < 8 %}
                             <span class="meta-info" style="font-size: 0.76rem; display: block; color: var(--text-secondary);">效期至 {{ round.expiry_date }}（剩餘 {{ round.days_until_expiry }} 天）</span>
+                            {% elif round.attended_count >= 8 %}
+                            <span class="meta-info" style="font-size: 0.76rem; display: block; color: var(--text-secondary);">本輪 8 堂已圓滿完成，可洽詢續約下一期</span>
                             {% endif %}
                         </div>
                         <button type="button" class="btn-copy-reminder" data-msg="{{ round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字">
@@ -129,7 +135,7 @@
                     {% endfor %}
                 </div>
                 {% else %}
-                <p class="meta-info">目前沒有 6/8 或 7/8 的學員。</p>
+                <p class="meta-info">目前沒有待續班的學員。</p>
                 {% endif %}
             </article>
         </section>
@@ -336,7 +342,7 @@
                 <div class="filter-pills" id="roundFilterPills">
                     <button type="button" class="filter-pill active" data-round-filter="all">全部學員 ({{ student_rounds|length }})</button>
                     <button type="button" class="filter-pill" data-round-filter="active">🟢 活躍進行中 ({{ summary.active_student_count }})</button>
-                    <button type="button" class="filter-pill" data-round-filter="followup">🎯 接近結訓 ({{ summary.followup_student_count }})</button>
+                    <button type="button" class="filter-pill" data-round-filter="followup">🎯 待續班 / 接近完成 ({{ summary.followup_student_count }})</button>
                     <button type="button" class="filter-pill" data-round-filter="history">📁 歷史學員 ({{ student_rounds|length - summary.active_student_count }})</button>
                 </div>
                 <div class="round-accordion-controls">
@@ -349,7 +355,7 @@
                 {% for student in student_rounds %}
                 {% set ns = namespace(priority_count=0, active_count=0) %}
                 {% for round in student.rounds %}
-                    {% if '進行中' in round.label %}
+                    {% if '進行中' in round.label or (loop.first and '待續班' in round.label) or (loop.first and round.attended_count >= 8 and not round.is_expired) %}
                         {% set ns.active_count = ns.active_count + 1 %}
                     {% endif %}
                     {% if round.attended_count in (6, 7) or round.is_expiring_soon or round.is_expired or round.attended_count >= 8 %}
@@ -360,7 +366,7 @@
                 {% set history_rounds = student.rounds[1:] %}
                 <details class="round-student-card student-accordion"
                          data-is-active="{{ 'true' if ns.active_count > 0 else 'false' }}"
-                         data-is-followup="{{ 'true' if (latest_round and '進行中' in latest_round.label and not latest_round.is_expired and latest_round.attended_count in (6, 7)) else 'false' }}"
+                         data-is-followup="{{ 'true' if (latest_round and not latest_round.is_expired and (latest_round.attended_count in (6, 7) or latest_round.attended_count >= 8)) else 'false' }}"
                          {% if ns.priority_count > 0 or ns.active_count > 0 %}open{% endif %}>
                     <summary class="round-student-summary">
                         <div class="round-student-header">

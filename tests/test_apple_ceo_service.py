@@ -162,6 +162,40 @@ class TestValidityRules:
         assert "過期學員Andy" not in followup_names
         assert summary["followup_student_count"] == 1
 
+    def test_eight_sessions_completed_triggers_followup_reminder(self):
+        """最新梯次已滿 8 堂之學員（如方博敦＝方醫師），應納入續班提醒名單並產出完訓恭賀續班訊息。"""
+        fake_program = {
+            "attendance_records": [],
+            "venue_ledger": [],
+            "student_rounds": [
+                {
+                    "student_name": "方博敦",
+                    "aliases": ["方醫師", "方柏敦"],
+                    "rounds": [
+                        {
+                            "label": "2026 夏季梯次 (已結訓)",
+                            "payment_date": "2026-06-25",
+                            "sessions": [
+                                "2026-06-25", "2026-07-02", "2026-07-09", "2026-07-16",
+                                "2026-07-23", "2026-07-30", "2026-08-06", "2026-08-27",
+                            ],
+                        }
+                    ],
+                }
+            ],
+            "tuition_records": [],
+        }
+
+        summary = summarize_apple_ceo_program(fake_program, today=date(2026, 9, 2))
+        followup_names = [s["student_name"] for s in summary["followup_students"]]
+        assert "方博敦" in followup_names
+        assert summary["followup_student_count"] == 1
+
+        fang = summary["followup_students"][0]
+        assert fang["attended_count"] == 8
+        assert "圓滿完成本輪 8 堂課程" in fang["reminder_message"]
+        assert "續班" in fang["reminder_message"]
+
 
 class TestAttendancePreview:
     def test_preview_appends_session(self):

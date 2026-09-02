@@ -22,7 +22,7 @@
   },
   "active_participants": [
     "劉邦寧",
-    "方柏敦",
+    "方博敦",
     "Roger老師",
     "Lucia",
     "王太太",
@@ -1052,14 +1052,15 @@
   ],
   "student_rounds": [
     {
-      "student_name": "方柏敦",
+      "student_name": "方博敦",
       "aliases": [
-        "方醫師"
+        "方醫師",
+        "方柏敦"
       ],
       "rounds": [
         {
-          "label": "2026 夏季梯次 (已結訓)",
-          "payment_status": "6/25 收到方醫師學費 $8000 (滿 8 堂結訓)",
+          "label": "2026 夏季梯次 (滿 8 堂待續班)",
+          "payment_status": "6/25 收到方醫師學費 $8000 (滿 8 堂待續班)",
           "sessions": [
             "2026-06-25",
             "2026-07-02",
@@ -1517,7 +1518,7 @@
     },
     {
       "date": "2026-06-25",
-      "student_name": "方柏敦",
+      "student_name": "方博敦",
       "amount": 8000,
       "note": "收到方醫師學費 $8000"
     },
