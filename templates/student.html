@@ -37,8 +37,20 @@
                     {% if student.next_lesson %}
                     <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">下次上課：{{ student.next_lesson }}</p>
                     {% endif %}
+                    {% set lessons = student.meta.lessons_count or student.lessons_count or 0 %}
                     <p class="meta-info">首次授課：{{ student.meta.first_lesson_date or '未記錄' }}</p>
-                    <p class="meta-info">累計次數：{{ student.meta.lessons_count or student.lessons_count or 0 }} 堂</p>
+                    <p class="meta-info">累計次數：{{ lessons }} 堂</p>
+
+                    {% if lessons > 0 and (lessons % 8 == 7 or lessons % 8 == 0) %}
+                    <div style="margin-top: 14px; padding: 12px 14px; background: rgba(246, 193, 119, 0.12); border: 1px solid rgba(246, 193, 119, 0.35); border-radius: 12px;">
+                        <strong style="color: #f6c177; font-size: 0.88em; display: flex; align-items: center; gap: 6px;">
+                            <span>🎯</span> 本輪結訓提示 (第 {{ 8 if lessons % 8 == 0 else 7 }}/8 堂)
+                        </strong>
+                        <p style="margin: 6px 0 0; font-size: 0.8em; color: var(--text-secondary); line-height: 1.5;">
+                            本期進度即將圓滿，建議課堂中複盤成效並提早確認下一輪續課目標。
+                        </p>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="student-card" style="cursor: default; margin-top: 20px;">

@@ -101,50 +101,187 @@ header {
     color: #7ee787;
 }
 
-/* ── Search bar ───────────────────────────────────────────── */
+/* ── Search bar & Instant Filter Controls ───────────────────────── */
 .search-form {
     display: flex;
     justify-content: center;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
     margin-top: 20px;
     padding: 0 20px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-secondary);
+    pointer-events: none;
 }
 
 .search-input {
     width: 100%;
-    max-width: 500px;
-    background: rgba(22, 27, 34, 0.9);
+    background: rgba(22, 27, 34, 0.95);
     border: 1px solid var(--border-color);
-    border-radius: 10px;
-    padding: 10px 18px;
+    border-radius: 12px;
+    padding: 12px 42px 12px 42px;
     color: var(--text-primary);
     font-size: 0.95rem;
     font-family: inherit;
     outline: none;
-    transition: border-color 0.2s;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
 }
 
 .search-input:focus {
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.25), 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
-.search-input::placeholder {
+.search-kbd-hint {
+    position: absolute;
+    right: 14px;
+    padding: 2px 7px;
+    font-size: 0.75rem;
+    font-weight: 600;
     color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    pointer-events: none;
 }
 
 .search-btn {
-    background: var(--accent-color);
+    background: linear-gradient(135deg, #238636, #2ea043);
     color: white;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    font-size: 0.95rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 0.92rem;
+    font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: opacity 0.2s;
+    white-space: nowrap;
+    transition: all 0.2s ease;
 }
 
-.search-btn:hover { opacity: 0.8; }
+.search-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* ── Filter Pills & Counter ─────────────────────────── */
+.filter-controls {
+    max-width: 680px;
+    margin: 14px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.filter-pill {
+    background: rgba(22, 27, 34, 0.7);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.filter-pill:hover {
+    color: var(--text-primary);
+    border-color: #58a6ff;
+    background: rgba(88, 166, 255, 0.1);
+}
+
+.filter-pill.active {
+    background: rgba(88, 166, 255, 0.2);
+    border-color: #58a6ff;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(88, 166, 255, 0.25);
+}
+
+.pill-count {
+    background: rgba(255, 255, 255, 0.12);
+    padding: 1px 6px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+}
+
+.filter-status-text {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.filter-status-text span {
+    color: #58a6ff;
+    font-weight: 700;
+}
+
+/* ── Empty State ─────────────────────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px dashed var(--border-color);
+    margin: 40px auto;
+    max-width: 500px;
+}
+
+.empty-icon {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+}
+
+.btn-reset-filter {
+    margin-top: 16px;
+    background: rgba(88, 166, 255, 0.15);
+    border: 1px solid #58a6ff;
+    color: #58a6ff;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-reset-filter:hover {
+    background: #58a6ff;
+    color: #0d1117;
+}
 
 /* ── Student Wall ─────────────────────────────────────────── */
 .student-grid {

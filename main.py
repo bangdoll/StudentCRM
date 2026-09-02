@@ -13,6 +13,7 @@ import subprocess
 import uuid
 from datetime import datetime, timedelta
 import calendar
+import time
 from data_gateway import StudentDataGateway
 from teaching_sync import (
     build_student_match_index,
@@ -1314,8 +1315,18 @@ def student_id_from_path(path: str) -> str:
     return ""
 
 
-def analyze_student_features(student_id: str) -> dict:
+_FEATURES_CACHE: dict[str, tuple[float, dict]] = {}
+_FEATURES_CACHE_TTL = 300  # 5 minutes in-memory cache
+
+
+def analyze_student_features(student_id: str, use_cache: bool = True) -> dict:
     """Extract features from student's historical data for AI prediction."""
+    now_ts = time.time()
+    if use_cache and student_id in _FEATURES_CACHE:
+        cached_ts, cached_features = _FEATURES_CACHE[student_id]
+        if now_ts - cached_ts < _FEATURES_CACHE_TTL:
+            return dict(cached_features)
+
     paths = get_student_lesson_paths(student_id)
     features = {
         'days_since_last_lesson': -1,
@@ -1382,6 +1393,7 @@ def analyze_student_features(student_id: str) -> dict:
                 features['average_word_count'] = total_words // valid_notes
                 features['lessons_reviewed'] = valid_notes
 
+    _FEATURES_CACHE[student_id] = (now_ts, dict(features))
     return features
 
 
