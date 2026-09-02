@@ -47,6 +47,9 @@
         </nav>
 
         <nav class="program-subnav-pills" id="programSubnav" aria-label="章節快捷導航">
+            {% if summary.completed_student_count %}
+            <a href="#completionAlertSection" class="subnav-pill" style="border-color: rgba(255, 123, 114, 0.45); color: #ff7b72; font-weight: 700; background: rgba(255, 123, 114, 0.1);">🚨 完成通知 ({{ summary.completed_student_count }})</a>
+            {% endif %}
             <a href="#teachingNotesSection" class="subnav-pill active">📝 課堂教學紀錄 ({{ teaching_notes|length }})</a>
             <a href="#radarSection" class="subnav-pill">🎯 續班雷達</a>
             <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
@@ -56,6 +59,41 @@
             <a href="#attendanceSection" class="subnav-pill">📅 上課紀錄 ({{ attendance_records|length }}堂)</a>
             <a href="#previewSection" class="subnav-pill">⚡ HITL預覽</a>
         </nav>
+
+        {% if summary.completed_student_count %}
+        <section class="completion-alert-card" id="completionAlertSection" style="margin-bottom: 24px; border: 1.5px solid rgba(255, 123, 114, 0.45); box-shadow: 0 4px 24px rgba(255, 123, 114, 0.15);">
+            <div class="panel-header" style="align-items: center;">
+                <div>
+                    <p class="section-kicker" style="color: #ff7b72; font-weight: 700; margin-bottom: 4px;">🚨 結訓重要通知・置頂優先處理</p>
+                    <h2 style="font-size: 1.35rem; margin: 0 0 4px 0;">完成通知：已有 {{ summary.completed_student_count }} 位學員達到 8 堂</h2>
+                    <p class="meta-info" style="margin: 0;">已達 8 堂結訓標準，請即時發送續班提醒、確認下一輪梯次或安排續約保留席位。</p>
+                </div>
+                <span class="completion-alert-badge" style="background: rgba(255, 123, 114, 0.2); border-color: rgba(255, 123, 114, 0.5); color: #ff7b72; font-weight: 700;">請通知續班</span>
+            </div>
+            <div class="completion-alert-list" style="margin-top: 14px;">
+                {% for round in summary.completed_students %}
+                <div class="completion-alert-item" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; background: rgba(13, 17, 23, 0.65); border: 1px solid rgba(255, 123, 114, 0.25); border-radius: 12px;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <strong style="font-size: 1.18rem; color: #fff;">{{ round.student_name }}</strong>
+                            <span class="tag tag-success" style="font-weight: 700; font-size: 0.82rem; padding: 3px 8px;">已滿 8/8 堂（圓滿結訓）</span>
+                            <span class="tag" style="font-size: 0.78rem; padding: 3px 8px;">進行中 1 筆</span>
+                            <span class="tag" style="font-size: 0.78rem; padding: 3px 8px;">累計 {{ round.total_attended }} 堂</span>
+                        </div>
+                        <p class="meta-info" style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-secondary);">
+                            梯次：{{ round.label or '2026 夏季梯次 (滿 8 堂待續班)' }} ｜ 上次上課：{{ round.latest_session or '最近' }}
+                        </p>
+                    </div>
+                    {% if round.reminder_message %}
+                    <button type="button" class="btn-copy-reminder" data-msg="{{ round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字" style="padding: 7px 14px; font-size: 0.85rem; flex-shrink: 0; min-height: 38px;">
+                        📋 複製提醒文案
+                    </button>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
 
         <section class="panel-card" id="teachingNotesSection">
             <div class="panel-header">
@@ -493,28 +531,6 @@
                 {% endfor %}
             </div>
         </section>
-
-        {% if summary.completed_student_count %}
-        <section class="completion-alert-card">
-            <div class="panel-header">
-                <div>
-                    <p class="section-kicker">完成通知</p>
-                    <h2>已有 {{ summary.completed_student_count }} 位學員達到 8 堂</h2>
-                    <p class="meta-info">這些學員已達單位計算上限，請通知續班、轉班或續費提醒。</p>
-                </div>
-                <span class="completion-alert-badge">請通知</span>
-            </div>
-            <div class="completion-alert-list">
-                {% for round in summary.completed_students %}
-                <div class="completion-alert-item">
-                    <strong>{{ round.student_name }}</strong>
-                    <span>學員本人</span>
-                    <span>{{ round.attended_count }}/8</span>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
 
         {% if summary.expiring_soon_student_count %}
         <section class="completion-alert-card expiring-alert-card">
