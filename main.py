@@ -316,8 +316,12 @@ def parse_digital_management_title(summary: str) -> dict:
 def load_digital_management_calendar_events() -> list[dict]:
     cache_path = DIGITAL_MANAGEMENT_CALENDAR_CACHE
     if not os.path.exists(cache_path):
+        data_cache_path = os.path.join(APP_DIR, "data", "digital_management_calendar_events.json")
         bundled_cache_path = os.path.join(APP_DIR, "cache", "digital_management_calendar_events.json")
-        cache_path = bundled_cache_path if os.path.exists(bundled_cache_path) else cache_path
+        if os.path.exists(data_cache_path):
+            cache_path = data_cache_path
+        elif os.path.exists(bundled_cache_path):
+            cache_path = bundled_cache_path
     if not os.path.exists(cache_path):
         return []
     try:
