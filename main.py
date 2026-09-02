@@ -1542,9 +1542,6 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
     students = load_students()
     student = get_student_by_id(lookup_key, students)
     if not student:
-        # 也嘗試用姓名解析
-        student = resolve_student_by_name(lookup_key, students)
-    if not student:
         raise HTTPException(status_code=404, detail="找不到此專屬學員空間，請確認連結是否正確")
 
     student_notes = get_student_teaching_notes(student)

@@ -70,6 +70,13 @@ def test_read_student_hub_not_found():
     assert response.status_code == 404
 
 
+def test_guessable_names_and_slugs_are_strictly_blocked():
+    """安全測試：嚴格禁止透過猜測姓名、短網址或公開字眼存取學員空間，僅限不可猜測之私密 UUID。"""
+    for bad_slug in ["apple-ceo", "apple", "蘋果總裁班", "senior-ai", "資深少年", "Charlotte", "Amy", "張素幸"]:
+        resp = client.get(f"/my/{bad_slug}")
+        assert resp.status_code == 404, f"Slug '{bad_slug}' should return 404 but got {resp.status_code}"
+
+
 def test_coach_magic_link_flow_and_privacy_lock():
     # 1. 訪客未授權進入首頁 -> 顯示 403 隱私保護鎖定頁
     unauth_resp = client.get("/", headers={"X-Test-Auth": "true"})
