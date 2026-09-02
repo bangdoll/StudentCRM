@@ -909,6 +909,10 @@ def summarize_apple_ceo_program(program_data: dict) -> dict:
     ledger = program_data.get("venue_ledger", [])
     student_rounds = program_data.get("student_rounds", [])
     active_participants = program_data.get("active_participants", [])
+    tuition_records = program_data.get("tuition_records", [])
+
+    total_tuition = sum(item.get("amount", 0) for item in tuition_records)
+    tuition_count = len(tuition_records)
 
     latest_attendance = attendance_records[-1] if attendance_records else {}
     latest_ledger = ledger[-1] if ledger else {}
@@ -1055,6 +1059,9 @@ def summarize_apple_ceo_program(program_data: dict) -> dict:
         "student_statuses": student_statuses,
         "balance_status": balance_status,
         "balance_note": balance_note,
+        "total_tuition": total_tuition,
+        "total_tuition_label": f"${total_tuition:,.0f}",
+        "tuition_count": tuition_count,
     }
 
 

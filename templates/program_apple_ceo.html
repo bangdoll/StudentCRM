@@ -35,49 +35,23 @@
             <a href="{{ program.url }}" class="program-nav-button program-nav-button-secondary">課程頁面</a>
         </nav>
 
-        <section class="panel-card attendance-preview-card">
-            <div class="panel-header">
-                <div>
-                    <p class="section-kicker">HITL 預覽</p>
-                    <h2>預覽新增上課紀錄</h2>
-                    <p class="meta-info">先檢查會影響哪些學員期別；此操作只回傳差異，不寫入正式資料。</p>
-                </div>
-                <span class="tag tag-danger">will_write=false</span>
-            </div>
-            <form class="attendance-preview-form" id="attendancePreviewForm">
-                <label class="attendance-preview-field">
-                    <span>上課日期</span>
-                    <input id="attendancePreviewDate" name="date" type="date" required>
-                </label>
-                <label class="attendance-preview-field">
-                    <span>場地</span>
-                    <input id="attendancePreviewVenue" name="venue" type="text" value="{{ venue.name }}" required>
-                </label>
-                <label class="attendance-preview-field attendance-preview-field-wide">
-                    <span>出席名單</span>
-                    <textarea id="attendancePreviewAttendees" name="attendees" rows="3" placeholder="Roger老師、王太太、王先生" required></textarea>
-                </label>
-                <label class="attendance-preview-field attendance-preview-field-wide">
-                    <span>備註</span>
-                    <input id="attendancePreviewNote" name="note" type="text" placeholder="可留空">
-                </label>
-                <div class="attendance-preview-actions">
-                    <button class="attendance-preview-button" type="submit">產生差異預覽</button>
-                    <span class="meta-info">分隔符可用頓號、逗號或換行。</span>
-                </div>
-            </form>
-            <div class="attendance-preview-result" id="attendancePreviewResult" aria-live="polite">
-                <p class="meta-info">輸入日期與出席名單後，這裡會列出每位學員的預計課次變化。</p>
-            </div>
-        </section>
+        <nav class="program-subnav-pills" id="programSubnav" aria-label="章節快捷導航">
+            <a href="#radarSection" class="subnav-pill active">🎯 續班雷達</a>
+            <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
+            <a href="#studentsSection" class="subnav-pill">👥 學員進度 ({{ student_rounds|length }})</a>
+            <a href="#tuitionSection" class="subnav-pill">💳 學費收取</a>
+            <a href="#ledgerSection" class="subnav-pill">🏢 場地流水 (餘額 ${{ venue_ledger[-1].balance_after }})</a>
+            <a href="#attendanceSection" class="subnav-pill">📅 上課紀錄 ({{ attendance_records|length }}堂)</a>
+            <a href="#previewSection" class="subnav-pill">⚡ HITL預覽</a>
+        </nav>
 
-        <section class="ops-radar-grid">
+        <section class="ops-radar-grid" id="radarSection">
             <article class="ops-radar-card {% if summary.latest_balance < 0 %}ops-radar-card-danger{% endif %}">
                 <p class="section-kicker">本週優先</p>
                 <h2>{{ summary.balance_status }}</h2>
                 <p class="meta-info">{{ summary.balance_note }}</p>
                 <div class="ops-radar-meta">
-                    <span class="tag {% if summary.latest_balance < 0 %}tag-danger{% endif %}">目前餘額：{{ summary.latest_balance_label }}</span>
+                    <span class="tag {% if summary.latest_balance < 0 %}tag-danger{% else %}tag-success{% endif %}">場地結餘：{{ summary.latest_balance_label }}</span>
                     <span class="tag">最近一堂：{{ summary.latest_session_date }}</span>
                 </div>
             </article>
@@ -92,7 +66,7 @@
                     <div class="ops-radar-item">
                         <strong>{{ round.student_name }}</strong>
                         <span>學員本人</span>
-                        <span>{{ round.attended_count }}/8</span>
+                        <span style="color: #f6c177; font-weight: 700;">{{ round.attended_count }}/8 堂</span>
                     </div>
                     {% endfor %}
                 </div>
@@ -102,11 +76,21 @@
             </article>
         </section>
 
-        <section class="summary-grid">
+        <section class="summary-grid" id="financialSection">
+            <article class="summary-card">
+                <p class="summary-label">累計學費入帳</p>
+                <h3 style="color: #3fb950;">{{ summary.total_tuition_label }}</h3>
+                <p class="meta-info">共 {{ summary.tuition_count }} 筆每輪 $8,000</p>
+            </article>
+            <article class="summary-card">
+                <p class="summary-label">場地可用結餘</p>
+                <h3 class="{% if summary.latest_balance < 0 %}danger-text{% else %}positive-text{% endif %}">{{ summary.latest_balance_label }}</h3>
+                <p class="meta-info">{{ summary.balance_status }}</p>
+            </article>
             <article class="summary-card">
                 <p class="summary-label">活躍學員</p>
                 <h3>{{ summary.active_student_count }}</h3>
-                <p class="meta-info">先聚焦目前仍在上課的學員</p>
+                <p class="meta-info">當前持續到課人數</p>
             </article>
             <article class="summary-card">
                 <p class="summary-label">最近一堂</p>
@@ -114,18 +98,13 @@
                 <p class="meta-info">平均出席 {{ summary.avg_headcount }} 人</p>
             </article>
             <article class="summary-card">
-                <p class="summary-label">場地餘額</p>
-                <h3 class="{% if summary.latest_balance < 0 %}danger-text{% endif %}">{{ summary.latest_balance_label }}</h3>
-                <p class="meta-info">{{ summary.balance_status }}</p>
-            </article>
-            <article class="summary-card">
-                <p class="summary-label">需留意學員</p>
-                <h3>{{ summary.followup_student_count + summary.expiring_soon_student_count + summary.completed_student_count + summary.expired_student_count }}</h3>
-                <p class="meta-info">先看學員本人，再往下看個別歷次紀錄</p>
+                <p class="summary-label">續班追蹤</p>
+                <h3 style="color: #f6c177;">{{ summary.followup_student_count }}</h3>
+                <p class="meta-info">6/8 或 7/8 建議預告續費</p>
             </article>
         </section>
 
-        <section class="panel-card">
+        <section class="panel-card" id="activeStripSection">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">目前有在上課</p>
@@ -162,7 +141,7 @@
                 </ul>
             </article>
 
-            <article class="panel-card">
+            <article class="panel-card" id="ledgerSection">
                 <div class="panel-header">
                     <div>
                         <p class="section-kicker">場地費流水</p>
@@ -209,13 +188,13 @@
             </article>
         </section>
 
-        <section class="panel-card" style="margin-top: 24px;">
+        <section class="panel-card" id="tuitionSection" style="margin-top: 24px;">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">學費收取</p>
                     <h2>學員梯次學費入帳明細</h2>
                 </div>
-                <span class="tag tag-success">共 {{ tuition_records|length }} 筆入帳（每輪 $8,000）</span>
+                <span class="tag tag-success">共 {{ tuition_records|length }} 筆入帳（總計 {{ summary.total_tuition_label }}）</span>
             </div>
             <div class="table-wrap">
                 <table>
@@ -228,9 +207,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in tuition_records %}
+                        {% for item in tuition_records|reverse %}
                         <tr>
-                            <td>{{ item.date }}</td>
+                            <td><strong>{{ item.date }}</strong></td>
                             <td><strong>{{ item.student_name }}</strong></td>
                             <td class="positive-text" style="font-weight: 700;">${{ item.amount }}</td>
                             <td>{{ item.note }}</td>
@@ -241,7 +220,7 @@
             </div>
         </section>
 
-        <section class="panel-card">
+        <section class="panel-card" id="attendanceSection">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">上課紀錄</p>
@@ -285,7 +264,7 @@
             {% endif %}
         </section>
 
-        <section class="panel-card">
+        <section class="panel-card" id="studentsSection">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">學員紀錄</p>
@@ -293,6 +272,20 @@
                 </div>
                 <span class="meta-info">先處理目前仍在上的學員；快到期與過期提醒移到這區塊後面。</span>
             </div>
+
+            <div class="student-round-filter-bar">
+                <div class="filter-pills" id="roundFilterPills">
+                    <button type="button" class="filter-pill active" data-round-filter="all">全部學員 ({{ student_rounds|length }})</button>
+                    <button type="button" class="filter-pill" data-round-filter="active">🟢 活躍進行中 ({{ summary.active_student_count }})</button>
+                    <button type="button" class="filter-pill" data-round-filter="followup">🎯 接近結訓 ({{ summary.followup_student_count }})</button>
+                    <button type="button" class="filter-pill" data-round-filter="history">📁 歷史學員 ({{ student_rounds|length - summary.active_student_count }})</button>
+                </div>
+                <div class="round-accordion-controls">
+                    <button type="button" id="expandAllRoundsBtn" class="pill-btn-small">全部展開</button>
+                    <button type="button" id="collapseAllRoundsBtn" class="pill-btn-small">全部收合</button>
+                </div>
+            </div>
+
             <div class="round-grid">
                 {% for student in student_rounds %}
                 {% set ns = namespace(priority_count=0, active_count=0) %}
@@ -304,7 +297,12 @@
                         {% set ns.priority_count = ns.priority_count + 1 %}
                     {% endif %}
                 {% endfor %}
-                <details class="round-student-card student-accordion" {% if ns.priority_count > 0 or ns.active_count > 0 %}open{% endif %}>
+                {% set latest_round = student.rounds[0] if student.rounds else None %}
+                {% set history_rounds = student.rounds[1:] %}
+                <details class="round-student-card student-accordion"
+                         data-is-active="{{ 'true' if ns.active_count > 0 else 'false' }}"
+                         data-is-followup="{{ 'true' if (latest_round and latest_round.attended_count in (6, 7)) else 'false' }}"
+                         {% if ns.priority_count > 0 or ns.active_count > 0 %}open{% endif %}>
                     <summary class="round-student-summary">
                         <div class="round-student-header">
                             <div>
@@ -316,15 +314,13 @@
                                 <span class="tag tag-danger">{{ ns.priority_count }} 項提醒</span>
                                 {% endif %}
                                 {% if ns.active_count > 0 %}
-                                <span class="tag">進行中 {{ ns.active_count }}</span>
+                                <span class="tag tag-success">進行中 {{ ns.active_count }}</span>
                                 {% endif %}
                                 <span class="tag">按學員分組</span>
                             </div>
                         </div>
                     </summary>
                     <div class="round-student-body">
-                        {% set latest_round = student.rounds[0] if student.rounds else None %}
-                        {% set history_rounds = student.rounds[1:] %}
                         {% if latest_round %}
                         <section class="round-card {% if '進行中' in latest_round.label %}round-card-active{% endif %}">
                             <div class="round-card-header">
@@ -338,7 +334,7 @@
                                 </div>
                             </div>
                             {% if latest_round.attended_count in (6, 7) %}
-                            <div class="round-followup-flag">接近完成，請先提醒續班</div>
+                            <div class="round-followup-flag">接近完成，建議本堂課預告續約下一輪</div>
                             {% endif %}
                             {% if latest_round.is_expiring_soon %}
                             <div class="round-expiring-flag">即將到期，{{ latest_round.days_until_expiry }} 天後到期（{{ latest_round.expiry_date }}）</div>
@@ -347,7 +343,23 @@
                             <div class="round-expired-flag">已過期，四個月效期至 {{ latest_round.expiry_date }}</div>
                             {% endif %}
                             {% if latest_round.attended_count >= 8 %}
-                            <div class="round-complete-flag">已滿 8 堂，請通知續班</div>
+                            <div class="round-complete-flag">已滿 8 堂圓滿結訓</div>
+                            {% endif %}
+
+                            {% set student_tuitions = [] %}
+                            {% for t in tuition_records %}
+                                {% if t.student_name == student.student_name or t.student_name in student.aliases %}
+                                    {% set _ = student_tuitions.append(t) %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if student_tuitions %}
+                            <div class="round-tuition-badge">
+                                <span>💳 最新學費：${{ student_tuitions[-1].amount }}（{{ student_tuitions[-1].date }} 入帳）</span>
+                            </div>
+                            {% elif '進行中' in latest_round.label %}
+                            <div class="round-tuition-badge round-tuition-pending">
+                                <span>⚠️ 本輪尚未登記學費入帳</span>
+                            </div>
                             {% endif %}
                             <div class="session-chips">
                                 {% for session in latest_round.sessions %}
@@ -470,6 +482,42 @@
             </div>
         </section>
         {% endif %}
+
+        <section class="panel-card attendance-preview-card" id="previewSection">
+            <div class="panel-header">
+                <div>
+                    <p class="section-kicker">HITL 模擬預覽</p>
+                    <h2>預覽新增上課紀錄</h2>
+                    <p class="meta-info">先檢查會影響哪些學員期別；此操作只回傳差異，不寫入正式資料。</p>
+                </div>
+                <span class="tag tag-danger">will_write=false</span>
+            </div>
+            <form class="attendance-preview-form" id="attendancePreviewForm">
+                <label class="attendance-preview-field">
+                    <span>上課日期</span>
+                    <input id="attendancePreviewDate" name="date" type="date" required>
+                </label>
+                <label class="attendance-preview-field">
+                    <span>場地</span>
+                    <input id="attendancePreviewVenue" name="venue" type="text" value="{{ venue.name }}" required>
+                </label>
+                <label class="attendance-preview-field attendance-preview-field-wide">
+                    <span>出席名單</span>
+                    <textarea id="attendancePreviewAttendees" name="attendees" rows="3" placeholder="Roger老師、王太太、王先生" required></textarea>
+                </label>
+                <label class="attendance-preview-field attendance-preview-field-wide">
+                    <span>備註</span>
+                    <input id="attendancePreviewNote" name="note" type="text" placeholder="可留空">
+                </label>
+                <div class="attendance-preview-actions">
+                    <button class="attendance-preview-button" type="submit">產生差異預覽</button>
+                    <span class="meta-info">分隔符可用頓號、逗號或換行。</span>
+                </div>
+            </form>
+            <div class="attendance-preview-result" id="attendancePreviewResult" aria-live="polite">
+                <p class="meta-info">輸入日期與出席名單後，這裡會列出每位學員的預計課次變化。</p>
+            </div>
+        </section>
 
         <section class="panel-card legacy-note-card">
             <p class="section-kicker">整理說明</p>
@@ -620,6 +668,71 @@
                 }
             });
         }
+
+        // 學員梯次即時篩選
+        const roundFilterBtns = document.querySelectorAll('[data-round-filter]');
+        const studentCards = document.querySelectorAll('.student-accordion');
+        roundFilterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                roundFilterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-round-filter');
+                studentCards.forEach(card => {
+                    const isActive = card.getAttribute('data-is-active') === 'true';
+                    const isFollowup = card.getAttribute('data-is-followup') === 'true';
+                    if (filter === 'all') {
+                        card.style.display = '';
+                    } else if (filter === 'active') {
+                        card.style.display = isActive ? '' : 'none';
+                    } else if (filter === 'followup') {
+                        card.style.display = isFollowup ? '' : 'none';
+                    } else if (filter === 'history') {
+                        card.style.display = !isActive ? '' : 'none';
+                    }
+                });
+            });
+        });
+
+        // 一鍵展開 / 收合全部學員手風琴
+        const expandAllRoundsBtn = document.getElementById('expandAllRoundsBtn');
+        const collapseAllRoundsBtn = document.getElementById('collapseAllRoundsBtn');
+        if (expandAllRoundsBtn) {
+            expandAllRoundsBtn.addEventListener('click', () => {
+                studentCards.forEach(card => card.open = true);
+            });
+        }
+        if (collapseAllRoundsBtn) {
+            collapseAllRoundsBtn.addEventListener('click', () => {
+                studentCards.forEach(card => card.open = false);
+            });
+        }
+
+        // 吸頂導航點擊平滑滾動與高亮聯動
+        const subnavPills = document.querySelectorAll('.subnav-pill');
+        subnavPills.forEach(pill => {
+            pill.addEventListener('click', (e) => {
+                subnavPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+            });
+        });
+
+        // 隨滾動自動高亮對應導航膠囊
+        const observerSections = document.querySelectorAll('section[id], article[id]');
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    subnavPills.forEach(pill => {
+                        const href = pill.getAttribute('href');
+                        if (href === `#${id}`) {
+                            subnavPills.forEach(p => p.classList.remove('active'));
+                            pill.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-10% 0px -75% 0px' });
+        observerSections.forEach(section => navObserver.observe(section));
     </script>
 </body>
 </html>
