@@ -72,7 +72,7 @@
         </section>
 
         <section class="ops-radar-grid">
-            <article class="ops-radar-card ops-radar-card-danger">
+            <article class="ops-radar-card {% if summary.latest_balance < 0 %}ops-radar-card-danger{% endif %}">
                 <p class="section-kicker">本週優先</p>
                 <h2>{{ summary.balance_status }}</h2>
                 <p class="meta-info">{{ summary.balance_note }}</p>
@@ -196,6 +196,38 @@
                     </table>
                 </div>
             </article>
+        </section>
+
+        <section class="panel-card" style="margin-top: 24px;">
+            <div class="panel-header">
+                <div>
+                    <p class="section-kicker">學費收取</p>
+                    <h2>學員梯次學費入帳明細</h2>
+                </div>
+                <span class="tag tag-success">共 {{ tuition_records|length }} 筆入帳（每輪 $8,000）</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>收款日期</th>
+                            <th>學員姓名</th>
+                            <th>金額</th>
+                            <th>備註說明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in tuition_records %}
+                        <tr>
+                            <td>{{ item.date }}</td>
+                            <td><strong>{{ item.student_name }}</strong></td>
+                            <td class="positive-text" style="font-weight: 700;">${{ item.amount }}</td>
+                            <td>{{ item.note }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section class="panel-card">

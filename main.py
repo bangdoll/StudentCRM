@@ -1579,6 +1579,7 @@ async def read_apple_ceo_program(request: Request):
         "attendance_records": program_data.get("attendance_records", []),
         "venue_ledger": program_data.get("venue_ledger", []),
         "student_rounds": program_data.get("student_rounds", []),
+        "tuition_records": program_data.get("tuition_records", []),
         "summary": summary,
         "legacy_note": program_data.get("legacy_note", ""),
     })
