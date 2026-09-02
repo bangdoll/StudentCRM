@@ -60,12 +60,19 @@ def main() -> int:
 
     cache_dir.mkdir(parents=True, exist_ok=True)
     records_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    
+    data_dir = app_dir / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    data_records_path = data_dir / "teaching_records.json"
+    data_records_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
     report = {
         key: payload[key]
         for key in ["total_records", "total_students", "unmatched", "duplicate_count", "generated_at"]
     }
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"已寫入：{records_path}")
+    print(f"已寫入：{data_records_path}")
     print(f"已寫入：{report_path}")
     return 0
 

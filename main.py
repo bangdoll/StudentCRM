@@ -491,6 +491,7 @@ def load_cloud_digital_management_notes() -> list[dict]:
         if source == "local_teaching":
             source = "本地 teaching 檔案"
         preview = row.get("preview") or raw.get("preview", "")
+        content_text = row.get("content") or raw.get("content", "")
         path = row.get("path") or raw.get("path", "")
         date_text = row.get("date", "") or raw.get("date", "")
         title = row.get("title", "") or raw.get("title", "")
@@ -511,6 +512,7 @@ def load_cloud_digital_management_notes() -> list[dict]:
             "url": row.get("url", "") or raw.get("url", ""),
             "path": path,
             "preview": preview,
+            "content": content_text,
             "source": source,
             "matched_by": row.get("matched_by") or raw.get("matched_by", ""),
             "matched_to_official_student": bool(row.get("student_id")),
@@ -1723,31 +1725,55 @@ async def read_student(request: Request, student_id: str):
 async def open_file(request: Request, path: str):
     filename = os.path.basename(path)
     content = ""
+    note_title = filename.replace(".md", "")
+    note_date = ""
+    lesson_label = ""
+
+    # Look up teaching record for metadata / content fallback
+    records = load_cloud_digital_management_notes()
+    record = next((
+        r for r in records
+        if r.get("path") == path
+        or r.get("filename") == filename
+        or os.path.basename(r.get("path", "")) == filename
+        or r.get("id") == path
+    ), None)
+
+    if record:
+        note_title = record.get("title", "").lstrip("#")
+        note_date = record.get("date", "")
+        if record.get("lesson_number"):
+            lesson_label = f"第 {record.get('lesson_number')}"
+            if record.get("lesson_sub"):
+                lesson_label += f"-{record.get('lesson_sub')}"
+            lesson_label += " 堂"
 
     if os.path.exists(path) and path.startswith(BASE_DIR):
         with open(path, 'r', encoding='utf-8', errors='ignore') as f:
             content = f.read()
-    else:
-        # Fallback for cloud/Vercel or cache
-        records = load_cloud_digital_management_notes()
-        record = next((
-            r for r in records
-            if r.get("path") == path
-            or r.get("filename") == filename
-            or os.path.basename(r.get("path", "")) == filename
-            or r.get("id") == path
-        ), None)
-        if record:
+    elif record:
+        content = record.get("content") or ""
+        if not content:
             content = f"# {record.get('title')}\n\n**上課日期**：{record.get('date')}\n\n**堂數**：第 {record.get('lesson_number') or '-'} 堂\n\n**重點摘要**：\n\n{record.get('preview')}"
-        else:
-            return HTMLResponse(content="Insecure or missing path", status_code=403 if path.startswith("..") else 404)
+    else:
+        return HTMLResponse(content="Insecure or missing path", status_code=403 if path.startswith("..") else 404)
 
     import markdown
-    html_content = markdown.markdown(content, extensions=['tables'])
-    filename = os.path.basename(path)
+    html_content = markdown.markdown(content, extensions=['tables', 'fenced_code', 'nl2br'])
 
-    # Derive student_id from filename for prev/next
+    # Derive student_id and student_name
     sid = student_id_from_path(path)
+    if not sid and record and record.get("student_id"):
+        sid = record.get("student_id")
+
+    student_name = ""
+    students = load_students()
+    student_match = next((s for s in students if s.get("id") == sid), None)
+    if student_match:
+        student_name = student_match.get("name", "")
+    elif record and record.get("student_name"):
+        student_name = record.get("student_name")
+
     lesson_paths = get_student_lesson_paths(sid) if sid else []
 
     prev_path = next_path = None
@@ -1757,12 +1783,12 @@ async def open_file(request: Request, path: str):
         idx = lesson_paths.index(path)
         if idx > 0:
             prev_path = lesson_paths[idx - 1]
-            m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', prev_path)
-            prev_label = f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else "上一堂"
+            fname = os.path.basename(prev_path)
+            prev_label = parse_date_from_title(fname) or "上一堂"
         if idx < len(lesson_paths) - 1:
             next_path = lesson_paths[idx + 1]
-            m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', next_path)
-            next_label = f"{m.group(1)}-{m.group(2)}-{m.group(3)}" if m else "下一堂"
+            fname = os.path.basename(next_path)
+            next_label = parse_date_from_title(fname) or "下一堂"
 
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
@@ -1770,9 +1796,13 @@ async def open_file(request: Request, path: str):
     return templates.TemplateResponse(request, "note.html", {
         "request": request,
         "filename": filename,
+        "note_title": note_title,
+        "note_date": note_date,
+        "lesson_label": lesson_label,
         "content_html": html_content,
         "path": path,
         "student_id": sid,
+        "student_name": student_name,
         "prev_path": prev_path,
         "prev_label": prev_label,
         "next_path": next_path,

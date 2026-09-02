@@ -583,7 +583,7 @@ final class AppStore: ObservableObject {
     }
 
     private func reload() throws {
-        let rawStudents = try database.fetchStudents().filter { $0.name != "Apple CEO Class" }
+        let rawStudents = try database.fetchStudents().filter { $0.name != "Apple CEO Class" && $0.name != "蘋果總裁班" }
 
         // De-duplicate students by normalized name, picking the one with the most lessons,
         // but merging tags and aliases to preserve dual-status info (e.g., Roger/Lucia)

@@ -290,8 +290,12 @@
   },
   {
     "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
-    "name": "Apple CEO Class",
-    "aliases": [],
+    "name": "蘋果總裁班",
+    "aliases": [
+      "Apple CEO Class",
+      "Apple CEO",
+      "蘋果總裁班"
+    ],
     "file": "/01.Docs/Students/Apple CEO Class.md",
     "lessons_count": 2,
     "latest_date": "2026-03-26",
