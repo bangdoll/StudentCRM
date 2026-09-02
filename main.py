@@ -69,12 +69,14 @@ app = FastAPI()
 
 # 雙管理員密鑰系統（Coach Tsai & Mrs. Tsai Admin Passkeys）
 COACH_PASSKEY = os.getenv("COACH_PASSKEY", "tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b")
-WIFE_PASSKEY = os.getenv("WIFE_PASSKEY", "amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
+WIFE_PASSKEY = os.getenv("WIFE_PASSKEY", "yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
+LEGACY_WIFE_PASSKEY = "amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d"
 LEGACY_PASSKEY = os.getenv("LEGACY_PASSKEY", "zzzz")
 
 ADMIN_PASSKEYS = {
     COACH_PASSKEY: {"role": "coach", "name": "蔡教練"},
-    WIFE_PASSKEY: {"role": "admin", "name": "師母 (Amanda)"},
+    WIFE_PASSKEY: {"role": "admin", "name": "師母 (Yumi)"},
+    LEGACY_WIFE_PASSKEY: {"role": "admin", "name": "師母 (Yumi)"},
     LEGACY_PASSKEY: {"role": "coach", "name": "蔡教練"},
 }
 SESSION_COOKIE_NAME = "coach_session"

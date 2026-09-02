@@ -89,11 +89,12 @@ def test_coach_magic_link_flow_and_privacy_lock():
     assert "coach_session" in coach_resp.cookies
     assert "crm_admin_user" in coach_resp.cookies
 
-    # 3. 師母專屬私鑰 /coach/amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d -> 303 轉址並設定 session cookie
-    wife_resp = client.get("/coach/amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d", follow_redirects=False)
+    # 3. 師母專屬私鑰 /coach/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d -> 303 轉址並設定 session cookie
+    from urllib.parse import unquote
+    wife_resp = client.get("/coach/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d", follow_redirects=False)
     assert wife_resp.status_code == 303
     assert "coach_session" in wife_resp.cookies
-    assert "crm_admin_user" in wife_resp.cookies
+    assert unquote(wife_resp.cookies["crm_admin_user"]) == "師母 (Yumi)"
 
     # 4. 任意非法/猜測密鑰 -> 403 門禁鎖
     bad_resp = client.get("/coach/hacker-key-12345", follow_redirects=False)
