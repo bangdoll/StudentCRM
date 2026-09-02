@@ -79,6 +79,11 @@ def calculate_student_stats(students: list[dict[str, Any]]) -> dict[str, Any]:
 def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
     """為個別學員產生客製化 LINE 續課席位保留提醒文案。"""
     name = student.get("name", "同學")
+    if student.get("renewal_reminder") is False or student.get("disable_renewal_reminder") is True:
+        return ""
+    if name in ("Calvin", "禮品公會", "禮品公會第二期") or any(k in name for k in ("總裁班", "禮品公會")):
+        return ""
+
     total_lessons = student.get("lessons_count", 0)
     cycle_lesson = student.get("current_cycle_lesson")
     if cycle_lesson is None:
@@ -111,7 +116,9 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
     radar = []
     for s in students:
         name = s.get("name", "")
-        if "總裁班" in name:
+        if s.get("renewal_reminder") is False or s.get("disable_renewal_reminder") is True:
+            continue
+        if name in ("Calvin", "禮品公會", "禮品公會第二期") or any(k in name for k in ("總裁班", "禮品公會")):
             continue
         cnt = s.get("lessons_count", 0)
         if cnt <= 0:

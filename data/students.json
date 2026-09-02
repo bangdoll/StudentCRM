@@ -84,7 +84,9 @@
       "一般學員"
     ],
     "first_lesson_date": "2020-01-29",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "renewal_reminder": false,
+    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束"
   },
   {
     "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
@@ -731,7 +733,9 @@
       "一般學員"
     ],
     "first_lesson_date": "2026-03-10",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "renewal_reminder": false,
+    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束"
   },
   {
     "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",
