@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student CRM</title>
+    <title>StudentCRM ｜ 蔡教練 數位管理教學系統</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='/favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>學員管理系統</h1>
-        <p class="meta-info">AI 學習預測追蹤系統</p>
+        <a href="/" class="brand-badge">
+            <img src="{{ url_for('static', path='/logo.svg') }}" alt="StudentCRM Logo" class="brand-logo">
+            <div class="brand-text">
+                <h1>學員管理系統</h1>
+                <p class="meta-info">蔡教練 數位管理教學 ‧ AI 學習預測追蹤系統</p>
+            </div>
+        </a>
         <form action="/search" method="get" class="search-form">
             <input type="text" name="q" placeholder="搜尋課程內容、工具、關鍵字..." class="search-input" autocomplete="off">
             <button type="submit" class="search-btn">搜尋</button>
