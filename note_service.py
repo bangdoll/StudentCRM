@@ -188,15 +188,25 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     
     # 筆記內文是否有明確的「習慣/每天/原則」具體句子
     habit_match = re.search(r"(?:習慣|每天|每日|原則)[：:、\s]{0,2}([^\n。；]{12,45})", clean_text)
-    extracted_habit = habit_match.group(1).strip("*-# ") if habit_match else None
-    if extracted_habit and any(bad in extracted_habit for bad in ["不是", "如果", "可能", "以為", "只有", "無法"]):
-        extracted_habit = None
+    extracted_habit = habit_match.group(1).strip("*-# 「」\"'、，。") if habit_match else None
+    if extracted_habit:
+        if (
+            any(bad in extracted_habit for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「"])
+            or len(extracted_habit) < 10
+            or extracted_habit.startswith(("一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "：", ":", "、"))
+        ):
+            extracted_habit = None
 
     # 筆記內文是否有明確的「下一步/目標/練習」
     win_match = re.search(r"(?:下一步|後續追蹤|目標|實作練習)[：:、\s]{0,2}([^\n。；]{12,50})", clean_text)
-    extracted_win = win_match.group(1).strip("*-# ") if win_match else None
-    if extracted_win and any(bad in extracted_win for bad in ["不是", "如果", "可能", "以為", "只有", "無法"]):
-        extracted_win = None
+    extracted_win = win_match.group(1).strip("*-# 「」\"'、，。") if win_match else None
+    if extracted_win:
+        if (
+            any(bad in extracted_win for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「"])
+            or len(extracted_win) < 10
+            or extracted_win.startswith(("一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "：", ":", "、"))
+        ):
+            extracted_win = None
 
     tpl = tool_templates.get(primary)
     if tpl:
