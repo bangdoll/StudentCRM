@@ -191,7 +191,7 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     extracted_habit = habit_match.group(1).strip("*-# 「」\"'、，。") if habit_match else None
     if extracted_habit:
         if (
-            any(bad in extracted_habit for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「"])
+            any(bad in extracted_habit for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「", "微行動", "小習慣", "重點摘要", "大綱", "標題"])
             or len(extracted_habit) < 10
             or extracted_habit.startswith(("一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "：", ":", "、"))
         ):
@@ -202,7 +202,7 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     extracted_win = win_match.group(1).strip("*-# 「」\"'、，。") if win_match else None
     if extracted_win:
         if (
-            any(bad in extracted_win for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「"])
+            any(bad in extracted_win for bad in ["不是", "如果", "可能", "以為", "只有", "無法", "http", ".md", ".pdf", "[", "]", "」", "「", "微行動", "小習慣", "重點摘要", "大綱", "標題"])
             or len(extracted_win) < 10
             or extracted_win.startswith(("一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "：", ":", "、"))
         ):

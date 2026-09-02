@@ -20647,6 +20647,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "ppbmhe5iqp3kvamog5dcd6nfmk",
+    "date": "2026-05-02",
+    "title": "01.資深少年AI學習團",
+    "description": "",
+    "location": "台北市中正區忠孝東路一段9號11樓",
+    "start": "2026-05-02T14:00:00+08:00",
+    "end": "2026-05-02T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
+  },
+  {
     "id": "fh6g4p03cvg45gr2q90ug764p8",
     "date": "2026-05-03",
     "title": "04.柏宇數位管理教學",
@@ -21329,6 +21340,17 @@
     "student_name": "Lucia 徐露華"
   },
   {
+    "id": "hurojiedj1tnjhi03sa9u33qqg",
+    "date": "2026-06-28",
+    "title": "02.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-06-28T14:00:00+08:00",
+    "end": "2026-06-28T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
+  },
+  {
     "id": "n03hifme4db1cfbk67660ub4ns",
     "date": "2026-06-29",
     "title": "65-1.陳姐Charlotte數位管理教學",
@@ -21437,6 +21459,17 @@
     "end": "2026-07-07T11:30:00+08:00",
     "student_id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
     "student_name": "Yvonne"
+  },
+  {
+    "id": "akfajhtneokdigvdqkchjbi670",
+    "date": "2026-07-07",
+    "title": "03.資深少年AI學習團",
+    "description": "",
+    "location": "台北市忠孝東路一段9號11F",
+    "start": "2026-07-07T14:00:00+08:00",
+    "end": "2026-07-07T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
   },
   {
     "id": "7cp5fibj9cm0oq8ftsdngf169g",
@@ -21624,6 +21657,17 @@
     "end": "2026-07-21T12:00:00+08:00",
     "student_id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
     "student_name": "Teresa"
+  },
+  {
+    "id": "ktdjmks7ihkbo1ag0gdcj4u4rg",
+    "date": "2026-07-21",
+    "title": "04.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-07-21T14:00:00+08:00",
+    "end": "2026-07-21T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
   },
   {
     "id": "9lq4fao06ekf2lp8tjdu5dprd0",
@@ -21835,6 +21879,17 @@
     "student_name": "Teresa"
   },
   {
+    "id": "smv4mh29k6u0m5bu1027os82d0",
+    "date": "2026-08-04",
+    "title": "05.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-08-04T14:00:00+08:00",
+    "end": "2026-08-04T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
+  },
+  {
     "id": "kbleufu832ks4uunuk9shsunhg",
     "date": "2026-08-06",
     "title": "19-4.Shelley 陳萱玲數位管理教學",
@@ -21965,6 +22020,17 @@
     "end": "2026-08-18T12:00:00+08:00",
     "student_id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
     "student_name": "Teresa"
+  },
+  {
+    "id": "ce7lf26g0uakb8ejmll2op1tqo",
+    "date": "2026-08-18",
+    "title": "06.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-08-18T14:00:00+08:00",
+    "end": "2026-08-18T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
   },
   {
     "id": "5i2r5la596ni08063vma1d0lh8",
@@ -22141,6 +22207,17 @@
     "end": "2026-09-01T12:00:00+08:00",
     "student_id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
     "student_name": "蕭世典"
+  },
+  {
+    "id": "f4e7oe4p2d574504hs1igllrts",
+    "date": "2026-09-01",
+    "title": "07.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-09-01T14:00:00+08:00",
+    "end": "2026-09-01T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
   },
   {
     "id": "vgks466mkktsssnt3hqr7cg06c",
@@ -22493,6 +22570,17 @@
     "end": "2026-09-29T12:00:00+08:00",
     "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
     "student_name": "曾小米"
+  },
+  {
+    "id": "r08nhcd8djk25s07eu04u1csvs",
+    "date": "2026-09-29",
+    "title": "08.資深少年AI學習團",
+    "description": "",
+    "location": "",
+    "start": "2026-09-29T14:00:00+08:00",
+    "end": "2026-09-29T16:00:00+08:00",
+    "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "student_name": "資深少年 AI 學習團"
   },
   {
     "id": "tn8gn7aqdrjnbpdfe70nlk4mis",

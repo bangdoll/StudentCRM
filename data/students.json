@@ -827,6 +827,38 @@
     "current_cycle_lesson": 8
   },
   {
+    "id": "d243b860-318e-4a64-9b98-95a28cb93821",
+    "name": "資深少年 AI 學習團",
+    "aliases": [
+      "資深少年",
+      "資深少年AI學習團",
+      "資深少年 AI 領導力專班",
+      "Senior AI Leadership",
+      "資深少年AI",
+      "01.資深少年AI學習團",
+      "02.資深少年AI學習團",
+      "03.資深少年AI學習團",
+      "04.資深少年AI學習團",
+      "05.資深少年AI學習團",
+      "06.資深少年AI學習團",
+      "07.資深少年AI學習團",
+      "08.資深少年AI學習團"
+    ],
+    "file": "/01.Docs/Students/資深少年AI學習團.md",
+    "lessons_count": 7,
+    "latest_date": "2026-09-01",
+    "next_lesson": "2026-09-29",
+    "tags": [
+      "一般學員",
+      "團體班",
+      "企業主專班",
+      "活躍學員"
+    ],
+    "first_lesson_date": "2026-05-02",
+    "current_cycle_lesson": 7,
+    "recurring_schedule": "biweekly:1:14:00"
+  },
+  {
     "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "name": "邱醫師",
     "aliases": [
