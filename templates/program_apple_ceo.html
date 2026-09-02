@@ -168,9 +168,12 @@
                         <p class="section-kicker">場地費流水</p>
                         <h2>只記交易，不再手寫算式</h2>
                     </div>
+                    {% if venue_ledger %}
+                    <span class="tag tag-success">最新餘額 ${{ venue_ledger[-1].balance_after }}（截至 {{ venue_ledger[-1].date }}）</span>
+                    {% endif %}
                 </div>
                 <div class="table-wrap">
-                    <table>
+                    <table id="venueLedgerTable">
                         <thead>
                             <tr>
                                 <th>日期</th>
@@ -182,19 +185,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in venue_ledger %}
-                            <tr>
-                                <td>{{ item.date }}</td>
+                            {% for item in venue_ledger|reverse %}
+                            <tr class="ledger-row {% if loop.index > 8 %}ledger-hidden-row{% endif %}" {% if loop.index > 8 %}style="display: none;"{% endif %}>
+                                <td><strong>{{ item.date }}</strong></td>
                                 <td>{{ item.type }}</td>
                                 <td>{{ item.headcount or '-' }}</td>
                                 <td class="{% if item.amount < 0 %}danger-text{% else %}positive-text{% endif %}">${{ item.amount }}</td>
-                                <td class="{% if item.balance_after < 0 %}danger-text{% endif %}">${{ item.balance_after }}</td>
+                                <td class="{% if item.balance_after < 0 %}danger-text{% endif %}" style="font-weight: 700;">${{ item.balance_after }}</td>
                                 <td>{{ item.note }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% if venue_ledger|length > 8 %}
+                <div class="table-collapse-footer">
+                    <button type="button" id="toggleLedgerBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ venue_ledger|length }}" data-default="8">
+                        <span>展開歷史流水 (共 {{ venue_ledger|length }} 筆)</span>
+                        <span id="ledgerToggleArrow">▾</span>
+                    </button>
+                </div>
+                {% endif %}
             </article>
         </section>
 
@@ -236,9 +247,12 @@
                     <p class="section-kicker">上課紀錄</p>
                     <h2>每堂課只記一次</h2>
                 </div>
+                {% if attendance_records %}
+                <span class="tag">最新一堂 {{ attendance_records[-1].date }}（共 {{ attendance_records|length }} 堂）</span>
+                {% endif %}
             </div>
             <div class="table-wrap">
-                <table>
+                <table id="attendanceTable">
                     <thead>
                         <tr>
                             <th>日期</th>
@@ -249,9 +263,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for record in attendance_records %}
-                        <tr>
-                            <td>{{ record.date }}</td>
+                        {% for record in attendance_records|reverse %}
+                        <tr class="attendance-row {% if loop.index > 8 %}attendance-hidden-row{% endif %}" {% if loop.index > 8 %}style="display: none;"{% endif %}>
+                            <td><strong>{{ record.date }}</strong></td>
                             <td>{{ record.venue }}</td>
                             <td>{{ record.attendee_count }}</td>
                             <td>{{ record.attendees|join('、') if record.attendees else '待補名單' }}</td>
@@ -261,6 +275,14 @@
                     </tbody>
                 </table>
             </div>
+            {% if attendance_records|length > 8 %}
+            <div class="table-collapse-footer">
+                <button type="button" id="toggleAttendanceBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ attendance_records|length }}" data-default="8">
+                    <span>展開全部上課紀錄 (共 {{ attendance_records|length }} 堂)</span>
+                    <span id="attendanceToggleArrow">▾</span>
+                </button>
+            </div>
+            {% endif %}
         </section>
 
         <section class="panel-card">
@@ -549,6 +571,52 @@
                     renderPreview(payload);
                 } catch (error) {
                     previewResult.innerHTML = `<div class="attendance-preview-warning">${escapeHTML(error.message)}</div>`;
+                }
+            });
+        }
+
+        // 場地費流水展開/收合
+        const toggleLedgerBtn = document.getElementById('toggleLedgerBtn');
+        if (toggleLedgerBtn) {
+            toggleLedgerBtn.addEventListener('click', () => {
+                const isExpanded = toggleLedgerBtn.getAttribute('data-expanded') === 'true';
+                const hiddenRows = document.querySelectorAll('.ledger-hidden-row');
+                hiddenRows.forEach(row => {
+                    row.style.display = isExpanded ? 'none' : '';
+                });
+                const total = toggleLedgerBtn.getAttribute('data-total');
+                const defaultCount = toggleLedgerBtn.getAttribute('data-default');
+                if (isExpanded) {
+                    toggleLedgerBtn.setAttribute('data-expanded', 'false');
+                    toggleLedgerBtn.querySelector('span:first-child').textContent = `展開歷史流水 (共 ${total} 筆)`;
+                    document.getElementById('ledgerToggleArrow').textContent = '▾';
+                } else {
+                    toggleLedgerBtn.setAttribute('data-expanded', 'true');
+                    toggleLedgerBtn.querySelector('span:first-child').textContent = `收合歷史流水 (僅顯示最新 ${defaultCount} 筆)`;
+                    document.getElementById('ledgerToggleArrow').textContent = '▴';
+                }
+            });
+        }
+
+        // 上課紀錄展開/收合
+        const toggleAttendanceBtn = document.getElementById('toggleAttendanceBtn');
+        if (toggleAttendanceBtn) {
+            toggleAttendanceBtn.addEventListener('click', () => {
+                const isExpanded = toggleAttendanceBtn.getAttribute('data-expanded') === 'true';
+                const hiddenRows = document.querySelectorAll('.attendance-hidden-row');
+                hiddenRows.forEach(row => {
+                    row.style.display = isExpanded ? 'none' : '';
+                });
+                const total = toggleAttendanceBtn.getAttribute('data-total');
+                const defaultCount = toggleAttendanceBtn.getAttribute('data-default');
+                if (isExpanded) {
+                    toggleAttendanceBtn.setAttribute('data-expanded', 'false');
+                    toggleAttendanceBtn.querySelector('span:first-child').textContent = `展開全部上課紀錄 (共 ${total} 堂)`;
+                    document.getElementById('attendanceToggleArrow').textContent = '▾';
+                } else {
+                    toggleAttendanceBtn.setAttribute('data-expanded', 'true');
+                    toggleAttendanceBtn.querySelector('span:first-child').textContent = `收合上課紀錄 (僅顯示最新 ${defaultCount} 堂)`;
+                    document.getElementById('attendanceToggleArrow').textContent = '▴';
                 }
             });
         }

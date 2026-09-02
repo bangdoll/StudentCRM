@@ -1587,3 +1587,33 @@ th {
         width: 100%;
     }
 }
+
+.table-collapse-footer {
+    display: flex;
+    justify-content: center;
+    padding: 14px 16px;
+    border-top: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.table-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: rgba(88, 166, 255, 0.08);
+    border: 1px solid rgba(88, 166, 255, 0.28);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.table-toggle-btn:hover {
+    background: rgba(88, 166, 255, 0.18);
+    border-color: rgba(88, 166, 255, 0.45);
+    transform: translateY(-1px);
+}
+
