@@ -71,7 +71,7 @@
                     </div>
                     <p class="meta-info" style="margin-top: 5px; font-size: 0.75rem;">本輪進度：{{ lessons % 8 if lessons % 8 != 0 or lessons == 0 else 8 }} / 8</p>
 
-                    <p class="meta-info">最後上課：{{ student.meta.last_lesson_date or '未記錄' }}</p>
+                    <p class="meta-info">最後上課：{{ student.meta.last_lesson_date or student.latest_date or '未記錄' }}</p>
                     {% if student.next_lesson %}
                     <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">📅 下次上課：{{ student.next_lesson }}</p>
                     {% endif %}

@@ -1228,11 +1228,13 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
 
 
 def build_cloud_student_meta(student: dict) -> dict:
+    latest = student.get("latest_date") or student.get("last_lesson_date") or "未記錄"
     return {
         "hardware": [],
-        "first_lesson_date": student.get("latest_date") or "未記錄",
+        "first_lesson_date": student.get("first_lesson_date") or "未記錄",
         "lessons_count": student.get("lessons_count", 0),
-        "last_lesson_date": student.get("latest_date") or "未記錄",
+        "last_lesson_date": latest,
+        "latest_date": latest,
     }
 
 
@@ -1321,41 +1323,64 @@ def analyze_student_features(student_id: str) -> dict:
         'lessons_reviewed': 0,
     }
 
-    if not paths:
-        return features
+    if paths:
+        # Parse the latest lesson date
+        latest_path = paths[-1]
+        date_str = parse_date_from_title(os.path.basename(latest_path))
+        if date_str:
+            try:
+                latest_date = datetime.strptime(date_str, "%Y-%m-%d")
+                today = datetime.now()
+                features['days_since_last_lesson'] = max(0, (today - latest_date).days)
+            except ValueError:
+                pass
+        else:
+            m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', latest_path)
+            if m:
+                y, mo, d = map(int, m.groups())
+                latest_date = datetime(y, mo, d)
+                today = datetime.now()
+                features['days_since_last_lesson'] = max(0, (today - latest_date).days)
 
-    # Parse the latest lesson date
-    latest_path = paths[-1]
-    date_str = parse_date_from_title(os.path.basename(latest_path))
-    if date_str:
-        try:
-            latest_date = datetime.strptime(date_str, "%Y-%m-%d")
-            today = datetime.now()
-            features['days_since_last_lesson'] = (today - latest_date).days
-        except ValueError:
-            pass
-    else:
-        m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', latest_path)
-        if m:
-            y, mo, d = map(int, m.groups())
-            latest_date = datetime(y, mo, d)
-            today = datetime.now()
-            features['days_since_last_lesson'] = (today - latest_date).days
+        # Parse average word count from the last 3 lessons
+        recent_paths = paths[-3:]
+        total_words = 0
+        valid_lessons = 0
+        for p in recent_paths:
+            if os.path.exists(p):
+                with open(p, 'r', encoding='utf-8', errors='ignore') as f:
+                    content = f.read()
+                    total_words += len(content)
+                    valid_lessons += 1
 
-    # Parse average word count from the last 3 lessons
-    recent_paths = paths[-3:]
-    total_words = 0
-    valid_lessons = 0
-    for p in recent_paths:
-        if os.path.exists(p):
-            with open(p, 'r', encoding='utf-8', errors='ignore') as f:
-                content = f.read()
-                total_words += len(content)
-                valid_lessons += 1
+        if valid_lessons > 0:
+            features['average_word_count'] = total_words // valid_lessons
+            features['lessons_reviewed'] = valid_lessons
 
-    if valid_lessons > 0:
-        features['average_word_count'] = total_words // valid_lessons
-        features['lessons_reviewed'] = valid_lessons
+    # Fallback to student metadata and cloud cached notes
+    students = load_students()
+    student = next((s for s in students if s.get('id') == student_id), None)
+    if student:
+        if features['days_since_last_lesson'] == -1:
+            latest_str = student.get('latest_date') or student.get('last_lesson_date')
+            if latest_str and latest_str != "未記錄":
+                try:
+                    ld = datetime.strptime(latest_str, "%Y-%m-%d")
+                    features['days_since_last_lesson'] = max(0, (datetime.now() - ld).days)
+                except ValueError:
+                    pass
+        if features['average_word_count'] == 0:
+            student_notes = get_student_teaching_notes(student)
+            total_words = 0
+            valid_notes = 0
+            for n in student_notes[:3]:
+                c = n.get("content") or ""
+                if c:
+                    total_words += len(c)
+                    valid_notes += 1
+            if valid_notes > 0:
+                features['average_word_count'] = total_words // valid_notes
+                features['lessons_reviewed'] = valid_notes
 
     return features
 
@@ -1455,7 +1480,14 @@ async def read_root(request: Request):
             )
 
     for s in students:
-        s['meta'] = get_student_metadata(os.path.join(BASE_DIR, s['file'].lstrip('/')))
+        file_path = os.path.join(BASE_DIR, s['file'].lstrip('/')) if s.get('file') else ""
+        file_meta = get_student_metadata(file_path) if file_path and os.path.exists(file_path) else {}
+        cloud_meta = build_cloud_student_meta(s)
+        s['meta'] = {**cloud_meta, **file_meta}
+        if not s['meta'].get('last_lesson_date') or s['meta']['last_lesson_date'] == "未記錄":
+            s['meta']['last_lesson_date'] = s.get('latest_date') or "未記錄"
+        if not s['meta'].get('lessons_count') or s['meta']['lessons_count'] == 0:
+            s['meta']['lessons_count'] = s.get('lessons_count') or 0
         s['features'] = analyze_student_features(s['id'])
         s['prediction'] = predict_student_status(s['features'], s.get('next_lesson'))
 
@@ -1691,11 +1723,18 @@ async def read_student(request: Request, student_id: str):
 
     student_notes = get_student_teaching_notes(student)
 
+    file_meta = get_student_metadata(file_path) if file_path and os.path.exists(file_path) else {}
+    cloud_meta = build_cloud_student_meta(student)
+    student['meta'] = {**cloud_meta, **file_meta}
+    if not student['meta'].get('last_lesson_date') or student['meta']['last_lesson_date'] == "未記錄":
+        student['meta']['last_lesson_date'] = student.get('latest_date') or "未記錄"
+    if not student['meta'].get('lessons_count') or student['meta']['lessons_count'] == 0:
+        student['meta']['lessons_count'] = student.get('lessons_count') or len(student_notes)
+    student['features'] = analyze_student_features(student_id)
+    student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
+
     if not file_path or not os.path.exists(file_path):
         teaching_records = student_gateway.load_teaching_records(student_id)
-        student['meta'] = build_cloud_student_meta(student)
-        student['features'] = analyze_student_features(student_id)
-        student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
         return templates.TemplateResponse(request, "student.html", {
             "request": request,
             "student": student,
@@ -1715,9 +1754,6 @@ async def read_student(request: Request, student_id: str):
     html_content = markdown.markdown(body, extensions=['tables'])
     html_content = inject_badges(html_content)
 
-    student['meta'] = get_student_metadata(file_path)
-    student['features'] = analyze_student_features(student_id)
-    student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
     return templates.TemplateResponse(request, "student.html", {
         "request": request,
         "student": student,
