@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.name }} | 數位管理教學</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <header class="dashboard-header">
+        <div class="dashboard-header-inner">
+            <div>
+                <p class="section-kicker">Student Profile</p>
+                <h1>{{ student.name }}</h1>
+                <p class="meta-info">數位管理教學 · 目前第 {{ student.current_lesson or 0 }} 堂</p>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="/digital-management" class="dashboard-nav-link">返回教學管理</a>
+                <a href="/dashboard" class="dashboard-nav-link">學員看板</a>
+                <a href="/api/digital-management/students/{{ student.id }}" class="dashboard-nav-link">API</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-shell digital-student-shell">
+        <section class="dashboard-kpi-grid">
+            <article class="dashboard-kpi-card">
+                <span>目前堂數</span>
+                <strong>{{ student.current_lesson or 0 }}</strong>
+                <p>從已發生課程的最大堂數推算</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>下次上課</span>
+                <strong class="digital-kpi-text">{{ student.next_lesson or '尚未排定' }}</strong>
+                <p>取今天之後最近一筆日曆課程</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>教學筆記</span>
+                <strong>{{ student.notes|length }}</strong>
+                <p>Heptabase CLI、本地備份與 teaching 檔案合併</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>最近上課</span>
+                <strong class="digital-kpi-text">{{ student.latest_lesson_date or '尚未記錄' }}</strong>
+                <p>{{ student.source_summary|join('、') }}</p>
+            </article>
+        </section>
+
+        <section class="digital-profile-grid">
+            <article class="dashboard-panel">
+                <h2>課程時間軸</h2>
+                <div class="digital-record-list">
+                    {% for lesson in student.lessons %}
+                    <div class="digital-record">
+                        <div class="digital-record-main">
+                            <strong>{{ lesson.date or '未記錄日期' }}</strong>
+                            <span>{{ lesson.title }}</span>
+                            {% if lesson.location %}<small>{{ lesson.location }}</small>{% endif %}
+                        </div>
+                        <div class="digital-record-side">
+                            <span class="digital-lesson-number">第 {{ lesson.lesson_number or '-' }} 堂</span>
+                            {% if lesson.note %}
+                            <a href="{{ lesson.note.url }}" class="dashboard-nav-link">筆記</a>
+                            {% elif lesson.url %}
+                            <a href="{{ lesson.url }}" class="dashboard-nav-link">來源</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="meta-info">尚未找到課程時間軸。</p>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <article class="dashboard-panel">
+                <h2>教學筆記</h2>
+                <div class="digital-record-list">
+                    {% for note in student.notes %}
+                    <div class="digital-record digital-note-record">
+                        <div class="digital-record-main">
+                            <strong>{{ note.date or '未記錄日期' }}</strong>
+                            <span>{{ note.title }}</span>
+                            {% if note.preview %}<small>{{ note.preview }}</small>{% endif %}
+                        </div>
+                        <div class="digital-record-side">
+                            <span class="dashboard-muted">{{ note.source }}</span>
+                            {% if note.url %}
+                            <a href="{{ note.url }}" class="dashboard-nav-link">開啟</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="meta-info">尚未透過 Heptabase 或本地 teaching 檔案找到筆記。</p>
+                    {% endfor %}
+                </div>
+            </article>
+        </section>
+
+        {% if student.heptabase_diagnostics %}
+        <section class="dashboard-panel">
+            <h2>Heptabase 查詢狀態</h2>
+            <div class="dashboard-tags">
+                {% for item in student.heptabase_diagnostics %}
+                <span>{{ item }}</span>
+                {% endfor %}
+            </div>
+            <p class="meta-info">備份根目錄：{{ heptabase_backup_root }}</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+</html>

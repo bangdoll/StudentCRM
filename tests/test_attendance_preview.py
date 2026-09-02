@@ -44,6 +44,29 @@ class AttendancePreviewTests(unittest.TestCase):
         self.assertEqual(preview["summary"]["warning_count"], 1)
         self.assertIn("找不到班務學員", preview["warnings"][0])
 
+    def test_preview_attendance_matches_aliases(self):
+        program_data = {
+            "student_rounds": [{
+                "student_name": "方柏敦",
+                "aliases": ["方醫師"],
+                "rounds": [{
+                    "label": "最新梯次 (進行中)",
+                    "payment_status": "進度",
+                    "sessions": ["2026-05-14", "", "", "", "", "", "", ""],
+                }],
+            }]
+        }
+
+        preview = preview_apple_ceo_attendance(
+            program_data=program_data,
+            date="2026-05-21",
+            venue="玫瑰客廳",
+            attendees=["方醫師"],
+        )
+
+        self.assertEqual(preview["summary"]["matched_count"], 1)
+        self.assertEqual(preview["affected_rounds"][0]["student_name"], "方柏敦")
+
     def test_preview_endpoint_is_preview_only(self):
         client = TestClient(app)
         response = client.post(

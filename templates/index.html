@@ -50,6 +50,22 @@
             </div>
         </section>
 
+        <section class="program-entry-card digital-entry-card">
+            <div class="program-entry-copy">
+                <p class="section-kicker">一對一教學</p>
+                <div class="program-entry-heading">
+                    <h2>數位管理教學學生檔案</h2>
+                    <a href="{{ request.url_for('read_digital_management') }}" class="program-entry-link inline-program-link">開啟教學管理</a>
+                </div>
+                <p class="meta-info">依照「數位管理教學」行事曆與教學筆記整理學生檔案，進到個人頁即可看目前堂數、下次上課與每堂筆記。</p>
+                <div class="tag-list">
+                    <span class="tag">Google 日曆</span>
+                    <span class="tag">Heptabase 筆記</span>
+                    <span class="tag">一人一檔</span>
+                </div>
+            </div>
+        </section>
+
         <div class="student-grid">
             {% for student in students %}
             {% set lessons = student.meta.lessons_count or student.lessons_count or 0 %}

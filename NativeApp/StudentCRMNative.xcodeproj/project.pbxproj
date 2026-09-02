@@ -18,6 +18,7 @@
 		A00100091A00100011A00100 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110091A00100011A00100 /* NotificationManager.swift */; };
 		A00100101A00100011A00100 /* TeachingRecordProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110101A00100011A00100 /* TeachingRecordProvider.swift */; };
 		A00100111A00100011A00100 /* HeptabaseOAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */; };
+		A00100121A00100011A00100 /* StudentCloudAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00110121A00100011A00100 /* StudentCloudAPIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		A00110091A00100011A00100 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		A00110101A00100011A00100 /* TeachingRecordProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeachingRecordProvider.swift; sourceTree = "<group>"; };
 		A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeptabaseOAuthManager.swift; sourceTree = "<group>"; };
+		A00110121A00100011A00100 /* StudentCloudAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCloudAPIService.swift; sourceTree = "<group>"; };
 		A00200011A00100011A00100 /* StudentCRMNative-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StudentCRMNative-Info.plist"; sourceTree = "<group>"; };
 		A00200021A00100011A00100 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		A00200031A00100011A00100 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				A00110091A00100011A00100 /* NotificationManager.swift */,
 				A00110101A00100011A00100 /* TeachingRecordProvider.swift */,
 				A00110111A00100011A00100 /* HeptabaseOAuthManager.swift */,
+				A00110121A00100011A00100 /* StudentCloudAPIService.swift */,
 			);
 			path = Sources/StudentCRMNative;
 			sourceTree = SOURCE_ROOT;
@@ -174,6 +177,7 @@
 				A00100091A00100011A00100 /* NotificationManager.swift in Sources */,
 				A00100101A00100011A00100 /* TeachingRecordProvider.swift in Sources */,
 				A00100111A00100011A00100 /* HeptabaseOAuthManager.swift in Sources */,
+				A00100121A00100011A00100 /* StudentCloudAPIService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +237,8 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lsqlite3",
+					"-framework",
+					AppIntents,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = coach.rd.StudentCRMNative;
 				PRODUCT_NAME = StudentCRMNative;
@@ -257,6 +263,8 @@
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lsqlite3",
+					"-framework",
+					AppIntents,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = coach.rd.StudentCRMNative;
 				PRODUCT_NAME = StudentCRMNative;

@@ -163,6 +163,13 @@ h1 {
         rgba(22, 27, 34, 0.88);
 }
 
+.digital-entry-card {
+    border-color: rgba(210, 168, 255, 0.26);
+    background:
+        radial-gradient(circle at top right, rgba(210, 168, 255, 0.13), transparent 34%),
+        rgba(22, 27, 34, 0.88);
+}
+
 .secondary-link {
     background: rgba(88, 166, 255, 0.08);
     border: 1px solid rgba(88, 166, 255, 0.2);
@@ -963,17 +970,96 @@ th {
     border-color: rgba(88, 166, 255, 0.34);
 }
 
+.digital-table {
+    min-width: 980px;
+}
+
+.digital-lesson-number {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(126, 231, 135, 0.24);
+    background: rgba(126, 231, 135, 0.08);
+    color: #7ee787;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.digital-kpi-text {
+    font-size: 1.25rem !important;
+    line-height: 1.25 !important;
+    word-break: break-word;
+}
+
+.digital-profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 22px;
+}
+
+.digital-record-list {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.digital-record {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px;
+    border: 1px solid rgba(139, 148, 158, 0.16);
+    border-radius: 8px;
+    background: rgba(13, 17, 23, 0.42);
+}
+
+.digital-note-record {
+    align-items: flex-start;
+}
+
+.digital-record-main {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+}
+
+.digital-record-main span,
+.digital-record-main small {
+    overflow-wrap: anywhere;
+}
+
+.digital-record-main small {
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.digital-record-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
 @media (max-width: 960px) {
     .dashboard-header-inner,
     .dashboard-panel-header,
-    .dashboard-list-item {
+    .dashboard-list-item,
+    .digital-record {
         align-items: stretch;
         flex-direction: column;
     }
 
     .dashboard-kpi-grid,
-    .dashboard-grid-two {
+    .dashboard-grid-two,
+    .digital-profile-grid {
         grid-template-columns: 1fr;
+    }
+
+    .digital-record-side {
+        align-items: flex-start;
     }
 }
 

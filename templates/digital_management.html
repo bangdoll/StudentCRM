@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>數位管理教學 | StudentCRM</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <header class="dashboard-header">
+        <div class="dashboard-header-inner">
+            <div>
+                <p class="section-kicker">Digital Management Teaching</p>
+                <h1>數位管理教學</h1>
+                <p class="meta-info">日曆事件 {{ calendar_event_count }} 筆 · 本地筆記 {{ local_note_count }} 筆</p>
+            </div>
+            <nav class="dashboard-nav">
+                <a href="/" class="dashboard-nav-link">學員牆</a>
+                <a href="/dashboard" class="dashboard-nav-link">學員看板</a>
+                <a href="/api/digital-management/students" class="dashboard-nav-link">API</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dashboard-shell">
+        <section class="dashboard-kpi-grid">
+            <article class="dashboard-kpi-card">
+                <span>學生檔案</span>
+                <strong>{{ students|length }}</strong>
+                <p>依學生姓名自動合併日曆與筆記</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>日曆來源</span>
+                <strong>{{ calendar_event_count }}</strong>
+                <p>{{ calendar_cache }}</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>教學筆記</span>
+                <strong>{{ local_note_count }}</strong>
+                <p>本地 teaching 檔案與個人頁 Heptabase fallback</p>
+            </article>
+            <article class="dashboard-kpi-card">
+                <span>近期下次上課</span>
+                <strong>{{ students|selectattr('next_lesson')|list|length }}</strong>
+                <p>以今天之後第一筆課程為準</p>
+            </article>
+        </section>
+
+        <section class="dashboard-panel">
+            <div class="dashboard-panel-header">
+                <div>
+                    <h2>學生檔案</h2>
+                    <p class="meta-info">點進學生可看堂數、下次上課與每堂教學內容。</p>
+                </div>
+                <div class="dashboard-controls">
+                    <input id="studentSearch" type="search" placeholder="搜尋學生、下次上課、來源" class="dashboard-input">
+                </div>
+            </div>
+
+            <div class="dashboard-table-wrap">
+                <table class="dashboard-table digital-table">
+                    <thead>
+                        <tr>
+                            <th>學生</th>
+                            <th>目前堂數</th>
+                            <th>下次上課</th>
+                            <th>最近上課</th>
+                            <th>筆記</th>
+                            <th>來源</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentRows">
+                        {% for student in students %}
+                        <tr class="dashboard-row" data-search="{{ student.name }} {{ student.next_lesson }} {{ student.source_summary|join(' ') }}">
+                            <td><a href="/digital-management/student/{{ student.id }}" class="dashboard-student-link">{{ student.name }}</a></td>
+                            <td><span class="digital-lesson-number">第 {{ student.current_lesson or 0 }} 堂</span></td>
+                            <td>{{ student.next_lesson or '尚未排定' }}</td>
+                            <td>{{ student.latest_lesson_date or '尚未記錄' }}</td>
+                            <td>{{ student.notes|length }}</td>
+                            <td>
+                                <div class="dashboard-tags">
+                                    {% for source in student.source_summary %}
+                                    <span>{{ source }}</span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr><td colspan="6">尚未找到「數位管理教學」學生資料。</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const studentSearch = document.getElementById('studentSearch');
+        const rows = Array.from(document.querySelectorAll('.dashboard-row'));
+        studentSearch.addEventListener('input', () => {
+            const query = studentSearch.value.trim().toLowerCase();
+            rows.forEach((row) => {
+                row.hidden = !row.dataset.search.toLowerCase().includes(query);
+            });
+        });
+    </script>
+</body>
+</html>

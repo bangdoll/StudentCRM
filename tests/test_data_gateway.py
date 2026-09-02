@@ -95,6 +95,7 @@ class StudentDataGatewayTests(unittest.TestCase):
                     "name": "雲端班",
                     "round_size": 8,
                     "price_per_student": 5000,
+                    "raw": {"active_participants": ["Roger老師"]},
                 }],
                 "apple_venues": [{
                     "name": "玫瑰客廳",
@@ -113,6 +114,7 @@ class StudentDataGatewayTests(unittest.TestCase):
                     "label": "最新梯次 (進行中)",
                     "payment_status": "進度",
                     "sessions": ["2026-03-26", "", "", "", "", "", "", ""],
+                    "raw": {"aliases": ["Roger"]},
                 }],
             }
 
@@ -131,6 +133,8 @@ class StudentDataGatewayTests(unittest.TestCase):
             self.assertEqual(payload["venue"]["name"], "玫瑰客廳")
             self.assertEqual(payload["venue_ledger"][0]["balance_after"], 1000)
             self.assertEqual(payload["student_rounds"][0]["student_name"], "Roger老師")
+            self.assertEqual(payload["student_rounds"][0]["aliases"], ["Roger"])
+            self.assertEqual(payload["active_participants"], ["Roger老師"])
 
     def test_parse_frontmatter_metadata_without_pyyaml(self):
         metadata = parse_frontmatter_metadata(

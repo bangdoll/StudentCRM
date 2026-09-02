@@ -12,7 +12,8 @@ os.environ["OPEN_CLAW_BASE_DIR"] = "/Users/aios/Projects/00.AI-Notes_Local"
 os.environ["STUDENTCRM_DATA_BACKEND"] = "local"
 
 try:
-    from main import app, get_note_quality, student_id_from_path, analyze_student_features
+    from main import app, get_note_quality, student_id_from_path, analyze_student_features, parse_digital_management_title
+    from teaching_sync import parse_teaching_file, resolve_student, build_teaching_records_from_directory
     # 初始化 FastAPI 的測試客戶端
     client = TestClient(app)
 except Exception as e:
@@ -32,12 +33,31 @@ def test_get_note_quality_missing():
 def test_get_note_quality_full(tmp_path):
     """TDD: 測試超過 800 字的文章被視為筆記齊全"""
     mock_file = tmp_path / "long_note.md"
-    mock_file.write_text("a" * 850)
-
-    # 修改 BASE_DIR 後備以利測試檔案能順利通過字串檢查
+    mock_file.write_text("a" * 850, encoding="utf-8")
     emoji, cls, label = get_note_quality(str(mock_file))
-    # 注意：這裡會因為 `path.startswith(BASE_DIR)` 檢查而回傳 badge-missing
-    # 這就是 TDD 發揮作用的地方！未來重構要確保這個檢查不阻斷測試網！
+    assert emoji == "✅"
+    assert cls == "badge-full"
+    assert "850 字" in label
+
+
+def test_get_note_quality_short(tmp_path):
+    """測試 201-800 字的文章被視為待補充"""
+    mock_file = tmp_path / "short_note.md"
+    mock_file.write_text("a" * 300, encoding="utf-8")
+    emoji, cls, label = get_note_quality(str(mock_file))
+    assert emoji == "⚠️"
+    assert cls == "badge-short"
+    assert "300 字（待補充）" in label
+
+
+def test_get_note_quality_placeholder(tmp_path):
+    """測試 200 字以下的文章被視為佔位文件"""
+    mock_file = tmp_path / "placeholder_note.md"
+    mock_file.write_text("a" * 50, encoding="utf-8")
+    emoji, cls, label = get_note_quality(str(mock_file))
+    assert emoji == "📄"
+    assert cls == "badge-placeholder"
+    assert label == "佔位文件"
 
 def test_student_id_from_path_invalid():
     """TDD: 確保惡意或錯誤檔名不導致 Regex 當機"""
@@ -50,6 +70,77 @@ def test_analyze_student_features_missing():
     assert features["days_since_last_lesson"] == -1
     assert features["lessons_reviewed"] == 0
 
+
+def test_parse_digital_management_title_with_series_and_lesson():
+    parsed = parse_digital_management_title("60-4.Kelly Woo 數位管理教學")
+    assert parsed["student_name"] == "Kelly Woo"
+    assert parsed["calendar_series_number"] == 60
+    assert parsed["lesson_number"] == 4
+
+
+def test_parse_digital_management_title_with_location_suffix():
+    parsed = parse_digital_management_title("10-2.湘祺姐數位管理教學@捷運大安站4號出口")
+    assert parsed["student_name"] == "湘祺姐"
+    assert parsed["lesson_number"] == 2
+
+
+def test_parse_digital_management_title_with_missing_lesson_after_dash():
+    parsed = parse_digital_management_title("23-.陳海陸數位管理教學")
+    assert parsed["student_name"] == "陳海陸"
+    assert parsed["calendar_series_number"] == 23
+    assert parsed["lesson_number"] == 23
+
+
+def test_parse_teaching_file_standard_digital_management_filename(tmp_path):
+    note = tmp_path / "20260522 10-2.曾小米數位管理教學.md"
+    note.write_text("#20260522 10-2.曾小米數位管理教學\n今天練習 AI 工作流。", encoding="utf-8")
+    parsed = parse_teaching_file(note)
+    assert parsed["date"] == "2026-05-22"
+    assert parsed["student_name"] == "曾小米"
+    assert parsed["lesson_num"] == 10
+    assert parsed["lesson_sub"] == "2"
+
+
+def test_parse_teaching_file_lesson_date_filename_does_not_use_date_as_lesson(tmp_path):
+    note = tmp_path / "Lesson_20260319_Chami.md"
+    note.write_text("#Lesson_20260319_Chami\n今天練習自動化。", encoding="utf-8")
+    parsed = parse_teaching_file(note)
+    assert parsed["date"] == "2026-03-19"
+    assert parsed["student_name"] == "Chami"
+    assert parsed["lesson_num"] is None
+
+
+def test_resolve_student_uses_aliases():
+    student, matched_by = resolve_student("Shelley 陳萱玲", [{
+        "id": "student-shelley",
+        "name": "Shelley 陳萱玲",
+        "aliases": ["Shelley", "陳萱玲"],
+    }])
+    assert student["id"] == "student-shelley"
+    assert matched_by in ["Shelley 陳萱玲", "Shelley", "陳萱玲"]
+
+
+def test_resolve_student_prefers_exact_name_over_longer_duplicate():
+    student, matched_by = resolve_student("查米", [
+        {"id": "student-chami-old", "name": "查米 315", "aliases": []},
+        {"id": "student-chami", "name": "查米", "aliases": []},
+    ])
+    assert student["id"] == "student-chami"
+    assert matched_by == "查米"
+
+
+def test_build_teaching_records_from_directory_matches_students(tmp_path):
+    note = tmp_path / "20260522 10-2.曾小米數位管理教學.md"
+    note.write_text("#20260522 10-2.曾小米數位管理教學\n今天練習 AI 工作流。", encoding="utf-8")
+    payload = build_teaching_records_from_directory(str(tmp_path), [{
+        "id": "student-xiaomi",
+        "name": "曾小米",
+        "aliases": ["小米"],
+    }])
+    assert payload["total_records"] == 1
+    assert payload["records"][0]["student_id"] == "student-xiaomi"
+    assert payload["duplicate_count"] == 0
+
 # ==========================================
 # 2. 整合測試 (Integration Tests) - API 路由存活判定
 # ==========================================
@@ -61,10 +152,9 @@ def test_read_root():
     assert response.status_code in [200, 422, 404]
 
 def test_static_files():
-    """TDD: 測試靜態資源路由未遺失"""
-    response = client.get("/static/app.css")
-    # 測試 /static 是否被正常掛載
-    assert response.status_code in [200, 404]
+    """TDD: 測試靜態資源路由正常服務"""
+    response = client.get("/static/style.css")
+    assert response.status_code == 200
 
 def test_apple_ceo_program_page():
     """蘋果總裁班頁面應可正常開啟並含關鍵班務資訊"""
@@ -81,6 +171,49 @@ def test_voice_page():
     assert response.status_code == 200
     assert "學員管理語音工作台" in response.text
     assert "課後紀錄" in response.text
+
+
+def test_digital_management_page():
+    """數位管理教學頁面應可從本地 teaching 檔案建立學生檔案"""
+    response = client.get("/digital-management")
+    assert response.status_code == 200
+    assert "數位管理教學" in response.text
+    assert "學生檔案" in response.text
+
+
+def test_digital_management_api():
+    """數位管理教學 API 應回傳學生、堂數與筆記來源"""
+    response = client.get("/api/digital-management/students")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["status"] == "ok"
+    assert payload["count"] >= 1
+    assert "current_lesson" in payload["students"][0]
+
+
+def test_digital_management_profiles_use_cloud_teaching_records_when_local_empty(monkeypatch):
+    import main as studentcrm_main
+
+    monkeypatch.setattr(studentcrm_main, "load_digital_management_calendar_events", lambda: [])
+    monkeypatch.setattr(studentcrm_main, "load_local_digital_management_notes", lambda: [])
+    monkeypatch.setattr(studentcrm_main.student_gateway, "load_all_teaching_records", lambda: [{
+        "id": "record-cloud",
+        "student_id": "student-cloud",
+        "student_name": "雲端學員",
+        "title": "#20260522 10-2.雲端學員數位管理教學",
+        "date": "2026-05-22",
+        "lesson_num": 10,
+        "lesson_sub": "2",
+        "raw": {
+            "source": "local_teaching",
+            "preview": "雲端教學筆記",
+        },
+    }])
+
+    payload = studentcrm_main.build_digital_management_profiles()
+    assert len(payload["students"]) == 1
+    assert payload["students"][0]["id"] == "student-cloud"
+    assert payload["students"][0]["current_lesson"] == 10
 
 
 def test_student_page_cloud_fallback(monkeypatch):

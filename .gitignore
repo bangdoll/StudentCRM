@@ -32,3 +32,4 @@ NativeApp/.DS_Store
 server.log
 backend.log
 main.log
+.vercel

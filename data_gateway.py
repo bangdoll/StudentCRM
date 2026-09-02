@@ -29,7 +29,12 @@ class StudentDataGateway:
 
     def __init__(self, base_dir: str) -> None:
         self.base_dir = base_dir
-        self.app_dir = os.path.join(base_dir, "StudentCRM") if os.path.isdir(os.path.join(base_dir, "StudentCRM")) else base_dir
+        if os.path.isdir(os.path.join(base_dir, "07.Projects/StudentCRM")):
+            self.app_dir = os.path.join(base_dir, "07.Projects/StudentCRM")
+        elif os.path.isdir(os.path.join(base_dir, "StudentCRM")):
+            self.app_dir = os.path.join(base_dir, "StudentCRM")
+        else:
+            self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
         self.students_file = os.path.join(base_dir, "OpenClaw/Data/students.json")
         self.apple_ceo_file = os.path.join(base_dir, "OpenClaw/Data/apple_ceo_class.json")
         default_cache_dir = "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(self.app_dir, "cache")
@@ -114,6 +119,18 @@ class StudentDataGateway:
         except DataGatewayError:
             return []
 
+    def load_all_teaching_records(self) -> list[dict[str, Any]]:
+        if self.backend != "supabase":
+            return []
+
+        try:
+            return self._load_supabase_table(
+                "teaching_records",
+                query="select=*&order=date.desc",
+            )
+        except DataGatewayError:
+            return []
+
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
             return self._read_json(self.status_file)
@@ -172,6 +189,7 @@ class StudentDataGateway:
 
         program = programs[0]
         program_id = program.get("id", "apple-ceo")
+        program_raw = program.get("raw") if isinstance(program.get("raw"), dict) else {}
         encoded_program_id = quote(program_id, safe="")
         venues = self._load_supabase_table("apple_venues", query=f"select=*&program_id=eq.{encoded_program_id}")
         attendance = self._load_supabase_table("apple_attendance_records", query=f"select=*&program_id=eq.{encoded_program_id}&order=date.asc")
@@ -179,8 +197,16 @@ class StudentDataGateway:
         rounds = self._load_supabase_table("apple_student_rounds", query=f"select=*&program_id=eq.{encoded_program_id}&order=student_name.asc,sort_order.asc")
 
         grouped_rounds: dict[str, list[dict[str, Any]]] = {}
+        grouped_aliases: dict[str, list[str]] = {}
         for row in rounds:
-            grouped_rounds.setdefault(row.get("student_name", ""), []).append({
+            student_name = row.get("student_name", "")
+            raw = row.get("raw") if isinstance(row.get("raw"), dict) else {}
+            aliases = raw.get("aliases", []) if isinstance(raw.get("aliases"), list) else []
+            grouped_aliases.setdefault(student_name, [])
+            for alias in aliases:
+                if alias and alias not in grouped_aliases[student_name]:
+                    grouped_aliases[student_name].append(alias)
+            grouped_rounds.setdefault(student_name, []).append({
                 "label": row.get("label", ""),
                 "payment_status": row.get("payment_status", ""),
                 "sessions": row.get("sessions", []),
@@ -204,10 +230,11 @@ class StudentDataGateway:
             "attendance_records": [self._format_apple_attendance(row) for row in attendance],
             "venue_ledger": [self._format_apple_ledger(row) for row in ledger],
             "student_rounds": [
-                {"student_name": name, "rounds": items}
+                {"student_name": name, "aliases": grouped_aliases.get(name, []), "rounds": items}
                 for name, items in grouped_rounds.items()
                 if name
             ],
+            "active_participants": program_raw.get("active_participants", []),
         }
 
     @staticmethod

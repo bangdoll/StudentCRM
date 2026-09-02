@@ -29,6 +29,10 @@ REQUIRED_APPLE_PROGRAM_KEYS = {
 
 
 def repo_root() -> Path:
+    current = Path(__file__).resolve().parent
+    for parent in [current] + list(current.parents):
+        if (parent / "OpenClaw").is_dir():
+            return parent
     return Path(__file__).resolve().parents[2]
 
 
@@ -146,6 +150,8 @@ def check_supabase_apple_ceo(url: str, key: str) -> None:
 
 
 def main() -> int:
+    app_dir = Path(__file__).resolve().parents[1]
+    load_dotenv(app_dir / ".env")
     load_dotenv(repo_root() / ".env")
     parser = argparse.ArgumentParser(description="StudentCRM 雲端同步 smoke test")
     parser.add_argument("--api", default="", help="檢查 FastAPI base URL，例如 http://127.0.0.1:8888")

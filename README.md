@@ -29,13 +29,13 @@ StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設�
 ### 開發者除錯模式
 如果您需要查看終端機日誌，可以直接啟動後台：
 ```bash
-cd /Users/aios/Projects/00.AI-Notes_Local/StudentCRM
+cd /Users/aios/Projects/00.AI-Notes_Local/07.Projects/StudentCRM
 python3 main.py
 ```
 伺服器將會啟動於 `http://localhost:8888`。
 
 ### 雲端雙引擎設定
-預設不需要任何雲端設定，系統會讀取本地 JSON。
+預設不需要任何雲端設定，系統會自動向上偵測 OpenClaw 資料夾並讀取本地 JSON。
 
 若要切換到 Supabase 讀取：
 ```bash
@@ -61,22 +61,22 @@ Web Dashboard MVP：
 *   `GET /program/apple-ceo`：班務中心含「預覽新增上課紀錄」面板，可先查看出席名單會影響哪些學員期別；此流程只讀預覽，不會寫入資料。
 
 Supabase 初始化：
-1. 先在 Supabase SQL Editor 執行 `StudentCRM/scripts/supabase_schema.sql`。
-2. 接著執行 `StudentCRM/scripts/supabase_rls_readonly.sql` 啟用只讀 RLS policy。
+1. 先在 Supabase SQL Editor 執行 `07.Projects/StudentCRM/scripts/supabase_schema.sql`。
+2. 接著執行 `07.Projects/StudentCRM/scripts/supabase_rls_readonly.sql` 啟用只讀 RLS policy。
 3. 乾跑檢查資料量：
    ```bash
-   python3 StudentCRM/scripts/migrate_to_supabase.py
+   python3 07.Projects/StudentCRM/scripts/migrate_to_supabase.py
    ```
 4. 確認後才寫入：
    ```bash
-   python3 StudentCRM/scripts/migrate_to_supabase.py --apply
+   python3 07.Projects/StudentCRM/scripts/migrate_to_supabase.py --apply
    ```
 
-Supabase 安全邊界請見 `StudentCRM/docs/SUPABASE_SECURITY.md`。
+Supabase 安全邊界請見 `07.Projects/StudentCRM/docs/SUPABASE_SECURITY.md`。
 
 同步 smoke test：
 ```bash
-python3 StudentCRM/scripts/supabase_smoke_test.py --api http://127.0.0.1:8888
+python3 07.Projects/StudentCRM/scripts/supabase_smoke_test.py --api http://127.0.0.1:8888
 ```
 若已完成 Supabase schema / RLS / migrate，可再加上 `--supabase` 檢查 REST 欄位與筆數；檢查範圍包含 `students` 與蘋果總裁班拆表。網站與 Vercel production 應設定 `SUPABASE_ANON_KEY`；`SUPABASE_SERVICE_ROLE_KEY` 僅供本機遷移工具或受控後端 Worker 使用。
 

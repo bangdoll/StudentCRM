@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import sys
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,10 @@ from dotenv import load_dotenv
 
 
 def repo_root() -> Path:
+    current = Path(__file__).resolve().parent
+    for parent in [current] + list(current.parents):
+        if (parent / "OpenClaw").is_dir():
+            return parent
     return Path(__file__).resolve().parents[2]
 
 
@@ -157,8 +162,72 @@ def supabase_upsert(url: str, key: str, table: str, rows: list[dict[str, Any]], 
             raise exc
 
 
+def supabase_delete(url: str, key: str, table: str, query: str = "") -> None:
+    endpoint = f"{url.rstrip('/')}/rest/v1/{table}"
+    if query:
+        endpoint = f"{endpoint}?{query}"
+    headers = {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+    }
+    response = requests.delete(endpoint, headers=headers, timeout=30)
+    try:
+        response.raise_for_status()
+    except requests.HTTPError as exc:
+        print(f"{table} 刪除失敗：{response.status_code} {response.text}", file=sys.stderr)
+        raise exc
+
+
+def supabase_replace_apple_payload(url: str, key: str, apple_payload: dict[str, list[dict[str, Any]]], dry_run: bool) -> None:
+    delete_order = [
+        "apple_student_rounds",
+        "apple_venue_ledger",
+        "apple_attendance_records",
+        "apple_venues",
+        "apple_programs",
+    ]
+    upsert_order = [
+        "apple_programs",
+        "apple_venues",
+        "apple_attendance_records",
+        "apple_venue_ledger",
+        "apple_student_rounds",
+    ]
+
+    if dry_run:
+        for table in delete_order:
+            print(f"[DRY-RUN] 會清除 {table} 中 program_id/id = apple-ceo 的舊資料")
+        for table in upsert_order:
+            print(f"[DRY-RUN] 會 upsert {len(apple_payload.get(table, []))} 筆至 {table}")
+        return
+
+    for table in delete_order:
+        query = "id=eq.apple-ceo" if table == "apple_programs" else "program_id=eq.apple-ceo"
+        supabase_delete(url, key, table, query)
+
+    for table in upsert_order:
+        rows = apple_payload.get(table, [])
+        if rows:
+            supabase_upsert(url, key, table, rows, dry_run=False)
+
+
+def supabase_replace_teaching_records(url: str, key: str, rows: list[dict[str, Any]], dry_run: bool) -> None:
+    if dry_run:
+        print("[DRY-RUN] 會清除 teaching_records 後重建本地 teaching 匯入資料")
+        print(f"[DRY-RUN] 會 upsert {len(rows)} 筆至 teaching_records")
+        return
+
+    supabase_delete(url, key, "teaching_records", "id=neq.00000000-0000-0000-0000-000000000000")
+    if rows:
+        supabase_upsert(url, key, "teaching_records", rows, dry_run=False)
+
+
 def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    records_path = root / "StudentCRM/cache/teaching_records.json"
+    app_dir = Path(__file__).resolve().parents[1]
+    records_path = app_dir / "cache/teaching_records.json"
+    if not records_path.exists():
+        records_path = root / "StudentCRM/cache/teaching_records.json"
     if not records_path.exists():
         return []
 
@@ -171,9 +240,10 @@ def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> l
 
     formatted_records = []
     for record in records_list:
+        source_key = record.get("card_id") or record.get("id") or record.get("path") or record.get("title")
         payload = {
-            "id": record.get("card_id"),
-            "student_id": None,
+            "id": str(uuid.uuid5(uuid.NAMESPACE_URL, f"studentcrm:teaching:{source_key}")),
+            "student_id": record.get("student_id"),
             "title": record.get("title"),
             "date": record.get("date"),
             "lesson_num": record.get("lesson_num"),
@@ -183,7 +253,7 @@ def build_teaching_records(root: Path, students_data: list[dict[str, Any]]) -> l
             "edited": record.get("edited"),
             "raw": record,
         }
-        student_id = name_to_id.get(record.get("student_name"))
+        student_id = record.get("student_id") or name_to_id.get(record.get("student_name"))
         if student_id:
             payload["student_id"] = student_id
         formatted_records.append(payload)
@@ -212,7 +282,12 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
         "validity_rule": program.get("validity_rule", ""),
         "leave_rule": program.get("leave_rule", ""),
         "join_rule": program.get("join_rule", ""),
-        "raw": program,
+        "raw": {
+            **program,
+            "active_participants": data.get("active_participants", []),
+            "tuition_records": data.get("tuition_records", []),
+            "duplicate_report": data.get("duplicate_report", {}),
+        },
     }]
 
     venue_rows = [{
@@ -259,8 +334,10 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
     round_rows = []
     for group in data.get("student_rounds", []):
         student_name = group.get("student_name", "")
+        aliases = group.get("aliases", [])
         for index, round_item in enumerate(group.get("rounds", [])):
             sessions = round_item.get("sessions", [])
+            raw = {**round_item, "aliases": aliases}
             round_rows.append({
                 "id": f"{program_id}-round-{student_name}-{index}",
                 "program_id": program_id,
@@ -270,7 +347,7 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
                 "sessions": sessions,
                 "attended_count": len([session for session in sessions if session]),
                 "sort_order": index,
-                "raw": round_item,
+                "raw": raw,
             })
 
     return {
@@ -285,9 +362,13 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="StudentCRM Supabase 遷移工具")
     parser.add_argument("--apply", action="store_true", help="實際寫入 Supabase；預設只乾跑")
+    parser.add_argument("--apple-only", action="store_true", help="只同步蘋果總裁班資料，並清除 Supabase 舊班務資料後重建")
+    parser.add_argument("--replace-teaching", action="store_true", help="清除 Supabase teaching_records 後用本地 teaching cache 重建")
     args = parser.parse_args()
 
     root = repo_root()
+    app_dir = Path(__file__).resolve().parents[1]
+    load_dotenv(app_dir / ".env")
     load_dotenv(root / "StudentCRM/.env")
     load_dotenv(root / ".env")
 
@@ -296,18 +377,23 @@ def main() -> int:
     dry_run = not args.apply
 
     students_path = root / "OpenClaw/Data/students.json"
-    students_data = load_json(students_path)
-    teaching_records = build_teaching_records(root, students_data)
+    students_data = [] if args.apple_only else load_json(students_path)
+    teaching_records = [] if args.apple_only else build_teaching_records(root, students_data)
     apple_payload = build_apple_ceo_payload(root)
 
     print(f"資料根目錄：{root}")
-    print(f"學員資料：{students_path} ({len(students_data)} 筆)")
-    print(f"教學紀錄：{len(teaching_records)} 筆")
+    if not args.apple_only:
+        print(f"學員資料：{students_path} ({len(students_data)} 筆)")
+        print(f"教學紀錄：{len(teaching_records)} 筆")
     for table, rows in apple_payload.items():
         print(f"蘋果總裁班 {table}：{len(rows)} 筆")
     print(f"執行模式：{'實際寫入' if args.apply else '乾跑'}")
 
     if dry_run:
+        if args.replace_teaching and teaching_records:
+            supabase_replace_teaching_records("", "", teaching_records, dry_run=True)
+        if args.apple_only:
+            supabase_replace_apple_payload("", "", apple_payload, dry_run=True)
         print("乾跑完成；確認 schema 後加上 --apply 才會寫入 Supabase。")
         return 0
 
@@ -315,9 +401,17 @@ def main() -> int:
         print("錯誤：缺少 SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY", file=sys.stderr)
         return 2
 
+    if args.apple_only:
+        supabase_replace_apple_payload(url, key, apple_payload, dry_run=False)
+        print("Supabase 蘋果總裁班同步完成")
+        return 0
+
     supabase_upsert(url, key, "students", students_data, dry_run=False)
     if teaching_records:
-        supabase_upsert(url, key, "teaching_records", teaching_records, dry_run=False)
+        if args.replace_teaching:
+            supabase_replace_teaching_records(url, key, teaching_records, dry_run=False)
+        else:
+            supabase_upsert(url, key, "teaching_records", teaching_records, dry_run=False)
     for table, rows in apple_payload.items():
         if rows:
             supabase_upsert(url, key, table, rows, dry_run=False)
