@@ -16,9 +16,9 @@
                 <p class="meta-info">數位管理教學 · 目前第 {{ student.current_lesson or 0 }} 堂</p>
             </div>
             <nav class="dashboard-nav">
-                <a href="/digital-management" class="dashboard-nav-link">返回教學管理</a>
+                <a href="/" class="dashboard-nav-link">學員牆</a>
+                <a href="/digital-management" class="dashboard-nav-link">數位管理教學</a>
                 <a href="/dashboard" class="dashboard-nav-link">學員看板</a>
-                <a href="/api/digital-management/students/{{ student.id }}" class="dashboard-nav-link">API</a>
             </nav>
         </div>
     </header>
