@@ -24,9 +24,9 @@
     <main class="container program-page">
         <section class="program-hero-card">
             <div>
-                <p class="section-kicker">班級規則</p>
-                <h2>上課紀錄與場地費分開記，班務就不會亂。</h2>
-                <p class="meta-info">這頁把班級摘要、每堂出勤、場地費流水與每位學員的 8 堂進度集中在同一個視圖。</p>
+                <p class="section-kicker">班級核心規則</p>
+                <h2>繳學費起四個月上完八堂課，超過就是過期。</h2>
+                <p class="meta-info">上課紀錄與場地費分開記；學員每輪自繳學費日起算 4 個月效期，逾期未滿 8 堂之剩餘堂數即為過期作廢。</p>
             </div>
         </section>
 
@@ -36,7 +36,8 @@
         </nav>
 
         <nav class="program-subnav-pills" id="programSubnav" aria-label="章節快捷導航">
-            <a href="#radarSection" class="subnav-pill active">🎯 續班雷達</a>
+            <a href="#teachingNotesSection" class="subnav-pill active">📝 課堂教學紀錄 ({{ teaching_notes|length }})</a>
+            <a href="#radarSection" class="subnav-pill">🎯 續班雷達</a>
             <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
             <a href="#studentsSection" class="subnav-pill">👥 學員進度 ({{ student_rounds|length }})</a>
             <a href="#tuitionSection" class="subnav-pill">💳 學費收取</a>
@@ -44,6 +45,45 @@
             <a href="#attendanceSection" class="subnav-pill">📅 上課紀錄 ({{ attendance_records|length }}堂)</a>
             <a href="#previewSection" class="subnav-pill">⚡ HITL預覽</a>
         </nav>
+
+        <section class="panel-card" id="teachingNotesSection">
+            <div class="panel-header">
+                <div>
+                    <p class="section-kicker">課堂筆記・置頂專區</p>
+                    <h2>蘋果總裁班 歷次教學紀錄</h2>
+                </div>
+                <span class="tag tag-success">共 {{ teaching_notes|length }} 篇課堂實戰筆記（最新 {{ teaching_notes[0].date if teaching_notes else '' }}）</span>
+            </div>
+            
+            <div class="teaching-notes-grid">
+                {% for note in teaching_notes %}
+                <article class="teaching-note-card {% if loop.index > 6 %}teaching-note-hidden{% endif %}" {% if loop.index > 6 %}style="display: none;"{% endif %}>
+                    <div>
+                        <div class="teaching-note-header">
+                            <span class="tag" style="font-weight: 700; color: #58a6ff;">{{ note.date }}</span>
+                            <span class="meta-info">{{ note.word_count }} 字</span>
+                        </div>
+                        <h3 class="teaching-note-title">
+                            <a href="/note?path={{ note.path }}">{{ note.title }}</a>
+                        </h3>
+                        <p class="teaching-note-preview">{{ note.preview }}</p>
+                    </div>
+                    <div class="teaching-note-footer">
+                        <a href="/note?path={{ note.path }}" class="note-read-link">閱讀筆記全文 ➔</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+
+            {% if teaching_notes|length > 6 %}
+            <div class="table-collapse-footer" style="margin-top: 16px;">
+                <button type="button" id="toggleNotesBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ teaching_notes|length }}" data-default="6">
+                    <span>展開歷史教學紀錄 (共 {{ teaching_notes|length }} 篇)</span>
+                    <span id="notesToggleArrow">▾</span>
+                </button>
+            </div>
+            {% endif %}
+        </section>
 
         <section class="ops-radar-grid" id="radarSection">
             <article class="ops-radar-card {% if summary.latest_balance < 0 %}ops-radar-card-danger{% endif %}">
@@ -136,6 +176,7 @@
                     <li><strong>地址：</strong>{{ venue.address }}</li>
                     <li><strong>停車：</strong>{{ venue.parking }}</li>
                     <li><strong>捷運：</strong>{{ venue.metro }}</li>
+                    <li><strong>效期規則：</strong>{{ program.validity_rule }}</li>
                     <li><strong>請假規則：</strong>{{ program.leave_rule }}</li>
                     <li><strong>插班規則：</strong>{{ program.join_rule }}</li>
                 </ul>
@@ -336,14 +377,19 @@
                             {% if latest_round.attended_count in (6, 7) and '進行中' in latest_round.label and not latest_round.is_expired %}
                             <div class="round-followup-flag">接近完成，建議本堂課預告續約下一輪</div>
                             {% endif %}
-                            {% if latest_round.is_expiring_soon %}
+                            {% if latest_round.is_expiring_soon and not latest_round.is_expired and latest_round.attended_count < 8 %}
                             <div class="round-expiring-flag">即將到期，{{ latest_round.days_until_expiry }} 天後到期（{{ latest_round.expiry_date }}）</div>
                             {% endif %}
                             {% if latest_round.is_expired %}
-                            <div class="round-expired-flag">已過期，四個月效期至 {{ latest_round.expiry_date }}</div>
+                            <div class="round-expired-flag">❌ 已過期：繳學費起算四個月效期至 {{ latest_round.expiry_date }}（未滿 8 堂，剩餘 {{ latest_round.remaining_count }} 堂作廢）</div>
                             {% endif %}
                             {% if latest_round.attended_count >= 8 %}
-                            <div class="round-complete-flag">已滿 8 堂圓滿結訓</div>
+                            <div class="round-complete-flag">🏁 已於四個月內滿 8 堂圓滿結訓，請通知續班</div>
+                            {% endif %}
+                            {% if latest_round.expiry_date and not latest_round.is_expired and latest_round.attended_count < 8 %}
+                            <div class="meta-info" style="margin-top: 6px; font-size: 0.82rem; color: #58a6ff;">
+                                ⏳ 效期追蹤：{{ latest_round.validity_base }} 起算四個月至 <strong>{{ latest_round.expiry_date }}</strong>（剩餘 {{ latest_round.days_until_expiry }} 天）
+                            </div>
                             {% endif %}
 
                             {% set student_tuitions = [] %}
@@ -387,17 +433,17 @@
                                             <span>{{ round.remaining_count }} 堂待上</span>
                                         </div>
                                     </div>
-                                    {% if round.attended_count in (6, 7) %}
-                                    <div class="round-followup-flag">接近完成，請先提醒續班</div>
+                                    {% if round.attended_count in (6, 7) and '進行中' in round.label and not round.is_expired %}
+                                    <div class="round-followup-flag">接近完成，建議本堂課預告續約下一輪</div>
                                     {% endif %}
-                                    {% if round.is_expiring_soon %}
+                                    {% if round.is_expiring_soon and not round.is_expired and round.attended_count < 8 %}
                                     <div class="round-expiring-flag">即將到期，{{ round.days_until_expiry }} 天後到期（{{ round.expiry_date }}）</div>
                                     {% endif %}
                                     {% if round.is_expired %}
-                                    <div class="round-expired-flag">已過期，四個月效期至 {{ round.expiry_date }}</div>
+                                    <div class="round-expired-flag">❌ 已過期：四個月效期至 {{ round.expiry_date }}（未滿 8 堂課作廢）</div>
                                     {% endif %}
                                     {% if round.attended_count >= 8 %}
-                                    <div class="round-complete-flag">已滿 8 堂，請通知續班</div>
+                                    <div class="round-complete-flag">已滿 8 堂結訓，請通知續班</div>
                                     {% endif %}
                                     <div class="session-chips">
                                         {% for session in round.sessions %}
@@ -423,7 +469,7 @@
                 <div>
                     <p class="section-kicker">完成通知</p>
                     <h2>已有 {{ summary.completed_student_count }} 位學員達到 8 堂</h2>
-                    <p class="meta-info">這些學員已達單位計算上限，請安排續班、轉班或續費提醒。</p>
+                    <p class="meta-info">這些學員已達單位計算上限，請通知續班、轉班或續費提醒。</p>
                 </div>
                 <span class="completion-alert-badge">請通知</span>
             </div>
@@ -619,6 +665,29 @@
                     renderPreview(payload);
                 } catch (error) {
                     previewResult.innerHTML = `<div class="attendance-preview-warning">${escapeHTML(error.message)}</div>`;
+                }
+            });
+        }
+
+        // 教學紀錄展開/收合
+        const toggleNotesBtn = document.getElementById('toggleNotesBtn');
+        if (toggleNotesBtn) {
+            toggleNotesBtn.addEventListener('click', () => {
+                const isExpanded = toggleNotesBtn.getAttribute('data-expanded') === 'true';
+                const hiddenCards = document.querySelectorAll('.teaching-note-hidden');
+                hiddenCards.forEach(card => {
+                    card.style.display = isExpanded ? 'none' : '';
+                });
+                const total = toggleNotesBtn.getAttribute('data-total');
+                const defaultCount = toggleNotesBtn.getAttribute('data-default');
+                if (isExpanded) {
+                    toggleNotesBtn.setAttribute('data-expanded', 'false');
+                    toggleNotesBtn.querySelector('span:first-child').textContent = `展開歷史教學紀錄 (共 ${total} 篇)`;
+                    document.getElementById('notesToggleArrow').textContent = '▾';
+                } else {
+                    toggleNotesBtn.setAttribute('data-expanded', 'true');
+                    toggleNotesBtn.querySelector('span:first-child').textContent = `收合教學紀錄 (僅顯示最新 ${defaultCount} 篇)`;
+                    document.getElementById('notesToggleArrow').textContent = '▴';
                 }
             });
         }

@@ -142,6 +142,9 @@ def parse_lesson_parts(value: str) -> tuple[int | None, str | None]:
 def candidate_name_from_title(title: str) -> str:
     stem = title[:-3] if title.endswith(".md") else title
 
+    if "蘋果總裁班" in stem or "Apple_CEO" in stem or "Apple CEO" in stem:
+        return "蘋果總裁班"
+
     lesson_match = re.match(r"Lesson[_\s-]*(20\d{6})[_\s-]+(.+)$", stem, re.IGNORECASE)
     if lesson_match:
         return re.sub(r"[_-]+", " ", lesson_match.group(2)).strip()
@@ -163,9 +166,12 @@ def candidate_name_from_title(title: str) -> str:
 def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     file_path = Path(path)
     title = file_path.stem
+    if "我的工作是數位教練" in title or "eDM" in title:
+        return None
     is_digital_management = DIGITAL_MANAGEMENT_LABEL in title
     is_lesson_file = bool(re.match(r"Lesson[_\s-]*20\d{6}[_\s-]+", title, re.IGNORECASE))
-    if not is_digital_management and not is_lesson_file:
+    is_apple_ceo = "蘋果總裁班" in title or "Apple_CEO" in title or "Apple CEO" in title
+    if not is_digital_management and not is_lesson_file and not is_apple_ceo:
         return None
 
     date = parse_date_from_title(title)

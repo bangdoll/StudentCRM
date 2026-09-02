@@ -945,16 +945,63 @@ def summarize_apple_ceo_program(program_data: dict) -> dict:
             round_item["progress_percent"] = int((attended_count / 8) * 100) if sessions else 0
             round_item["is_expired"] = False
             round_item["expiry_date"] = ""
+            round_item["validity_base"] = ""
 
-            if normalized_sessions:
-                first_session_date = datetime.strptime(normalized_sessions[0], "%Y-%m-%d").date()
-                expiry_date = add_months(datetime.combine(first_session_date, datetime.min.time()), 4).date()
+            # 規則：繳學費起四個月上完八堂課，超過就是過期
+            payment_date_str = round_item.get("payment_date")
+            base_date = None
+            validity_base_desc = ""
+
+            # 1. 優先使用 round 的 payment_date
+            if payment_date_str:
+                try:
+                    base_date = datetime.strptime(payment_date_str, "%Y-%m-%d").date()
+                    validity_base_desc = f"繳學費日 {payment_date_str}"
+                except ValueError:
+                    base_date = None
+
+            # 2. 若無，嘗試從 tuition_records 比對該學員之繳費日
+            if not base_date:
+                student_name = student.get("student_name", "")
+                aliases = student.get("aliases", [])
+                matched_tuitions = [
+                    t for t in tuition_records
+                    if t.get("student_name") == student_name or t.get("student_name") in aliases
+                ]
+                if "進行中" in round_item.get("label", "") and matched_tuitions:
+                    try:
+                        latest_t_date = matched_tuitions[-1].get("date")
+                        base_date = datetime.strptime(latest_t_date, "%Y-%m-%d").date()
+                        validity_base_desc = f"繳學費日 {latest_t_date}"
+                    except ValueError:
+                        base_date = None
+
+            # 3. 若仍無繳費紀錄，fallback 至首堂課日期
+            if not base_date and normalized_sessions:
+                base_date = datetime.strptime(normalized_sessions[0], "%Y-%m-%d").date()
+                validity_base_desc = f"首堂上課日 {normalized_sessions[0]}"
+
+            round_item["validity_base"] = validity_base_desc
+
+            if base_date:
+                expiry_date = add_months(datetime.combine(base_date, datetime.min.time()), 4).date()
                 round_item["expiry_date"] = expiry_date.strftime("%Y-%m-%d")
-                round_item["is_expired"] = today > expiry_date
                 days_until_expiry = (expiry_date - today).days
                 round_item["days_until_expiry"] = days_until_expiry
-                round_item["is_expiring_soon"] = 0 <= days_until_expiry <= 14
-                latest_session = max([latest_session] + normalized_sessions)
+
+                # 規則核心：四個月內須上完八堂課。若未滿八堂且超過四個月，即為過期作廢
+                if attended_count < 8 and today > expiry_date:
+                    round_item["is_expired"] = True
+                    round_item["is_expiring_soon"] = False
+                elif attended_count < 8 and 0 <= days_until_expiry <= 14:
+                    round_item["is_expired"] = False
+                    round_item["is_expiring_soon"] = True
+                else:
+                    round_item["is_expired"] = False
+                    round_item["is_expiring_soon"] = False
+
+                if normalized_sessions:
+                    latest_session = max([latest_session] + normalized_sessions)
             else:
                 round_item["days_until_expiry"] = None
                 round_item["is_expiring_soon"] = False
@@ -1556,6 +1603,7 @@ async def read_root(request: Request):
 async def read_apple_ceo_program(request: Request):
     program_data = load_apple_ceo_program()
     summary = summarize_apple_ceo_program(program_data)
+    teaching_notes = program_data.get("teaching_notes", [])
     if use_fallback_pages("program_apple_ceo.html"):
         rows = "\n".join(
             f"<tr><td>{record.get('date', '')}</td><td>{record.get('venue', '')}</td><td>{record.get('attendee_count', 0)}</td></tr>"
@@ -1587,6 +1635,7 @@ async def read_apple_ceo_program(request: Request):
         "venue_ledger": program_data.get("venue_ledger", []),
         "student_rounds": program_data.get("student_rounds", []),
         "tuition_records": program_data.get("tuition_records", []),
+        "teaching_notes": teaching_notes,
         "summary": summary,
         "legacy_note": program_data.get("legacy_note", ""),
     })
