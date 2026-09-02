@@ -387,6 +387,8 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
             "latest_session": latest_session,
         })
 
+    status_by_name = {s["student_name"]: s for s in student_statuses}
+
     def unique_students(records: list[dict]) -> list[dict]:
         seen = set()
         result = []
@@ -394,7 +396,15 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
             name = r.get("student_name")
             if name and name not in seen:
                 seen.add(name)
-                result.append(r)
+                st = status_by_name.get(name, {})
+                enriched = {
+                    **r,
+                    "active_count": st.get("active_count", 1 if "進行中" in r.get("label", "") else 0),
+                    "total_attended": st.get("total_attended", r.get("attended_count", 0)),
+                    "priority_count": st.get("priority_count", 0),
+                    "latest_session": st.get("latest_session", ""),
+                }
+                result.append(enriched)
         return result
 
     unique_active = unique_students(active_rounds)

@@ -199,3 +199,40 @@ class TestReminderMessage:
         assert "2026-11-01" in msg
         assert "尚餘 60 天" in msg
         assert "蘋果總裁班・續班預告提醒" in msg
+
+
+class TestActiveStudentsSummary:
+    def test_active_students_contains_accumulated_counts(self):
+        """驗證 active_students 必定包含 active_count（進行中筆數）與 total_attended（累計總堂數）。"""
+        program = {
+            "attendance_records": [],
+            "venue_ledger": [],
+            "tuition_records": [],
+            "student_rounds": [
+                {
+                    "student_name": "劉邦寧",
+                    "aliases": [],
+                    "rounds": [
+                        {
+                            "label": "最新梯次 (進行中)",
+                            "payment_date": "2026-08-01",
+                            "sessions": ["2026-08-06", "2026-08-13", "2026-08-20"],
+                        },
+                        {
+                            "label": "2026 春夏梯次 (已結訓)",
+                            "payment_date": "2026-03-01",
+                            "sessions": ["2026-03-05", "2026-03-12", "2026-03-19", "2026-03-26",
+                                         "2026-04-02", "2026-04-09", "2026-04-16", "2026-04-23"],
+                        },
+                    ],
+                }
+            ],
+        }
+        summary = summarize_apple_ceo_program(program)
+        active_students = summary["active_students"]
+        assert len(active_students) == 1
+        student = active_students[0]
+        assert student["student_name"] == "劉邦寧"
+        assert student["active_count"] == 1
+        assert student["total_attended"] == 11  # 3 + 8 = 11 堂
+        assert student["attended_count"] == 3   # 當期 3 堂

@@ -163,6 +163,8 @@ def test_apple_ceo_program_page():
     assert "蘋果總裁班" in response.text
     assert "場地費流水" in response.text
     assert "請通知續班" in response.text
+    assert "進行中 1 筆" in response.text
+    assert "累計 27 堂" in response.text
 
 
 
