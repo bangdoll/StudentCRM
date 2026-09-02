@@ -74,3 +74,80 @@ def calculate_student_stats(students: list[dict[str, Any]]) -> dict[str, Any]:
         "total_lessons": total_lessons,
         "avg_lessons": avg_lessons,
     }
+
+
+def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
+    """為個別學員產生客製化 LINE 續課席位保留提醒文案。"""
+    name = student.get("name", "同學")
+    total_lessons = student.get("lessons_count", 0)
+    mod = total_lessons % 8
+    cycle_num = ((total_lessons - 1) // 8) + 1 if total_lessons > 0 else 1
+
+    if mod == 0 and total_lessons > 0:
+        headline = f"已圓滿完成第 {cycle_num} 輪（滿 8 堂，累計達 {total_lessons} 堂課）！🎉"
+        subtext = f"感謝您一路以來的實作投入與專注學習！為確保您每週專屬輔導時段不受影響，教練已優先為您保留下期（第 {cycle_num + 1} 期・8 堂）上課名額。"
+    elif mod == 7:
+        headline = f"即將完成本輪第 7/8 堂課（累計已達 {total_lessons} 堂）！🎉"
+        subtext = f"下週即將迎來本輪最後一堂總結課。為確保下階段專屬時段無縫延續，教練已優先為您預留續班名額。"
+    else:
+        headline = f"目前已完成 {total_lessons} 堂課！"
+        subtext = "感謝您的持續學習與實踐，為確保專屬時段不中斷，教練已為您預留後續名額。"
+
+    return (
+        f"【數位管理實戰・專屬席位保留通知】\n\n"
+        f"親愛的 {name} 您好！\n\n"
+        f"您在數位管理一對一實戰教學中，{headline}\n\n"
+        f"{subtext}\n\n"
+        f"若您想延續目前的進度或安排下梯次主題，歡迎隨時與教練確認續約時間與時段安排！😊\n"
+        f"—— 蔡教練 敬上"
+    )
+
+
+def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """篩選出全域 7/8（即將滿堂）與 8/8（滿 8 堂結訓）之個別學員名單，依最近上課日期與堂數排序。"""
+    radar = []
+    for s in students:
+        name = s.get("name", "")
+        if "總裁班" in name:
+            continue
+        cnt = s.get("lessons_count", 0)
+        if cnt <= 0:
+            continue
+        mod = cnt % 8
+        if mod == 0:
+            status_code = "completed"
+            status_text = "已滿 8/8 堂 (圓滿結訓)"
+            badge_class = "badge-full"
+            action_text = "📋 複製續班提醒"
+        elif mod == 7:
+            status_code = "warning"
+            status_text = "即將滿 7/8 堂 (請提前預留)"
+            badge_class = "badge-short"
+            action_text = "📋 複製預約提醒"
+        else:
+            continue
+
+        reminder_msg = generate_student_renewal_reminder(s)
+        latest_date = s.get("latest_date") or s.get("last_lesson_date") or ""
+
+        radar.append({
+            "id": s.get("id"),
+            "name": name,
+            "lessons_count": cnt,
+            "progress_ratio": f"{mod or 8}/8",
+            "status_code": status_code,
+            "status_text": status_text,
+            "badge_class": badge_class,
+            "action_text": action_text,
+            "latest_date": latest_date,
+            "first_lesson_date": s.get("first_lesson_date") or "未記錄",
+            "next_lesson": s.get("next_lesson") or "安排中",
+            "reminder_message": reminder_msg,
+        })
+
+    def radar_sort_key(item):
+        ld = item.get("latest_date") or "0000-00-00"
+        is_completed = 0 if item["status_code"] == "completed" else 1
+        return (ld < "2026-01-01", is_completed, -item["lessons_count"])
+
+    return sorted(radar, key=radar_sort_key)

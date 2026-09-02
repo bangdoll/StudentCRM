@@ -2233,3 +2233,170 @@ th {
     }
 }
 
+/* ── Global Renewal Radar ──────────────────────────────────── */
+.renewal-radar-card {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 24px;
+    background:
+        radial-gradient(circle at top right, rgba(88, 166, 255, 0.12), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(188, 140, 255, 0.08), transparent 35%),
+        rgba(22, 27, 34, 0.88);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+    border-radius: 20px;
+    backdrop-filter: var(--glass-effect);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.renewal-radar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.radar-kicker {
+    display: inline-block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #58a6ff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.radar-toggle-btn {
+    background: rgba(88, 166, 255, 0.12);
+    border: 1px solid rgba(88, 166, 255, 0.3);
+    color: #58a6ff;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.radar-toggle-btn:hover {
+    background: rgba(88, 166, 255, 0.22);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.renewal-radar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+}
+
+.renewal-radar-item {
+    background: rgba(13, 17, 23, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: all 0.2s ease;
+}
+
+.renewal-radar-item:hover {
+    border-color: rgba(88, 166, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.radar-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.radar-student-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.radar-student-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.radar-student-name:hover {
+    color: var(--accent-color);
+}
+
+.radar-lessons-chip {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.radar-item-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.radar-copy-btn {
+    width: 100%;
+    margin-top: 4px;
+    text-align: center;
+    justify-content: center;
+}
+
+.radar-expand-footer {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.radar-expand-btn {
+    background: transparent;
+    border: 1px dashed var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.radar-expand-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    background: rgba(88, 166, 255, 0.05);
+}
+
+@media (max-width: 600px) {
+    .renewal-radar-card {
+        padding: 18px 14px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
+    .renewal-radar-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .renewal-radar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .radar-toggle-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+

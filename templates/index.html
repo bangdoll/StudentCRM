@@ -88,6 +88,49 @@
             </div>
         </section>
 
+        {% if renewal_radar %}
+        <section class="renewal-radar-card" id="renewal-radar-section">
+            <div class="renewal-radar-header">
+                <div>
+                    <span class="radar-kicker">🎯 智慧續約雷達</span>
+                    <h2 style="font-size: 1.2rem; margin: 4px 0;">全域續約預警名冊（{{ renewal_radar|length }} 位學員即將結訓或滿堂）</h2>
+                    <p class="meta-info" style="margin: 0;">自動追蹤每輪 8 堂進度，優先保留下一期輔導席位並產生專屬 LINE 提醒文案。</p>
+                </div>
+                <button type="button" class="radar-toggle-btn" id="radar-toggle-btn" onclick="toggleRadar()">收折清單</button>
+            </div>
+            <div class="renewal-radar-grid" id="renewal-radar-grid">
+                {% for r in renewal_radar %}
+                <div class="renewal-radar-item{% if loop.index > 6 %} radar-overflow-item{% endif %}"{% if loop.index > 6 %} style="display: none;"{% endif %}>
+                    <div class="radar-item-top">
+                        <div class="radar-student-info">
+                            <a href="/student/{{ r.id }}" class="radar-student-name">{{ r.name }}</a>
+                            <span class="note-badge {{ r.badge_class }}" style="font-size: 0.72rem; padding: 2px 7px;">{{ r.status_text }}</span>
+                        </div>
+                        <span class="radar-lessons-chip">累計 {{ r.lessons_count }} 堂</span>
+                    </div>
+                    <div class="radar-item-meta">
+                        <span>🕒 最近上課：{{ r.latest_date or '未記錄' }}</span>
+                        <span>🌱 首次上課：{{ r.first_lesson_date }}</span>
+                    </div>
+                    <div class="radar-item-action">
+                        <button type="button" class="copy-reminder-btn radar-copy-btn"
+                                data-student="{{ r.name }}"
+                                data-text="{{ r.reminder_message|e }}"
+                                onclick="copyRadarReminder(this)">
+                            {{ r.action_text }}
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if renewal_radar|length > 6 %}
+            <div class="radar-expand-footer" id="radar-expand-footer">
+                <button type="button" class="radar-expand-btn" id="radar-expand-btn" onclick="toggleAllRadar(this)">展開更多雷達名單（還有 {{ renewal_radar|length - 6 }} 位）</button>
+            </div>
+            {% endif %}
+        </section>
+        {% endif %}
+
         <div id="empty-state" class="empty-state" style="display: none;">
             <div class="empty-icon">🔍</div>
             <h3>找不到符合條件的學員</h3>
@@ -223,6 +266,61 @@
             input.focus();
         };
     });
+
+    // ── Global Renewal Radar Helpers ─────────────────────────
+    window.copyRadarReminder = function(btn) {
+        const text = btn.getAttribute('data-text') || '';
+        const originalText = btn.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = '✅ 已複製提醒文案！';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2500);
+        }).catch(err => {
+            console.error('複製失敗:', err);
+            alert('複製失敗，請手動複製');
+        });
+    };
+
+    window.toggleRadar = function() {
+        const grid = document.getElementById('renewal-radar-grid');
+        const btn = document.getElementById('radar-toggle-btn');
+        const footer = document.getElementById('radar-expand-footer');
+        if (!grid) return;
+        if (grid.style.display === 'none') {
+            grid.style.display = 'grid';
+            if (footer) footer.style.display = 'block';
+            if (btn) btn.textContent = '收折清單';
+        } else {
+            grid.style.display = 'none';
+            if (footer) footer.style.display = 'none';
+            if (btn) btn.textContent = '展開清單';
+        }
+    };
+
+    window.toggleAllRadar = function(btn) {
+        const overflowItems = document.querySelectorAll('.radar-overflow-item');
+        const isHidden = overflowItems.length > 0 && overflowItems[0].style.display === 'none';
+        overflowItems.forEach(item => {
+            item.style.display = isHidden ? 'flex' : 'none';
+        });
+        if (btn) {
+            btn.textContent = isHidden ? '收起更多雷達名單' : `展開更多雷達名單（還有 ${overflowItems.length} 位）`;
+        }
+    };
+
+    // ── PWA Service Worker Registration ─────────────────────
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('PWA ServiceWorker registered:', reg.scope);
+            }).catch(err => {
+                console.log('PWA ServiceWorker registration failed:', err);
+            });
+        });
+    }
     </script>
 </body>
 </html>

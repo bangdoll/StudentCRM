@@ -871,6 +871,13 @@
             });
         }, { rootMargin: '-10% 0px -75% 0px' });
         observerSections.forEach(section => navObserver.observe(section));
+
+        // ── PWA Service Worker Registration ─────────────────────
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

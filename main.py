@@ -38,6 +38,20 @@ from student_service import (
     get_student_by_id,
     build_student_features,
     calculate_student_stats,
+    get_global_renewal_radar,
+    generate_student_renewal_reminder,
+)
+from schedule_service import (
+    get_document_exceptions,
+    get_next_occurrence,
+    get_next_lesson_sort_key,
+)
+from prediction_service import (
+    _FEATURES_CACHE,
+    clear_features_cache,
+    get_student_lesson_paths as service_get_student_lesson_paths,
+    analyze_student_features as service_analyze_student_features,
+    predict_student_status,
 )
 from note_service import (
     NoteDetail,
@@ -114,6 +128,18 @@ async def favicon_ico():
 @app.get("/site.webmanifest", include_in_schema=False)
 async def site_webmanifest():
     return FileResponse(os.path.join(STATIC_DIR, "site.webmanifest"), media_type="application/manifest+json")
+
+
+@app.get("/sw.js", include_in_schema=False)
+async def service_worker():
+    sw_file = os.path.join(STATIC_DIR, "sw.js")
+    if os.path.exists(sw_file):
+        return FileResponse(
+            sw_file,
+            media_type="application/javascript",
+            headers={"Service-Worker-Allowed": "/"},
+        )
+    return HTMLResponse(content="// sw not found", status_code=404)
 
 
 def template_exists(name: str) -> bool:
@@ -1056,28 +1082,8 @@ def get_student_lesson_paths(student_id: str) -> list:
     student = next((s for s in students if s['id'] == student_id), None)
     if not student:
         return []
-    
-    paths = []
-    file_path = os.path.join(BASE_DIR, student.get('file', '').lstrip('/'))
-    if os.path.exists(file_path):
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-        paths.extend(re.findall(
-            r'/open_file\?path=([^\s\)\'">\n]+\.md)',
-            content
-        ))
-
     student_notes = get_student_teaching_notes(student)
-    for n in student_notes:
-        if n.get("path"):
-            paths.append(n["path"])
-
-    def date_key(p):
-        fname = os.path.basename(p)
-        date = parse_date_from_title(fname)
-        return date.replace("-", "") if date else fname
-
-    return sorted(set(paths), key=date_key)
+    return service_get_student_lesson_paths(student, BASE_DIR, student_notes)
 
 
 def student_id_from_path(path: str) -> str:
@@ -1102,162 +1108,18 @@ def student_id_from_path(path: str) -> str:
     return ""
 
 
-_FEATURES_CACHE: dict[str, tuple[float, dict]] = {}
-_FEATURES_CACHE_TTL = 300  # 5 minutes in-memory cache
-
-
 def analyze_student_features(student_id: str, use_cache: bool = True) -> dict:
     """Extract features from student's historical data for AI prediction."""
-    now_ts = time.time()
-    if use_cache and student_id in _FEATURES_CACHE:
-        cached_ts, cached_features = _FEATURES_CACHE[student_id]
-        if now_ts - cached_ts < _FEATURES_CACHE_TTL:
-            return dict(cached_features)
-
-    paths = get_student_lesson_paths(student_id)
-    features = {
-        'days_since_last_lesson': -1,
-        'average_word_count': 0,
-        'lessons_reviewed': 0,
-    }
-
-    if paths:
-        # Parse the latest lesson date
-        latest_path = paths[-1]
-        date_str = parse_date_from_title(os.path.basename(latest_path))
-        if date_str:
-            try:
-                latest_date = datetime.strptime(date_str, "%Y-%m-%d")
-                today = datetime.now()
-                features['days_since_last_lesson'] = max(0, (today - latest_date).days)
-            except ValueError:
-                pass
-        else:
-            m = re.search(r'Lesson_(\d{4})(\d{2})(\d{2})_', latest_path)
-            if m:
-                y, mo, d = map(int, m.groups())
-                latest_date = datetime(y, mo, d)
-                today = datetime.now()
-                features['days_since_last_lesson'] = max(0, (today - latest_date).days)
-
-        # Parse average word count from the last 3 lessons
-        recent_paths = paths[-3:]
-        total_words = 0
-        valid_lessons = 0
-        for p in recent_paths:
-            if os.path.exists(p):
-                with open(p, 'r', encoding='utf-8', errors='ignore') as f:
-                    content = f.read()
-                    total_words += len(content)
-                    valid_lessons += 1
-
-        if valid_lessons > 0:
-            features['average_word_count'] = total_words // valid_lessons
-            features['lessons_reviewed'] = valid_lessons
-
-    # Fallback to student metadata and cloud cached notes
     students = load_students()
     student = next((s for s in students if s.get('id') == student_id), None)
-    if student:
-        latest_str = student.get('latest_date') or student.get('last_lesson_date')
-        if latest_str and latest_str != "未記錄":
-            try:
-                ld = datetime.strptime(latest_str, "%Y-%m-%d")
-                meta_days = max(0, (datetime.now() - ld).days)
-                if features['days_since_last_lesson'] == -1 or meta_days < features['days_since_last_lesson']:
-                    features['days_since_last_lesson'] = meta_days
-            except ValueError:
-                pass
-        if features['average_word_count'] == 0:
-            student_notes = get_student_teaching_notes(student)
-            total_words = 0
-            valid_notes = 0
-            for n in student_notes[:3]:
-                c = n.get("content") or ""
-                if c:
-                    total_words += len(c)
-                    valid_notes += 1
-            if valid_notes > 0:
-                features['average_word_count'] = total_words // valid_notes
-                features['lessons_reviewed'] = valid_notes
-
-    _FEATURES_CACHE[student_id] = (now_ts, dict(features))
-    return features
-
-
-def predict_student_status(features: dict, next_lesson: str = None) -> dict:
-    """根據最後上課日期與筆記平均字數，回傳三種 AI 學習狀態燈號。"""
-    days = features.get('days_since_last_lesson', -1)
-    word_count = features.get('average_word_count', 0)
-
-    if days == -1:
-        return {"badge": "⚪", "status": "無預測資料", "class": "badge-placeholder", "reason": "系統中尚未找到有效的上課排程或筆記紀錄。"}
-
-    if days <= 14:
-        return {"badge": "🟢", "status": "穩定留存", "class": "badge-full", "reason": f"距離上次上課 {days} 天，仍在穩定互動區間。"}
-    else:
-        if word_count < 200:
-            return {"badge": "🔴", "status": "高流失風險", "class": "badge-missing", "reason": f"已超過兩週未上課 ({days} 天)，且近期筆記平均字數偏低，需優先關心。"}
-        else:
-            return {"badge": "🧊", "status": "冰凍期 (需關心)", "class": "badge-short", "reason": f"已超過兩週未上課 ({days} 天)，但近期筆記內容仍扎實，建議主動回訪。"}
-
-
-def get_document_exceptions(student_file_path: str) -> list:
-    """Scan student .md file for '暫停一次' and return the associated dates."""
-    exceptions = []
-    if not os.path.exists(student_file_path):
-        return exceptions
-
-    try:
-        with open(student_file_path, 'r', encoding='utf-8', errors='ignore') as f:
-            lines = f.readlines()
-            for line in lines:
-                if "暫停一次" in line:
-                    # Look for date pattern YYYY-MM-DD
-                    match = re.search(r'(\d{4}-\d{2}-\d{2})', line)
-                    if match:
-                        exceptions.append(match.group(1))
-    except Exception as e:
-        print(f"DEBUG: Error scanning {student_file_path} for exceptions: {e}")
-
-    return list(set(exceptions))
-
-
-def get_next_occurrence(schedule_str: str, exceptions: list = None) -> str:
-    """Calculate the next occurrence of a recurring schedule, skipping exceptions.
-    Format: 'weekly:weekday:time' (weekday 0=Mon, 3=Thu)
-    """
-    if not schedule_str or not schedule_str.startswith("weekly:"):
-        return None
-
-    if exceptions is None:
-        exceptions = []
-
-    try:
-        parts = schedule_str.split(":")
-        target_weekday = int(parts[1])
-        target_time = datetime.strptime(parts[2] + ":" + parts[3], "%H:%M").time()
-
-        now = datetime.now()
-        current_dt = now.replace(hour=target_time.hour, minute=target_time.minute, second=0, microsecond=0)
-
-        # Calculate base offset
-        days_ahead = target_weekday - current_dt.weekday()
-        if days_ahead < 0 or (days_ahead == 0 and current_dt < now):
-            days_ahead += 7
-
-        next_dt = current_dt + timedelta(days=days_ahead)
-
-        # Keep jumping 7 days if the date is in exceptions
-        while next_dt.strftime("%Y-%m-%d") in exceptions:
-            next_dt += timedelta(days=7)
-
-        # Format: 2026-03-24（二）10:00
-        weekdays_zh = ["一", "二", "三", "四", "五", "六", "日"]
-        return next_dt.strftime(f"%Y-%m-%d（{weekdays_zh[next_dt.weekday()]}）%H:%M")
-    except Exception as e:
-        print(f"DEBUG: Error calculating recurring schedule {schedule_str}: {e}")
-        return None
+    if not student:
+        return {
+            'days_since_last_lesson': -1,
+            'average_word_count': 0,
+            'lessons_reviewed': 0,
+        }
+    student_notes = get_student_teaching_notes(student)
+    return service_analyze_student_features(student, BASE_DIR, student_notes, use_cache=use_cache)
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
@@ -1268,8 +1130,7 @@ async def read_root(request: Request):
 
     for s in students:
         if 'recurring_schedule' in s and not s.get('next_lesson'):
-            student_file = os.path.join(BASE_DIR, s['file'].lstrip('/'))
-            # Combine JSON exceptions with Doc-based ones
+            student_file = os.path.join(BASE_DIR, s['file'].lstrip('/')) if s.get('file') else ""
             doc_exceptions = get_document_exceptions(student_file)
             json_exceptions = s.get('schedule_exceptions', [])
             all_exceptions = list(set(json_exceptions + doc_exceptions))
@@ -1293,36 +1154,12 @@ async def read_root(request: Request):
         s['features'] = analyze_student_features(s['id'])
         s['prediction'] = predict_student_status(s['features'], s.get('next_lesson'))
 
-    def get_next_lesson_sort_key(s):
-        nl = s.get('next_lesson')
-        name = s.get('name', 'Unknown')
-        if not nl or nl == '待定':
-            return (2, datetime(9999, 12, 31))
-
-        try:
-            ds = nl.split('（')[0].strip()
-            ts = "00:00"
-            if "）" in nl:
-                time_part = nl.split("）")[-1].strip()
-                if re.match(r'^\d{2}:\d{2}$', time_part):
-                    ts = time_part
-
-            dt = datetime.strptime(f"{ds} {ts}", "%Y-%m-%d %H:%M")
-            now = datetime.now()
-
-            if dt >= now:
-                res = (0, dt)
-            else:
-                res = (1, dt)
-            return res
-        except Exception:
-            return (2, datetime(9999, 12, 31))
-
     # Sort students by next lesson date (Priority: Future > Past > TBD)
     sorted_students = sorted(students, key=get_next_lesson_sort_key)
 
     apple_program = load_apple_ceo_program()
     apple_summary = summarize_apple_ceo_program(apple_program)
+    renewal_radar = get_global_renewal_radar(sorted_students)
 
     if use_fallback_pages("index.html"):
         return render_dashboard_fallback(sorted_students, apple_summary, student_gateway.status())
@@ -1332,6 +1169,7 @@ async def read_root(request: Request):
         "students": sorted_students,
         "apple_program": apple_program["program"],
         "apple_summary": apple_summary,
+        "renewal_radar": renewal_radar,
     })
 
 
