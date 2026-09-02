@@ -177,6 +177,13 @@
 
         studentSearch.addEventListener('input', applyFilters);
         statusFilter.addEventListener('change', applyFilters);
+
+        // ── PWA Service Worker Registration ─────────────────────
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

@@ -116,6 +116,13 @@
                 row.hidden = !row.dataset.search.toLowerCase().includes(query);
             });
         });
+
+        // ── PWA Service Worker Registration ─────────────────────
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>

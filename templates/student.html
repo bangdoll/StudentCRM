@@ -50,16 +50,28 @@
                     <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">📅 下次上課：{{ student.next_lesson }}</p>
                     {% endif %}
                     {% set lessons = student.meta.lessons_count or student.lessons_count or 0 %}
-                    <p class="meta-info">📊 累計次數：{{ lessons }} 堂</p>
+                    {% set cur_cycle = student.current_cycle_lesson or student.meta.current_cycle_lesson or ((lessons % 8) or (8 if lessons > 0 else 0)) %}
+                    <p class="meta-info">📊 累計次數：{{ lessons }} 堂 <span style="color: var(--text-secondary); font-size: 0.9em;">(本輪第 {{ cur_cycle }}/8 堂)</span></p>
 
-                    {% if lessons > 0 and (lessons % 8 == 7 or lessons % 8 == 0) %}
-                    <div style="margin-top: 14px; padding: 12px 14px; background: rgba(246, 193, 119, 0.12); border: 1px solid rgba(246, 193, 119, 0.35); border-radius: 12px;">
-                        <strong style="color: #f6c177; font-size: 0.88em; display: flex; align-items: center; gap: 6px;">
-                            <span>🎯</span> 本輪結訓提示 (第 {{ 8 if lessons % 8 == 0 else 7 }}/8 堂)
+                    {% if lessons > 0 and (cur_cycle == 7 or cur_cycle >= 8) %}
+                    <div style="margin-top: 14px; padding: 14px; background: rgba(246, 193, 119, 0.12); border: 1px solid rgba(246, 193, 119, 0.35); border-radius: 12px;">
+                        <strong style="color: #f6c177; font-size: 0.92em; display: flex; align-items: center; justify-content: space-between; gap: 6px;">
+                            <span>🎯 {% if cur_cycle >= 8 %}已滿 8/8 堂 (圓滿結訓){% else %}即將滿 7/8 堂 (預留名額){% endif %}</span>
+                            <span class="note-badge {% if cur_cycle >= 8 %}badge-full{% else %}badge-short{% endif %}" style="font-size: 0.72rem; padding: 2px 7px;">
+                                {% if cur_cycle >= 8 %}8/8 滿堂{% else %}7/8 預警{% endif %}
+                            </span>
                         </strong>
-                        <p style="margin: 6px 0 0; font-size: 0.8em; color: var(--text-secondary); line-height: 1.5;">
-                            本期進度即將圓滿，建議課堂中複盤成效並提早確認下一輪續課目標。
+                        <p style="margin: 6px 0 10px; font-size: 0.82em; color: var(--text-secondary); line-height: 1.5;">
+                            {% if cur_cycle >= 8 %}本期進度已全數完成！建議與學員複盤學習成效，並確認下一輪 8 堂續約安排。{% else %}本期即將進入最後一堂總結課，建議提早確認下一輪時段保留。{% endif %}
                         </p>
+                        {% if renewal_message %}
+                        <button type="button" class="copy-reminder-btn radar-copy-btn"
+                                data-student="{{ student.name }}"
+                                data-text="{{ renewal_message|e }}"
+                                onclick="copyRadarReminder(this)">
+                            📋 複製專屬續班提醒
+                        </button>
+                        {% endif %}
                     </div>
                     {% endif %}
                 </div>
@@ -149,6 +161,22 @@
         </div>
     </div>
     <script>
+    window.copyRadarReminder = function(btn) {
+        const text = btn.getAttribute('data-text') || '';
+        const originalText = btn.textContent;
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = '✅ 已複製提醒文案！';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2500);
+        }).catch(err => {
+            console.error('複製失敗:', err);
+            alert('複製失敗，請手動複製');
+        });
+    };
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js').catch(() => {});

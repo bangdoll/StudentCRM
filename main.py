@@ -1343,16 +1343,29 @@ async def read_digital_management_student(request: Request, student_id: str):
 
 
 
-MERGED_STUDENT_REDIRECTS = {
-    "d892570c-70d2-4fba-9f2e-614ba775232b": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # 查米 315 -> 查米
-    "0e6b6b92-ebe9-4252-a6cf-3907b78700f7": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # Chami BNI Management 38 6 -> 查米
-}
+MERGED_REDIRECTS_FILE = os.path.join(APP_DIR, "data/merged_redirects.json")
+
+def get_merged_redirects() -> dict[str, str]:
+    redirects = {
+        "d892570c-70d2-4fba-9f2e-614ba775232b": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # 查米 315 -> 查米
+        "0e6b6b92-ebe9-4252-a6cf-3907b78700f7": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # Chami BNI Management 38 6 -> 查米
+    }
+    if os.path.exists(MERGED_REDIRECTS_FILE):
+        try:
+            with open(MERGED_REDIRECTS_FILE, "r", encoding="utf-8") as f:
+                redirects.update(json.load(f))
+        except Exception:
+            pass
+    return redirects
+
+MERGED_STUDENT_REDIRECTS = get_merged_redirects()
 
 
 @app.get("/student/{student_id}", response_class=HTMLResponse)
 async def read_student(request: Request, student_id: str):
-    if student_id in MERGED_STUDENT_REDIRECTS:
-        target_id = MERGED_STUDENT_REDIRECTS[student_id]
+    redirects = get_merged_redirects()
+    if student_id in redirects:
+        target_id = redirects[student_id]
         return RedirectResponse(url=f"/student/{target_id}", status_code=301)
 
     students = load_students()
@@ -1387,6 +1400,7 @@ async def read_student(request: Request, student_id: str):
         student['meta']['lessons_count'] = student.get('lessons_count') or len(student_notes)
     student['features'] = analyze_student_features(student_id)
     student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
+    renewal_message = generate_student_renewal_reminder(student)
 
     if not file_path or not os.path.exists(file_path):
         teaching_records = student_gateway.load_teaching_records(student_id)
@@ -1396,6 +1410,7 @@ async def read_student(request: Request, student_id: str):
             "student_notes": student_notes,
             "timeline_html": render_cloud_student_timeline(student, teaching_records),
             "student_id": student_id,
+            "renewal_message": renewal_message,
         })
 
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -1415,6 +1430,7 @@ async def read_student(request: Request, student_id: str):
         "student_notes": student_notes,
         "timeline_html": html_content,
         "student_id": student_id,
+        "renewal_message": renewal_message,
     })
 
 
