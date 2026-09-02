@@ -22,6 +22,8 @@ MANUAL_ALIASES = {
     "roger": "Roger 黃凱亮",
     "roger黃凱亮": "Roger 黃凱亮",
     "anna蕭": "Anna 蕭",
+    "anna蕭zoom": "Anna 蕭",
+    "anna蕭-zoom": "Anna 蕭",
     "anna": "Anna 蕭",
     "amanda": "Anna 蕭",
     "amanda蕭秉慧": "Anna 蕭",

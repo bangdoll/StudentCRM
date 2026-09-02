@@ -709,9 +709,16 @@
   {
     "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
     "name": "Anna 蕭",
-    "aliases": [],
+    "aliases": [
+      "Amanda",
+      "Amanda 蕭秉慧",
+      "Anna 蕭-Zoom",
+      "Anna蕭",
+      "Anna蕭-Zoom",
+      "蕭秉慧"
+    ],
     "file": "/01.Docs/Students/Anna蕭.md",
-    "lessons_count": 27,
+    "lessons_count": 28,
     "latest_date": "2026-07-10",
     "next_lesson": "2026-10-18",
     "tags": [
@@ -955,18 +962,6 @@
     "lessons_count": 65,
     "latest_date": "2026-08-02",
     "next_lesson": "2026-09-05",
-    "tags": [
-      "一般學員"
-    ]
-  },
-  {
-    "id": "7ab02f7c-18f4-4609-b042-feaf3c2b27b0",
-    "name": "Anna蕭-Zoom",
-    "aliases": [],
-    "file": "/01.Docs/Students/Anna蕭-Zoom.md",
-    "lessons_count": 1,
-    "latest_date": "2024-01-13",
-    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ]

@@ -1,6 +1,6 @@
 {
   "total_records": 594,
-  "total_students": 62,
+  "total_students": 61,
   "records": [
     {
       "card_id": "a61589310cc930f11e17bbddda80f23515a183b9",
@@ -9562,7 +9562,7 @@
       "date": "2024-01-13",
       "lesson_num": null,
       "lesson_sub": null,
-      "student_name": "Anna蕭-Zoom",
+      "student_name": "Anna 蕭",
       "created": "2026-05-23T18:00:29.211766Z",
       "edited": "2026-05-23T18:00:29.211766Z",
       "path": "/Users/aios/Projects/00.AI-Notes_Local/01.Docs/teaching/20240113 .Anna蕭-Zoom數位管理教學.md",
@@ -9570,7 +9570,7 @@
       "preview": "id: 2024-01-13 title: \"07.Anna蕭數位管理教學-Zoom\" createdTime: 2024-01-13T10:00:00.000Z lastEditedTime: 2024-01-13T18:00:00.000Z syncTime: 2026-05-24T01:05:14.806671 > [!NOTE]",
       "content": "---\nid: 2024-01-13\ntitle: \"07.Anna蕭數位管理教學-Zoom\"\ncreatedTime: 2024-01-13T10:00:00.000Z\nlastEditedTime: 2024-01-13T18:00:00.000Z\nsyncTime: 2026-05-24T01:05:14.806671\n---\n\n> [!NOTE]\n> 本篇教學紀錄是從 2024 年 Google 日曆比對，並從 Heptabase 當日日誌中自動還原萃取的數位管理教學資產。\n\n今日行程：總統投票日+07.Anna蕭數位管理教學-Zoom+臺新協商$2000+轉房貸$2700給阿智\n\n教學過程中幫助學生整理問題，有助於有效解決問題。\n\nJean-Paul Sartre 強調自由和個人責任。參與選舉，代表了你對社會責任的認知，同時也是行使自由的一種表現。你的每一個選擇，包括教學方式、日常活動，都是對你生命敘事的塑造。",
       "source": "local_teaching",
-      "student_id": "7ab02f7c-18f4-4609-b042-feaf3c2b27b0",
+      "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
       "matched_by": "Anna蕭-Zoom"
     },
     {
@@ -10221,6 +10221,23 @@
         "source": "local_teaching",
         "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
         "matched_by": "Anna 蕭"
+      },
+      {
+        "card_id": "d62563e13cd1c6a6c56e5d87350c4d06c1e76dba",
+        "title": "#20240113 .Anna蕭-Zoom數位管理教學",
+        "date": "2024-01-13",
+        "lesson_num": null,
+        "lesson_sub": null,
+        "student_name": "Anna 蕭",
+        "created": "2026-05-23T18:00:29.211766Z",
+        "edited": "2026-05-23T18:00:29.211766Z",
+        "path": "/Users/aios/Projects/00.AI-Notes_Local/01.Docs/teaching/20240113 .Anna蕭-Zoom數位管理教學.md",
+        "filename": "20240113 .Anna蕭-Zoom數位管理教學.md",
+        "preview": "id: 2024-01-13 title: \"07.Anna蕭數位管理教學-Zoom\" createdTime: 2024-01-13T10:00:00.000Z lastEditedTime: 2024-01-13T18:00:00.000Z syncTime: 2026-05-24T01:05:14.806671 > [!NOTE]",
+        "content": "---\nid: 2024-01-13\ntitle: \"07.Anna蕭數位管理教學-Zoom\"\ncreatedTime: 2024-01-13T10:00:00.000Z\nlastEditedTime: 2024-01-13T18:00:00.000Z\nsyncTime: 2026-05-24T01:05:14.806671\n---\n\n> [!NOTE]\n> 本篇教學紀錄是從 2024 年 Google 日曆比對，並從 Heptabase 當日日誌中自動還原萃取的數位管理教學資產。\n\n今日行程：總統投票日+07.Anna蕭數位管理教學-Zoom+臺新協商$2000+轉房貸$2700給阿智\n\n教學過程中幫助學生整理問題，有助於有效解決問題。\n\nJean-Paul Sartre 強調自由和個人責任。參與選舉，代表了你對社會責任的認知，同時也是行使自由的一種表現。你的每一個選擇，包括教學方式、日常活動，都是對你生命敘事的塑造。",
+        "source": "local_teaching",
+        "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
+        "matched_by": "Anna蕭-Zoom"
       },
       {
         "card_id": "11edef2c1583eeb2101382521f769b7281d1bed9",
@@ -11852,25 +11869,6 @@
         "source": "local_teaching",
         "student_id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
         "matched_by": "青玫姐"
-      }
-    ],
-    "7ab02f7c-18f4-4609-b042-feaf3c2b27b0": [
-      {
-        "card_id": "d62563e13cd1c6a6c56e5d87350c4d06c1e76dba",
-        "title": "#20240113 .Anna蕭-Zoom數位管理教學",
-        "date": "2024-01-13",
-        "lesson_num": null,
-        "lesson_sub": null,
-        "student_name": "Anna蕭-Zoom",
-        "created": "2026-05-23T18:00:29.211766Z",
-        "edited": "2026-05-23T18:00:29.211766Z",
-        "path": "/Users/aios/Projects/00.AI-Notes_Local/01.Docs/teaching/20240113 .Anna蕭-Zoom數位管理教學.md",
-        "filename": "20240113 .Anna蕭-Zoom數位管理教學.md",
-        "preview": "id: 2024-01-13 title: \"07.Anna蕭數位管理教學-Zoom\" createdTime: 2024-01-13T10:00:00.000Z lastEditedTime: 2024-01-13T18:00:00.000Z syncTime: 2026-05-24T01:05:14.806671 > [!NOTE]",
-        "content": "---\nid: 2024-01-13\ntitle: \"07.Anna蕭數位管理教學-Zoom\"\ncreatedTime: 2024-01-13T10:00:00.000Z\nlastEditedTime: 2024-01-13T18:00:00.000Z\nsyncTime: 2026-05-24T01:05:14.806671\n---\n\n> [!NOTE]\n> 本篇教學紀錄是從 2024 年 Google 日曆比對，並從 Heptabase 當日日誌中自動還原萃取的數位管理教學資產。\n\n今日行程：總統投票日+07.Anna蕭數位管理教學-Zoom+臺新協商$2000+轉房貸$2700給阿智\n\n教學過程中幫助學生整理問題，有助於有效解決問題。\n\nJean-Paul Sartre 強調自由和個人責任。參與選舉，代表了你對社會責任的認知，同時也是行使自由的一種表現。你的每一個選擇，包括教學方式、日常活動，都是對你生命敘事的塑造。",
-        "source": "local_teaching",
-        "student_id": "7ab02f7c-18f4-4609-b042-feaf3c2b27b0",
-        "matched_by": "Anna蕭-Zoom"
       }
     ],
     "b2cfee38-2d73-4508-b145-9ad6a40822da": [
