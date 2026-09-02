@@ -129,29 +129,41 @@ class StudentDataGateway:
         if self.backend == "supabase":
             encoded_student_id = quote(student_id, safe="")
             try:
-                return self._load_supabase_table(
+                res = self._load_supabase_table(
                     "teaching_records",
                     query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
                 )
+                if isinstance(res, list):
+                    return res
+                if isinstance(res, dict) and "records" in res:
+                    return [r for r in res["records"] if isinstance(r, dict) and r.get("student_id") == student_id]
             except DataGatewayError:
                 pass
 
         all_records = self.load_all_teaching_records()
-        return [r for r in all_records if r.get("student_id") == student_id]
+        return [r for r in all_records if isinstance(r, dict) and r.get("student_id") == student_id]
 
     def load_all_teaching_records(self) -> list[dict[str, Any]]:
         if self.backend == "supabase":
             try:
-                return self._load_supabase_table(
+                res = self._load_supabase_table(
                     "teaching_records",
                     query="select=*&order=date.desc",
                 )
+                if isinstance(res, list):
+                    return res
+                if isinstance(res, dict) and "records" in res:
+                    return res["records"]
             except DataGatewayError:
                 pass
 
         if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
             try:
-                return self._read_json(self.teaching_records_file)
+                data = self._read_json(self.teaching_records_file)
+                if isinstance(data, list):
+                    return data
+                if isinstance(data, dict) and "records" in data:
+                    return data["records"]
             except Exception:
                 pass
         return []

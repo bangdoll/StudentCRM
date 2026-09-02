@@ -478,20 +478,24 @@ def load_local_digital_management_notes() -> list[dict]:
 
 def load_cloud_digital_management_notes() -> list[dict]:
     rows = student_gateway.load_all_teaching_records()
+    if isinstance(rows, dict) and "records" in rows:
+        rows = rows["records"]
+    if not isinstance(rows, list):
+        rows = []
     notes = []
     for row in rows:
         if not isinstance(row, dict):
             continue
         raw = row.get("raw") if isinstance(row.get("raw"), dict) else {}
-        source = raw.get("source") or "Supabase teaching_records"
+        source = row.get("source") or raw.get("source") or "Supabase teaching_records"
         if source == "local_teaching":
             source = "本地 teaching 檔案"
-        preview = raw.get("preview", "")
-        path = raw.get("path", "")
+        preview = row.get("preview") or raw.get("preview", "")
+        path = row.get("path") or raw.get("path", "")
         date_text = row.get("date", "") or raw.get("date", "")
         title = row.get("title", "") or raw.get("title", "")
         notes.append({
-            "id": row.get("id", ""),
+            "id": row.get("id", "") or row.get("card_id", ""),
             "student_id": row.get("student_id", ""),
             "student_name": row.get("student_name", ""),
             "date": date_text,
@@ -504,11 +508,11 @@ def load_cloud_digital_management_notes() -> list[dict]:
             "lesson_sub": row.get("lesson_sub") or raw.get("lesson_sub"),
             "location": "",
             "description": "",
-            "url": raw.get("url", ""),
+            "url": row.get("url", "") or raw.get("url", ""),
             "path": path,
             "preview": preview,
             "source": source,
-            "matched_by": raw.get("matched_by", ""),
+            "matched_by": row.get("matched_by") or raw.get("matched_by", ""),
             "matched_to_official_student": bool(row.get("student_id")),
         })
     return [note for note in notes if note.get("student_id")]
