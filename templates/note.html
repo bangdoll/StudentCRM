@@ -226,21 +226,23 @@
             <!-- Prev / Next navigation -->
             <div class="lesson-nav">
                 {% if prev_path %}
-                <a href="/open_file?path={{ prev_path }}" class="nav-btn prev">
-                    <span class="nav-dir">← 上一堂</span>
+                <a href="/note?path={{ prev_path }}" class="nav-btn prev">
+                    <span class="nav-dir">← {% if is_apple_ceo %}上一篇{% else %}上一堂{% endif %}</span>
                     <span class="nav-date">{{ prev_label }}</span>
                 </a>
                 {% else %}
                 <div class="nav-spacer"></div>
                 {% endif %}
 
-                {% if student_id %}
+                {% if is_apple_ceo %}
+                <a href="/program/apple-ceo" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回蘋果總裁班</a>
+                {% elif student_id %}
                 <a href="/student/{{ student_id }}" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回學員檔案</a>
                 {% endif %}
 
                 {% if next_path %}
-                <a href="/open_file?path={{ next_path }}" class="nav-btn next">
-                    <span class="nav-dir">下一堂 →</span>
+                <a href="/note?path={{ next_path }}" class="nav-btn next">
+                    <span class="nav-dir">{% if is_apple_ceo %}下一篇{% else %}下一堂{% endif %} →</span>
                     <span class="nav-date">{{ next_label }}</span>
                 </a>
                 {% else %}
