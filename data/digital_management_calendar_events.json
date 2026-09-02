@@ -165,6 +165,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "8aq9tomel6p60ffdnqnn282q5k",
+    "date": "2018-03-02",
+    "title": "37-5.邱隊長，蘋果家教",
+    "description": "",
+    "location": "",
+    "start": "2018-03-02T09:00:00+08:00",
+    "end": "2018-03-02T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
+  },
+  {
     "id": "fehdiuaes0lrliknlueqcudkhg",
     "date": "2018-03-08",
     "title": "57-3.青玫姐蘋果家教",
@@ -2101,6 +2112,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "cu81lefglpsjro0umfdvca8jvk",
+    "date": "2019-11-13",
+    "title": "37-6.邱隊長，蘋果家教",
+    "description": "",
+    "location": "新北市永和區得和路29號7樓",
+    "start": "2019-11-13T09:00:00+08:00",
+    "end": "2019-11-13T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
+  },
+  {
     "id": "md80r3km5ei2vno20n78tm168g_20191114T060000Z",
     "date": "2019-11-14",
     "title": "02.蘋果總裁班",
@@ -2154,6 +2176,17 @@
     "end": "2019-11-25T12:30:00+08:00",
     "student_id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
     "student_name": "青玫姐"
+  },
+  {
+    "id": "9taaeckmc4imlmljqgg8n1m4bs",
+    "date": "2019-11-28",
+    "title": "38-7.邱隊長，蘋果家教",
+    "description": "",
+    "location": "",
+    "start": "2019-11-28T09:00:00+08:00",
+    "end": "2019-11-28T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
   },
   {
     "id": "md80r3km5ei2vno20n78tm168g_20191128T060000Z",

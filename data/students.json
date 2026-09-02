@@ -230,10 +230,17 @@
     "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "name": "邱醫師",
     "aliases": [
-      "邱醫師"
+      "邱醫師",
+      "邱 頂溪捷運站2號出口",
+      "邱頂溪捷運站2號出口",
+      "邱 311,208",
+      "邱311,208",
+      "邱 311",
+      "邱311",
+      "邱"
     ],
     "file": "/01.Docs/Students/邱醫師.md",
-    "lessons_count": 51,
+    "lessons_count": 54,
     "latest_date": "2026-08-11",
     "next_lesson": "2026-09-15",
     "tags": [
@@ -395,18 +402,6 @@
     "file": "/01.Docs/Students/Gift Association 2 L1.md",
     "lessons_count": 1,
     "latest_date": "2026-03-10",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ]
-  },
-  {
-    "id": "56e337e8-97ee-43fe-a596-1f74e111100d",
-    "name": "邱 頂溪捷運站2號出口",
-    "aliases": [],
-    "file": "/01.Docs/Students/邱 頂溪捷運站2號出口.md",
-    "lessons_count": 6,
-    "latest_date": "2025-09-02",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
@@ -805,18 +800,6 @@
     "file": "/01.Docs/Students/芳瑜公司.md",
     "lessons_count": 1,
     "latest_date": "2024-08-12",
-    "next_lesson": "安排中",
-    "tags": [
-      "一般學員"
-    ]
-  },
-  {
-    "id": "34d31a2a-42e7-44bd-b246-cf03d26d1dbf",
-    "name": "邱 311,208",
-    "aliases": [],
-    "file": "/01.Docs/Students/邱 311,208.md",
-    "lessons_count": 5,
-    "latest_date": "2024-07-19",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
