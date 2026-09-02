@@ -1273,7 +1273,9 @@ async def read_root(request: Request):
         file_meta = get_student_metadata(file_path) if file_path and os.path.exists(file_path) else {}
         cloud_meta = build_cloud_student_meta(s)
         s['meta'] = {**cloud_meta, **file_meta}
-        if not s['meta'].get('last_lesson_date') or s['meta']['last_lesson_date'] == "未記錄":
+        if not s['meta'].get('first_lesson_date') or s['meta']['first_lesson_date'] in ("未記錄", "TBD"):
+            s['meta']['first_lesson_date'] = s.get('first_lesson_date') or "未記錄"
+        if not s['meta'].get('last_lesson_date') or s['meta']['last_lesson_date'] in ("未記錄", "TBD"):
             s['meta']['last_lesson_date'] = s.get('latest_date') or "未記錄"
         if not s['meta'].get('lessons_count') or s['meta']['lessons_count'] == 0:
             s['meta']['lessons_count'] = s.get('lessons_count') or 0
@@ -1518,7 +1520,9 @@ async def read_student(request: Request, student_id: str):
     file_meta = get_student_metadata(file_path) if file_path and os.path.exists(file_path) else {}
     cloud_meta = build_cloud_student_meta(student)
     student['meta'] = {**cloud_meta, **file_meta}
-    if not student['meta'].get('last_lesson_date') or student['meta']['last_lesson_date'] == "未記錄":
+    if not student['meta'].get('first_lesson_date') or student['meta']['first_lesson_date'] in ("未記錄", "TBD"):
+        student['meta']['first_lesson_date'] = student.get('first_lesson_date') or "未記錄"
+    if not student['meta'].get('last_lesson_date') or student['meta']['last_lesson_date'] in ("未記錄", "TBD"):
         student['meta']['last_lesson_date'] = student.get('latest_date') or "未記錄"
     if not student['meta'].get('lessons_count') or student['meta']['lessons_count'] == 0:
         student['meta']['lessons_count'] = student.get('lessons_count') or len(student_notes)

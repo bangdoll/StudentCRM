@@ -11,7 +11,8 @@
     "next_lesson": "2026-11-06",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-07-23"
   },
   {
     "id": "b946040e-8957-445b-a97a-d8c301ccf478",
@@ -25,7 +26,8 @@
     "next_lesson": "2026-09-27",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-11-22"
   },
   {
     "id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
@@ -39,7 +41,8 @@
     "next_lesson": "2026-10-23",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-02-22"
   },
   {
     "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
@@ -53,7 +56,8 @@
     "next_lesson": "2026-11-17",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-11-08"
   },
   {
     "id": "3037a53b-0c97-4253-bd2a-d236af440191",
@@ -67,7 +71,8 @@
     "next_lesson": "2026-09-06",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-08-02"
   },
   {
     "id": "63e43675-2491-4d5c-b149-40019be779ef",
@@ -81,7 +86,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2020-01-29"
   },
   {
     "id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
@@ -95,7 +101,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-06-18"
   },
   {
     "id": "bea3a100-3534-4183-9d8c-db789f71302f",
@@ -109,7 +116,8 @@
     "next_lesson": "2026-10-12",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-07-11"
   },
   {
     "id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
@@ -123,7 +131,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-11-19"
   },
   {
     "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
@@ -137,7 +146,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-04-19"
   },
   {
     "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
@@ -151,7 +161,8 @@
     "next_lesson": "2026-10-02",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-01-03"
   },
   {
     "id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
@@ -165,7 +176,8 @@
     "next_lesson": "2026-09-13",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-11-09"
   },
   {
     "id": "b5b5aef3-3514-478e-bbca-b0c568434551",
@@ -180,7 +192,8 @@
     "next_lesson": "2026-09-03",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-12-10"
   },
   {
     "id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
@@ -195,7 +208,8 @@
     "next_lesson": "2026-09-15",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-01-15"
   },
   {
     "id": "553599e9-053b-4270-b43f-44687278d256",
@@ -209,7 +223,8 @@
     "next_lesson": "2026-11-13",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-06-16"
   },
   {
     "id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
@@ -224,7 +239,8 @@
     "next_lesson": "2026-09-11",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-12-03"
   },
   {
     "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
@@ -245,7 +261,8 @@
     "next_lesson": "2026-09-15",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-03-02"
   },
   {
     "id": "2944f0c1-48fb-4751-be82-9f6195607294",
@@ -257,31 +274,34 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-10"
   },
   {
     "id": "03045081-17a6-423a-a877-c6012824dffb",
     "name": "陳海陸 20 4",
     "aliases": [],
     "file": "/01.Docs/Students/陳海陸  20 4.md",
-    "lessons_count": 22,
-    "latest_date": "2026-04-28",
+    "lessons_count": 26,
+    "latest_date": "2026-08-28",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-11-28"
   },
   {
     "id": "f492999f-8dd3-4b9b-a4c9-da5da25ff2a9",
     "name": "禮品公會 03",
     "aliases": [],
     "file": "/01.Docs/Students/禮品公會  03.md",
-    "lessons_count": 1,
-    "latest_date": "2026-03-31",
+    "lessons_count": 8,
+    "latest_date": "2026-07-28",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-10"
   },
   {
     "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
@@ -297,7 +317,8 @@
     "next_lesson": "2026-09-11",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-12-07"
   },
   {
     "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
@@ -313,7 +334,8 @@
     "next_lesson": "2026-09-03",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-01-04"
   },
   {
     "id": "f4aff43b-59d6-43ed-98b6-a5d8c78b0e6f",
@@ -325,7 +347,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-26"
   },
   {
     "id": "3d310981-0e3c-4c08-a5c7-8010e6a2b0fb",
@@ -337,31 +360,34 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-03-17"
   },
   {
     "id": "0e6b6b92-ebe9-4252-a6cf-3907b78700f7",
     "name": "Chami BNI Management 38 6",
     "aliases": [],
     "file": "/01.Docs/Students/Chami BNI Management 38 6.md",
-    "lessons_count": 1,
-    "latest_date": "2026-03-24",
+    "lessons_count": 52,
+    "latest_date": "2026-07-27",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-03-10"
   },
   {
     "id": "e8e3e5fa-5d74-4e20-95af-de0593d850ab",
     "name": "Gift Association 2 L2",
     "aliases": [],
     "file": "/01.Docs/Students/Gift Association 2 L2.md",
-    "lessons_count": 1,
-    "latest_date": "2026-03-24",
+    "lessons_count": 8,
+    "latest_date": "2026-07-28",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-10"
   },
   {
     "id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
@@ -373,7 +399,8 @@
     "next_lesson": "2026-09-08",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-06-30"
   },
   {
     "id": "be1c9162-c39e-4689-a316-85402600a2ef",
@@ -385,7 +412,8 @@
     "next_lesson": "2026-09-04",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-14"
   },
   {
     "id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
@@ -397,19 +425,21 @@
     "next_lesson": "2026-09-10",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-03-10"
   },
   {
     "id": "28542702-b599-49e8-87be-babc374f4962",
     "name": "Gift Association 2 L1",
     "aliases": [],
     "file": "/01.Docs/Students/Gift Association 2 L1.md",
-    "lessons_count": 1,
-    "latest_date": "2026-03-10",
+    "lessons_count": 8,
+    "latest_date": "2026-07-28",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2026-03-10"
   },
   {
     "id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
@@ -421,7 +451,8 @@
     "next_lesson": "2026-09-20",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-08-23"
   },
   {
     "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
@@ -433,7 +464,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-09-08"
   },
   {
     "id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
@@ -445,7 +477,8 @@
     "next_lesson": "2026-09-08",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2020-10-30"
   },
   {
     "id": "1620effd-74bc-455b-8ba0-a32f0ed0f769",
@@ -457,7 +490,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-03-15"
   },
   {
     "id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
@@ -469,7 +503,8 @@
     "next_lesson": "2026-09-07",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-08-12"
   },
   {
     "id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
@@ -481,7 +516,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-12-08"
   },
   {
     "id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
@@ -495,7 +531,8 @@
     "next_lesson": "2026-10-23",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-01-10"
   },
   {
     "id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
@@ -507,7 +544,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-04-17"
   },
   {
     "id": "488bb965-ccbe-4909-b45a-cdce45778281",
@@ -519,7 +557,8 @@
     "next_lesson": "2026-09-04",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-11-28"
   },
   {
     "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
@@ -531,19 +570,21 @@
     "next_lesson": "2026-09-24",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-07-14"
   },
   {
     "id": "d892570c-70d2-4fba-9f2e-614ba775232b",
     "name": "查米 315",
     "aliases": [],
     "file": "/01.Docs/Students/查米 315.md",
-    "lessons_count": 40,
-    "latest_date": "2026-05-07",
+    "lessons_count": 52,
+    "latest_date": "2026-07-27",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-03-10"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
@@ -555,7 +596,8 @@
     "next_lesson": "2026-10-26",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-09-03"
   },
   {
     "id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
@@ -567,7 +609,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-12-11"
   },
   {
     "id": "7071583c-13d4-4a2b-bf91-a52c9e968322",
@@ -579,7 +622,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-06-03"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -591,7 +635,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-11-14"
   },
   {
     "id": "e0cf4cfd-1676-4c6e-bab8-1a9ef66a9a39",
@@ -603,7 +648,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2020-11-17"
   },
   {
     "id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
@@ -615,7 +661,8 @@
     "next_lesson": "2027-01-22",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2020-03-26"
   },
   {
     "id": "e1afbba6-6fd9-4515-b587-0e89d0312edb",
@@ -632,7 +679,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-08-23"
   },
   {
     "id": "b86cade3-c211-41c5-b33c-2124ee34d743",
@@ -644,7 +692,8 @@
     "next_lesson": "2027-01-12",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-11-10"
   },
   {
     "id": "368cbe6e-935e-4ff2-9c4a-52748fbc1bf0",
@@ -656,7 +705,8 @@
     "next_lesson": "2026-11-09",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-04-22"
   },
   {
     "id": "912a251a-c72d-437b-9cf4-37bf0eb18f4e",
@@ -668,7 +718,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-01-08"
   },
   {
     "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",
@@ -680,7 +731,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2019-07-10"
   },
   {
     "id": "d9951845-6b4f-4c1b-8552-d313dada17f1",
@@ -692,7 +744,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2025-03-16"
   },
   {
     "id": "3a7f7764-ddc1-45cb-9912-463275a51336",
@@ -704,7 +757,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-06-09"
   },
   {
     "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
@@ -718,12 +772,13 @@
       "蕭秉慧"
     ],
     "file": "/01.Docs/Students/Anna蕭.md",
-    "lessons_count": 28,
+    "lessons_count": 27,
     "latest_date": "2026-07-10",
     "next_lesson": "2026-10-18",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-04-01"
   },
   {
     "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
@@ -735,7 +790,8 @@
     "next_lesson": "2026-11-10",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-04-10"
   },
   {
     "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
@@ -747,7 +803,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-09-10"
   },
   {
     "id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
@@ -759,7 +816,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-04-12"
   },
   {
     "id": "e50a010c-1668-4b23-b159-faa86f2cb23c",
@@ -771,19 +829,21 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-10-12"
   },
   {
     "id": "04aa738c-77cf-474d-ae1c-0e7004ca3437",
     "name": "Roger黃凱亮-線上",
     "aliases": [],
     "file": "/01.Docs/Students/Roger黃凱亮-線上.md",
-    "lessons_count": 14,
-    "latest_date": "2026-01-23",
+    "lessons_count": 28,
+    "latest_date": "2026-07-20",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-12-11"
   },
   {
     "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
@@ -795,7 +855,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2018-09-06"
   },
   {
     "id": "2b207c9b-7b6e-492b-a12c-64d8263abe6f",
@@ -807,7 +868,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-04-16"
   },
   {
     "id": "95bc7f83-011b-4b16-aa13-b525446e2468",
@@ -819,7 +881,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-08-12"
   },
   {
     "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
@@ -831,7 +894,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2022-12-05"
   },
   {
     "id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
@@ -843,7 +907,8 @@
     "next_lesson": "2026-10-02",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-06-07"
   },
   {
     "id": "bb6e8cde-291d-4554-9afa-5b5bad0bc5ee",
@@ -859,7 +924,8 @@
     "next_lesson": "2027-01-15",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-07-22"
   },
   {
     "id": "e101d0f5-8aa6-40b3-a4f3-1e3f02f3c98c",
@@ -871,7 +937,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-04-21"
   },
   {
     "id": "bf061abd-65f9-4ffa-b682-df1b5f437aa0",
@@ -883,7 +950,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-06-22"
   },
   {
     "id": "d233701d-0c16-427c-a9fe-71499a35d673",
@@ -895,7 +963,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-11-27"
   },
   {
     "id": "d2f9ac0e-0e8c-4d06-acbf-a26963241eaa",
@@ -907,7 +976,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-03-26"
   },
   {
     "id": "8c4fb758-70fe-4a68-838c-5003b9de8624",
@@ -919,7 +989,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2023-05-12"
   },
   {
     "id": "6e05699e-d21c-432e-b59b-0b1b916fef07",
@@ -931,7 +1002,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2024-02-21"
   },
   {
     "id": "5dc16e4f-fbdb-4aa8-8bf3-9105ef7abc83",
@@ -946,7 +1018,8 @@
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-06-16"
   },
   {
     "id": "e8d71234-9abc-4def-a123-567890abcdef",
@@ -964,6 +1037,7 @@
     "next_lesson": "2026-09-05",
     "tags": [
       "一般學員"
-    ]
+    ],
+    "first_lesson_date": "2021-03-06"
   }
 ]
