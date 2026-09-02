@@ -33,7 +33,7 @@
     </header>
 
     <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px;">
+        <div class="student-detail-layout">
             <aside>
                 <div class="student-card" style="cursor: default;">
                     <h3>硬體設備</h3>
@@ -100,7 +100,7 @@
                     <div class="digital-record-list">
                         {% for note in student_notes %}
                         <div class="digital-record digital-note-record" style="background: rgba(22, 27, 34, 0.85); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; margin-bottom: 14px; transition: border-color 0.2s;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
+                            <div class="digital-note-header" style="display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px;">
                                 <div>
                                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
                                         {% if note.lesson_number %}
@@ -117,7 +117,7 @@
                                     </h3>
                                 </div>
                                 {% if note.url or note.path %}
-                                <a href="{{ note.url or ('/open_file?path=' ~ note.path) }}" class="search-btn" style="padding: 7px 16px; font-size: 0.88rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; background: var(--accent-color); color: #fff; border-radius: 8px;">閱讀完整筆記 →</a>
+                                <a href="{{ note.url or ('/open_file?path=' ~ note.path) }}" class="search-btn digital-note-btn" style="padding: 7px 16px; font-size: 0.88rem; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; background: var(--accent-color); color: #fff; border-radius: 8px;">閱讀完整筆記 →</a>
                                 {% endif %}
                             </div>
                             {% if note.preview %}

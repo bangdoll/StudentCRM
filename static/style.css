@@ -2004,25 +2004,182 @@ th {
         margin: 10px 0 6px;
     }
 
-    /* 6. Apple CEO Program View */
-    .program-nav-bar {
-        padding: 8px 12px;
-        gap: 6px;
+    /* 6. Apple CEO Program View & Dashboard */
+    header h1 {
+        font-size: 1.55rem;
+        line-height: 1.25;
     }
-    .program-nav-pill {
-        padding: 6px 12px;
+    .program-hero-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+    .program-hero-tags .tag {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+    }
+    .program-hero-card {
+        padding: 16px 14px;
+        margin-bottom: 12px;
+        border-radius: 14px;
+    }
+    .program-hero-card h2 {
+        font-size: 1.15rem;
+        line-height: 1.35;
+    }
+    .program-toolbar {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        margin-bottom: 16px;
+    }
+    .program-nav-button {
+        flex: 1;
+        padding: 10px 12px;
+        font-size: 0.82rem;
+        text-align: center;
+        border-radius: 10px;
+    }
+    .program-subnav-pills {
+        padding: 8px 12px;
+        margin: -8px -14px 16px -14px;
+        gap: 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .subnav-pill {
+        padding: 5px 12px;
         font-size: 0.78rem;
-        flex-shrink: 0;
+        border-radius: 16px;
+    }
+    .ops-radar-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    .ops-radar-card {
+        padding: 16px 14px;
+        border-radius: 16px;
+    }
+    .ops-radar-card h2 {
+        font-size: 1.25rem;
+    }
+    .ops-radar-item {
+        padding: 12px 14px;
+        border-radius: 12px;
+        gap: 10px;
+    }
+    .btn-copy-reminder {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        min-height: 36px;
+        border-radius: 8px;
+    }
+    .active-student-strip {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+    }
+    .active-student-pill {
+        min-width: 0;
+        padding: 10px 12px;
+        border-radius: 12px;
+    }
+    .active-student-pill strong {
+        font-size: 0.95rem;
+    }
+    .active-student-pill span {
+        font-size: 0.76rem;
     }
     .summary-grid {
         grid-template-columns: 1fr 1fr;
         gap: 8px;
+        margin-bottom: 20px;
     }
     .summary-card {
         padding: 12px 14px;
+        border-radius: 12px;
+    }
+    .summary-label {
+        font-size: 0.78rem;
     }
     .summary-card h3 {
-        font-size: 1.35rem;
+        font-size: 1.28rem;
+    }
+    .summary-card .meta-info {
+        font-size: 0.74rem;
+    }
+    .student-round-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 14px;
+    }
+    .student-round-filter-bar .filter-pills {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .student-round-filter-bar .filter-pills::-webkit-scrollbar {
+        display: none;
+    }
+    .round-accordion-controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+    .round-student-card {
+        margin-bottom: 12px;
+        border-radius: 14px;
+    }
+    .round-student-summary {
+        padding: 14px 16px;
+    }
+    .round-student-header h3 {
+        font-size: 1.15rem;
+    }
+    .round-student-summary-badges {
+        gap: 6px;
+    }
+    .round-card {
+        padding: 14px;
+        border-radius: 12px;
+    }
+    .round-card-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .round-card-header h4 {
+        font-size: 0.95rem;
+    }
+    .round-progress strong {
+        font-size: 1.2rem;
+    }
+    .panel-card {
+        padding: 16px 14px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+    }
+    .panel-card h2 {
+        font-size: 1.25rem;
+    }
+    .table-container {
+        margin: 0 -14px;
+        padding: 0 14px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    table {
+        min-width: 480px;
+        font-size: 0.82rem;
+    }
+    th, td {
+        padding: 8px 10px;
     }
     .teaching-notes-grid {
         grid-template-columns: 1fr;
@@ -2054,6 +2211,25 @@ th {
     }
     .note-header h1 {
         font-size: 1.3rem;
+    }
+
+    /* 8. Student Detail Page (一對一學員個人檔案) */
+    .student-detail-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .digital-note-header {
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 10px !important;
+    }
+    .digital-note-btn {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        padding: 10px 16px !important;
+        min-height: 42px;
     }
 }
 
