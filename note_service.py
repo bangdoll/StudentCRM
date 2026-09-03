@@ -97,6 +97,7 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     # -------------------------------------------------------------
     # 層級 1：指標與活躍課堂之精準語意錨定 (Landmark High-Precision Map)
     # -------------------------------------------------------------
+    # 蘋果總裁班系列
     if "1362" in lower_t or ("總裁班" in lower_t and "20260903" in lower_t):
         return {
             "micro_habit": "「Preflight 事前測試原則」：錄影或重大數位產出前先錄 20-30 秒回放檢查聲音與畫面；不要相信設定，要相信實際測試結果。",
@@ -118,11 +119,96 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
             "weekly_win": "「完成 1 個核心業務的白板圖譜」：將本週最重要的一項決策在 Heptabase 白板拆解為 3 張原子卡片。",
         }
 
+    # 一對一核心學員系列
     if "21-6" in lower_t or ("shelley" in lower_t and "20260903" in lower_t):
         return {
             "micro_habit": "「資料不依賴聊天軟體」：重要記事與工作交接不再放 LINE，落實「蒐集 → 工作 → AI 加工 → 人工驗證 → 正式輸出 → 雲端保存」工作閉環，成果責任不外包給工具。",
             "key_action": "「LINE 記事本收攏 SOP」：將 LINE 記事本內容完整拉回轉文字，完成驗證後整理存入公司 Google Drive 正式營運資料夾，建立團隊 Single Source of Truth。",
             "weekly_win": "「公司帳號與權限清冊初版」：完成公司第一份「帳號與權限清冊」初版，盤點常用營運系統與 Google Drive 正式資料夾，建立可交接的數位營運底座。",
+        }
+
+    if "charlotte" in lower_t or "陳姐" in lower_t:
+        return {
+            "micro_habit": "「快速鍵是手段，工作流程才是目的」：在 Mac 桌面落實 Command + Tab 與多視窗平滑切換，減少依賴滑鼠層層點選的零碎摩擦。",
+            "key_action": "「掌握五階工作鏈」：熟練「操作熟練 ➔ 資訊流動 ➔ 資料治理 ➔ AI 協作 ➔ 人工驗收」實踐架構，建立一人公司自驅工作流。",
+            "weekly_win": "「個人桌面與 AI Work 整合實踐」：在本地資料夾與 ChatGPT Work 中獨立完成一組工作流演練，形成穩定肌肉記憶。",
+        }
+
+    if "張素幸" in lower_t or "素幸" in lower_t:
+        return {
+            "micro_habit": "「界定問題先於尋找解法」：在尋找任何數位工具前，先精確界定現況、目標、障礙與問題範圍，避免在錯誤問題上用力。",
+            "key_action": "「數位入口治理收攏」：將分散的網站入口、帳號、裝置與付款方式收斂至單一清晰路徑，不再層層翻找。",
+            "weekly_win": "「個人數位資料入口盤點」：完成常用網站、Booking 與付款帳號的跨裝置入口同步，落實高頻 Typeless 語音輸入。",
+        }
+
+    if "陳海陸" in lower_t or "海陸" in lower_t:
+        return {
+            "micro_habit": "「以解決真實生活問題為核心」：AI 不是讓人多學一堆繁雜功能，而是從「遇到問題 ➔ 找資訊 ➔ 判斷選項 ➔ 完成操作 ➔ 確認結果」建立問題解決閉環。",
+            "key_action": "「前情提要結構化提煉」：掌握「角色背景 ＋ 具體限制 ＋ 輸出格式」提問結構，將會議或語音摘要一鍵匯出為結構化 Word 文件。",
+            "weekly_win": "「完成 1 項生活數位決策」：運用 AI 輔助完成 1 次真實設備選型或流程排查，留下可追溯的驗收紀錄。",
+        }
+
+    if "lucia" in lower_t or "徐露華" in lower_t:
+        return {
+            "micro_habit": "「雲端即時使用，本地真正累積」：清晰劃分雲端對話與本地專案邊界，不讓重要工作成果散落在未整理的聊天室中。",
+            "key_action": "「先建前情提要，再開始即時互動」：在 Finder 建立標準專案層級，讓 AI 在明確的背景脈絡下參與工作協作。",
+            "weekly_win": "「本地專案工作區建立」：在 Finder 建立標準專案資料夾並連入工作模式，產出首份經過驗收的結構化交付物。",
+        }
+
+    if "kelly" in lower_t:
+        return {
+            "micro_habit": "「專案分工與環境防呆」：建立清晰的專案管理觀念，本地專案落地於實體檔案，雲端專案用於跨裝置輕量溝通。",
+            "key_action": "「標準專案建立流程」：熟練「建立新專案 ➔ 建立實體資料夾 ➔ 選擇資料夾 ➔ 建立 Project」之標準動作鏈。",
+            "weekly_win": "「AI 工作環境全面梳理」：完成 ChatGPT 電腦版重新配置與專案資料夾建立，獨立跑通 1 次專案建立與輸出。",
+        }
+
+    if "julie" in lower_t or "陳怡君" in lower_t:
+        return {
+            "micro_habit": "「分步推進，不求一次到位」：像專業軟體團隊一樣分步落實：需求訪談 ➔ 規格 ➔ 原型 ➔ 開發 ➔ 測試 ➔ 修正 ➔ 部署。",
+            "key_action": "「醫療資料結構化鏈條」：落實「PDF ➔ AI 擷取 ➔ 結構化顯示 ➔ 人工確認／修改 ➔ 正式存檔」專業處理工作鏈。",
+            "weekly_win": "「AI 體重管理平台原型實戰」：以臨床減重平台為案例，跑通一次完整的需求拆解與互動原型驗證。",
+        }
+
+    if "曾小米" in lower_t:
+        return {
+            "micro_habit": "「把 AI 當作新進員工」：提供完整的品牌定位、產品規格、風格調性與驗收標準，成果責任不外包給工具。",
+            "key_action": "「設計規格嚴格校核」：掌握「輸入 ➔ 產出 ➔ 驗收 ➔ 修正 ➔ 再產出」循環，精確比對禮盒尺寸、刀模與色彩規範。",
+            "weekly_win": "「產出一份高質量設計 Brief」：以結構化 Prompt 完成 1 款品牌產品的 AI 協作包裝設計提案。",
+        }
+
+    if "邱醫師" in lower_t:
+        return {
+            "micro_habit": "「自主掌控 AI 工作系統」：即使教練不在身邊，也能自己把真實臨床工作交給 AI：從「AI 幫我做」提升到「我知道該用哪套流程」。",
+            "key_action": "「專業閱讀與反思鏈」：掌握「閱讀 ➔ 畫重點 ➔ 提問 ➔ AI 整理 ➔ 自己判斷 ➔ 留存」的高效知識消化鏈條。",
+            "weekly_win": "「建立專屬臨床 AI SOP」：在個人專業領域落實「Chat → Project → Work → Skill」的自主工作工作流。",
+        }
+
+    if "曹淑鈴" in lower_t or "大腳旅行社" in lower_t or "crystal" in lower_t:
+        return {
+            "micro_habit": "「從 Chat 邁向 Work」：不要只停留在聊天對話，讓 AI 從聊天夥伴轉化為能夠完成具體交付物的業務實戰幫手。",
+            "key_action": "「旅遊業務流程重構」：依照「實際問題 ➔ 現場處理 ➔ 操作流程 ➔ 商業應用 ➔ 後續行動」重塑顧客服務鏈。",
+            "weekly_win": "「行程規劃與客服問答 AI 化」：將旅行社高頻客戶諮詢或行程規格整理為一套標準化應答工作流。",
+        }
+
+    if "查米" in lower_t:
+        return {
+            "micro_habit": "「問對問題 ＋ 拆解問題」：先找出真正核心痛點，再拆解成可操作步驟，最後依照現實限制設計最優方案。",
+            "key_action": "「限制條件優先盤點」：在專案推進前先列出時間、硬體與成本限制，避免工具過度配置。",
+            "weekly_win": "「完成 1 項業務痛點深度拆解」：將目前最卡關的業務梳理出清楚的因果邏輯與執行清單。",
+        }
+
+    if "若麟" in lower_t:
+        return {
+            "micro_habit": "「批判性思考習慣落實」：不盲目追求新工具，先透過 #問對問題 與 #識別假設 釐清任務核心目的。",
+            "key_action": "「任務最小可行單元拆解」：運用結構化框架將大型專案拆解為可個別驗收的最小實作步驟。",
+            "weekly_win": "「個人專案結構化拆解」：在手頭專案中落實一次無工具干擾的需求定義與驗收指標梳理。",
+        }
+
+    if "lala" in lower_t or "湘祺" in lower_t:
+        return {
+            "micro_habit": "「溝通提供充足前情提要」：不要單純聊天，先提供個人背景、公司資料與目標，讓 AI 一次到位不走彎路。",
+            "key_action": "「Typeless 跨裝置語音流」：掌握電腦與手機雙向語音輸入，並在 ChatGPT Work 中以「/」快速叫出 Skill。",
+            "weekly_win": "「安裝全自動提示詞改進器」：在電腦版與手機版跑通提示詞優化工作流，提升日常對話產出質量。",
         }
 
     if "06-2" in lower_t or ("蕭世典" in lower_t and "20260901" in lower_t):
@@ -139,9 +225,35 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
             "weekly_win": "「完成 1 套個人專屬工作 Skill 封裝」：將本週高頻業務梳理出清楚的 Input / Output 規格，建立第一個版本化 Skill。",
         }
 
+    if "資深少年" in lower_t:
+        return {
+            "micro_habit": "「造 (Build) 的浪漫：建構個人 AI 作業系統」：不再被動等待軟體功能，而是主動運用 AI 打造符合自己生活節奏的微型系統。",
+            "key_action": "「專案式學習 (PBL) 閉環」：從日常生活中的真實問題出發，經歷「探索 ➔ 踩坑 ➔ 驗證 ➔ 沉澱為 Skill」的完整過程。",
+            "weekly_win": "「跑通 1 個生活自動化專案」：在個人電腦或手機上獨立建立 1 個可重複觸發的生活或學習小幫手。",
+        }
+
     # -------------------------------------------------------------
     # 層級 2：通用深度結構化萃取引擎 (Deep Structural NLP Extraction)
     # -------------------------------------------------------------
+    def _is_clean_candidate(s: str) -> bool:
+        s_strip = s.strip(" *#「」\"'\t、，。:：")
+        if len(s_strip) < 12 or len(s_strip) > 75:
+            return False
+        if s_strip.endswith(("：", ":")):
+            return False
+        bad_tokens = [
+            "在你的", "你的教學", "你的課程", "代表案例", "思考習慣", "個 HC",
+            "個思考", "三句話", "核心定位", "教學內容", "蔡教練", "http",
+            ".md", ".pdf", "大綱", "模組", "章節", "授課", "課程名稱",
+            "知道很多，但", "尚未形成", "做不出來", "第一階段", "第二階段",
+            "工作鏈", "操作熟練 →", "可行性＋", "暫時恢復", "授課日期", "授課時段"
+        ]
+        if any(b in s_strip for b in bad_tokens):
+            return False
+        if re.match(r"^[一二三四五六七八九十0-9.、\s（）()第]+", s_strip):
+            return False
+        return True
+
     # 1. 優先聚焦學員複習段落或核心總結
     review_match = re.search(
         r"(?:學員複習版|學員課後實作版|課後實作|實作練習|本堂課最重要的三句話|核心原則|優先待辦|今天實際完成|重點摘要).*?(?=\n---|\Z)",
@@ -151,25 +263,19 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     search_text = review_match.group(0) if review_match else clean_text
 
     # 2. 抽取文章內教練強調之粗體金句 (**...**)
-    raw_bolds = re.findall(r"\*\*([^\*\n]{8,70})\*\*", search_text)
-    clean_bolds: list[str] = []
-    for b in raw_bolds:
-        b_clean = b.strip(" *#「」\"'\t、，。")
-        # 排除標題序號 (如 一、, 1., 2.)
-        if re.match(r"^[一二三四五六七八九十0-9.、\s]+", b_clean):
-            continue
-        if len(b_clean) < 8:
-            continue
-        if any(bad in b_clean for bad in ["http", ".md", ".pdf", "蔡教練", "教學內容", "授課對象", "課程名稱", "授課日期"]):
-            continue
-        clean_bolds.append(b_clean)
+    raw_bolds = re.findall(r"\*\*([^\*\n]{8,85})\*\*", search_text)
+    clean_bolds: list[str] = [
+        b.strip(" *#「」\"'\t、，。:：")
+        for b in raw_bolds
+        if _is_clean_candidate(b)
+    ]
 
     # 3. 抽取箭頭式工作流程 (A → B → C)
     arrows = re.findall(r"([^\n]{4,35}(?:→|➔)[^\n]{4,55})", search_text)
     clean_arrows = [
         a.strip(" *#「」\"'\t。")
         for a in arrows
-        if not a.strip().startswith(("http", "www")) and len(a.strip()) > 10
+        if not a.strip().startswith(("http", "www")) and len(a.strip()) > 10 and not any(bad in a for bad in ["具體例子", "操作熟練", "把建站任務"])
     ]
 
     # 4. 抽取鍵盤快捷鍵
@@ -178,7 +284,7 @@ def extract_micro_action_cards(content: str, title: str = "") -> dict[str, str]:
     # 5. 構建 📱 每日 3 分鐘小習慣 (Micro-Habit)
     habit_candidates = [
         b for b in clean_bolds
-        if any(k in b for k in ["習慣", "不要", "先", "才是", "原則", "測試", "驗證", "行事曆", "Calendar", "記錄", "留下", "減法", "責任", "真正", "生活", "晨間"])
+        if any(k in b for k in ["習慣", "不要", "先", "才是", "原則", "測試", "驗證", "行事曆", "Calendar", "記錄", "留下", "減法", "責任", "真正", "生活", "晨間", "前情提要"])
     ]
     if habit_candidates:
         habit = habit_candidates[0]
