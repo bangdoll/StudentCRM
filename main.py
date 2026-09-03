@@ -402,8 +402,16 @@ def load_students():
     return student_gateway.load_students()
 
 
+_APPLE_PROGRAM_CACHE = {"timestamp": 0.0, "data": None}
+
 def load_apple_ceo_program():
-    return student_gateway.load_apple_ceo_program()
+    now = time.time()
+    if _APPLE_PROGRAM_CACHE["data"] is not None and (now - _APPLE_PROGRAM_CACHE["timestamp"] < 30.0):
+        return _APPLE_PROGRAM_CACHE["data"]
+    data = student_gateway.load_apple_ceo_program()
+    _APPLE_PROGRAM_CACHE["timestamp"] = now
+    _APPLE_PROGRAM_CACHE["data"] = data
+    return data
 
 
 def normalize_digital_name(value: str) -> str:
@@ -596,8 +604,18 @@ def parse_digital_management_note_file(path: str) -> dict:
     }
 
 
+_LOCAL_NOTES_CACHE = {"timestamp": 0.0, "notes": []}
+_CLOUD_NOTES_CACHE = {"timestamp": 0.0, "notes": []}
+
+
 def load_local_digital_management_notes() -> list[dict]:
+    now = time.time()
+    if _LOCAL_NOTES_CACHE["notes"] and (now - _LOCAL_NOTES_CACHE["timestamp"] < 30.0):
+        return _LOCAL_NOTES_CACHE["notes"]
+
     paths = sorted(glob.glob(os.path.join(TEACHING_DIR, "*.md")))
+    if not paths:
+        return []
     students = load_students()
     notes = []
     for path in paths:
@@ -631,10 +649,16 @@ def load_local_digital_management_notes() -> list[dict]:
             "matched_to_official_student": True,
         }
         notes.append(parsed)
+    _LOCAL_NOTES_CACHE["timestamp"] = now
+    _LOCAL_NOTES_CACHE["notes"] = notes
     return notes
 
 
 def load_cloud_digital_management_notes() -> list[dict]:
+    now = time.time()
+    if _CLOUD_NOTES_CACHE["notes"] and (now - _CLOUD_NOTES_CACHE["timestamp"] < 30.0):
+        return _CLOUD_NOTES_CACHE["notes"]
+
     rows = student_gateway.load_all_teaching_records()
     if isinstance(rows, dict) and "records" in rows:
         rows = rows["records"]
@@ -675,7 +699,10 @@ def load_cloud_digital_management_notes() -> list[dict]:
             "matched_by": row.get("matched_by") or raw.get("matched_by", ""),
             "matched_to_official_student": bool(row.get("student_id")),
         })
-    return [note for note in notes if note.get("student_id")]
+    result = [note for note in notes if note.get("student_id")]
+    _CLOUD_NOTES_CACHE["timestamp"] = now
+    _CLOUD_NOTES_CACHE["notes"] = result
+    return result
 
 
 def latest_heptabase_backup_dir() -> str:
@@ -1191,10 +1218,13 @@ def student_id_from_path(path: str) -> str:
     return ""
 
 
-def analyze_student_features(student_id: str, use_cache: bool = True) -> dict:
+def analyze_student_features(student_id: str, use_cache: bool = True, target_student: dict | None = None) -> dict:
     """Extract features from student's historical data for AI prediction."""
-    students = load_students()
-    student = next((s for s in students if s.get('id') == student_id), None)
+    if target_student is not None:
+        student = target_student
+    else:
+        students = load_students()
+        student = next((s for s in students if s.get('id') == student_id), None)
     if not student:
         return {
             'days_since_last_lesson': -1,
@@ -1234,7 +1264,7 @@ async def read_root(request: Request):
             s['meta']['last_lesson_date'] = s.get('latest_date') or "未記錄"
         if not s['meta'].get('lessons_count') or s['meta']['lessons_count'] == 0:
             s['meta']['lessons_count'] = s.get('lessons_count') or 0
-        s['features'] = analyze_student_features(s['id'])
+        s['features'] = analyze_student_features(s['id'], target_student=s)
         s['prediction'] = predict_student_status(s['features'], s.get('next_lesson'))
 
     # Sort students by next lesson date (Priority: Future > Past > TBD)
