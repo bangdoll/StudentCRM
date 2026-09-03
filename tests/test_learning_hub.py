@@ -118,3 +118,31 @@ def test_coach_magic_link_flow_and_privacy_lock():
     my_admin_resp = client.get("/my/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
     assert my_admin_resp.status_code == 200
     assert "coach_session" in my_admin_resp.cookies
+
+
+def test_student_pwa_manifest_and_home_screen_auto_redirect():
+    # 1. 存取學員 Hub 時應自動注入 180 天長效憑證 Cookie
+    valid_uuid = "78fd9e3f-6a0c-4f92-bd10-2834903478fa"
+    hub_resp = client.get(f"/my/{valid_uuid}")
+    assert hub_resp.status_code == 200
+    assert "last_student_token" in hub_resp.cookies
+    assert hub_resp.cookies["last_student_token"] == valid_uuid
+    assert f"/my/{valid_uuid}/manifest.webmanifest" in hub_resp.text
+
+    # 2. 學員專屬動態 Manifest 應將 start_url 綁定至個人 URL
+    manifest_resp = client.get(f"/my/{valid_uuid}/manifest.webmanifest")
+    assert manifest_resp.status_code == 200
+    manifest = manifest_resp.json()
+    assert manifest["start_url"] == f"/my/{valid_uuid}"
+    assert manifest["scope"] == f"/my/{valid_uuid}"
+    assert "Charlotte" in manifest["name"]
+
+    # 3. 學員主畫面圖標若因歷史原因開啟了首頁 /，門禁系統自動 303 轉址回其個人空間
+    home_resp = client.get(
+        "/",
+        cookies={"last_student_token": valid_uuid},
+        headers={"X-Test-Auth": "true"},
+        follow_redirects=False,
+    )
+    assert home_resp.status_code == 303
+    assert home_resp.headers["location"] == f"/my/{valid_uuid}"

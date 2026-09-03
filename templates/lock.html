@@ -73,10 +73,31 @@
         <div class="lock-box">
             💡 <strong>學員專屬指引：</strong><br>
             若您是學員，請由蔡教練在 LINE 發送給您的「專屬個人連結 (如 /my/專屬代碼)」進入您的個人學習空間。
+            <div id="student-return-box" style="display: none; margin-top: 14px; text-align: center;">
+                <a id="student-return-link" href="#" style="display: inline-block; padding: 10px 20px; background: #238636; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem;">
+                    🚀 返回我的專屬學習空間
+                </a>
+            </div>
         </div>
         <div class="lock-footer">
             蔡教練 ‧ 漫遊數位管理教學 · 隱私至上 🧠
         </div>
     </div>
+    <script>
+        try {
+            const savedToken = localStorage.getItem('student_crm_my_token');
+            const studentName = localStorage.getItem('student_crm_student_name') || '我';
+            if (savedToken) {
+                const returnBox = document.getElementById('student-return-box');
+                const returnLink = document.getElementById('student-return-link');
+                if (returnBox && returnLink) {
+                    returnBox.style.display = 'block';
+                    returnLink.href = '/my/' + encodeURIComponent(savedToken);
+                    returnLink.textContent = '🚀 返回 ' + studentName + ' 的專屬學習空間';
+                }
+                window.location.replace('/my/' + encodeURIComponent(savedToken));
+            }
+        } catch(e) {}
+    </script>
 </body>
 </html>

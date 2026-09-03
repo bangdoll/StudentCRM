@@ -127,9 +127,9 @@ async def coach_auth_middleware(request: Request, call_next):
     ):
         return await call_next(request)
 
-    # 2. 學員專屬筆記存取（攜帶 token 參數，僅限合法 UUID）
+    # 2. 學員專屬筆記存取（攜帶 token 參數或具備合法學員 cookie，僅限合法 UUID）
     if path in ("/note", "/open_file"):
-        token_param = request.query_params.get("token")
+        token_param = request.query_params.get("token") or request.cookies.get("last_student_token")
         if token_param:
             students = load_students()
             if get_student_by_id(token_param, students):
@@ -164,6 +164,13 @@ async def coach_auth_middleware(request: Request, call_next):
     coach_cookie = request.cookies.get(SESSION_COOKIE_NAME)
     if coach_cookie and (coach_cookie == get_session_token() or coach_cookie in VALID_SESSION_TOKENS):
         return await call_next(request)
+
+    # 3.5. 學員誤開首頁或由舊主畫面圖標啟動時，自動智慧導流回學員專屬 Hub（解決加入主畫面被鎖住問題）
+    student_cookie = request.cookies.get("last_student_token")
+    if path == "/" and student_cookie:
+        students = load_students()
+        if get_student_by_id(student_cookie, students):
+            return RedirectResponse(url=f"/my/{student_cookie}", status_code=303)
 
     # 4. 未授權攔截：陌生人或未授權訪客一律顯示隱私保護提示，絕不洩漏學員名單與後台
     if path.startswith("/api/"):
@@ -851,6 +858,43 @@ def search_heptabase_cli_notes(student_name: str, limit: int = 8) -> tuple[list[
     return notes, [f"heptabase-cli query: {query}"]
 
 
+def teaching_note_identity_keys(note: dict) -> list[tuple]:
+    """建立跨本地／雲端來源可共用的教學筆記去重鍵。"""
+    keys = []
+    student_id = str(note.get("student_id") or "")
+    note_id = str(note.get("id") or note.get("card_id") or "")
+    path = str(note.get("path") or "")
+    if note_id:
+        keys.append(("id", note_id))
+    if path:
+        keys.append(("path", path))
+    keys.append((
+        "fields",
+        student_id,
+        str(note.get("date") or ""),
+        str(note.get("lesson_number") or note.get("lesson_num") or ""),
+        str(note.get("lesson_sub") or ""),
+        normalize_digital_name(note.get("title", "")),
+    ))
+    return keys
+
+
+def merge_teaching_notes(*note_groups: list[dict]) -> list[dict]:
+    """合併各來源教學筆記，保留第一個來源的完整內容並去除重複。"""
+    merged = []
+    seen = set()
+    for notes in note_groups:
+        for note in notes or []:
+            if not isinstance(note, dict):
+                continue
+            identity_keys = teaching_note_identity_keys(note)
+            if any(key in seen for key in identity_keys):
+                continue
+            seen.update(identity_keys)
+            merged.append(note)
+    return merged
+
+
 def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
     official_students = load_students()
     calendar_lessons = parse_digital_management_calendar_events(load_digital_management_calendar_events())
@@ -864,9 +908,10 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
         else:
             lesson["matched_to_official_student"] = False
     local_notes = load_local_digital_management_notes()
-    if not local_notes:
-        local_notes = load_cloud_digital_management_notes()
-    lessons = calendar_lessons + local_notes
+    cloud_notes = load_cloud_digital_management_notes()
+    teaching_notes = merge_teaching_notes(local_notes, cloud_notes)
+    lessons = calendar_lessons + teaching_notes
+    teaching_note_object_ids = {id(note) for note in teaching_notes}
     now = datetime.now()
     profiles: dict[str, dict] = {}
 
@@ -885,7 +930,7 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
             "source_summary": [],
         })
 
-        if lesson.get("source") == "本地 teaching 檔案":
+        if id(lesson) in teaching_note_object_ids:
             profile["notes"].append(lesson)
         else:
             profile["lessons"].append(lesson)
@@ -976,6 +1021,7 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
         "students": sorted_profiles,
         "calendar_event_count": len(calendar_lessons),
         "local_note_count": len(local_notes),
+        "teaching_note_count": len(teaching_notes),
         "calendar_cache": DIGITAL_MANAGEMENT_CALENDAR_CACHE,
         "heptabase_backup_root": HEPTABASE_BACKUP_ROOT,
     }
@@ -1186,28 +1232,29 @@ def get_student_teaching_notes(student: dict) -> list[dict]:
     is_apple_ceo = "總裁班" in sname or any("總裁班" in a for a in aliases)
 
     local_notes = load_local_digital_management_notes()
-    if not local_notes:
-        local_notes = load_cloud_digital_management_notes()
+    cloud_notes = load_cloud_digital_management_notes()
+    teaching_notes = merge_teaching_notes(local_notes, cloud_notes)
 
     matched = []
     seen = set()
 
+    def append_unique(note: dict) -> None:
+        identity_keys = teaching_note_identity_keys(note)
+        if any(key in seen for key in identity_keys):
+            return
+        seen.update(identity_keys)
+        matched.append(note)
+
     if is_apple_ceo:
         apple_program = load_apple_ceo_program()
         for an in apple_program.get("teaching_notes", []):
-            key = an.get("path") or f"{an.get('date')}:{an.get('title')}"
-            if key not in seen:
-                seen.add(key)
-                matched.append(an)
+            append_unique(an)
 
-    for n in local_notes:
+    for n in teaching_notes:
         note_sid = n.get("student_id", "")
         note_name = (n.get("student_name") or "").lower()
         if note_sid == sid or (note_name and note_name in target_names):
-            key = n.get("id") or n.get("path") or f"{n.get('date')}:{n.get('title')}"
-            if key not in seen:
-                seen.add(key)
-                matched.append(n)
+            append_unique(n)
     return sorted(matched, key=lambda x: x.get("date") or "", reverse=True)
 
 
@@ -1697,13 +1744,60 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
     if cycle is None:
         cycle = ((cnt % 8) or 8) if cnt > 0 else 1
 
-    return templates.TemplateResponse(request, "hub.html", {
+    response = templates.TemplateResponse(request, "hub.html", {
         "request": request,
         "student": student,
         "student_notes": student_notes,
         "cycle_lesson": cycle,
         "token": lookup_key,
     })
+    response.set_cookie(
+        key="last_student_token",
+        value=lookup_key,
+        max_age=180 * 86400,
+        httponly=False,
+        secure=True,
+        samesite="lax",
+        path="/",
+    )
+    return response
+
+
+@app.get("/my/{token}/manifest.webmanifest", include_in_schema=False)
+@app.get("/hub/{token}/manifest.webmanifest", include_in_schema=False)
+async def student_hub_manifest(token: str):
+    """【學員專屬 PWA 清單】將 start_url 綁定至學員個人 URL，徹底解決加入主畫面被跳轉至首頁鎖定的問題。"""
+    students = load_students()
+    student = get_student_by_id(token, students)
+    student_name = student.get("name", "學員") if student else "學員"
+    manifest_data = {
+        "name": f"{student_name} 的專屬數位學習空間",
+        "short_name": f"{student_name} Hub",
+        "description": f"{student_name} 的專屬數位管理學習空間",
+        "start_url": f"/my/{token}",
+        "scope": f"/my/{token}",
+        "display": "standalone",
+        "background_color": "#0d1117",
+        "theme_color": "#0d1117",
+        "icons": [
+            {
+                "src": "/static/apple-touch-icon.png",
+                "sizes": "180x180",
+                "type": "image/png"
+            },
+            {
+                "src": "/static/icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            },
+            {
+                "src": "/static/icon-512.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ]
+    }
+    return JSONResponse(content=manifest_data, media_type="application/manifest+json")
 
 
 @app.get("/note", response_class=HTMLResponse)

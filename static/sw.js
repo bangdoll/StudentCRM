@@ -76,8 +76,14 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           })
           .catch(() => {
-            // If network fails and no cached response, fallback to home cache if available
-            return cachedResponse || caches.match('/');
+            // If network fails, return cached page; do not fallback to / for student hubs
+            if (cachedResponse) return cachedResponse;
+            if (!url.pathname.startsWith('/my/') && !url.pathname.startsWith('/hub/')) {
+              return caches.match('/');
+            }
+            return new Response('<h3>您目前處於離線狀態</h3><p>請重新整理或恢復連線後再試。</p>', {
+              headers: { 'Content-Type': 'text/html; charset=utf-8' }
+            });
           });
 
         return cachedResponse || fetchPromise;
