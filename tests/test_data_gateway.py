@@ -137,6 +137,43 @@ class StudentDataGatewayTests(unittest.TestCase):
             self.assertEqual(payload["student_rounds"][0]["aliases"], ["Roger"])
             self.assertEqual(payload["active_participants"], ["Roger老師"])
 
+    def test_load_students_supabase_preserves_first_lesson_date(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            data_dir = root / "OpenClaw/Data"
+            data_dir.mkdir(parents=True, exist_ok=True)
+
+            local_students = [{
+                "id": "student-1",
+                "name": "Charlotte",
+                "first_lesson_date": "2023-12-07",
+                "file": "/01.Docs/Students/Charlotte.md",
+            }]
+            (data_dir / "students.json").write_text(json.dumps(local_students), encoding="utf-8")
+
+            # 模擬 Supabase 回傳無 first_lesson_date 直屬欄位，但 raw 內含或靠 local 補全
+            supabase_students = [{
+                "id": "student-1",
+                "name": "Charlotte",
+                "lessons_count": 74,
+                "latest_date": "2026-08-31",
+                "raw": {"first_lesson_date": "2023-12-07"},
+            }]
+
+            env = {
+                "STUDENTCRM_DATA_BACKEND": "supabase",
+                "SUPABASE_URL": "https://example.supabase.co",
+                "SUPABASE_ANON_KEY": "test-key",
+            }
+            with patch.dict(os.environ, env, clear=False):
+                gateway = StudentDataGateway(str(root))
+                with patch.object(gateway, "_load_supabase_table", return_value=supabase_students):
+                    students = gateway.load_students()
+
+            self.assertEqual(len(students), 1)
+            self.assertEqual(students[0]["first_lesson_date"], "2023-12-07")
+            self.assertEqual(students[0]["file"], "/01.Docs/Students/Charlotte.md")
+
     def test_parse_frontmatter_metadata_without_pyyaml(self):
         metadata = parse_frontmatter_metadata(
             """

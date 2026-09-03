@@ -130,6 +130,31 @@ class StudentDataGateway:
 
         try:
             students = self._load_supabase_table("students")
+            local_students = []
+            try:
+                local_students = self._load_local_students()
+            except Exception:
+                pass
+            local_map = {s.get("id"): s for s in local_students if isinstance(s, dict) and s.get("id")}
+            local_name_map = {s.get("name"): s for s in local_students if isinstance(s, dict) and s.get("name")}
+            for s in students:
+                if not isinstance(s, dict):
+                    continue
+                raw_data = s.get("raw") or {}
+                if isinstance(raw_data, dict):
+                    for k, v in raw_data.items():
+                        if (k not in s or s[k] is None or s[k] in ("", "未記錄", "TBD")) and v:
+                            s[k] = v
+                loc = local_map.get(s.get("id")) or local_name_map.get(s.get("name"))
+                if loc:
+                    if (not s.get("first_lesson_date") or s.get("first_lesson_date") in ("未記錄", "TBD")) and loc.get("first_lesson_date"):
+                        s["first_lesson_date"] = loc["first_lesson_date"]
+                    if not s.get("file") and loc.get("file"):
+                        s["file"] = loc["file"]
+                    if not s.get("recurring_schedule") and loc.get("recurring_schedule"):
+                        s["recurring_schedule"] = loc["recurring_schedule"]
+                    if not s.get("schedule_exceptions") and loc.get("schedule_exceptions"):
+                        s["schedule_exceptions"] = loc["schedule_exceptions"]
             self._write_json(self.students_cache_file, students)
             self._write_status(GatewayStatus("supabase", "students", self.students_cache_file))
             return students

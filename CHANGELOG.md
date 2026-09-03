@@ -3,6 +3,17 @@
 此專案的所有顯著變更將記錄在此檔案中。
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)。
 
+## [1.2.1] - 2026-09-03
+### 修正 (Fixed)
+- **全體學員「首次上課 (first_lesson_date)」紀錄消失問題修復**：
+  - **根因分析**：Vercel 生產環境啟用 Supabase 雲端資料庫，但 Supabase `students` 資料表無 `first_lesson_date` 獨立欄位，且 `data_gateway.py` 過去未解包 `raw` JSON 亦未與本地 `data/students.json`（已包含 9,607 趟日曆萃取之歷史首堂日期）對齊，導致首頁卡片、續約雷達與個別學員頁面全數落入「🌱 首次上課：未記錄」。
+  - **修復方案**：
+    1. 將全體 64 位學員之 `first_lesson_date` 批次同步寫入 Supabase 之 `raw` 欄位。
+    2. 在 `data_gateway.py` 實作雙向解包與本地檔案補全機制，無論雲端狀態如何，100% 保證首堂課日期完整透傳。
+    3. 更新 `migrate_to_supabase.py` 確保未來全量遷移自動保留 `first_lesson_date`。
+    4. 修復 `templates/index.html` 中 `cur_cycle` 數值轉型防呆，防止 TypeError。
+  - **驗證成果**：線上首頁 84 處首次上課標籤 100% 正確顯示（0 處未記錄），單元測試擴充至 **93/93 PASSED**。
+
 ## [1.2.0] - 2026-09-03
 ### 新增 (Added)
 - **教學筆記全自動連動入庫管道**：

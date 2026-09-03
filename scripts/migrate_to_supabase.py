@@ -205,6 +205,13 @@ def supabase_sync_students(url: str, key: str, students_data: list[dict[str, Any
             print(f"發現 {len(extra_ids)} 位過期/已整併的幽靈學員，正在自 Supabase 清理...")
             for eid in extra_ids:
                 supabase_delete(url, key, "students", f"id=eq.{quote(eid)}")
+    for s in students_data:
+        if not isinstance(s.get("raw"), dict):
+            s["raw"] = {}
+        if s.get("first_lesson_date"):
+            s["raw"]["first_lesson_date"] = s["first_lesson_date"]
+        if s.get("file"):
+            s["raw"]["file"] = s["file"]
     supabase_upsert(url, key, "students", students_data, dry_run=dry_run)
 
 
