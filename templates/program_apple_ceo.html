@@ -357,7 +357,7 @@
 
             <div class="round-grid">
                 {% for student in student_rounds %}
-                {% if student.student_name in ('林永青', '陳總', 'Andy哥') and (loop.first or student_rounds[loop.index0 - 1].student_name not in ('林永青', '陳總', 'Andy哥')) %}
+                {% if student.student_name in ('方敏穎', '林永青', '陳總', 'Andy哥') and (loop.first or student_rounds[loop.index0 - 1].student_name not in ('方敏穎', '林永青', '陳總', 'Andy哥')) %}
                 <!-- ═══════════════ 分隔線 ═══════════════ -->
                 <div class="round-divider-section" style="grid-column: 1 / -1; margin: 36px 0 20px;">
                     <div style="display: flex; align-items: center; gap: 16px;">
@@ -373,7 +373,7 @@
 
                 {% set ns = namespace(priority_count=0, active_count=0) %}
                 {% for round in student.rounds %}
-                    {% if '進行中' in round.label or (loop.first and '待續班' in round.label) or (loop.first and round.attended_count >= 8 and not round.is_expired) %}
+                    {% if ('進行中' in round.label and not round.is_expired) or (loop.first and '待續班' in round.label and not round.is_expired) or (loop.first and round.attended_count >= 8 and not round.is_expired) %}
                         {% set ns.active_count = ns.active_count + 1 %}
                     {% endif %}
                     {% if round.attended_count in (6, 7) or round.is_expiring_soon or round.is_expired or round.attended_count >= 8 %}

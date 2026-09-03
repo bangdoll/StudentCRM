@@ -21,12 +21,11 @@
     "cost_per_person": 150
   },
   "active_participants": [
-    "劉邦寧",
     "方博敦",
+    "劉邦寧",
     "Roger老師",
     "Lucia",
-    "王太太",
-    "方敏穎"
+    "王太太"
   ],
   "attendance_records": [
     {
@@ -1404,8 +1403,8 @@
       ],
       "rounds": [
         {
-          "label": "最新梯次 (進行中)",
-          "payment_status": "進度",
+          "label": "2026 春季梯次 (已過期)",
+          "payment_status": "進度 (四個月效期已屆滿)",
           "sessions": [
             "2026-03-19",
             "2026-04-09",

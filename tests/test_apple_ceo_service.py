@@ -333,10 +333,20 @@ class TestCanonicalOrderAndLayout:
 
         assert idx_notes < idx_attendance < idx_students < idx_divider
 
-        # 驗證學員卡片順序：方博敦在前，Andy哥在最後面
-        idx_fang = html.find("方博敦")
-        idx_andy = html.find("Andy哥")
-        assert idx_fang != -1
-        assert idx_andy != -1
-        assert idx_fang < idx_andy
-        assert idx_divider < idx_andy  # Andy哥在分隔線下方
+        # 驗證學員卡片順序：在學 5 位（方博敦、劉邦寧、Roger老師、Lucia、王太太）在分隔線上方
+        # 過期 4 位（方敏穎、林永青、陳總、Andy哥）在分隔線下方
+        def get_pos(name: str) -> int:
+            return html.find(f">{name}</h3>")
+
+        idx_fang_bodun = get_pos("方博敦")
+        idx_liu = get_pos("劉邦寧")
+        idx_roger = get_pos("Roger老師")
+        idx_lucia = get_pos("Lucia")
+        idx_wang = get_pos("王太太")
+        idx_fang_minying = get_pos("方敏穎")
+        idx_lin = get_pos("林永青")
+        idx_chen = get_pos("陳總")
+        idx_andy = get_pos("Andy哥")
+
+        assert idx_fang_bodun < idx_liu < idx_roger < idx_lucia < idx_wang < idx_divider
+        assert idx_divider < idx_fang_minying < idx_lin < idx_chen < idx_andy

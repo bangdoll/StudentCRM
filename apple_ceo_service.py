@@ -378,7 +378,7 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
             if is_latest_round and attended_count >= 8 and not round_item.get("is_expired"):
                 is_active = True
             else:
-                is_active = is_active_label
+                is_active = is_active_label and not round_item.get("is_expired")
 
             if is_active:
                 student_active_count += 1
