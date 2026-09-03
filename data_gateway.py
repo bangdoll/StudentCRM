@@ -485,6 +485,30 @@ class StudentDataGateway:
     @staticmethod
     def _write_json(path: str, payload: Any) -> None:
         os.makedirs(os.path.dirname(path), exist_ok=True)
+        # 1. 斷路器 (Circuit Breaker)：若即將寫入的資料筆數異常減少超過 20%，觸發保護以防止資料被清空
+        if os.path.exists(path) and isinstance(payload, list):
+            try:
+                with open(path, "r", encoding="utf-8") as existing_f:
+                    existing_data = json.load(existing_f)
+                if isinstance(existing_data, list) and len(existing_data) >= 10 and len(payload) < len(existing_data) * 0.8:
+                    raise DataGatewayError(
+                        f"資產防護斷路器熔斷：即將寫入的列表筆數 ({len(payload)}) 異常小於現存筆數 ({len(existing_data)})，拒絕寫入以防止教學資產丟失！"
+                    )
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        # 2. 自動快照備份 (Pre-Write Snapshot)
+        if os.path.exists(path) and os.path.getsize(path) > 10:
+            backup_dir = os.path.join(os.path.dirname(path), "backups")
+            os.makedirs(backup_dir, exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            backup_file = os.path.join(backup_dir, f"{os.path.basename(path)}.{timestamp}.bak")
+            try:
+                import shutil
+                shutil.copy2(path, backup_file)
+            except Exception:
+                pass
+
         tmp_path = f"{path}.{os.getpid()}.tmp"
         with open(tmp_path, "w", encoding="utf-8") as f:
             json.dump(payload, f, ensure_ascii=False, indent=2)
