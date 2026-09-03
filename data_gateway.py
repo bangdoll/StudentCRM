@@ -1,5 +1,7 @@
 import json
 import os
+import time
+import copy
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
@@ -10,6 +12,15 @@ from urllib.request import Request, urlopen
 
 class DataGatewayError(RuntimeError):
     pass
+
+
+_MEMORY_CACHE: dict[str, tuple[float, Any]] = {}
+GATEWAY_CACHE_TTL_SECONDS = 15.0
+
+
+def clear_gateway_memory_cache() -> None:
+    """清除記憶體快取。"""
+    _MEMORY_CACHE.clear()
 
 
 @dataclass(frozen=True)
@@ -95,6 +106,19 @@ class StudentDataGateway:
         )
 
     def load_students(self) -> list[dict[str, Any]]:
+        now = time.time()
+        cache_key = f"students_{self.backend}_{self.students_file}"
+        if cache_key in _MEMORY_CACHE:
+            cached_time, cached_data = _MEMORY_CACHE[cache_key]
+            if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
+                return copy.deepcopy(cached_data)
+
+        students = self._load_students_uncached()
+        if students:
+            _MEMORY_CACHE[cache_key] = (now, students)
+        return students
+
+    def _load_students_uncached(self) -> list[dict[str, Any]]:
         if self.backend != "supabase":
             try:
                 students = self._load_local_students()
@@ -128,6 +152,19 @@ class StudentDataGateway:
                 return []
 
     def load_apple_ceo_program(self) -> dict[str, Any]:
+        now = time.time()
+        cache_key = f"apple_ceo_{self.backend}_{self.apple_ceo_file}"
+        if cache_key in _MEMORY_CACHE:
+            cached_time, cached_data = _MEMORY_CACHE[cache_key]
+            if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
+                return copy.deepcopy(cached_data)
+
+        payload = self._load_apple_ceo_program_uncached()
+        if payload and payload.get("program"):
+            _MEMORY_CACHE[cache_key] = (now, payload)
+        return payload
+
+    def _load_apple_ceo_program_uncached(self) -> dict[str, Any]:
         local_payload = None
         try:
             local_payload = self._load_local_apple_ceo_program()

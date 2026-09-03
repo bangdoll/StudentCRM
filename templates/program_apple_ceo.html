@@ -95,6 +95,9 @@
                     </div>
                     <div class="teaching-note-footer">
                         <a href="/note?path={{ note.path|urlencode }}&token={{ token or 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' }}" class="note-read-link">閱讀筆記全文 ➔</a>
+                        <button type="button" class="btn-copy-card" data-title="{{ note.title }}" data-date="{{ note.date }}" data-preview="{{ note.preview|e }}" data-url="/note?path={{ note.path|urlencode }}&token={{ token or 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' }}" title="一鍵複製本堂實戰重點小卡">
+                            <span>📋 複製小卡</span>
+                        </button>
                     </div>
                 </article>
                 {% endfor %}
@@ -870,6 +873,50 @@
             });
         }, { rootMargin: '-10% 0px -75% 0px' });
         observerSections.forEach(section => navObserver.observe(section));
+
+        // ── 一鍵複製課堂實戰重點小卡 (Plan C) ─────────────────────
+        document.querySelectorAll('.btn-copy-card').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const title = btn.getAttribute('data-title') || '';
+                const date = btn.getAttribute('data-date') || '';
+                const preview = btn.getAttribute('data-preview') || '';
+                const relUrl = btn.getAttribute('data-url') || '';
+                const fullUrl = window.location.origin + relUrl;
+
+                const cardText = `【蘋果總裁班・課堂實戰重點】\n📅 日期：${date}\n📌 主題：${title}\n💡 精華摘錄：${preview}\n🔗 專屬筆記：${fullUrl}`;
+
+                try {
+                    await navigator.clipboard.writeText(cardText);
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<span>✅ 已複製</span>';
+                    btn.classList.add('copied');
+                    showToast('📋 已複製課堂重點小卡！可直接貼入 Heptabase 或筆記庫');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('copied');
+                    }, 2200);
+                } catch (err) {
+                    showToast('複製失敗，請手動反白複製');
+                }
+            });
+        });
+
+        function showToast(msg) {
+            let toast = document.getElementById('crmToast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'crmToast';
+                toast.className = 'crm-floating-toast';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
 
         // ── PWA Service Worker Registration ─────────────────────
         if ('serviceWorker' in navigator) {

@@ -2400,3 +2400,93 @@ th {
     }
 }
 
+/* ── 蘋果總裁班與學員空間行動端體驗升級 (Plan C) ────────────────────────── */
+.btn-copy-card {
+    background: rgba(88, 166, 255, 0.12);
+    border: 1px solid rgba(88, 166, 255, 0.35);
+    color: #58a6ff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-copy-card:hover {
+    background: rgba(88, 166, 255, 0.25);
+    border-color: #58a6ff;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-copy-card.copied {
+    background: rgba(63, 185, 80, 0.2) !important;
+    border-color: #3fb950 !important;
+    color: #7ee787 !important;
+}
+
+.teaching-note-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.crm-floating-toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(13, 17, 23, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(63, 185, 80, 0.5);
+    color: #7ee787;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.crm-floating-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .session-chips {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 6px !important;
+    }
+    .session-chip {
+        padding: 6px 2px !important;
+        font-size: 0.72rem !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        border-radius: 6px !important;
+    }
+    .teaching-note-card {
+        padding: 14px !important;
+    }
+    .teaching-note-footer {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+    }
+}
+

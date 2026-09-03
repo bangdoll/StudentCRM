@@ -67,120 +67,34 @@ from note_service import (
 
 app = FastAPI()
 
-# 雙管理員密鑰系統（Coach Tsai & Mrs. Tsai Admin Passkeys）
-COACH_PASSKEY = os.getenv("COACH_PASSKEY", "tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b")
-WIFE_PASSKEY = os.getenv("WIFE_PASSKEY", "yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
-LEGACY_WIFE_PASSKEY = "amanda-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d"
-LEGACY_PASSKEY = os.getenv("LEGACY_PASSKEY", "zzzz")
-
-ADMIN_PASSKEYS = {
-    COACH_PASSKEY: {"role": "coach", "name": "蔡教練"},
-    WIFE_PASSKEY: {"role": "admin", "name": "師母 (Yumi)"},
-    LEGACY_WIFE_PASSKEY: {"role": "admin", "name": "師母 (Yumi)"},
-    LEGACY_PASSKEY: {"role": "coach", "name": "蔡教練"},
-}
-SESSION_COOKIE_NAME = "coach_session"
-ADMIN_USER_COOKIE_NAME = "crm_admin_user"
-
-
-def get_session_token() -> str:
-    """生成管理員驗證 session 簽名 Token。"""
-    secret = os.getenv("CRM_AUTH_SECRET", "openclaw_crm_admin_master_secret_2026")
-    return hashlib.sha256(f"crm_admin_salt_{secret}".encode()).hexdigest()[:32]
-
-
-VALID_SESSION_TOKENS = {
-    get_session_token(),
-    hashlib.sha256(f"crm_coach_salt_{COACH_PASSKEY}".encode()).hexdigest()[:32],
-    hashlib.sha256(f"crm_coach_salt_{WIFE_PASSKEY}".encode()).hexdigest()[:32],
-    hashlib.sha256(b"crm_coach_salt_zzzz").hexdigest()[:32],
-}
+# ── 身分認證與安全門禁深模組 (auth_service) ──────────────────────────────────
+from auth_service import (
+    COACH_PASSKEY,
+    WIFE_PASSKEY,
+    LEGACY_WIFE_PASSKEY,
+    LEGACY_PASSKEY,
+    ADMIN_PASSKEYS,
+    SESSION_COOKIE_NAME,
+    ADMIN_USER_COOKIE_NAME,
+    get_session_token,
+    VALID_SESSION_TOKENS,
+    is_authenticated_admin,
+    get_current_admin_name,
+    render_magic_link_page,
+    handle_coach_auth_middleware,
+)
 
 
 @app.middleware("http")
 async def coach_auth_middleware(request: Request, call_next):
-    """【門禁安全防護】攔截所有非授權存取，保護教練後台與學員隱私。"""
-    # 測試環境自動旁路，除非顯式測試認證
-    if os.getenv("PYTEST_CURRENT_TEST") and not request.headers.get("X-Test-Auth"):
-        return await call_next(request)
-
-    path = request.url.path
-
-    # 1. 完全公開路由（靜態資產、學員個人專屬 Hub、教練專屬通行密鑰網址）
-    if (
-        path.startswith("/static")
-        or path.startswith("/my/")
-        or path.startswith("/hub/")
-        or path.startswith("/coach/")
-        or path.startswith("/admin/")
-        or path in (
-            "/logout",
-            "/favicon.ico",
-            "/favicon.svg",
-            "/favicon-32x32.png",
-            "/favicon-16x16.png",
-            "/apple-touch-icon.png",
-            "/apple-touch-icon-precomposed.png",
-            "/site.webmanifest",
-            "/sw.js",
-        )
-    ):
-        return await call_next(request)
-
-    # 2. 學員專屬筆記存取與班級授權（攜帶合法 token 參數或具備合法學員 cookie）
-    if path in ("/note", "/open_file", "/program/apple-ceo"):
-        token_param = request.query_params.get("token") or request.cookies.get("last_student_token")
-        if token_param:
-            students = load_students()
-            st = get_student_by_id(token_param, students)
-            if st:
-                if path in ("/note", "/open_file"):
-                    return await call_next(request)
-                if path == "/program/apple-ceo" and (token_param in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or "總裁班" in st.get("name", "")):
-                    return await call_next(request)
-
-    # 2.5. 檢查網址列自帶合法管理員私鑰（解決部分手機瀏覽器在跨跳轉時遺失 Cookie 的問題）
-    query_key = (request.query_params.get("key") or request.query_params.get("passkey") or request.query_params.get("token") or "").strip().lower()
-    if query_key and query_key in ADMIN_PASSKEYS:
-        admin_info = ADMIN_PASSKEYS[query_key]
-        response = await call_next(request)
-        response.set_cookie(
-            key=SESSION_COOKIE_NAME,
-            value=get_session_token(),
-            max_age=180 * 86400,
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            path="/",
-        )
-        response.set_cookie(
-            key=ADMIN_USER_COOKIE_NAME,
-            value=quote(admin_info["name"]),
-            max_age=180 * 86400,
-            httponly=False,
-            secure=True,
-            samesite="lax",
-            path="/",
-        )
-        return response
-
-    # 3. 教練與管理員 Session Cookie 檢查（已解鎖裝置直接通行）
-    coach_cookie = request.cookies.get(SESSION_COOKIE_NAME)
-    if coach_cookie and (coach_cookie == get_session_token() or coach_cookie in VALID_SESSION_TOKENS):
-        return await call_next(request)
-
-    # 3.5. 學員誤開首頁或由舊主畫面圖標啟動時，自動智慧導流回學員專屬 Hub（解決加入主畫面被鎖住問題）
-    student_cookie = request.cookies.get("last_student_token")
-    if path == "/" and student_cookie:
-        students = load_students()
-        if get_student_by_id(student_cookie, students):
-            return RedirectResponse(url=f"/my/{student_cookie}", status_code=303)
-
-    # 4. 未授權攔截：陌生人或未授權訪客一律顯示隱私保護提示，絕不洩漏學員名單與後台
-    if path.startswith("/api/"):
-        return JSONResponse(status_code=401, content={"detail": "此區域僅限授權教練存取"})
-
-    return templates.TemplateResponse(request, "lock.html", {"request": request}, status_code=403)
+    """【門禁安全防護】攔截所有非授權存取，委託 auth_service 進行深模組驗證。"""
+    return await handle_coach_auth_middleware(
+        request=request,
+        call_next=call_next,
+        get_student_by_id_fn=get_student_by_id,
+        load_students_fn=load_students,
+        render_lock_fn=lambda req: templates.TemplateResponse(req, "lock.html", {"request": req}, status_code=403),
+    )
 
 # Paths - 支援大倉庫本機開發與 Vercel 獨立 repo 部署
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -1227,39 +1141,23 @@ def build_cloud_student_meta(student: dict) -> dict:
     }
 
 
+from hub_service import (
+    get_merged_redirects as service_get_merged_redirects,
+    get_student_teaching_notes as service_get_student_teaching_notes,
+    generate_student_manifest_data,
+)
+
+
 def get_student_teaching_notes(student: dict) -> list[dict]:
-    """取得特定學員的所有教學筆記（支援本地 teaching 檔案與雲端快取）。"""
-    sid = student.get("id", "")
-    sname = student.get("name", "")
-    aliases = student.get("aliases", [])
-    target_names = {sname.lower()} | {a.lower() for a in aliases}
-    is_apple_ceo = "總裁班" in sname or any("總裁班" in a for a in aliases)
-
-    local_notes = load_local_digital_management_notes()
-    cloud_notes = load_cloud_digital_management_notes()
-    teaching_notes = merge_teaching_notes(local_notes, cloud_notes)
-
-    matched = []
-    seen = set()
-
-    def append_unique(note: dict) -> None:
-        identity_keys = teaching_note_identity_keys(note)
-        if any(key in seen for key in identity_keys):
-            return
-        seen.update(identity_keys)
-        matched.append(note)
-
-    if is_apple_ceo:
-        apple_program = load_apple_ceo_program()
-        for an in apple_program.get("teaching_notes", []):
-            append_unique(an)
-
-    for n in teaching_notes:
-        note_sid = n.get("student_id", "")
-        note_name = (n.get("student_name") or "").lower()
-        if note_sid == sid or (note_name and note_name in target_names):
-            append_unique(n)
-    return sorted(matched, key=lambda x: x.get("date") or "", reverse=True)
+    """取得特定學員的所有教學筆記（委託 hub_service 深模組進行多來源去重合併）。"""
+    return service_get_student_teaching_notes(
+        student,
+        base_dir=BASE_DIR,
+        app_dir=APP_DIR,
+        apple_program_loader=load_apple_ceo_program,
+        local_notes_loader=lambda: load_local_digital_management_notes(),
+        cloud_notes_loader=lambda: load_cloud_digital_management_notes(),
+    )
 
 
 def get_student_lesson_paths(student_id: str) -> list:
@@ -1561,20 +1459,9 @@ async def read_digital_management_student(request: Request, student_id: str):
 
 
 
-MERGED_REDIRECTS_FILE = os.path.join(APP_DIR, "data/merged_redirects.json")
-
 def get_merged_redirects() -> dict[str, str]:
-    redirects = {
-        "d892570c-70d2-4fba-9f2e-614ba775232b": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # 查米 315 -> 查米
-        "0e6b6b92-ebe9-4252-a6cf-3907b78700f7": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",  # Chami BNI Management 38 6 -> 查米
-    }
-    if os.path.exists(MERGED_REDIRECTS_FILE):
-        try:
-            with open(MERGED_REDIRECTS_FILE, "r", encoding="utf-8") as f:
-                redirects.update(json.load(f))
-        except Exception:
-            pass
-    return redirects
+    """取得歷史學員 ID 重導向映射表（委託 hub_service 處理）。"""
+    return service_get_merged_redirects(APP_DIR)
 
 MERGED_STUDENT_REDIRECTS = get_merged_redirects()
 
@@ -1661,61 +1548,7 @@ async def coach_magic_link(request: Request, key: str, next: str = "/"):
     """【專屬無密碼通行】以專屬私鑰直接解鎖進入教練與管理員後台，零輸入免密碼。"""
     norm_key = (key or "").strip().lower()
     if norm_key in ADMIN_PASSKEYS:
-        admin_info = ADMIN_PASSKEYS[norm_key]
-        token_val = get_session_token()
-        admin_name_enc = quote(admin_info["name"])
-        target_url = next or "/"
-
-        html_content = f"""<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url={target_url}">
-    <title>正在解鎖管理員權限...</title>
-    <script>
-        document.cookie = "{SESSION_COOKIE_NAME}={token_val}; path=/; max-age=15552000; secure; samesite=lax";
-        document.cookie = "{ADMIN_USER_COOKIE_NAME}={admin_name_enc}; path=/; max-age=15552000; secure; samesite=lax";
-        try {{
-            localStorage.setItem("{SESSION_COOKIE_NAME}", "{token_val}");
-            localStorage.setItem("{ADMIN_USER_COOKIE_NAME}", "{admin_info['name']}");
-        }} catch(e) {{}}
-        window.location.replace("{target_url}");
-    </script>
-    <style>
-        body {{ background: #0d1117; color: #58a6ff; font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}
-        .loader {{ text-align: center; }}
-        .spinner {{ width: 42px; height: 42px; border: 3px solid rgba(88,166,255,0.2); border-top-color: #58a6ff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }}
-        @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
-    </style>
-</head>
-<body>
-    <div class="loader">
-        <div class="spinner"></div>
-        <h2>🛡️ 正在安全解鎖 {admin_info['name']} 專屬管理後台...</h2>
-        <p style="color: #8b949e; font-size: 0.9rem;">若未自動跳轉，請 <a href="{target_url}" style="color: #58a6ff;">點此直接進入</a></p>
-    </div>
-</body>
-</html>"""
-        response = HTMLResponse(content=html_content, status_code=200)
-        response.set_cookie(
-            key=SESSION_COOKIE_NAME,
-            value=token_val,
-            max_age=180 * 86400,
-            httponly=True,
-            secure=True,
-            samesite="lax",
-            path="/",
-        )
-        response.set_cookie(
-            key=ADMIN_USER_COOKIE_NAME,
-            value=admin_name_enc,
-            max_age=180 * 86400,
-            httponly=False,
-            secure=True,
-            samesite="lax",
-            path="/",
-        )
-        return response
+        return render_magic_link_page(ADMIN_PASSKEYS[norm_key], target_url=next or "/")
     return templates.TemplateResponse(request, "lock.html", {"request": request}, status_code=403)
 
 
@@ -1841,39 +1674,13 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
 @app.api_route("/my/{token}/manifest.webmanifest", methods=["GET", "HEAD"], include_in_schema=False)
 @app.api_route("/hub/{token}/manifest.webmanifest", methods=["GET", "HEAD"], include_in_schema=False)
 async def student_hub_manifest(token: str):
-    """【學員專屬 PWA 清單】將 start_url 綁定至學員個人 URL，徹底解決加入主畫面被跳轉至首頁鎖定的問題。"""
+    """【學員專屬 PWA 清單】將 start_url 綁定至學員個人 URL，委託 hub_service 產生標準配置。"""
     students = load_students()
     student = get_student_by_id(token, students)
     student_name = student.get("name", "學員") if student else "學員"
     if token in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or (student and "總裁班" in student.get("name", "")):
         student_name = "蘋果總裁班"
-    manifest_data = {
-        "name": f"{student_name} 的專屬數位學習空間",
-        "short_name": f"{student_name} Hub",
-        "description": f"{student_name} 的專屬數位管理學習空間",
-        "start_url": f"/my/{token}",
-        "scope": f"/my/{token}",
-        "display": "standalone",
-        "background_color": "#0d1117",
-        "theme_color": "#0d1117",
-        "icons": [
-            {
-                "src": "/static/apple-touch-icon.png",
-                "sizes": "180x180",
-                "type": "image/png"
-            },
-            {
-                "src": "/static/icon-192.png",
-                "sizes": "192x192",
-                "type": "image/png"
-            },
-            {
-                "src": "/static/icon-512.png",
-                "sizes": "512x512",
-                "type": "image/png"
-            }
-        ]
-    }
+    manifest_data = generate_student_manifest_data(student_name, token)
     return JSONResponse(content=manifest_data, media_type="application/manifest+json")
 
 

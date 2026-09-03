@@ -1,10 +1,12 @@
 // StudentCRM Service Worker - Local-First & Offline Resilience
-const CACHE_NAME = 'student-crm-v1.1';
+const CACHE_NAME = 'student-crm-v1.2';
 const PRECACHE_ASSETS = [
-  '/static/css/style.css',
-  '/static/manifest.json',
-  '/static/favicon.ico',
-  '/static/apple-touch-icon.png'
+  '/static/style.css',
+  '/static/site.webmanifest',
+  '/static/favicon.svg',
+  '/static/apple-touch-icon.png',
+  '/static/logo.svg',
+  '/static/icon-192.png'
 ];
 
 // Install: pre-cache static assets
@@ -63,7 +65,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-While-Revalidate for navigation/HTML requests (home, apple-ceo, student pages)
+  // Stale-While-Revalidate for navigation/HTML requests (home, apple-ceo, notes, student pages)
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
@@ -76,14 +78,15 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           })
           .catch(() => {
-            // If network fails, return cached page; do not fallback to / for student hubs
+            // If network fails, return cached page; do not fallback to / for student hubs or notes
             if (cachedResponse) return cachedResponse;
-            if (!url.pathname.startsWith('/my/') && !url.pathname.startsWith('/hub/')) {
+            if (!url.pathname.startsWith('/my/') && !url.pathname.startsWith('/hub/') && !url.pathname.startsWith('/note')) {
               return caches.match('/');
             }
-            return new Response('<h3>您目前處於離線狀態</h3><p>請重新整理或恢復連線後再試。</p>', {
-              headers: { 'Content-Type': 'text/html; charset=utf-8' }
-            });
+            return new Response(
+              '<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>離線閱讀模式</title><link rel="stylesheet" href="/static/style.css"></head><body style="padding: 40px; text-align: center; color: #c9d1d9; background: #0d1117;"><div style="max-width: 500px; margin: 0 auto;"><h3>📱 您目前處於離線狀態</h3><p style="color: #8b949e; margin: 12px 0 20px;">若此頁面或筆記先前已開啟過，將自動從本機快取為您載入；否則請重新整理或恢復連線後再試。</p><a href="javascript:location.reload()" style="display: inline-block; padding: 8px 18px; background: #238636; color: #fff; text-decoration: none; border-radius: 6px; font-weight: 600;">重新整理</a></div></body></html>',
+              { headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+            );
           });
 
         return cachedResponse || fetchPromise;
