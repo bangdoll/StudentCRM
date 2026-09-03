@@ -401,9 +401,10 @@ def load_all_practice_cards(base_dir: str, app_dir: str) -> list[dict[str, Any]]
                 cat = v
                 break
 
-        action = preview[:160].strip() if preview else "落實本日課堂所學之標準化流程與肌肉記憶操作。"
+        micro = extract_micro_action_cards(note.get("content") or preview, title)
+        action = micro.get("key_action") or micro.get("micro_habit") or (preview[:160].strip() if preview else "落實本日課堂所學之標準化流程與肌肉記憶操作。")
         if not action.endswith("。") and not action.endswith("！"):
-            action += "…"
+            action += "。"
 
         cards.append({
             "id": f"card_{idx + 1:04d}",
