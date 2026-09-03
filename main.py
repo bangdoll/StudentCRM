@@ -135,6 +135,31 @@ async def coach_auth_middleware(request: Request, call_next):
             if get_student_by_id(token_param, students):
                 return await call_next(request)
 
+    # 2.5. 檢查網址列自帶合法管理員私鑰（解決部分手機瀏覽器在跨跳轉時遺失 Cookie 的問題）
+    query_key = (request.query_params.get("key") or request.query_params.get("passkey") or request.query_params.get("token") or "").strip().lower()
+    if query_key and query_key in ADMIN_PASSKEYS:
+        admin_info = ADMIN_PASSKEYS[query_key]
+        response = await call_next(request)
+        response.set_cookie(
+            key=SESSION_COOKIE_NAME,
+            value=get_session_token(),
+            max_age=180 * 86400,
+            httponly=True,
+            secure=True,
+            samesite="lax",
+            path="/",
+        )
+        response.set_cookie(
+            key=ADMIN_USER_COOKIE_NAME,
+            value=quote(admin_info["name"]),
+            max_age=180 * 86400,
+            httponly=False,
+            secure=True,
+            samesite="lax",
+            path="/",
+        )
+        return response
+
     # 3. 教練與管理員 Session Cookie 檢查（已解鎖裝置直接通行）
     coach_cookie = request.cookies.get(SESSION_COOKIE_NAME)
     if coach_cookie and (coach_cookie == get_session_token() or coach_cookie in VALID_SESSION_TOKENS):
@@ -1554,26 +1579,65 @@ async def read_student(request: Request, student_id: str):
     })
 
 
-@app.get("/coach/{key}")
-@app.get("/admin/{key}")
+@app.api_route("/coach/{key}", methods=["GET", "HEAD"])
+@app.api_route("/admin/{key}", methods=["GET", "HEAD"])
 async def coach_magic_link(request: Request, key: str, next: str = "/"):
     """【專屬無密碼通行】以專屬私鑰直接解鎖進入教練與管理員後台，零輸入免密碼。"""
-    if key in ADMIN_PASSKEYS:
-        admin_info = ADMIN_PASSKEYS[key]
-        response = RedirectResponse(url=next or "/", status_code=303)
+    norm_key = (key or "").strip().lower()
+    if norm_key in ADMIN_PASSKEYS:
+        admin_info = ADMIN_PASSKEYS[norm_key]
+        token_val = get_session_token()
+        admin_name_enc = quote(admin_info["name"])
+        target_url = next or "/"
+
+        html_content = f"""<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url={target_url}">
+    <title>正在解鎖管理員權限...</title>
+    <script>
+        document.cookie = "{SESSION_COOKIE_NAME}={token_val}; path=/; max-age=15552000; secure; samesite=lax";
+        document.cookie = "{ADMIN_USER_COOKIE_NAME}={admin_name_enc}; path=/; max-age=15552000; secure; samesite=lax";
+        try {{
+            localStorage.setItem("{SESSION_COOKIE_NAME}", "{token_val}");
+            localStorage.setItem("{ADMIN_USER_COOKIE_NAME}", "{admin_info['name']}");
+        }} catch(e) {{}}
+        window.location.replace("{target_url}");
+    </script>
+    <style>
+        body {{ background: #0d1117; color: #58a6ff; font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}
+        .loader {{ text-align: center; }}
+        .spinner {{ width: 42px; height: 42px; border: 3px solid rgba(88,166,255,0.2); border-top-color: #58a6ff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }}
+        @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <h2>🛡️ 正在安全解鎖 {admin_info['name']} 專屬管理後台...</h2>
+        <p style="color: #8b949e; font-size: 0.9rem;">若未自動跳轉，請 <a href="{target_url}" style="color: #58a6ff;">點此直接進入</a></p>
+    </div>
+</body>
+</html>"""
+        response = HTMLResponse(content=html_content, status_code=200)
         response.set_cookie(
             key=SESSION_COOKIE_NAME,
-            value=get_session_token(),
+            value=token_val,
             max_age=180 * 86400,
             httponly=True,
+            secure=True,
             samesite="lax",
+            path="/",
         )
         response.set_cookie(
             key=ADMIN_USER_COOKIE_NAME,
-            value=quote(admin_info["name"]),
+            value=admin_name_enc,
             max_age=180 * 86400,
             httponly=False,
+            secure=True,
             samesite="lax",
+            path="/",
         )
         return response
     return templates.TemplateResponse(request, "lock.html", {"request": request}, status_code=403)
@@ -1582,8 +1646,8 @@ async def coach_magic_link(request: Request, key: str, next: str = "/"):
 @app.get("/logout")
 async def logout():
     response = RedirectResponse(url="/", status_code=303)
-    response.delete_cookie(SESSION_COOKIE_NAME)
-    response.delete_cookie(ADMIN_USER_COOKIE_NAME)
+    response.delete_cookie(SESSION_COOKIE_NAME, path="/")
+    response.delete_cookie(ADMIN_USER_COOKIE_NAME, path="/")
     return response
 
 
@@ -1595,9 +1659,13 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
     提供學員專屬視圖：八堂修煉技能樹、歷次筆記與微行動卡片。
     100% 隱私與視野隔離，無需帳號密碼，支援 PWA 加入 iPhone 主畫面秒開。
     """
-    lookup_key = token or student_id
+    lookup_key = (token or student_id or "").strip()
     if not lookup_key:
         raise HTTPException(status_code=404, detail="請提供學員專屬 Token 或 ID")
+
+    # 若持有人是教練或管理員私鑰（誤輸入至 /my/ 或 /hub/），自動引導登入管理員後台
+    if lookup_key.lower() in ADMIN_PASSKEYS:
+        return await coach_magic_link(request, lookup_key)
 
     redirects = get_merged_redirects()
     if lookup_key in redirects:

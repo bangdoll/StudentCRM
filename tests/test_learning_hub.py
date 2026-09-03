@@ -83,16 +83,17 @@ def test_coach_magic_link_flow_and_privacy_lock():
     assert unauth_resp.status_code == 403
     assert "學員隱私安全保護空間" in unauth_resp.text
 
-    # 2. 蔡教練專屬私鑰 /coach/tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b -> 303 轉址並設定 session cookie
+    # 2. 蔡教練專屬私鑰 /coach/tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b -> 200 安全過渡頁並設定 session cookie
     coach_resp = client.get("/coach/tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b", follow_redirects=False)
-    assert coach_resp.status_code == 303
+    assert coach_resp.status_code == 200
+    assert "正在安全解鎖" in coach_resp.text
     assert "coach_session" in coach_resp.cookies
     assert "crm_admin_user" in coach_resp.cookies
 
-    # 3. 師母專屬私鑰 /coach/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d -> 303 轉址並設定 session cookie
+    # 3. 師母專屬私鑰 /coach/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d -> 200 安全過渡頁並設定 session cookie
     from urllib.parse import unquote
     wife_resp = client.get("/coach/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d", follow_redirects=False)
-    assert wife_resp.status_code == 303
+    assert wife_resp.status_code == 200
     assert "coach_session" in wife_resp.cookies
     assert unquote(wife_resp.cookies["crm_admin_user"]) == "師母 (Yumi)"
 
@@ -106,3 +107,14 @@ def test_coach_magic_link_flow_and_privacy_lock():
     auth_resp = client.get("/", cookies={"coach_session": cookie_val}, headers={"X-Test-Auth": "true"})
     assert auth_resp.status_code == 200
     assert "學員管理系統" in auth_resp.text
+
+    # 6. 支援 URL Query Parameter 直接存取（解決跨環境遺失 Cookie 問題）
+    query_resp = client.get("/?key=yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d", headers={"X-Test-Auth": "true"})
+    assert query_resp.status_code == 200
+    assert "學員管理系統" in query_resp.text
+    assert "coach_session" in query_resp.cookies
+
+    # 7. 支援若誤由 /my/{admin_key} 進入時自動容錯解鎖管理權限
+    my_admin_resp = client.get("/my/yumi-7e42d8c1-b39f-4a71-89e5-55c3a1f9482d")
+    assert my_admin_resp.status_code == 200
+    assert "coach_session" in my_admin_resp.cookies
