@@ -1715,7 +1715,7 @@ async def open_file(request: Request, path: str):
     })
 
 
-@app.get("/api/practice/random")
+@app.api_route("/api/practice/random", methods=["GET", "HEAD"])
 async def api_random_practice_card():
     """【今日實戰微行動】隨機抽取一張課堂實踐微行動小卡。"""
     card = get_random_practice_card(BASE_DIR, APP_DIR)
@@ -1736,7 +1736,7 @@ async def read_cases(request: Request):
     return templates.TemplateResponse(request, "cases.html", {"request": request, "cases": cases})
 
 
-@app.get("/api/cases")
+@app.api_route("/api/cases", methods=["GET", "HEAD"])
 async def api_cases():
     """取得去識別化實戰案例清單 JSON。"""
     cases_file = os.path.join(APP_DIR, "data", "social_proof_cases.json")
