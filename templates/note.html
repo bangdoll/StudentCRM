@@ -215,21 +215,21 @@
         <div style="margin: 30px auto 0; max-width: 860px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;">
             <div>
                 {% if is_apple_ceo %}
-                <a href="/program/apple-ceo" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回蘋果總裁班</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/program/apple-ceo{% endif %}" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回蘋果總裁班</a>
                 {% elif student_id %}
-                <a href="/student/{{ student_id }}" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回學員個人檔案{% if student_name %}（{{ student_name }}）{% endif %}</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/student/{{ student_id }}{% endif %}" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 6px;">← 返回學員個人檔案{% if student_name %}（{{ student_name }}）{% endif %}</a>
                 {% else %}
-                <a href="/" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← 返回 StudentCRM 首頁</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/{% endif %}" style="color: var(--accent-color); text-decoration: none; font-weight: 600; font-size: 0.95rem;">← 返回</a>
                 {% endif %}
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
                 <a href="/" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">首頁</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
                 {% if is_apple_ceo %}
-                <a href="/program/apple-ceo" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">蘋果總裁班</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/program/apple-ceo{% endif %}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">蘋果總裁班</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
                 {% elif student_id %}
-                <a href="/student/{{ student_id }}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">{{ student_name or '學員檔案' }}</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/student/{{ student_id }}{% endif %}" style="color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;">{{ student_name or '學員檔案' }}</a>
                 <span style="color: var(--text-secondary); margin: 0 4px;">/</span>
                 {% endif %}
                 <span style="color: var(--text-secondary); font-size: 0.85rem;">教學筆記</span>
@@ -300,7 +300,7 @@
             <!-- Prev / Next navigation -->
             <div class="lesson-nav">
                 {% if prev_path %}
-                <a href="/note?path={{ prev_path }}" class="nav-btn prev">
+                <a href="/note?path={{ prev_path }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn prev">
                     <span class="nav-dir">← {% if is_apple_ceo %}上一篇{% else %}上一堂{% endif %}</span>
                     <span class="nav-date">{{ prev_label }}</span>
                 </a>
@@ -309,13 +309,13 @@
                 {% endif %}
 
                 {% if is_apple_ceo %}
-                <a href="/program/apple-ceo" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回蘋果總裁班</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/program/apple-ceo{% endif %}" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回蘋果總裁班</a>
                 {% elif student_id %}
-                <a href="/student/{{ student_id }}" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回學員檔案</a>
+                <a href="{% if token %}/my/{{ token }}{% else %}/student/{{ student_id }}{% endif %}" class="search-btn" style="padding: 10px 20px; font-size: 0.9rem; text-decoration: none; text-align: center;">返回學員檔案</a>
                 {% endif %}
 
                 {% if next_path %}
-                <a href="/note?path={{ next_path }}" class="nav-btn next">
+                <a href="/note?path={{ next_path }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn next">
                     <span class="nav-dir">{% if is_apple_ceo %}下一篇{% else %}下一堂{% endif %} →</span>
                     <span class="nav-date">{{ next_label }}</span>
                 </a>

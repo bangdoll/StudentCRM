@@ -127,13 +127,17 @@ async def coach_auth_middleware(request: Request, call_next):
     ):
         return await call_next(request)
 
-    # 2. 學員專屬筆記存取（攜帶 token 參數或具備合法學員 cookie，僅限合法 UUID）
-    if path in ("/note", "/open_file"):
+    # 2. 學員專屬筆記存取與班級授權（攜帶合法 token 參數或具備合法學員 cookie）
+    if path in ("/note", "/open_file", "/program/apple-ceo"):
         token_param = request.query_params.get("token") or request.cookies.get("last_student_token")
         if token_param:
             students = load_students()
-            if get_student_by_id(token_param, students):
-                return await call_next(request)
+            st = get_student_by_id(token_param, students)
+            if st:
+                if path in ("/note", "/open_file"):
+                    return await call_next(request)
+                if path == "/program/apple-ceo" and (token_param in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or "總裁班" in st.get("name", "")):
+                    return await call_next(request)
 
     # 2.5. 檢查網址列自帶合法管理員私鑰（解決部分手機瀏覽器在跨跳轉時遺失 Cookie 的問題）
     query_key = (request.query_params.get("key") or request.query_params.get("passkey") or request.query_params.get("token") or "").strip().lower()
@@ -1309,7 +1313,7 @@ def analyze_student_features(student_id: str, use_cache: bool = True, target_stu
 
 # ── Routes ────────────────────────────────────────────────────────────────────
 
-@app.get("/", response_class=HTMLResponse)
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def read_root(request: Request):
     students = load_students()
 
@@ -1362,11 +1366,12 @@ async def read_root(request: Request):
     })
 
 
-@app.get("/program/apple-ceo", response_class=HTMLResponse)
+@app.api_route("/program/apple-ceo", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def read_apple_ceo_program(request: Request):
     program_data = load_apple_ceo_program()
     summary = summarize_apple_ceo_program(program_data)
     teaching_notes = program_data.get("teaching_notes", [])
+    token = request.query_params.get("token") or request.cookies.get("last_student_token") or "adf9958b-a23d-4e9b-a4a2-156b5329b0ed"
     if use_fallback_pages("program_apple_ceo.html"):
         rows = "\n".join(
             f"<tr><td>{record.get('date', '')}</td><td>{record.get('venue', '')}</td><td>{record.get('attendee_count', 0)}</td></tr>"
@@ -1399,7 +1404,7 @@ async def read_apple_ceo_program(request: Request):
             if alias:
                 name_to_student[alias] = s
 
-    return templates.TemplateResponse(request, "program_apple_ceo.html", {
+    response = templates.TemplateResponse(request, "program_apple_ceo.html", {
         "request": request,
         "program": program_data["program"],
         "venue": program_data["venue"],
@@ -1412,7 +1417,20 @@ async def read_apple_ceo_program(request: Request):
         "summary": summary,
         "legacy_note": program_data.get("legacy_note", ""),
         "name_to_student": name_to_student,
+        "token": token,
+        "is_student_view": bool(request.cookies.get("last_student_token") or request.query_params.get("token")),
     })
+    if token:
+        response.set_cookie(
+            key="last_student_token",
+            value=token,
+            max_age=180 * 86400,
+            httponly=False,
+            secure=True,
+            samesite="lax",
+            path="/",
+        )
+    return response
 
 
 @app.get("/dashboard", response_class=HTMLResponse)
@@ -1709,13 +1727,14 @@ async def logout():
     return response
 
 
-@app.get("/my/{token}")
-@app.get("/hub/{student_id}")
+@app.api_route("/my/{token}", methods=["GET", "HEAD"])
+@app.api_route("/hub/{student_id}", methods=["GET", "HEAD"])
 async def read_student_hub(request: Request, token: str | None = None, student_id: str | None = None):
     """【方案 A】專屬無感 Token 學習空間 (My Learning Hub)。
 
     提供學員專屬視圖：八堂修煉技能樹、歷次筆記與微行動卡片。
     100% 隱私與視野隔離，無需帳號密碼，支援 PWA 加入 iPhone 主畫面秒開。
+    針對「蘋果總裁班」班級型空間，直接呈現完整班務、置頂教學筆記與出席紀錄。
     """
     lookup_key = (token or student_id or "").strip()
     if not lookup_key:
@@ -1734,6 +1753,51 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
     student = get_student_by_id(lookup_key, students)
     if not student:
         raise HTTPException(status_code=404, detail="找不到此專屬學員空間，請確認連結是否正確")
+
+    # 【重要核心路由】：若此 Token 是「蘋果總裁班」（班級型學習空間），直接呈現完整蘋果總裁班專屬頁面
+    is_apple_ceo = (
+        lookup_key in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo")
+        or student.get("name") == "蘋果總裁班"
+        or "總裁班" in student.get("name", "")
+    )
+    if is_apple_ceo:
+        program_data = load_apple_ceo_program()
+        summary = summarize_apple_ceo_program(program_data)
+        teaching_notes = program_data.get("teaching_notes", [])
+        name_to_student = {}
+        for s in students:
+            s_name = s.get("name", "")
+            if s_name:
+                name_to_student[s_name] = s
+            for alias in s.get("aliases", []):
+                if alias:
+                    name_to_student[alias] = s
+        response = templates.TemplateResponse(request, "program_apple_ceo.html", {
+            "request": request,
+            "program": program_data["program"],
+            "venue": program_data["venue"],
+            "active_participants": program_data.get("active_participants", []),
+            "attendance_records": program_data.get("attendance_records", []),
+            "venue_ledger": program_data.get("venue_ledger", []),
+            "student_rounds": program_data.get("student_rounds", []),
+            "tuition_records": program_data.get("tuition_records", []),
+            "teaching_notes": teaching_notes,
+            "summary": summary,
+            "legacy_note": program_data.get("legacy_note", ""),
+            "name_to_student": name_to_student,
+            "token": lookup_key,
+            "is_student_view": True,
+        })
+        response.set_cookie(
+            key="last_student_token",
+            value=lookup_key,
+            max_age=180 * 86400,
+            httponly=False,
+            secure=True,
+            samesite="lax",
+            path="/",
+        )
+        return response
 
     student_notes = get_student_teaching_notes(student)
     for note in student_notes:
@@ -1774,13 +1838,15 @@ async def read_student_hub(request: Request, token: str | None = None, student_i
     return response
 
 
-@app.get("/my/{token}/manifest.webmanifest", include_in_schema=False)
-@app.get("/hub/{token}/manifest.webmanifest", include_in_schema=False)
+@app.api_route("/my/{token}/manifest.webmanifest", methods=["GET", "HEAD"], include_in_schema=False)
+@app.api_route("/hub/{token}/manifest.webmanifest", methods=["GET", "HEAD"], include_in_schema=False)
 async def student_hub_manifest(token: str):
     """【學員專屬 PWA 清單】將 start_url 綁定至學員個人 URL，徹底解決加入主畫面被跳轉至首頁鎖定的問題。"""
     students = load_students()
     student = get_student_by_id(token, students)
     student_name = student.get("name", "學員") if student else "學員"
+    if token in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or (student and "總裁班" in student.get("name", "")):
+        student_name = "蘋果總裁班"
     manifest_data = {
         "name": f"{student_name} 的專屬數位學習空間",
         "short_name": f"{student_name} Hub",
@@ -1811,8 +1877,8 @@ async def student_hub_manifest(token: str):
     return JSONResponse(content=manifest_data, media_type="application/manifest+json")
 
 
-@app.get("/note", response_class=HTMLResponse)
-@app.get("/open_file", response_class=HTMLResponse)
+@app.api_route("/note", methods=["GET", "HEAD"], response_class=HTMLResponse)
+@app.api_route("/open_file", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def open_file(request: Request, path: str):
     apple_program = load_apple_ceo_program()
     apple_notes = apple_program.get("teaching_notes", [])
@@ -1827,11 +1893,15 @@ async def open_file(request: Request, path: str):
         students=students,
     )
 
+    token = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
+
     if not note:
-        return HTMLResponse(content="<h3>找不到此筆記或路徑無效 (404)</h3><p><a href='/'>返回首頁</a></p>", status_code=404)
+        back_url = f"/my/{token}" if token else "/program/apple-ceo"
+        return HTMLResponse(content=f"<h3>找不到此筆記或路徑無效 (404)</h3><p><a href='{back_url}'>返回專屬學習空間</a></p>", status_code=404)
 
     return templates.TemplateResponse(request, "note.html", {
         "request": request,
+        "token": token,
         **note.to_template_context()
     })
 

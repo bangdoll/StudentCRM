@@ -146,3 +146,37 @@ def test_student_pwa_manifest_and_home_screen_auto_redirect():
     )
     assert home_resp.status_code == 303
     assert home_resp.headers["location"] == f"/my/{valid_uuid}"
+
+
+def test_apple_ceo_group_token_access_and_head_support():
+    """驗證蘋果總裁班群組專屬亂碼金鑰 URL (/my/{token})、HEAD 支援與筆記存取。"""
+    apple_token = "adf9958b-a23d-4e9b-a4a2-156b5329b0ed"
+
+    # 1. 學生點擊私密亂碼網址，直接呈現蘋果總裁班完整班務與置頂教學筆記
+    resp = client.get(f"/my/{apple_token}")
+    assert resp.status_code == 200
+    assert "蘋果總裁班" in resp.text
+    assert "teachingNotesSection" in resp.text
+    assert "attendanceSection" in resp.text
+    assert "last_student_token" in resp.cookies
+    assert resp.cookies["last_student_token"] == apple_token
+
+    # 2. 支援 HEAD 請求，防止 LINE 或 Safari 預檢時報 405 Method Not Allowed
+    head_resp = client.head(f"/my/{apple_token}")
+    assert head_resp.status_code == 200
+
+    # 3. 動態 PWA Manifest 支援總裁班
+    manifest_resp = client.get(f"/my/{apple_token}/manifest.webmanifest")
+    assert manifest_resp.status_code == 200
+    assert "蘋果總裁班" in manifest_resp.json()["name"]
+
+    # 4. 學生透過總裁班 token 開啟教學筆記全文
+    note_path = "/01.Docs/teaching/20260827 1361.蘋果總裁班.md"
+    note_resp = client.get(f"/note?path={note_path}&token={apple_token}")
+    assert note_resp.status_code == 200
+    assert "蘋果總裁班" in note_resp.text
+    assert f"/my/{apple_token}" in note_resp.text
+
+    # 5. 學生透過帶有 token 或 cookie 瀏覽 /program/apple-ceo，門禁直接通行
+    prog_resp = client.get(f"/program/apple-ceo?token={apple_token}", headers={"X-Test-Auth": "true"})
+    assert prog_resp.status_code == 200
