@@ -104,23 +104,37 @@ class StudentDataGateway:
                 return []
 
     def load_apple_ceo_program(self) -> dict[str, Any]:
+        local_payload = None
+        try:
+            local_payload = self._load_local_apple_ceo_program()
+        except DataGatewayError:
+            pass
+
         if self.backend != "supabase":
-            try:
-                return self._load_local_apple_ceo_program()
-            except DataGatewayError:
-                return self._empty_apple_ceo_program()
+            if local_payload:
+                self._write_status(GatewayStatus("local", self.apple_ceo_file, self.apple_ceo_cache_file))
+                return local_payload
+            return self._empty_apple_ceo_program()
 
         try:
             payload = self._load_supabase_apple_ceo_program()
+            if local_payload:
+                if not payload.get("tuition_records") and local_payload.get("tuition_records"):
+                    payload["tuition_records"] = local_payload.get("tuition_records")
+                if not payload.get("teaching_notes") and local_payload.get("teaching_notes"):
+                    payload["teaching_notes"] = local_payload.get("teaching_notes")
+                local_ledger = local_payload.get("venue_ledger", [])
+                cloud_ledger = payload.get("venue_ledger", [])
+                if len(local_ledger) > len(cloud_ledger):
+                    payload["venue_ledger"] = local_ledger
             self._write_json(self.apple_ceo_cache_file, payload)
             return payload
         except DataGatewayError:
             if os.path.exists(self.apple_ceo_cache_file):
                 return self._read_json(self.apple_ceo_cache_file)
-            try:
-                return self._load_local_apple_ceo_program()
-            except DataGatewayError:
-                return self._empty_apple_ceo_program()
+            if local_payload:
+                return local_payload
+            return self._empty_apple_ceo_program()
 
     def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
         if not student_id:
@@ -272,6 +286,10 @@ class StudentDataGateway:
                 if name
             ],
             "active_participants": program_raw.get("active_participants", []),
+            "tuition_records": program_raw.get("tuition_records", []),
+            "teaching_notes": program_raw.get("teaching_notes", []),
+            "legacy_note": program_raw.get("legacy_note", ""),
+            "duplicate_report": program_raw.get("duplicate_report", {}),
         }
 
     @staticmethod

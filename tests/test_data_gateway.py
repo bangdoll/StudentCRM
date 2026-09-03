@@ -55,6 +55,7 @@ class StudentDataGatewayTests(unittest.TestCase):
 
             env = {
                 "STUDENTCRM_DATA_BACKEND": "supabase",
+                "STUDENTCRM_CACHE_DIR": str(root / "cache"),
                 "SUPABASE_URL": "",
                 "SUPABASE_SERVICE_ROLE_KEY": "",
                 "SUPABASE_ANON_KEY": "",

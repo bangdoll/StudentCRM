@@ -179,6 +179,35 @@ def supabase_delete(url: str, key: str, table: str, query: str = "") -> None:
         raise exc
 
 
+def supabase_get(url: str, key: str, query_path: str) -> list[dict[str, Any]]:
+    endpoint = f"{url.rstrip('/')}/rest/v1/{query_path}"
+    headers = {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Accept": "application/json",
+    }
+    response = requests.get(endpoint, headers=headers, timeout=30)
+    try:
+        response.raise_for_status()
+        data = response.json()
+        return data if isinstance(data, list) else []
+    except Exception as exc:
+        print(f"Supabase 查詢失敗 ({query_path})：{exc}", file=sys.stderr)
+        return []
+
+
+def supabase_sync_students(url: str, key: str, students_data: list[dict[str, Any]], dry_run: bool) -> None:
+    canonical_ids = {s["id"] for s in students_data}
+    if not dry_run:
+        supa_students = supabase_get(url, key, "students?select=id")
+        extra_ids = [s["id"] for s in supa_students if s.get("id") not in canonical_ids]
+        if extra_ids:
+            print(f"發現 {len(extra_ids)} 位過期/已整併的幽靈學員，正在自 Supabase 清理...")
+            for eid in extra_ids:
+                supabase_delete(url, key, "students", f"id=eq.{quote(eid)}")
+    supabase_upsert(url, key, "students", students_data, dry_run=dry_run)
+
+
 def supabase_replace_apple_payload(url: str, key: str, apple_payload: dict[str, list[dict[str, Any]]], dry_run: bool) -> None:
     delete_order = [
         "apple_student_rounds",
@@ -287,6 +316,8 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
             "active_participants": data.get("active_participants", []),
             "tuition_records": data.get("tuition_records", []),
             "duplicate_report": data.get("duplicate_report", {}),
+            "teaching_notes": data.get("teaching_notes", []),
+            "legacy_note": data.get("legacy_note", ""),
         },
     }]
 
@@ -406,7 +437,7 @@ def main() -> int:
         print("Supabase 蘋果總裁班同步完成")
         return 0
 
-    supabase_upsert(url, key, "students", students_data, dry_run=False)
+    supabase_sync_students(url, key, students_data, dry_run=False)
     if teaching_records:
         if args.replace_teaching:
             supabase_replace_teaching_records(url, key, teaching_records, dry_run=False)

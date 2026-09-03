@@ -83,6 +83,9 @@ MANUAL_ALIASES = {
     "資深少年": "資深少年 AI 學習團",
     "資深少年ai學習團": "資深少年 AI 學習團",
     "資深少年ai領導力專班": "資深少年 AI 學習團",
+    "禮品公會": "禮品公會",
+    "禮品公會手機班": "禮品公會",
+    "禮品公會手機班第二期": "禮品公會",
 }
 
 
@@ -157,6 +160,9 @@ def candidate_name_from_title(title: str) -> str:
     if "資深少年" in stem or "Senior_AI" in stem or "Senior AI" in stem:
         return "資深少年 AI 學習團"
 
+    if "禮品公會" in stem:
+        return "禮品公會"
+
     lesson_match = re.match(r"Lesson[_\s-]*(20\d{6})[_\s-]+(.+)$", stem, re.IGNORECASE)
     if lesson_match:
         return re.sub(r"[_-]+", " ", lesson_match.group(2)).strip()
@@ -183,7 +189,7 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     is_digital_management = DIGITAL_MANAGEMENT_LABEL in title
     is_lesson_file = bool(re.match(r"Lesson[_\s-]*20\d{6}[_\s-]+", title, re.IGNORECASE))
     is_apple_ceo = "蘋果總裁班" in title or "Apple_CEO" in title or "Apple CEO" in title
-    is_group_class = any(k in title for k in ["資深少年", "AI學習團", "AI 學習團", "Senior_AI"])
+    is_group_class = any(k in title for k in ["資深少年", "AI學習團", "AI 學習團", "Senior_AI", "禮品公會"])
     if not is_digital_management and not is_lesson_file and not is_apple_ceo and not is_group_class:
         return None
 
