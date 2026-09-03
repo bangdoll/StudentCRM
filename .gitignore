@@ -33,3 +33,5 @@ server.log
 backend.log
 main.log
 .vercel
+backups/
+data/backups/

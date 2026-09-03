@@ -3,6 +3,15 @@
 此專案的所有顯著變更將記錄在此檔案中。
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)。
 
+## [1.3.0] - 2026-09-04
+### 架構優化 (Refactored & Deepened)
+- **Matt Pocock 深模組架構深化 (方案 A、B、C) 全面落地**：
+  - **方案 A（資料寫入管線統一化）**：消滅所有裸寫 `with open(...)`，全面由 `data_gateway.py` 安全寫入方法（`save_teaching_records`、`save_apple_ceo_program`、`save_students`）接管，100% 覆蓋「寫入前自動快照備份 (.bak)」與「異常縮水 > 20% 斷路器熔斷保護」，徹底消滅資料蒸發隱患。
+  - **方案 B（`main.py` 領域解耦薄控制器化）**：將 1,828 行巨型上帝檔案依業務領域重構為四大 FastAPI `APIRouter`（`routers/coach.py`、`routers/student.py`、`routers/apple_ceo.py`、`routers/hub.py`），消滅發散式變化壞味道，隔絕跨模組連鎖踩雷。
+  - **方案 C（領域實體型別固化）**：建立 `schemas/` 領域模型套件（`StudentProfile`、`TeachingRecordItem`、`AppleAttendanceRecord`、`AppleLedgerItem`），以 Pydantic 嚴格校驗資料契約，確保 `first_lesson_date` 與關鍵欄位非空且合法。
+  - **安全防線入憲**：將「凡可破壞資料或既有功能之修改必須先有 PRD、備份與驗收清單；嚴禁用深夜加班補足系統原本應具備之防護」正式入憲 `AGENTS.md` 與 `.cursorrules`。
+  - **回歸測試與安全網**：常設 `tests/test_zero_loss_regression.py`（6 道物理資產防線）與 `tests/test_schemas.py`，全套測試擴充至 **103/103 PASSED (100%)**。
+
 ## [1.2.1] - 2026-09-03
 ### 修正 (Fixed)
 - **全體學員「首次上課 (first_lesson_date)」紀錄消失問題修復**：

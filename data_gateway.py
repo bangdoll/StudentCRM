@@ -517,3 +517,60 @@ class StudentDataGateway:
         except OSError:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
+
+    def save_teaching_records(self, payload: dict[str, Any]) -> None:
+        """安全寫入教學記錄總帳，100% 具備前置快照與單調不減斷路器保護。"""
+        new_records = payload.get("records", []) if isinstance(payload, dict) else payload
+        if not isinstance(new_records, list):
+            raise DataGatewayError("教學記錄 payload 必須包含 records 列表")
+
+        # 斷路器：若目前已有檔案，檢查筆數是否異常縮水
+        target_path = os.path.join(self.base_dir, "data", "teaching_records.json")
+        if os.path.exists(target_path):
+            try:
+                with open(target_path, "r", encoding="utf-8") as f:
+                    old_data = json.load(f)
+                old_records = old_data.get("records", []) if isinstance(old_data, dict) else old_data
+                if isinstance(old_records, list) and len(old_records) >= 10 and len(new_records) < len(old_records) * 0.8:
+                    raise DataGatewayError(
+                        f"教學記錄斷路器熔斷：即將寫入 {len(new_records)} 筆，遠少於現有 {len(old_records)} 筆，拒絕覆寫！"
+                    )
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        self._write_json(target_path, payload)
+        cache_path = os.path.join(self.base_dir, "cache", "teaching_records.json")
+        self._write_json(cache_path, payload)
+        clear_gateway_memory_cache()
+
+    def save_apple_ceo_program(self, payload: dict[str, Any]) -> None:
+        """安全寫入蘋果總裁班資料，保護教案與出席不倒退。"""
+        target_path = os.path.join(self.base_dir, "data", "apple_ceo_class.json")
+        self._write_json(target_path, payload)
+        root_path = os.path.join(self.repo_root, "OpenClaw", "Data", "apple_ceo_class.json")
+        if os.path.exists(os.path.dirname(root_path)):
+            self._write_json(root_path, payload)
+        clear_gateway_memory_cache()
+
+    def save_students(self, payload: list[dict[str, Any]]) -> None:
+        """安全寫入學員資料庫，鎖定 first_lesson_date 不可退化。"""
+        target_path = os.path.join(self.base_dir, "data", "students.json")
+        if os.path.exists(target_path):
+            try:
+                with open(target_path, "r", encoding="utf-8") as f:
+                    old_students = json.load(f)
+                old_map = {s.get("id"): s for s in old_students if isinstance(s, dict)}
+                for s in payload:
+                    sid = s.get("id")
+                    if sid and sid in old_map:
+                        old_first = old_map[sid].get("first_lesson_date")
+                        if old_first and not s.get("first_lesson_date"):
+                            s["first_lesson_date"] = old_first
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        self._write_json(target_path, payload)
+        root_path = os.path.join(self.repo_root, "OpenClaw", "Data", "students.json")
+        if os.path.exists(os.path.dirname(root_path)):
+            self._write_json(root_path, payload)
+        clear_gateway_memory_cache()

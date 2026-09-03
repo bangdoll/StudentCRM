@@ -356,14 +356,10 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
     # 1. 產生全量教學紀錄
     result = build_teaching_records_from_directory(teaching_dir, students)
 
-    # 2. 寫入 data/teaching_records.json 與 cache/teaching_records.json
-    cache_teaching_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(cache_teaching_file, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-
-    backup_cache_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(backup_cache_file, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    # 2. 透過 StudentDataGateway 安全寫入 data/teaching_records.json 與 cache/
+    from data_gateway import StudentDataGateway
+    gateway = StudentDataGateway(str(crm_dir))
+    gateway.save_teaching_records(result)
 
     # 3. 同步至 apple_ceo_class.json (蘋果總裁班教學紀錄)
     apple_ceo_synced_count = 0
@@ -413,12 +409,7 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
                     apple_ceo_synced_count += 1
 
             current_notes.sort(key=lambda n: (n.get("date") or "", n.get("title") or ""), reverse=True)
-            with open(apple_ceo_file, "w", encoding="utf-8") as f:
-                json.dump(apple_ceo_data, f, ensure_ascii=False, indent=2)
-            root_apple = workspace_dir / "OpenClaw" / "Data" / "apple_ceo_class.json"
-            if root_apple.exists() and root_apple.resolve() != apple_ceo_file.resolve():
-                with open(root_apple, "w", encoding="utf-8") as f:
-                    json.dump(apple_ceo_data, f, ensure_ascii=False, indent=2)
+            gateway.save_apple_ceo_program(apple_ceo_data)
         except Exception as e:
             print(f"⚠️ 同步 apple_ceo_class.json 失敗: {e}")
 
@@ -456,11 +447,7 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
             })
 
     if students_updated:
-        with open(students_file, "w", encoding="utf-8") as f:
-            json.dump(students, f, ensure_ascii=False, indent=2)
-        if root_students_file.exists() and root_students_file.resolve() != students_file.resolve():
-            with open(root_students_file, "w", encoding="utf-8") as f:
-                json.dump(students, f, ensure_ascii=False, indent=2)
+        gateway.save_students(students)
 
     # 5. 清理記憶體快取
     try:
