@@ -183,12 +183,30 @@ class StudentDataGateway:
             if local_payload:
                 if not payload.get("tuition_records") and local_payload.get("tuition_records"):
                     payload["tuition_records"] = local_payload.get("tuition_records")
-                if not payload.get("teaching_notes") and local_payload.get("teaching_notes"):
-                    payload["teaching_notes"] = local_payload.get("teaching_notes")
+                
+                local_notes = local_payload.get("teaching_notes", [])
+                cloud_notes = payload.get("teaching_notes", [])
+                if len(local_notes) > len(cloud_notes) or not cloud_notes:
+                    payload["teaching_notes"] = local_notes
+
+                local_attendance = local_payload.get("attendance_records", [])
+                cloud_attendance = payload.get("attendance_records", [])
+                if len(local_attendance) > len(cloud_attendance) or not cloud_attendance:
+                    payload["attendance_records"] = local_attendance
+
                 local_ledger = local_payload.get("venue_ledger", [])
                 cloud_ledger = payload.get("venue_ledger", [])
-                if len(local_ledger) > len(cloud_ledger):
+                if len(local_ledger) > len(cloud_ledger) or not cloud_ledger:
                     payload["venue_ledger"] = local_ledger
+
+                local_rounds = local_payload.get("student_rounds", [])
+                cloud_rounds = payload.get("student_rounds", [])
+                if local_rounds:
+                    local_filled = sum(len([s for s in r.get("sessions", []) if s]) for st in local_rounds for r in st.get("rounds", []))
+                    cloud_filled = sum(len([s for s in r.get("sessions", []) if s]) for st in cloud_rounds for r in st.get("rounds", []))
+                    if local_filled > cloud_filled or len(local_rounds) > len(cloud_rounds):
+                        payload["student_rounds"] = local_rounds
+
             payload["student_rounds"] = sort_apple_student_rounds(payload.get("student_rounds", []))
             self._write_json(self.apple_ceo_cache_file, payload)
             return payload

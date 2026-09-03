@@ -413,10 +413,12 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
                     apple_ceo_synced_count += 1
 
             current_notes.sort(key=lambda n: (n.get("date") or "", n.get("title") or ""), reverse=True)
-            apple_ceo_data["teaching_notes"] = current_notes
-
             with open(apple_ceo_file, "w", encoding="utf-8") as f:
                 json.dump(apple_ceo_data, f, ensure_ascii=False, indent=2)
+            root_apple = workspace_dir / "OpenClaw" / "Data" / "apple_ceo_class.json"
+            if root_apple.exists() and root_apple.resolve() != apple_ceo_file.resolve():
+                with open(root_apple, "w", encoding="utf-8") as f:
+                    json.dump(apple_ceo_data, f, ensure_ascii=False, indent=2)
         except Exception as e:
             print(f"⚠️ 同步 apple_ceo_class.json 失敗: {e}")
 
