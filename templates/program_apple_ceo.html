@@ -28,6 +28,16 @@
 </head>
 <body>
     <header>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
+            <a href="/" class="back-link" style="color: #58a6ff; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem;">
+                <span>← 回到學員管理系統</span>
+            </a>
+            {% if is_student_view %}
+            <span class="program-badge" style="background: rgba(63, 185, 80, 0.15); color: #7ee787; border: 1px solid rgba(63, 185, 80, 0.4); padding: 4px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;">
+                🛡️ 蘋果總裁班專屬群組學習空間
+            </span>
+            {% endif %}
+        </div>
         <p class="section-kicker">StudentCRM｜班務中心</p>
         <h1>{{ program.name }}</h1>
         <p class="meta-info">{{ program.description }}</p>
@@ -49,10 +59,11 @@
         </section>
 
         <nav class="program-toolbar" aria-label="頁面操作">
+            <a href="/" class="program-nav-button program-nav-button-primary">
+                ← 回到學員管理系統
+            </a>
             {% if is_student_view %}
-            <span class="program-nav-button" style="background: rgba(63, 185, 80, 0.15); color: #7ee787; border: 1px solid rgba(63, 185, 80, 0.4); font-weight: 600;">🛡️ 蘋果總裁班專屬群組學習空間</span>
-            {% else %}
-            <a href="{{ request.url_for('read_root') }}" class="program-nav-button program-nav-button-primary">返回 StudentCRM 首頁</a>
+            <span class="program-nav-button" style="background: rgba(63, 185, 80, 0.15); color: #7ee787; border: 1px solid rgba(63, 185, 80, 0.4); font-weight: 600;">🛡️ 專屬群組空間</span>
             {% endif %}
             <a href="{{ program.url }}" class="program-nav-button program-nav-button-secondary">課程頁面</a>
         </nav>
