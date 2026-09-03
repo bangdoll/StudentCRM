@@ -32,6 +32,7 @@
         <div class="admin-session-badge" style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; background: rgba(88, 166, 255, 0.1); border: 1px solid rgba(88, 166, 255, 0.25); color: #58a6ff; padding: 5px 12px; border-radius: 20px;">
             <span>🛡️</span>
             <span>管理員：<strong>{{ admin_user }}</strong></span>
+            <a href="/radar" style="color: #bc8cff; text-decoration: none; margin-left: 8px; font-weight: 600;">📊 成效雷達</a>
             <a href="/logout" title="登出並鎖定系統" style="color: #8b949e; text-decoration: none; margin-left: 6px; font-weight: 500;">✕ 登出</a>
         </div>
         {% endif %}
@@ -54,6 +55,7 @@
                 <button type="button" class="filter-pill" data-filter="risk">🔴 流失風險</button>
                 <button type="button" class="filter-pill" data-filter="upcoming">📅 近期排程</button>
                 <button type="button" class="filter-pill" data-filter="tbd">⏳ 安排中</button>
+                <a href="/radar" class="filter-pill" style="text-decoration: none; color: #bc8cff; border-color: rgba(188, 140, 255, 0.4); background: rgba(188, 140, 255, 0.1);">📊 成效與續約雷達 ➔</a>
             </div>
             <div class="filter-status-text">
                 顯示 <span id="filtered-count">{{ students|length }}</span> / {{ students|length }} 位學員
@@ -62,6 +64,23 @@
     </header>
 
     <div class="container">
+        <section class="program-entry-card" style="margin-bottom: 24px; border-color: rgba(188, 140, 255, 0.35); background: linear-gradient(135deg, rgba(188, 140, 255, 0.1), rgba(22, 27, 34, 0.95));">
+            <div class="program-entry-copy">
+                <p class="section-kicker" style="color: #d2a8ff;">⚡ 商業戰情與續約決策</p>
+                <div class="program-entry-heading">
+                    <h2>成效雷達與 CSM 續約決策戰情室 (Effectiveness Radar)</h2>
+                    <a href="/radar" class="program-entry-link inline-program-link" style="background: #8957e5; border-color: #a371f7; color: #fff;">進入成效雷達戰情室 ➔</a>
+                </div>
+                <p class="meta-info">依據 13 年教學資產與近三堂微行動卡，自動判定學員 AI 導入成熟度、7 天落地任務停滯預警與產品階梯提案錨點，輔助教練精準關懷與續約決策。</p>
+                <div class="tag-list">
+                    <span class="tag">AI 導入四階段</span>
+                    <span class="tag">7 天微行動卡追蹤</span>
+                    <span class="tag">高流失 / 續約預警</span>
+                    <span class="tag">一鍵複製關懷話術</span>
+                </div>
+            </div>
+        </section>
+
         <section class="program-entry-card">
             <div class="program-entry-copy">
                 <p class="section-kicker">專題班務</p>

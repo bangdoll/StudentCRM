@@ -93,6 +93,8 @@ class StudentDataGateway:
         self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
         self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
         self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
+        self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
+        self.repo_root = base_dir
 
         self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
         self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
@@ -574,3 +576,75 @@ class StudentDataGateway:
         if os.path.exists(os.path.dirname(root_path)):
             self._write_json(root_path, payload)
         clear_gateway_memory_cache()
+
+    def get_effectiveness_radar_data(self) -> dict[str, Any]:
+        """安全讀取成效雷達資料與快取。"""
+        now = time.time()
+        cache_key = f"radar_{self.radar_file}"
+        if cache_key in _MEMORY_CACHE:
+            cached_time, cached_data = _MEMORY_CACHE[cache_key]
+            if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
+                return copy.deepcopy(cached_data)
+
+        if os.path.exists(self.radar_file):
+            try:
+                with open(self.radar_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, dict):
+                    _MEMORY_CACHE[cache_key] = (now, data)
+                    return copy.deepcopy(data)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        default_data = {
+            "generated_at": "",
+            "summary": {
+                "total_tracked": 0,
+                "stable_count": 0,
+                "attention_count": 0,
+                "at_risk_count": 0,
+                "upgrade_ready_count": 0,
+                "stale_tasks_count": 0,
+            },
+            "items": [],
+        }
+        return default_data
+
+    def save_effectiveness_radar_data(self, payload: dict[str, Any]) -> None:
+        """安全寫入成效雷達數據，具備自動快照與斷路器保護。"""
+        if not isinstance(payload, dict):
+            raise DataGatewayError("成效雷達 payload 必須為 dict 結構")
+
+        self._write_json(self.radar_file, payload)
+        clear_gateway_memory_cache()
+
+    def update_csm_followup_record(self, student_id: str, update_data: dict[str, Any]) -> dict[str, Any]:
+        """更新單一學員的 CSM 回訪追蹤記錄，自動寫入並同步快照。"""
+        radar_data = self.get_effectiveness_radar_data()
+        items = radar_data.get("items", [])
+        target_item = None
+        now_str = datetime.now(timezone.utc).isoformat()
+        today_date = datetime.now().strftime("%Y-%m-%d")
+
+        for item in items:
+            if item.get("student_id") == student_id:
+                followup = item.get("followup") or {}
+                new_status = update_data.get("status", followup.get("status", "pending"))
+                followup["status"] = new_status
+                if new_status == "contacted":
+                    followup["last_contacted_date"] = today_date
+                if "next_followup_date" in update_data:
+                    followup["next_followup_date"] = update_data["next_followup_date"]
+                if "coach_notes" in update_data:
+                    followup["coach_notes"] = update_data["coach_notes"]
+                followup["updated_at"] = now_str
+                item["followup"] = followup
+                target_item = item
+                break
+
+        if not target_item:
+            raise DataGatewayError(f"在成效雷達中找不到學員 ID：{student_id}")
+
+        self.save_effectiveness_radar_data(radar_data)
+        return target_item
+

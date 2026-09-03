@@ -5,8 +5,8 @@
 import os
 from urllib.parse import unquote
 from datetime import datetime
-from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import APIRouter, Request, HTTPException
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 
 from auth_service import (
     ADMIN_PASSKEYS,
@@ -22,6 +22,9 @@ from schedule_service import (
 from student_service import get_global_renewal_radar
 from apple_ceo_service import summarize_apple_ceo_program, extract_session_date
 from prediction_service import predict_student_status
+from radar_service import build_full_effectiveness_radar
+from schemas.radar import FollowupUpdateRequest
+
 
 router = APIRouter(tags=["coach"])
 
@@ -249,3 +252,55 @@ async def search(request: Request, q: str = ""):
         "results": results,
         "count": len(results),
     })
+
+
+@router.get("/radar", response_class=HTMLResponse)
+async def get_effectiveness_radar_page(request: Request):
+    """【成效與續約雷達戰情頁】展示 AI 導入階段、微行動卡進度、流失預警與 CSM 追蹤。"""
+    deps = get_coach_deps()
+    gateway = deps["student_gateway"]
+    radar_data = build_full_effectiveness_radar(gateway)
+
+    return deps["templates"].TemplateResponse(request, "radar.html", {
+        "request": request,
+        "radar": radar_data,
+        "summary": radar_data.get("summary", {}),
+        "items": radar_data.get("items", []),
+        "generated_at": radar_data.get("generated_at", ""),
+    })
+
+
+@router.get("/api/radar", response_class=JSONResponse)
+async def get_effectiveness_radar_api():
+    """【成效雷達資料端點】回傳成效雷達項目與統計數據 JSON。"""
+    deps = get_coach_deps()
+    gateway = deps["student_gateway"]
+    radar_data = gateway.get_effectiveness_radar_data()
+    if not radar_data.get("items"):
+        radar_data = build_full_effectiveness_radar(gateway)
+    return JSONResponse(radar_data)
+
+
+@router.post("/api/radar/followup", response_class=JSONResponse)
+async def update_csm_followup_api(payload: FollowupUpdateRequest):
+    """【CSM 跟進狀態更新端點】記錄學員關懷進度、下次回訪日期與私密備忘錄。"""
+    deps = get_coach_deps()
+    gateway = deps["student_gateway"]
+    try:
+        updated_item = gateway.update_csm_followup_record(
+            student_id=payload.student_id,
+            update_data=payload.model_dump(),
+        )
+        return JSONResponse({"success": True, "item": updated_item})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/api/radar/refresh", response_class=JSONResponse)
+async def refresh_effectiveness_radar_api():
+    """【手動重算雷達快取】強制重新掃描學員資料庫與最新教學筆記。"""
+    deps = get_coach_deps()
+    gateway = deps["student_gateway"]
+    radar_data = build_full_effectiveness_radar(gateway)
+    return JSONResponse({"success": True, "radar": radar_data})
+

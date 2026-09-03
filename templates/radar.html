@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成效雷達與 CSM 續約決策戰情室 | StudentCRM</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-card: rgba(22, 27, 34, 0.95);
+            --border-subtle: rgba(48, 54, 61, 0.7);
+            --border-hover: rgba(88, 166, 255, 0.4);
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #bc8cff;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Inter', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .radar-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 24px 20px 80px;
+        }
+
+        /* 頂部導航與標題 */
+        .radar-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            background: rgba(88, 166, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateX(-2px);
+        }
+
+        .refresh-btn {
+            background: rgba(56, 139, 253, 0.15);
+            color: var(--accent-blue);
+            border: 1px solid rgba(56, 139, 253, 0.3);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(56, 139, 253, 0.25);
+            border-color: var(--accent-blue);
+        }
+
+        .radar-hero {
+            background: linear-gradient(180deg, rgba(88, 166, 255, 0.08) 0%, rgba(13, 17, 23, 0) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 32px 28px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radar-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 10px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .radar-hero p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin: 0;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        /* 戰情摘要指標卡 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .stat-card.active {
+            border-color: var(--accent-blue);
+            background: rgba(56, 139, 253, 0.1);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .val-stable { color: var(--accent-green); }
+        .val-attention { color: var(--accent-yellow); }
+        .val-risk { color: var(--accent-red); }
+        .val-upgrade { color: var(--accent-purple); }
+        .val-stale { color: #f0883e; }
+
+        /* 篩選按鈕列 */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+
+        .filter-pill {
+            background: rgba(22, 27, 34, 0.85);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .filter-pill:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+        }
+
+        .filter-pill.active {
+            background: rgba(88, 166, 255, 0.15);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .search-input {
+            margin-left: auto;
+            background: rgba(22, 27, 34, 0.9);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 8px 16px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            min-width: 220px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        /* 學員戰情卡片網格 */
+        .radar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        .student-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .student-card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .student-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .student-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cycle-badge {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .days-badge {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .days-fresh { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); }
+        .days-attention { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); border: 1px solid rgba(210, 153, 34, 0.3); }
+        .days-stale { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); border: 1px solid rgba(248, 81, 73, 0.3); }
+
+        /* 訊號徽章 */
+        .badge-primary { background: rgba(188, 140, 255, 0.15); color: var(--accent-purple); border: 1px solid rgba(188, 140, 255, 0.3); }
+        .badge-success { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); }
+        .badge-warning { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); border: 1px solid rgba(210, 153, 34, 0.3); }
+        .badge-danger { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); border: 1px solid rgba(248, 81, 73, 0.3); }
+
+        /* AI 階段小區塊 */
+        .stage-box {
+            background: rgba(13, 17, 23, 0.6);
+            border: 1px solid rgba(48, 54, 61, 0.5);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .stage-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .stage-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .stage-detail {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* 痛點與任務卡 */
+        .pain-row {
+            font-size: 0.85rem;
+            color: #d2a8ff;
+            background: rgba(188, 140, 255, 0.08);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .task-card-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--accent-blue);
+            padding: 8px 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            line-height: 1.45;
+        }
+
+        .task-type-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-right: 6px;
+        }
+
+        .stale-warning-banner {
+            background: rgba(248, 81, 73, 0.12);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            color: #ff7b72;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 推薦產品 */
+        .product-box {
+            background: linear-gradient(135deg, rgba(56, 139, 253, 0.1) 0%, rgba(188, 140, 255, 0.05) 100%);
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            border-radius: 10px;
+            padding: 12px 14px;
+        }
+
+        .product-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .product-pitch {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* CSM 跟進狀態 */
+        .csm-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .csm-status-badge {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .csm-pending { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); }
+        .csm-contacted { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+        .csm-deferred { background: rgba(139, 148, 158, 0.15); color: var(--text-muted); }
+
+        /* 操作按鈕群 */
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-copy {
+            background: rgba(88, 166, 255, 0.12);
+            color: var(--accent-blue);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-copy:hover {
+            background: rgba(88, 166, 255, 0.25);
+            border-color: var(--accent-blue);
+        }
+
+        .btn-csm {
+            background: rgba(63, 185, 80, 0.12);
+            color: var(--accent-green);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+        }
+
+        .btn-csm:hover {
+            background: rgba(63, 185, 80, 0.25);
+            border-color: var(--accent-green);
+        }
+
+        .btn-link {
+            flex: 0 0 auto;
+            padding: 9px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-link:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+        }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: #1f6feb;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CSM 跟進 Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #161b22;
+            border: 1px solid var(--border-hover);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 500px;
+            padding: 28px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-select, .form-input, .form-textarea {
+            background: #0d1117;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .form-select:focus, .form-input:focus, .form-textarea:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-save {
+            background: var(--accent-green);
+            color: #0d1117;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover {
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="radar-container">
+    <!-- 頂部導航 -->
+    <div class="radar-nav">
+        <a href="/" class="back-link">← 回到學員管理系統</a>
+        <button class="refresh-btn" onclick="triggerRadarRefresh()">⚡ 手動重算快取</button>
+    </div>
+
+    <!-- 戰情 Hero -->
+    <div class="radar-hero">
+        <h1>📊 成效雷達與 CSM 續約決策戰情室</h1>
+        <p>依據 13 年教學資產與近三堂微行動卡，自動判定學員 AI 導入成熟度、7 天落地任務停滯預警與產品階梯提案錨點，輔助教練精準關懷與續約決策。</p>
+    </div>
+
+    <!-- 戰情指標小卡 -->
+    <div class="stats-grid">
+        <div class="stat-card active" onclick="setFilter('all', this)">
+            <span class="stat-label">👥 追蹤總人數</span>
+            <span class="stat-value">{{ summary.total_tracked }}</span>
+        </div>
+        <div class="stat-card" onclick="setFilter('stable', this)">
+            <span class="stat-label">🟢 穩定推進</span>
+            <span class="stat-value val-stable">{{ summary.stable_count }}</span>
+        </div>
+        <div class="stat-card" onclick="setFilter('attention', this)">
+            <span class="stat-label">🟡 需要關心</span>
+            <span class="stat-value val-attention">{{ summary.attention_count }}</span>
+        </div>
+        <div class="stat-card" onclick="setFilter('at_risk', this)">
+            <span class="stat-label">🔴 高流失風險</span>
+            <span class="stat-value val-risk">{{ summary.at_risk_count }}</span>
+        </div>
+        <div class="stat-card" onclick="setFilter('upgrade_ready', this)">
+            <span class="stat-label">🚀 待續約/可升級</span>
+            <span class="stat-value val-upgrade">{{ summary.upgrade_ready_count }}</span>
+        </div>
+        <div class="stat-card" onclick="setFilter('stale_tasks', this)">
+            <span class="stat-label">⚠️ 任務卡停滯</span>
+            <span class="stat-value val-stale">{{ summary.stale_tasks_count }}</span>
+        </div>
+    </div>
+
+    <!-- 篩選列 -->
+    <div class="filter-bar">
+        <button class="filter-pill active" onclick="setFilter('all', this)">全部 ({{ summary.total_tracked }})</button>
+        <button class="filter-pill" onclick="setFilter('stable', this)">🟢 穩定推進 ({{ summary.stable_count }})</button>
+        <button class="filter-pill" onclick="setFilter('attention', this)">🟡 需要關心 ({{ summary.attention_count }})</button>
+        <button class="filter-pill" onclick="setFilter('at_risk', this)">🔴 高流失 ({{ summary.at_risk_count }})</button>
+        <button class="filter-pill" onclick="setFilter('upgrade_ready', this)">🚀 待續約/可升級 ({{ summary.upgrade_ready_count }})</button>
+        <button class="filter-pill" onclick="setFilter('stale_tasks', this)">⚠️ 任務卡需跟進 ({{ summary.stale_tasks_count }})</button>
+        <input type="text" id="searchInput" class="search-input" placeholder="搜尋學員姓名或關鍵字..." oninput="handleSearch()">
+    </div>
+
+    <!-- 學員戰情卡片網格 -->
+    <div class="radar-grid" id="radarGrid">
+        {% for item in items %}
+        <div class="student-card" 
+             data-name="{{ item.name }}" 
+             data-signal="{{ item.retention_signal }}" 
+             data-stale="{{ 'true' if item.task_staleness_warning else 'false' }}"
+             data-id="{{ item.student_id }}">
+            
+            <!-- 卡片頂部 -->
+            <div class="card-header">
+                <div class="student-title-wrap">
+                    <h2 class="student-name">
+                        {{ item.name }}
+                        <span class="cycle-badge">累計 {{ item.lessons_count }} 堂 / 本輪 {{ item.current_cycle_lesson }}/8</span>
+                    </h2>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">
+                        末次上課：{{ item.latest_date or '未記錄' }}
+                    </div>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                    <span class="days-badge {{ 'days-stale' if item.days_since_last > 30 else ('days-attention' if item.days_since_last > 14 else 'days-fresh') }}">
+                        距上次 {{ item.days_since_last if item.days_since_last < 999 else '—' }} 天
+                    </span>
+                    <span class="days-badge {{ item.retention_badge_class }}">
+                        {{ item.retention_signal_text }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- AI 導入階段成熟度 -->
+            <div class="stage-box">
+                <div class="stage-label-row">
+                    <span class="stage-name">⚡ 階段：{{ item.ai_import_stage }}</span>
+                </div>
+                <div class="stage-detail">{{ item.ai_stage_detail }}</div>
+            </div>
+
+            <!-- 痛點卡點 -->
+            <div class="pain-row">
+                <span>🎯 核心痛點：</span>
+                <strong>{{ item.primary_pain }}</strong>
+            </div>
+
+            <!-- 任務卡停滯告警 -->
+            {% if item.task_staleness_warning %}
+            <div class="stale-warning-banner">
+                <span>⚠️ 距上次課已逾 14 天，微行動卡處於停滯待跟進狀態</span>
+            </div>
+            {% endif %}
+
+            <!-- 末次微行動卡清單 -->
+            <div class="task-list">
+                <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 2px;">
+                    📝 上次課堂微行動卡 (7天任務)：
+                </div>
+                {% for card in item.micro_action_cards %}
+                <div class="task-card-item">
+                    <span class="task-type-badge">【{{ card.type }}】</span>
+                    <span>{{ card.content }}</span>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- 推薦產品階梯 -->
+            <div class="product-box">
+                <div class="product-title">
+                    <span>💎 推薦階梯：{{ item.product_recommendation.title }}</span>
+                </div>
+                <div class="product-pitch">
+                    {{ item.product_recommendation.pitch_message }}
+                </div>
+            </div>
+
+            <!-- CSM 跟進資訊 -->
+            <div class="csm-row">
+                <div>
+                    CSM 狀態：
+                    <span class="csm-status-badge {{ 'csm-contacted' if item.followup.status == 'contacted' else ('csm-deferred' if item.followup.status == 'deferred' else 'csm-pending') }}">
+                        {{ '已跟進' if item.followup.status == 'contacted' else ('暫緩' if item.followup.status == 'deferred' else '待關心') }}
+                    </span>
+                </div>
+                <div style="color: var(--text-muted);">
+                    {{ '上次聯繫: ' + item.followup.last_contacted_date if item.followup.last_contacted_date else '尚未記錄' }}
+                </div>
+            </div>
+            {% if item.followup.coach_notes %}
+            <div style="font-size: 0.8rem; color: #7ee787; background: rgba(63, 185, 80, 0.08); padding: 6px 10px; border-radius: 6px;">
+                💬 備忘：{{ item.followup.coach_notes }}
+            </div>
+            {% endif %}
+
+            <!-- 操作按鈕 -->
+            <div class="card-actions">
+                <button class="btn-action btn-copy" onclick="copyFollowupMsg(`{{ item.student_id }}`)">
+                    📋 複製關心話術
+                </button>
+                <button class="btn-action btn-csm" onclick="openCsmModal('{{ item.student_id }}', '{{ item.name }}', '{{ item.followup.status }}', '{{ item.followup.next_followup_date or '' }}', `{{ item.followup.coach_notes }}`)">
+                    📝 記錄回訪
+                </button>
+                <a href="/student/{{ item.student_id }}" class="btn-action btn-link" title="前往學員詳情">
+                    🔗
+                </a>
+            </div>
+
+            <!-- 隱藏的話術文本供複製 -->
+            <div id="copy-text-{{ item.student_id }}" style="display: none;">{{ item.followup_copy }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Toast 通知 -->
+<div id="toast" class="toast">已複製 7 天追蹤問候話術至剪貼簿！</div>
+
+<!-- CSM 回訪 Modal -->
+<div id="csmModal" class="modal-overlay">
+    <div class="modal-content">
+        <h3 class="modal-title" id="modalStudentName">記錄 CSM 回訪進度</h3>
+        <input type="hidden" id="modalStudentId">
+        
+        <div class="form-group">
+            <label class="form-label">跟進狀態</label>
+            <select id="modalStatus" class="form-select">
+                <option value="pending">🟡 待關心 (Pending)</option>
+                <option value="contacted">🟢 已完成聯繫關懷 (Contacted)</option>
+                <option value="deferred">⚪ 暫緩 / 依約定時間再追蹤 (Deferred)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">下次預計回訪日期</label>
+            <input type="date" id="modalFollowupDate" class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">教練私密備忘錄 / 學員回饋紀錄</label>
+            <textarea id="modalNotes" class="form-textarea" rows="4" placeholder="記錄學員近期卡點、工作流成效或約課想法..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-cancel" onclick="closeCsmModal()">取消</button>
+            <button class="btn-save" onclick="saveCsmFollowup()">儲存紀錄</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentFilter = 'all';
+
+    function setFilter(filter, el) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('active'));
+        
+        if (el) {
+            el.classList.add('active');
+        }
+        applyFilters();
+    }
+
+    function handleSearch() {
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        const cards = document.querySelectorAll('.student-card');
+
+        cards.forEach(card => {
+            const name = (card.getAttribute('data-name') || '').toLowerCase();
+            const signal = card.getAttribute('data-signal');
+            const isStale = card.getAttribute('data-stale') === 'true';
+
+            let matchFilter = true;
+            if (currentFilter === 'stale_tasks') {
+                matchFilter = isStale;
+            } else if (currentFilter !== 'all') {
+                matchFilter = (signal === currentFilter);
+            }
+
+            let matchQuery = true;
+            if (query) {
+                matchQuery = name.includes(query) || card.innerText.toLowerCase().includes(query);
+            }
+
+            if (matchFilter && matchQuery) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function copyFollowupMsg(studentId) {
+        const textEl = document.getElementById('copy-text-' + studentId);
+        if (!textEl) return;
+        const text = textEl.innerText;
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('已複製 7 天追蹤問候話術至剪貼簿！');
+        }).catch(err => {
+            console.error('複製失敗:', err);
+        });
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2600);
+    }
+
+    function openCsmModal(studentId, name, status, nextDate, notes) {
+        document.getElementById('modalStudentId').value = studentId;
+        document.getElementById('modalStudentName').innerText = `記錄「${name}」CSM 回訪進度`;
+        document.getElementById('modalStatus').value = status || 'pending';
+        document.getElementById('modalFollowupDate').value = nextDate || '';
+        document.getElementById('modalNotes').value = notes || '';
+        document.getElementById('csmModal').classList.add('active');
+    }
+
+    function closeCsmModal() {
+        document.getElementById('csmModal').classList.remove('active');
+    }
+
+    async function saveCsmFollowup() {
+        const studentId = document.getElementById('modalStudentId').value;
+        const status = document.getElementById('modalStatus').value;
+        const nextFollowupDate = document.getElementById('modalFollowupDate').value;
+        const coachNotes = document.getElementById('modalNotes').value;
+
+        try {
+            const resp = await fetch('/api/radar/followup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    student_id: studentId,
+                    status: status,
+                    next_followup_date: nextFollowupDate,
+                    coach_notes: coachNotes
+                })
+            });
+            const data = await resp.json();
+            if (data.success) {
+                closeCsmModal();
+                showToast('✅ CSM 回訪紀錄儲存成功！');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 800);
+            } else {
+                alert('儲存失敗：' + (data.detail || '未知錯誤'));
+            }
+        } catch (e) {
+            alert('連線失敗：' + e.message);
+        }
+    }
+
+    async function triggerRadarRefresh() {
+        const btn = document.querySelector('.refresh-btn');
+        btn.innerText = '⏳ 正在重算...';
+        btn.disabled = true;
+
+        try {
+            const resp = await fetch('/api/radar/refresh', { method: 'POST' });
+            const data = await resp.json();
+            if (data.success) {
+                showToast('⚡ 成效雷達重算完成！');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 600);
+            }
+        } catch (e) {
+            alert('重算失敗：' + e.message);
+            btn.innerText = '⚡ 手動重算快取';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>

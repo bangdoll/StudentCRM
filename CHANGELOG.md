@@ -3,6 +3,28 @@
 此專案的所有顯著變更將記錄在此檔案中。
 格式基於 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)。
 
+## [1.4.0] - 2026-09-04
+### 新增 (Added)
+- **成效雷達與 CSM 續約決策戰情室 (Effectiveness Radar v1.4.0)**：
+  - **獨立領域服務深模組 (`radar_service.py`)**：
+    - 自動依據課次週期與近期 3 堂筆記關鍵字加權，將學員劃分至 **AI 導入四階段**（數位地基、核心提示詞、MVP自動化、AI OS系統）。
+    - 留存與續約訊號評估演算法（🟢 穩定推進、🟡 需要關心、🔴 高流失風險、🚀 待續約/可升級）。
+    - 7 天微行動卡停滯告警（距上次上課逾 14 天且未開課自動告警）。
+    - 產品階梯自動推薦（《數位基礎救援包》、《90分鐘工作流啟動課》、《MVP工作流建置》、《90天AI OS陪跑》）。
+    - 一鍵生成客製化「7 天追蹤五問」關懷訊息，支援一秒複製發送至 LINE/微信。
+  - **領域模型契約化 (`schemas/radar.py`)**：
+    - 定義 `EffectivenessRadarItem`、`ProductRecommendation`、`CSMFollowupRecord` 與 `FollowupUpdateRequest` 等 Pydantic 實體。
+  - **雙層快取安全管線 (`data_gateway.py`)**：
+    - 讀寫 `data/effectiveness_radar.json`，嚴格隔離 `students.json`，自帶 `.bak` 快照與斷路器保護。
+    - 實裝 `update_csm_followup_record` 支援跨裝置同步記錄回訪狀態與教練備忘。
+  - **教練戰情專屬介面 (`templates/radar.html`)**：
+    - 頂部 KPI 戰情看板（追蹤人數、留存分佈、停滯預警）。
+    - 響應式微互動卡片網格，內建狀態快速篩選按鈕與即時搜尋框。
+    - CSM 追蹤狀態記錄彈窗，一鍵保存回訪狀態與下次回訪排程。
+    - 首頁快捷入口與直達標籤。
+  - **完整自動化測試網 (`tests/test_radar_service.py`)**：
+    - 覆蓋演算法、資料閘道持久化、安全門禁與 API 完整流程，全套測試擴充至 **111/111 PASSED (100%)**。
+
 ## [1.3.0] - 2026-09-04
 ### 架構優化 (Refactored & Deepened)
 - **Matt Pocock 深模組架構深化 (方案 A、B、C) 全面落地**：

@@ -5,10 +5,20 @@
 from .student import StudentProfile
 from .teaching import TeachingRecordItem
 from .apple_ceo import AppleAttendanceRecord, AppleLedgerItem
+from .radar import (
+    ProductRecommendation,
+    CSMFollowupRecord,
+    EffectivenessRadarItem,
+    FollowupUpdateRequest,
+)
 
 __all__ = [
     "StudentProfile",
     "TeachingRecordItem",
     "AppleAttendanceRecord",
     "AppleLedgerItem",
+    "ProductRecommendation",
+    "CSMFollowupRecord",
+    "EffectivenessRadarItem",
+    "FollowupUpdateRequest",
 ]
