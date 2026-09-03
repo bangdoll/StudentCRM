@@ -130,7 +130,7 @@ async def handle_coach_auth_middleware(
 
     path = request.url.path
 
-    # 1. 完全公開路由（靜態資產、學員個人專屬 Hub、教練專屬通行密鑰網址）
+    # 1. 完全公開路由（靜態資產、學員個人專屬 Hub、教練專屬通行密鑰網址、去識別化案例牆、隨機實踐小卡）
     if (
         path.startswith("/static")
         or path.startswith("/my/")
@@ -138,6 +138,9 @@ async def handle_coach_auth_middleware(
         or path.startswith("/coach/")
         or path.startswith("/admin/")
         or path in (
+            "/cases",
+            "/api/cases",
+            "/api/practice/random",
             "/logout",
             "/favicon.ico",
             "/favicon.svg",

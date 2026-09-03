@@ -284,6 +284,36 @@
             </div>
         </header>
 
+        <!-- 🎲 今日實戰微行動抽籤卡 (Plan 1) -->
+        <section class="daily-practice-section" style="margin-bottom: 28px;">
+            <div class="practice-card-box" id="practiceCardBox" style="background: linear-gradient(135deg, rgba(35, 134, 54, 0.15), rgba(22, 27, 34, 0.95)); border: 1px solid rgba(63, 185, 80, 0.4); border-radius: 18px; padding: 24px; position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 1.2rem;">🎲</span>
+                        <strong style="color: #7ee787; font-size: 1.05rem; letter-spacing: 0.3px;">今日刻意練習 · 實戰微行動</strong>
+                        <span id="practiceCardCategory" style="font-size: 0.75rem; background: rgba(56, 139, 253, 0.2); color: #58a6ff; border: 1px solid rgba(56, 139, 253, 0.4); padding: 2px 8px; border-radius: 999px;">數位地基</span>
+                    </div>
+                    <button type="button" id="btnRollPractice" onclick="drawRandomCard()" style="background: rgba(46, 160, 67, 0.25); border: 1px solid #3fb950; color: #7ee787; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease;">
+                        🎲 抽一張今日卡牌
+                    </button>
+                </div>
+                
+                <h3 id="practiceCardTitle" style="color: #f0f6fc; font-size: 1.25rem; margin: 0 0 10px; font-weight: 700;">Mac 肌肉記憶快捷鍵養成</h3>
+                <p id="practiceCardAction" style="color: #e6edf3; font-size: 0.95rem; line-height: 1.6; margin: 0 0 16px; background: rgba(13, 17, 23, 0.7); padding: 12px 16px; border-radius: 10px; border-left: 3px solid #3fb950;">
+                    今日練習：使用 Command + Space 啟動 Spotlight 快速查找檔案，不再逐層點開 Finder 資料夾。
+                </p>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <span id="practiceCardDate" style="font-size: 0.8rem; color: #8b949e;">📅 來源：課堂實戰紀錄</span>
+                    <div style="display: flex; gap: 8px;">
+                        <button type="button" onclick="copyPracticeCard()" style="background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.4); color: #58a6ff; padding: 6px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">
+                            📋 複製小卡
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Skill Tree Section -->
         <section class="skill-tree-section">
             <div class="skill-tree-header">
@@ -403,6 +433,46 @@
             蔡教練 ‧ 漫遊數位管理教學 · 為每位學員打造專屬數位大腦 🧠
         </footer>
     </div>
+
+    <!-- 🎲 今日實戰微行動抽籤與複製腳本 -->
+    <script>
+        async function drawRandomCard() {
+            const btn = document.getElementById('btnRollPractice');
+            const cardBox = document.getElementById('practiceCardBox');
+            if (btn) btn.innerText = '🎲 抽取中...';
+            if (cardBox) cardBox.style.opacity = '0.6';
+
+            try {
+                const res = await fetch('/api/practice/random');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data && data.title) {
+                        document.getElementById('practiceCardTitle').innerText = data.title;
+                        document.getElementById('practiceCardCategory').innerText = data.category || '數位實戰';
+                        document.getElementById('practiceCardAction').innerText = data.action || '落實本日課堂所學之標準化流程。';
+                        document.getElementById('practiceCardDate').innerText = '📅 來源：' + (data.date || '課堂實踐紀錄');
+                    }
+                }
+            } catch(e) {
+                console.error(e);
+            } finally {
+                if (cardBox) cardBox.style.opacity = '1';
+                if (btn) btn.innerText = '🎲 換一張抽籤';
+            }
+        }
+
+        function copyPracticeCard() {
+            const title = document.getElementById('practiceCardTitle').innerText;
+            const cat = document.getElementById('practiceCardCategory').innerText;
+            const action = document.getElementById('practiceCardAction').innerText;
+            const text = `【${cat} · 今日微行動】${title}\n📌 實踐重點：\n${action}\n---\n來自蔡教練數位管理學員修煉空間`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ 已成功複製今日微行動小卡至剪貼簿！可直接貼至 Heptabase、筆記或日記中複習。');
+            }).catch(() => {
+                alert('已複製：\n' + text);
+            });
+        }
+    </script>
 
     <!-- PWA Service Worker 離線快取註冊 -->
     <script>

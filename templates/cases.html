@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100+ 堂實戰案例與學員見證庫 | 漫遊數位</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        .cases-container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 32px 20px 80px;
+        }
+        .cases-hero {
+            text-align: center;
+            padding: 48px 20px 36px;
+            background: linear-gradient(180deg, rgba(56, 139, 253, 0.12) 0%, rgba(13, 17, 23, 0) 100%);
+            border-radius: 24px;
+            margin-bottom: 36px;
+            border: 1px solid rgba(88, 166, 255, 0.2);
+        }
+        .cases-hero h1 {
+            font-size: 2.3rem;
+            color: #f0f6fc;
+            margin: 0 0 12px;
+            letter-spacing: -0.5px;
+        }
+        .cases-hero p {
+            color: #8b949e;
+            font-size: 1.05rem;
+            max-width: 720px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+        .cases-stats-badge {
+            display: inline-flex;
+            gap: 16px;
+            background: rgba(22, 27, 34, 0.8);
+            padding: 8px 24px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #58a6ff;
+            font-weight: 600;
+        }
+        .cases-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 28px;
+        }
+        .filter-btn {
+            background: rgba(22, 27, 34, 0.85);
+            border: 1px solid rgba(139, 148, 158, 0.25);
+            color: #c9d1d9;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: #58a6ff;
+            color: #58a6ff;
+            background: rgba(56, 139, 253, 0.1);
+        }
+        .filter-btn.active {
+            background: #238636;
+            color: #ffffff;
+            border-color: #2ea043;
+        }
+        .cases-search-box {
+            max-width: 480px;
+            margin: 0 auto 32px;
+            position: relative;
+        }
+        .cases-search-input {
+            width: 100%;
+            padding: 12px 20px 12px 42px;
+            background: rgba(22, 27, 34, 0.9);
+            border: 1px solid rgba(139, 148, 158, 0.3);
+            border-radius: 12px;
+            color: #f0f6fc;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        .cases-search-input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(56, 139, 253, 0.25);
+        }
+        .cases-search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+        }
+        .case-card {
+            background: rgba(22, 27, 34, 0.95);
+            border: 1px solid rgba(48, 54, 61, 0.9);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .case-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(88, 166, 255, 0.45);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+        .case-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+        .case-alias {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #58a6ff;
+            background: rgba(56, 139, 253, 0.12);
+            padding: 3px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(56, 139, 253, 0.3);
+        }
+        .case-cat-badge {
+            font-size: 0.78rem;
+            color: #8b949e;
+            background: rgba(110, 118, 129, 0.1);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .case-role {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            margin: 0 0 10px;
+        }
+        .case-quote {
+            background: rgba(13, 17, 23, 0.6);
+            border-left: 3px solid #3fb950;
+            padding: 10px 14px;
+            border-radius: 4px;
+            color: #e6edf3;
+            font-size: 0.9rem;
+            font-style: italic;
+            margin: 0 0 16px;
+            line-height: 1.5;
+        }
+        .case-section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 10px 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .case-point-list {
+            margin: 0 0 8px;
+            padding-left: 18px;
+            color: #8b949e;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .case-point-list li {
+            margin-bottom: 4px;
+        }
+        .case-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(48, 54, 61, 0.6);
+        }
+        .case-tool-tag {
+            font-size: 0.75rem;
+            color: #7ee787;
+            background: rgba(63, 185, 80, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(63, 185, 80, 0.25);
+        }
+        @media (max-width: 600px) {
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .cases-hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cases-container">
+        <nav style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <a href="/" style="color: #58a6ff; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+                <span>← 返回 StudentCRM 首頁</span>
+            </a>
+            <span style="font-size: 0.85rem; color: #8b949e;">🛡️ 100% 嚴格去識別化合規展示 (AGENTS.md)</span>
+        </nav>
+
+        <header class="cases-hero">
+            <h1>🌟 漫遊數位 · 100+ 堂真實實戰見證庫</h1>
+            <p>萃取自蔡教練 1,223 篇一對一與企業總裁班教學真實紀錄。看各行各業的醫師、創辦人、律師與超級個體，如何從資訊過載的救火日常，躍升為打造自主系統的架構師。</p>
+            <div class="cases-stats-badge">
+                <span>📚 總收錄案例：100 篇</span>
+                <span>•</span>
+                <span>🏥 醫療 / 企業 / 專業服務 / 文創</span>
+                <span>•</span>
+                <span>⚡ 效率提升 300%</span>
+            </div>
+        </header>
+
+        <!-- 分類過濾列 -->
+        <div class="cases-filter-bar" id="filterBar">
+            <button type="button" class="filter-btn active" data-cat="all">全部領域 (100)</button>
+            <button type="button" class="filter-btn" data-cat="企業經營與決策管理">🏢 企業經營與高階管理</button>
+            <button type="button" class="filter-btn" data-cat="醫療與長照專科">🏥 醫療與長照專科</button>
+            <button type="button" class="filter-btn" data-cat="專業諮詢與顧問">⚖️ 專業服務與顧問</button>
+            <button type="button" class="filter-btn" data-cat="文創設計與一人公司">🎨 文創一人公司</button>
+            <button type="button" class="filter-btn" data-cat="個人進修與考試實戰">🧠 知識管理與進修</button>
+        </div>
+
+        <!-- 關鍵字搜尋框 -->
+        <div class="cases-search-box">
+            <span class="cases-search-icon">🔍</span>
+            <input type="text" id="caseSearchInput" class="cases-search-input" placeholder="搜尋工具（如 Heptabase, Mac, Claude）或角色...">
+        </div>
+
+        <!-- 案例卡片網格 -->
+        <div class="cases-grid" id="casesGrid">
+            {% for c in cases %}
+            <article class="case-card" data-category="{{ c.category }}" data-keywords="{{ c.role }} {{ c.category }} {{ c.tools|join(' ') }} {{ c.hook }}">
+                <div>
+                    <div class="case-header">
+                        <span class="case-alias">{{ c.alias }}</span>
+                        <span class="case-cat-badge">{{ c.category }}</span>
+                    </div>
+                    <h3 class="case-role">{{ c.role }}</h3>
+                    <blockquote class="case-quote">{{ c.hook }}</blockquote>
+
+                    <div class="case-section-title" style="color: #ff7b72;">
+                        <span>🔴 導入前痛點 (Before)</span>
+                    </div>
+                    <ul class="case-point-list">
+                        {% for p in c.pain_points %}
+                        <li>{{ p }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="case-section-title" style="color: #58a6ff;">
+                        <span>⚙️ 導入系統方案 (Workflow)</span>
+                    </div>
+                    <ul class="case-point-list">
+                        {% for w in c.workflows %}
+                        <li>{{ w }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="case-section-title" style="color: #3fb950;">
+                        <span>🟢 導入後躍升成果 (After)</span>
+                    </div>
+                    <ul class="case-point-list">
+                        {% for a in c.after_effects %}
+                        <li>{{ a }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="case-tools">
+                    {% for tool in c.tools %}
+                    <span class="case-tool-tag">{{ tool }}</span>
+                    {% endfor %}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // 案例領域過濾器
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const caseCards = document.querySelectorAll('.case-card');
+        const searchInput = document.getElementById('caseSearchInput');
+
+        let currentCat = 'all';
+        let searchQuery = '';
+
+        function updateVisibility() {
+            caseCards.forEach(card => {
+                const cardCat = card.getAttribute('data-category') || '';
+                const cardKeywords = (card.getAttribute('data-keywords') || '').toLowerCase();
+                
+                const catMatches = (currentCat === 'all' || cardCat.includes(currentCat));
+                const searchMatches = (!searchQuery || cardKeywords.includes(searchQuery));
+
+                card.style.display = (catMatches && searchMatches) ? '' : 'none';
+            });
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCat = btn.getAttribute('data-cat');
+                updateVisibility();
+            });
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim().toLowerCase();
+            updateVisibility();
+        });
+    </script>
+</body>
+</html>

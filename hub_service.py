@@ -350,3 +350,103 @@ def generate_student_manifest_data(student_name: str, token: str) -> dict[str, A
             },
         ],
     }
+
+
+# ── 課堂精華實踐庫與每日抽籤小卡 (Plan 1) ──────────────────────────────────
+import random
+
+_PRACTICE_CARDS_CACHE: list[dict[str, Any]] = []
+
+
+def load_all_practice_cards(base_dir: str, app_dir: str) -> list[dict[str, Any]]:
+    """從 1,200+ 課堂紀錄中載入並快取所有實戰微行動抽籤卡。"""
+    global _PRACTICE_CARDS_CACHE
+    if _PRACTICE_CARDS_CACHE:
+        return _PRACTICE_CARDS_CACHE
+
+    notes = merge_teaching_notes(
+        load_local_digital_management_notes(base_dir),
+        load_cloud_digital_management_notes(app_dir),
+    )
+
+    cards = []
+    category_map = {
+        "mac": "數位地基",
+        "備份": "數位地基",
+        "硬碟": "數位地基",
+        "iphone": "數位地基",
+        "heptabase": "第二大腦",
+        "筆記": "第二大腦",
+        "白板": "第二大腦",
+        "ai": "AI 提示詞",
+        "chatgpt": "AI 提示詞",
+        "claude": "AI 提示詞",
+        "prompt": "AI 提示詞",
+        "gtd": "時間管理",
+        "日曆": "時間管理",
+        "時間": "時間管理",
+        "agent": "一人作業系統",
+        "自動化": "一人作業系統",
+    }
+
+    for idx, note in enumerate(notes):
+        preview = note.get("preview") or ""
+        title = note.get("title") or ""
+        date = note.get("date") or "課堂實踐"
+
+        cat = "數位管理實戰"
+        lower_t = (title + " " + preview).lower()
+        for k, v in category_map.items():
+            if k in lower_t:
+                cat = v
+                break
+
+        action = preview[:160].strip() if preview else "落實本日課堂所學之標準化流程與肌肉記憶操作。"
+        if not action.endswith("。") and not action.endswith("！"):
+            action += "…"
+
+        cards.append({
+            "id": f"card_{idx + 1:04d}",
+            "title": title,
+            "category": cat,
+            "date": date,
+            "action": action,
+            "path": note.get("path", ""),
+        })
+
+    if not cards:
+        cards = [
+            {
+                "id": "card_default_01",
+                "title": "Mac 肌肉記憶快捷鍵養成",
+                "category": "數位地基",
+                "date": "2026-08-30",
+                "action": "今日練習：使用 Command + Space 啟動 Spotlight 快速查找檔案，不再逐層點開 Finder 資料夾。",
+                "path": "/01.Docs/teaching",
+            },
+            {
+                "id": "card_default_02",
+                "title": "Heptabase 卡片盒白板關聯",
+                "category": "第二大腦",
+                "date": "2026-08-30",
+                "action": "今日練習：將最近的一個專案概念拆解為 3 張原子卡片，並在白板上拉出雙向因果箭頭。",
+                "path": "/01.Docs/teaching",
+            },
+            {
+                "id": "card_default_03",
+                "title": "AI 提示詞四齒輪校準",
+                "category": "AI 提示詞",
+                "date": "2026-08-30",
+                "action": "今日練習：對 AI 下指令時，務必包含『身分 + 背景限制 + 輸出格式 + 負向約束』四大要素。",
+                "path": "/01.Docs/teaching",
+            }
+        ]
+
+    _PRACTICE_CARDS_CACHE = cards
+    return cards
+
+
+def get_random_practice_card(base_dir: str, app_dir: str) -> dict[str, Any]:
+    """隨機抽取一張實戰微行動卡片。"""
+    cards = load_all_practice_cards(base_dir, app_dir)
+    return random.choice(cards) if cards else {}

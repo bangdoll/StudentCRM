@@ -1145,6 +1145,8 @@ from hub_service import (
     get_merged_redirects as service_get_merged_redirects,
     get_student_teaching_notes as service_get_student_teaching_notes,
     generate_student_manifest_data,
+    load_all_practice_cards,
+    get_random_practice_card,
 )
 
 
@@ -1712,6 +1714,39 @@ async def open_file(request: Request, path: str):
         **note.to_template_context()
     })
 
+
+@app.get("/api/practice/random")
+async def api_random_practice_card():
+    """【今日實戰微行動】隨機抽取一張課堂實踐微行動小卡。"""
+    card = get_random_practice_card(BASE_DIR, APP_DIR)
+    return JSONResponse(content=card)
+
+
+@app.api_route("/cases", methods=["GET", "HEAD"], response_class=HTMLResponse)
+async def read_cases(request: Request):
+    """【去識別化 100+ 堂實戰見證案例庫】展示醫師、企業高階經理人與超級個體的真實轉化成果。"""
+    cases_file = os.path.join(APP_DIR, "data", "social_proof_cases.json")
+    cases = []
+    if os.path.exists(cases_file):
+        try:
+            with open(cases_file, "r", encoding="utf-8") as f:
+                cases = json.load(f)
+        except Exception:
+            pass
+    return templates.TemplateResponse(request, "cases.html", {"request": request, "cases": cases})
+
+
+@app.get("/api/cases")
+async def api_cases():
+    """取得去識別化實戰案例清單 JSON。"""
+    cases_file = os.path.join(APP_DIR, "data", "social_proof_cases.json")
+    if os.path.exists(cases_file):
+        try:
+            with open(cases_file, "r", encoding="utf-8") as f:
+                return JSONResponse(content=json.load(f))
+        except Exception:
+            pass
+    return JSONResponse(content=[])
 
 
 @app.get("/search", response_class=HTMLResponse)
