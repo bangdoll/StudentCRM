@@ -321,3 +321,159 @@ def build_teaching_records_from_directory(teaching_dir: str | Path, students: li
         "duplicate_count": len(duplicate_keys),
         "generated_at": datetime.now(tz=timezone.utc).isoformat().replace("+00:00", "Z"),
     }
+
+
+def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dict[str, Any]:
+    """將 01.Docs/teaching 的所有教學筆記完整同步至 StudentCRM 系統。
+    涵蓋：
+    1. 一對一教學：更新 data/teaching_records.json，並自動推移 students.json 之最新上課日期與堂數。
+    2. 蘋果總裁班：更新 data/apple_ceo_class.json 的 teaching_notes 陣列。
+    3. 專班/團體班（如資深少年 AI 學習團、禮品公會等）：同步入庫並精確關聯。
+    4. 自動清理 data_gateway 記憶體快取。
+    """
+    if workspace_dir is None:
+        workspace_dir = Path(__file__).resolve().parents[2]
+    else:
+        workspace_dir = Path(workspace_dir)
+
+    crm_dir = workspace_dir / "07.Projects" / "StudentCRM"
+    teaching_dir = workspace_dir / "01.Docs" / "teaching"
+    students_file = crm_dir / "data" / "students.json"
+    root_students_file = workspace_dir / "OpenClaw" / "Data" / "students.json"
+    apple_ceo_file = crm_dir / "data" / "apple_ceo_class.json"
+    cache_teaching_file = crm_dir / "data" / "teaching_records.json"
+    backup_cache_file = crm_dir / "cache" / "teaching_records.json"
+
+    if not students_file.exists() and root_students_file.exists():
+        students_file = root_students_file
+
+    if not students_file.exists():
+        raise FileNotFoundError(f"找不到學員資料庫: {students_file}")
+
+    with open(students_file, "r", encoding="utf-8") as f:
+        students = json.load(f)
+
+    # 1. 產生全量教學紀錄
+    result = build_teaching_records_from_directory(teaching_dir, students)
+
+    # 2. 寫入 data/teaching_records.json 與 cache/teaching_records.json
+    cache_teaching_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(cache_teaching_file, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+
+    backup_cache_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(backup_cache_file, "w", encoding="utf-8") as f:
+        json.dump(result, f, ensure_ascii=False, indent=2)
+
+    # 3. 同步至 apple_ceo_class.json (蘋果總裁班教學紀錄)
+    apple_ceo_synced_count = 0
+    if apple_ceo_file.exists():
+        try:
+            with open(apple_ceo_file, "r", encoding="utf-8") as f:
+                apple_ceo_data = json.load(f)
+
+            current_notes = apple_ceo_data.get("teaching_notes", [])
+            existing_note_keys = {
+                (n.get("date"), n.get("filename") or n.get("title")): idx
+                for idx, n in enumerate(current_notes)
+            }
+
+            for r in result["records"]:
+                if r.get("student_name") == "蘋果總裁班" or "蘋果總裁班" in r.get("filename", ""):
+                    date = r.get("date", "")
+                    filename = r.get("filename", "")
+                    title = re.sub(r"^#?(?:20\d{2}[-_ ./年]?\d{2}[-_ ./月]?\d{2}\s*)?", "", filename[:-3]).strip()
+                    full_title = filename[:-3]
+                    content = r.get("content", "")
+                    preview = r.get("preview", "")[:280]
+                    word_count = len(content)
+
+                    note_obj = {
+                        "date": date,
+                        "title": title or full_title,
+                        "full_title": full_title,
+                        "filename": filename,
+                        "path": f"/01.Docs/teaching/{filename}",
+                        "preview": preview,
+                        "word_count": word_count,
+                        "content": content,
+                    }
+
+                    key = (date, filename)
+                    alt_key = (date, title)
+                    if key in existing_note_keys:
+                        idx = existing_note_keys[key]
+                        current_notes[idx] = note_obj
+                    elif alt_key in existing_note_keys:
+                        idx = existing_note_keys[alt_key]
+                        current_notes[idx] = note_obj
+                    else:
+                        current_notes.append(note_obj)
+                        existing_note_keys[key] = len(current_notes) - 1
+                    apple_ceo_synced_count += 1
+
+            current_notes.sort(key=lambda n: (n.get("date") or "", n.get("title") or ""), reverse=True)
+            apple_ceo_data["teaching_notes"] = current_notes
+
+            with open(apple_ceo_file, "w", encoding="utf-8") as f:
+                json.dump(apple_ceo_data, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"⚠️ 同步 apple_ceo_class.json 失敗: {e}")
+
+    # 4. 更新學員進度 (一對一與專班學員之 latest_date 與 lessons_count)
+    students_updated = []
+    for s in students:
+        sid = s.get("id")
+        if not sid or sid not in result["by_student"]:
+            continue
+        student_records = result["by_student"][sid]
+        dates = [r.get("date") for r in student_records if r.get("date")]
+        if not dates:
+            continue
+        max_date = max(dates)
+        lesson_nums = [r.get("lesson_num") for r in student_records if isinstance(r.get("lesson_num"), int)]
+        max_lesson = max(lesson_nums) if lesson_nums else None
+
+        changed = False
+        old_latest = s.get("latest_date", "")
+        if max_date > old_latest:
+            s["latest_date"] = max_date
+            changed = True
+
+        if max_lesson is not None and max_lesson > s.get("lessons_count", 0):
+            s["lessons_count"] = max_lesson
+            s["current_cycle_lesson"] = ((max_lesson % 8) or 8) if max_lesson > 0 else 0
+            changed = True
+
+        if changed:
+            students_updated.append({
+                "id": sid,
+                "name": s.get("name"),
+                "latest_date": s.get("latest_date"),
+                "lessons_count": s.get("lessons_count"),
+            })
+
+    if students_updated:
+        with open(students_file, "w", encoding="utf-8") as f:
+            json.dump(students, f, ensure_ascii=False, indent=2)
+        if root_students_file.exists() and root_students_file.resolve() != students_file.resolve():
+            with open(root_students_file, "w", encoding="utf-8") as f:
+                json.dump(students, f, ensure_ascii=False, indent=2)
+
+    # 5. 清理記憶體快取
+    try:
+        from data_gateway import clear_gateway_memory_cache
+        clear_gateway_memory_cache()
+    except Exception:
+        pass
+
+    return {
+        "success": True,
+        "total_records": result["total_records"],
+        "total_students": result["total_students"],
+        "apple_ceo_notes_count": apple_ceo_synced_count,
+        "students_updated_count": len(students_updated),
+        "students_updated": students_updated,
+        "generated_at": result["generated_at"],
+    }
+
