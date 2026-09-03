@@ -20,6 +20,30 @@ class GatewayStatus:
     last_error: str = ""
 
 
+CANONICAL_APPLE_STUDENT_ORDER = [
+    "方博敦",
+    "劉邦寧",
+    "Roger老師",
+    "Lucia",
+    "王太太",
+    "方敏穎",
+    "林永青",
+    "陳總",
+    "Andy哥",
+]
+
+
+def sort_apple_student_rounds(rounds: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """依據教練指示強制排序：在學在前面（方博敦、劉邦寧、Roger老師、Lucia、王太太、方敏穎），已過期在下面（林永青、陳總、Andy哥在最底）。"""
+    def _key(item: dict[str, Any]) -> int:
+        name = item.get("student_name", "")
+        if name in CANONICAL_APPLE_STUDENT_ORDER:
+            return CANONICAL_APPLE_STUDENT_ORDER.index(name)
+        return 999
+
+    return sorted(rounds, key=_key)
+
+
 class StudentDataGateway:
     """StudentCRM 雙引擎資料讀取閘道。
 
@@ -112,6 +136,7 @@ class StudentDataGateway:
 
         if self.backend != "supabase":
             if local_payload:
+                local_payload["student_rounds"] = sort_apple_student_rounds(local_payload.get("student_rounds", []))
                 self._write_status(GatewayStatus("local", self.apple_ceo_file, self.apple_ceo_cache_file))
                 return local_payload
             return self._empty_apple_ceo_program()
@@ -127,12 +152,16 @@ class StudentDataGateway:
                 cloud_ledger = payload.get("venue_ledger", [])
                 if len(local_ledger) > len(cloud_ledger):
                     payload["venue_ledger"] = local_ledger
+            payload["student_rounds"] = sort_apple_student_rounds(payload.get("student_rounds", []))
             self._write_json(self.apple_ceo_cache_file, payload)
             return payload
         except DataGatewayError:
             if os.path.exists(self.apple_ceo_cache_file):
-                return self._read_json(self.apple_ceo_cache_file)
+                cached = self._read_json(self.apple_ceo_cache_file)
+                cached["student_rounds"] = sort_apple_student_rounds(cached.get("student_rounds", []))
+                return cached
             if local_payload:
+                local_payload["student_rounds"] = sort_apple_student_rounds(local_payload.get("student_rounds", []))
                 return local_payload
             return self._empty_apple_ceo_program()
 

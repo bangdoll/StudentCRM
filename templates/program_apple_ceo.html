@@ -47,55 +47,20 @@
         </nav>
 
         <nav class="program-subnav-pills" id="programSubnav" aria-label="章節快捷導航">
+            <a href="#teachingNotesSection" class="subnav-pill active">📝 課堂教學紀錄 ({{ teaching_notes|length }})</a>
+            <a href="#attendanceSection" class="subnav-pill">📅 上課日期的記錄 ({{ attendance_records|length }}堂)</a>
+            <a href="#studentsSection" class="subnav-pill">👥 學員進度 ({{ student_rounds|length }})</a>
+            <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
+            <a href="#ledgerSection" class="subnav-pill">🏢 場地流水 (餘額 ${{ venue_ledger[-1].balance_after }})</a>
+            <a href="#tuitionSection" class="subnav-pill">💳 學費收取</a>
             {% if summary.completed_student_count %}
             <a href="#completionAlertSection" class="subnav-pill" style="border-color: rgba(255, 123, 114, 0.45); color: #ff7b72; font-weight: 700; background: rgba(255, 123, 114, 0.1);">🚨 完成通知 ({{ summary.completed_student_count }})</a>
             {% endif %}
-            <a href="#teachingNotesSection" class="subnav-pill active">📝 課堂教學紀錄 ({{ teaching_notes|length }})</a>
-            <a href="#radarSection" class="subnav-pill">🎯 續班雷達</a>
-            <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
-            <a href="#studentsSection" class="subnav-pill">👥 學員進度 ({{ student_rounds|length }})</a>
-            <a href="#tuitionSection" class="subnav-pill">💳 學費收取</a>
-            <a href="#ledgerSection" class="subnav-pill">🏢 場地流水 (餘額 ${{ venue_ledger[-1].balance_after }})</a>
-            <a href="#attendanceSection" class="subnav-pill">📅 上課紀錄 ({{ attendance_records|length }}堂)</a>
             <a href="#previewSection" class="subnav-pill">⚡ HITL預覽</a>
         </nav>
 
-        {% if summary.completed_student_count %}
-        <section class="completion-alert-card" id="completionAlertSection" style="margin-bottom: 24px; border: 1.5px solid rgba(255, 123, 114, 0.45); box-shadow: 0 4px 24px rgba(255, 123, 114, 0.15);">
-            <div class="panel-header" style="align-items: center;">
-                <div>
-                    <p class="section-kicker" style="color: #ff7b72; font-weight: 700; margin-bottom: 4px;">🚨 結訓重要通知・置頂優先處理</p>
-                    <h2 style="font-size: 1.35rem; margin: 0 0 4px 0;">完成通知：已有 {{ summary.completed_student_count }} 位學員達到 8 堂</h2>
-                    <p class="meta-info" style="margin: 0;">已達 8 堂結訓標準，請即時發送續班提醒、確認下一輪梯次或安排續約保留席位。</p>
-                </div>
-                <span class="completion-alert-badge" style="background: rgba(255, 123, 114, 0.2); border-color: rgba(255, 123, 114, 0.5); color: #ff7b72; font-weight: 700;">請通知續班</span>
-            </div>
-            <div class="completion-alert-list" style="margin-top: 14px;">
-                {% for round in summary.completed_students %}
-                <div class="completion-alert-item" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 18px; background: rgba(13, 17, 23, 0.65); border: 1px solid rgba(255, 123, 114, 0.25); border-radius: 12px;">
-                    <div>
-                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                            <strong style="font-size: 1.18rem; color: #fff;">{{ round.student_name }}</strong>
-                            <span class="tag tag-success" style="font-weight: 700; font-size: 0.82rem; padding: 3px 8px;">已滿 8/8 堂（圓滿結訓）</span>
-                            <span class="tag" style="font-size: 0.78rem; padding: 3px 8px;">進行中 1 筆</span>
-                            <span class="tag" style="font-size: 0.78rem; padding: 3px 8px;">累計 {{ round.total_attended }} 堂</span>
-                        </div>
-                        <p class="meta-info" style="margin: 6px 0 0; font-size: 0.8rem; color: var(--text-secondary);">
-                            梯次：{{ round.label or '2026 夏季梯次 (滿 8 堂待續班)' }} ｜ 上次上課：{{ round.latest_session or '最近' }}
-                        </p>
-                    </div>
-                    {% if round.reminder_message %}
-                    <button type="button" class="btn-copy-reminder" data-msg="{{ round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字" style="padding: 7px 14px; font-size: 0.85rem; flex-shrink: 0; min-height: 38px;">
-                        📋 複製提醒文案
-                    </button>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        <section class="panel-card" id="teachingNotesSection">
+        <!-- 1. 課堂教學紀錄（置頂在最上方，以折疊方式保存最新 10 則，其他折疊收起） -->
+        <section class="panel-card" id="teachingNotesSection" style="margin-bottom: 24px;">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">課堂筆記・置頂專區</p>
@@ -106,7 +71,7 @@
             
             <div class="teaching-notes-grid">
                 {% for note in teaching_notes %}
-                <article class="teaching-note-card {% if loop.index > 6 %}teaching-note-hidden{% endif %}" {% if loop.index > 6 %}style="display: none;"{% endif %}>
+                <article class="teaching-note-card {% if loop.index > 10 %}teaching-note-hidden{% endif %}" {% if loop.index > 10 %}style="display: none;"{% endif %}>
                     <div>
                         <div class="teaching-note-header">
                             <span class="tag" style="font-weight: 700; color: #58a6ff;">{{ note.date }}</span>
@@ -124,11 +89,56 @@
                 {% endfor %}
             </div>
 
-            {% if teaching_notes|length > 6 %}
+            {% if teaching_notes|length > 10 %}
             <div class="table-collapse-footer" style="margin-top: 16px;">
-                <button type="button" id="toggleNotesBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ teaching_notes|length }}" data-default="6">
-                    <span>展開歷史教學紀錄 (共 {{ teaching_notes|length }} 篇)</span>
+                <button type="button" id="toggleNotesBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ teaching_notes|length }}" data-default="10">
+                    <span>展開歷史教學紀錄 (共 {{ teaching_notes|length }} 篇，還有 {{ teaching_notes|length - 10 }} 篇)</span>
                     <span id="notesToggleArrow">▾</span>
+                </button>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- 2. 下面則是上課日期的記錄，讓學生不用滑那麼多 -->
+        <section class="panel-card" id="attendanceSection" style="margin-bottom: 24px;">
+            <div class="panel-header">
+                <div>
+                    <p class="section-kicker">上課日期的記錄</p>
+                    <h2>蘋果總裁班 歷次出席紀錄</h2>
+                </div>
+                {% if attendance_records %}
+                <span class="tag">最新一堂 {{ attendance_records[-1].date }}（共 {{ attendance_records|length }} 堂）</span>
+                {% endif %}
+            </div>
+            <div class="table-wrap">
+                <table id="attendanceTable">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>場地</th>
+                            <th>人數</th>
+                            <th>出席名單</th>
+                            <th>備註</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in attendance_records|reverse %}
+                        <tr class="attendance-row {% if loop.index > 10 %}attendance-hidden-row{% endif %}" {% if loop.index > 10 %}style="display: none;"{% endif %}>
+                            <td><strong>{{ record.date }}</strong></td>
+                            <td>{{ record.venue }}</td>
+                            <td>{{ record.attendee_count }}</td>
+                            <td>{{ record.attendees|join('、') if record.attendees else '待補名單' }}</td>
+                            <td>{{ record.note }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if attendance_records|length > 10 %}
+            <div class="table-collapse-footer">
+                <button type="button" id="toggleAttendanceBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ attendance_records|length }}" data-default="10">
+                    <span>展開全部上課紀錄 (共 {{ attendance_records|length }} 堂)</span>
+                    <span id="attendanceToggleArrow">▾</span>
                 </button>
             </div>
             {% endif %}
@@ -323,57 +333,13 @@
             </div>
         </section>
 
-        <section class="panel-card" id="attendanceSection">
-            <div class="panel-header">
-                <div>
-                    <p class="section-kicker">上課紀錄</p>
-                    <h2>每堂課只記一次</h2>
-                </div>
-                {% if attendance_records %}
-                <span class="tag">最新一堂 {{ attendance_records[-1].date }}（共 {{ attendance_records|length }} 堂）</span>
-                {% endif %}
-            </div>
-            <div class="table-wrap">
-                <table id="attendanceTable">
-                    <thead>
-                        <tr>
-                            <th>日期</th>
-                            <th>場地</th>
-                            <th>人數</th>
-                            <th>出席名單</th>
-                            <th>備註</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for record in attendance_records|reverse %}
-                        <tr class="attendance-row {% if loop.index > 8 %}attendance-hidden-row{% endif %}" {% if loop.index > 8 %}style="display: none;"{% endif %}>
-                            <td><strong>{{ record.date }}</strong></td>
-                            <td>{{ record.venue }}</td>
-                            <td>{{ record.attendee_count }}</td>
-                            <td>{{ record.attendees|join('、') if record.attendees else '待補名單' }}</td>
-                            <td>{{ record.note }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% if attendance_records|length > 8 %}
-            <div class="table-collapse-footer">
-                <button type="button" id="toggleAttendanceBtn" class="table-toggle-btn" data-expanded="false" data-total="{{ attendance_records|length }}" data-default="8">
-                    <span>展開全部上課紀錄 (共 {{ attendance_records|length }} 堂)</span>
-                    <span id="attendanceToggleArrow">▾</span>
-                </button>
-            </div>
-            {% endif %}
-        </section>
-
         <section class="panel-card" id="studentsSection">
             <div class="panel-header">
                 <div>
                     <p class="section-kicker">學員紀錄</p>
                     <h2>以目前有在上課的學員為主</h2>
                 </div>
-                <span class="meta-info">先處理目前仍在上的學員；快到期與過期提醒移到這區塊後面。</span>
+                <span class="meta-info">在學學員排在前方（0: 方博敦、1: 劉邦寧、2: Roger老師、3: Lucia、4: 王太太、5: 方敏穎）；過期學員置於分隔線下方。</span>
             </div>
 
             <div class="student-round-filter-bar">
@@ -391,6 +357,20 @@
 
             <div class="round-grid">
                 {% for student in student_rounds %}
+                {% if student.student_name in ('林永青', '陳總', 'Andy哥') and (loop.first or student_rounds[loop.index0 - 1].student_name not in ('林永青', '陳總', 'Andy哥')) %}
+                <!-- ═══════════════ 分隔線 ═══════════════ -->
+                <div class="round-divider-section" style="grid-column: 1 / -1; margin: 36px 0 20px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="flex: 1; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(255, 123, 114, 0.45));"></div>
+                        <div style="display: flex; align-items: center; gap: 8px; padding: 6px 20px; background: rgba(255, 123, 114, 0.12); border: 1.5px dashed rgba(255, 123, 114, 0.45); border-radius: 24px; color: #ff7b72; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.5px;">
+                            <span>📁</span>
+                            <span>歷史／已過期學員（四個月效期已屆滿，已移至最下方）</span>
+                        </div>
+                        <div style="flex: 1; height: 1.5px; background: linear-gradient(90deg, rgba(255, 123, 114, 0.45), transparent);"></div>
+                    </div>
+                </div>
+                {% endif %}
+
                 {% set ns = namespace(priority_count=0, active_count=0) %}
                 {% for round in student.rounds %}
                     {% if '進行中' in round.label or (loop.first and '待續班' in round.label) or (loop.first and round.attended_count >= 8 and not round.is_expired) %}
@@ -405,11 +385,19 @@
                 <details class="round-student-card student-accordion"
                          data-is-active="{{ 'true' if ns.active_count > 0 else 'false' }}"
                          data-is-followup="{{ 'true' if (latest_round and not latest_round.is_expired and (latest_round.attended_count in (6, 7) or latest_round.attended_count >= 8)) else 'false' }}"
-                         {% if ns.priority_count > 0 or ns.active_count > 0 %}open{% endif %}>
+                         {% if ns.active_count > 0 and not (latest_round and latest_round.is_expired) %}open{% endif %}>
                     <summary class="round-student-summary">
                         <div class="round-student-header">
                             <div>
-                                <h3>{{ student.student_name }}</h3>
+                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                    <h3 style="margin: 0;">{{ student.student_name }}</h3>
+                                    {% set s_info = name_to_student.get(student.student_name) if name_to_student else None %}
+                                    {% if s_info and s_info.lessons_count %}
+                                    <a href="/student/{{ s_info.id }}" class="pill-btn-small" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 0.76rem; background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.35); color: #58a6ff; border-radius: 6px;" title="查看 {{ student.student_name }} 的一對一專屬筆記">
+                                        <span>📚 一對一筆記 ({{ s_info.lessons_count }} 堂) ➔</span>
+                                    </a>
+                                    {% endif %}
+                                </div>
                                 <p class="meta-info">共 {{ student.rounds|length }} 梯{% if ns.active_count > 0 %}，目前有 {{ ns.active_count }} 梯進行中{% endif %}</p>
                             </div>
                             <div class="round-student-summary-badges">

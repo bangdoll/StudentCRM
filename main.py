@@ -1389,6 +1389,16 @@ async def read_apple_ceo_program(request: Request):
         </section>
         """
         return render_fallback_page("蘋果總裁班", body)
+    students = load_students()
+    name_to_student = {}
+    for s in students:
+        s_name = s.get("name", "")
+        if s_name:
+            name_to_student[s_name] = s
+        for alias in s.get("aliases", []):
+            if alias:
+                name_to_student[alias] = s
+
     return templates.TemplateResponse(request, "program_apple_ceo.html", {
         "request": request,
         "program": program_data["program"],
@@ -1401,6 +1411,7 @@ async def read_apple_ceo_program(request: Request):
         "teaching_notes": teaching_notes,
         "summary": summary,
         "legacy_note": program_data.get("legacy_note", ""),
+        "name_to_student": name_to_student,
     })
 
 

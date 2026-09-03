@@ -192,6 +192,7 @@ def test_digital_management_profiles_use_cloud_teaching_records_when_local_empty
 
     monkeypatch.setattr(studentcrm_main, "load_digital_management_calendar_events", lambda: [])
     monkeypatch.setattr(studentcrm_main, "load_local_digital_management_notes", lambda: [])
+    monkeypatch.setattr(studentcrm_main, "_CLOUD_NOTES_CACHE", {"timestamp": 0.0, "notes": []})
     monkeypatch.setattr(studentcrm_main.student_gateway, "load_all_teaching_records", lambda: [{
         "id": "record-cloud",
         "student_id": "student-cloud",
@@ -210,10 +211,55 @@ def test_digital_management_profiles_use_cloud_teaching_records_when_local_empty
     assert len(payload["students"]) == 1
     assert payload["students"][0]["id"] == "student-cloud"
     assert payload["students"][0]["current_lesson"] == 10
+    assert payload["teaching_note_count"] == 1
+
+
+def test_digital_management_profile_merges_cloud_notes_per_student(monkeypatch):
+    """本地有其他學員筆記時，仍要把目標學員的雲端筆記放入個人頁。"""
+    import main as studentcrm_main
+
+    monkeypatch.setattr(studentcrm_main, "load_students", lambda: [
+        {"id": "student-local", "name": "本地學員", "aliases": []},
+        {"id": "student-cloud", "name": "雲端學員", "aliases": []},
+    ])
+    monkeypatch.setattr(studentcrm_main, "load_digital_management_calendar_events", lambda: [{
+        "id": "calendar-cloud",
+        "summary": "01.雲端學員數位管理教學",
+        "start": "2026-05-22T10:00:00+08:00",
+        "end": "2026-05-22T12:00:00+08:00",
+    }])
+    monkeypatch.setattr(studentcrm_main, "load_local_digital_management_notes", lambda: [{
+        "id": "local-note",
+        "student_id": "student-local",
+        "student_name": "本地學員",
+        "date": "2026-05-01",
+        "title": "本地學員筆記",
+        "lesson_number": 1,
+        "source": "本地 teaching 檔案",
+    }])
+    monkeypatch.setattr(studentcrm_main, "load_cloud_digital_management_notes", lambda: [{
+        "id": "cloud-note",
+        "student_id": "student-cloud",
+        "student_name": "雲端學員",
+        "date": "2026-05-22",
+        "title": "雲端學員筆記",
+        "lesson_number": 1,
+        "source": "Supabase teaching_records",
+    }])
+
+    payload = studentcrm_main.build_digital_management_profiles()
+    profile = next(item for item in payload["students"] if item["id"] == "student-cloud")
+
+    assert [note["id"] for note in profile["notes"]] == ["cloud-note"]
+    assert payload["teaching_note_count"] == 2
+
+    response = client.get("/digital-management/student/student-cloud")
+    assert response.status_code == 200
+    assert "雲端學員筆記" in response.text
 
 
 def test_student_page_cloud_fallback(monkeypatch):
-    """雲端部署缺本地 Markdown 檔時，學員詳情頁不可回 500"""
+    """本地已有其他學員筆記時，目標學員頁仍要顯示雲端筆記。"""
     import main as studentcrm_main
 
     monkeypatch.setattr(studentcrm_main, "load_students", lambda: [{
@@ -225,11 +271,27 @@ def test_student_page_cloud_fallback(monkeypatch):
         "latest_date": "2026-05-10",
         "next_lesson": "2026-05-17",
     }])
+    monkeypatch.setattr(studentcrm_main, "load_local_digital_management_notes", lambda: [{
+        "id": "local-note",
+        "student_id": "another-student",
+        "student_name": "其他學員",
+        "date": "2026-05-01",
+        "title": "其他學員筆記",
+    }])
+    monkeypatch.setattr(studentcrm_main, "load_cloud_digital_management_notes", lambda: [{
+        "id": "cloud-note",
+        "student_id": "cloud-student",
+        "student_name": "雲端學員",
+        "date": "2026-05-10",
+        "title": "雲端學員筆記",
+        "preview": "雲端筆記摘要",
+    }])
     monkeypatch.setattr(studentcrm_main.student_gateway, "load_teaching_records", lambda student_id: [])
 
     response = client.get("/student/cloud-student")
     assert response.status_code == 200
     assert "雲端學員" in response.text
+    assert "雲端學員筆記" in response.text
     assert "雲端摘要模式" in response.text
 
 

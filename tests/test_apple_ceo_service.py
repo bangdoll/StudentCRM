@@ -270,3 +270,73 @@ class TestActiveStudentsSummary:
         assert student["active_count"] == 1
         assert student["total_attended"] == 11  # 3 + 8 = 11 堂
         assert student["attended_count"] == 3   # 當期 3 堂
+
+
+class TestCanonicalOrderAndLayout:
+    def test_canonical_student_order(self):
+        from data_gateway import CANONICAL_APPLE_STUDENT_ORDER, sort_apple_student_rounds
+
+        rounds = [
+            {"student_name": "Andy哥"},
+            {"student_name": "王太太"},
+            {"student_name": "方博敦"},
+            {"student_name": "Roger老師"},
+            {"student_name": "林永青"},
+            {"student_name": "Lucia"},
+            {"student_name": "劉邦寧"},
+            {"student_name": "陳總"},
+            {"student_name": "方敏穎"},
+        ]
+        sorted_rounds = sort_apple_student_rounds(rounds)
+        names = [r["student_name"] for r in sorted_rounds]
+        expected = [
+            "方博敦",
+            "劉邦寧",
+            "Roger老師",
+            "Lucia",
+            "王太太",
+            "方敏穎",
+            "林永青",
+            "陳總",
+            "Andy哥",
+        ]
+        assert names == expected
+        assert names[0] == "方博敦"
+        assert names[1] == "劉邦寧"
+        assert names[2] == "Roger老師"
+        assert names[3] == "Lucia"
+        assert names[4] == "王太太"
+        assert names[-1] == "Andy哥"
+
+    def test_program_apple_ceo_page_layout_order(self):
+        from fastapi.testclient import TestClient
+        from main import app
+
+        client = TestClient(app)
+        response = client.get("/program/apple-ceo")
+        assert response.status_code == 200
+        html = response.text
+
+        # 1. 課堂教學紀錄在最上面
+        idx_notes = html.find('id="teachingNotesSection"')
+        # 2. 上課日期的記錄在教學筆記下面
+        idx_attendance = html.find('id="attendanceSection"')
+        # 3. 學員進度在下面
+        idx_students = html.find('id="studentsSection"')
+        # 4. 歷史/過期學員分隔線
+        idx_divider = html.find('class="round-divider-section"')
+
+        assert idx_notes != -1
+        assert idx_attendance != -1
+        assert idx_students != -1
+        assert idx_divider != -1
+
+        assert idx_notes < idx_attendance < idx_students < idx_divider
+
+        # 驗證學員卡片順序：方博敦在前，Andy哥在最後面
+        idx_fang = html.find("方博敦")
+        idx_andy = html.find("Andy哥")
+        assert idx_fang != -1
+        assert idx_andy != -1
+        assert idx_fang < idx_andy
+        assert idx_divider < idx_andy  # Andy哥在分隔線下方
