@@ -92,3 +92,14 @@ def test_sw_precache_assets_exist():
     assert os.path.exists(os.path.join(base_dir, "static", "site.webmanifest"))
     assert os.path.exists(os.path.join(base_dir, "static", "apple-touch-icon.png"))
     assert os.path.exists(os.path.join(base_dir, "static", "favicon.svg"))
+
+
+def test_pwa_head_request_support():
+    """驗證 PWA 靜態端點全面支援 HEAD 請求，避免 LINE / Safari 預檢時噴 405。"""
+    from fastapi.testclient import TestClient
+    from main import app
+    client = TestClient(app)
+
+    for path in ("/sw.js", "/site.webmanifest", "/favicon.ico", "/apple-touch-icon.png"):
+        resp = client.head(path)
+        assert resp.status_code == 200, f"HEAD {path} failed with {resp.status_code}"
