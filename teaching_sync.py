@@ -446,7 +446,19 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
                 "lessons_count": s.get("lessons_count"),
             })
 
-    if students_updated:
+    # 確保兩處本地 SSOT (StudentCRM/data 與 OpenClaw/Data) 保持同步
+    root_students_file = workspace_dir / "OpenClaw" / "Data" / "students.json"
+    needs_sync_root = False
+    if root_students_file.exists():
+        try:
+            with open(root_students_file, "r", encoding="utf-8") as rf:
+                root_students = json.load(rf)
+            if root_students != students:
+                needs_sync_root = True
+        except Exception:
+            needs_sync_root = True
+
+    if students_updated or needs_sync_root:
         gateway.save_students(students)
 
     # 5. 清理記憶體快取

@@ -64,23 +64,52 @@ class StudentDataGateway:
 
     def __init__(self, base_dir: str) -> None:
         self.base_dir = base_dir
-        if os.path.isdir(os.path.join(base_dir, "07.Projects/StudentCRM")):
-            self.app_dir = os.path.join(base_dir, "07.Projects/StudentCRM")
-        elif os.path.isdir(os.path.join(base_dir, "StudentCRM")):
-            self.app_dir = os.path.join(base_dir, "StudentCRM")
+
+        # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
+        current = os.path.abspath(base_dir)
+        detected_repo_root = None
+        while True:
+            if os.path.isdir(os.path.join(current, "OpenClaw")):
+                detected_repo_root = current
+                break
+            parent = os.path.dirname(current)
+            if parent == current:
+                break
+            current = parent
+        self.repo_root = detected_repo_root or os.path.abspath(base_dir)
+
+        if os.path.isdir(os.path.join(self.repo_root, "07.Projects/StudentCRM")):
+            self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
+        elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
+            self.app_dir = os.path.join(self.repo_root, "StudentCRM")
+        elif os.path.isdir(base_dir) and os.path.basename(os.path.abspath(base_dir)) == "StudentCRM":
+            self.app_dir = os.path.abspath(base_dir)
         else:
             self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
-        self.students_file = os.path.join(base_dir, "OpenClaw/Data/students.json")
-        if (os.getenv("VERCEL") or base_dir == self.app_dir) and not os.path.exists(self.students_file):
+
+        openclaw_students = os.path.join(self.repo_root, "OpenClaw/Data/students.json")
+        if os.path.exists(openclaw_students):
+            self.students_file = openclaw_students
+        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
             bundled_students = os.path.join(self.app_dir, "data/students.json")
             if os.path.exists(bundled_students):
                 self.students_file = bundled_students
+            else:
+                self.students_file = openclaw_students
+        else:
+            self.students_file = openclaw_students
 
-        self.apple_ceo_file = os.path.join(base_dir, "OpenClaw/Data/apple_ceo_class.json")
-        if (os.getenv("VERCEL") or base_dir == self.app_dir) and not os.path.exists(self.apple_ceo_file):
+        openclaw_apple = os.path.join(self.repo_root, "OpenClaw/Data/apple_ceo_class.json")
+        if os.path.exists(openclaw_apple):
+            self.apple_ceo_file = openclaw_apple
+        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
             bundled_apple = os.path.join(self.app_dir, "data/apple_ceo_class.json")
             if os.path.exists(bundled_apple):
                 self.apple_ceo_file = bundled_apple
+            else:
+                self.apple_ceo_file = openclaw_apple
+        else:
+            self.apple_ceo_file = openclaw_apple
 
         self.teaching_records_file = os.path.join(self.app_dir, "data/teaching_records.json")
         if not os.path.exists(self.teaching_records_file):
@@ -94,7 +123,6 @@ class StudentDataGateway:
         self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
         self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
         self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
-        self.repo_root = base_dir
 
         self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
         self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
@@ -527,7 +555,7 @@ class StudentDataGateway:
             raise DataGatewayError("教學記錄 payload 必須包含 records 列表")
 
         # 斷路器：若目前已有檔案，檢查筆數是否異常縮水
-        target_path = os.path.join(self.base_dir, "data", "teaching_records.json")
+        target_path = os.path.join(self.app_dir, "data", "teaching_records.json")
         if os.path.exists(target_path):
             try:
                 with open(target_path, "r", encoding="utf-8") as f:
@@ -541,13 +569,13 @@ class StudentDataGateway:
                 pass
 
         self._write_json(target_path, payload)
-        cache_path = os.path.join(self.base_dir, "cache", "teaching_records.json")
+        cache_path = os.path.join(self.app_dir, "cache", "teaching_records.json")
         self._write_json(cache_path, payload)
         clear_gateway_memory_cache()
 
     def save_apple_ceo_program(self, payload: dict[str, Any]) -> None:
         """安全寫入蘋果總裁班資料，保護教案與出席不倒退。"""
-        target_path = os.path.join(self.base_dir, "data", "apple_ceo_class.json")
+        target_path = os.path.join(self.app_dir, "data", "apple_ceo_class.json")
         self._write_json(target_path, payload)
         root_path = os.path.join(self.repo_root, "OpenClaw", "Data", "apple_ceo_class.json")
         if os.path.exists(os.path.dirname(root_path)):
@@ -556,7 +584,7 @@ class StudentDataGateway:
 
     def save_students(self, payload: list[dict[str, Any]]) -> None:
         """安全寫入學員資料庫，鎖定 first_lesson_date 不可退化。"""
-        target_path = os.path.join(self.base_dir, "data", "students.json")
+        target_path = os.path.join(self.app_dir, "data", "students.json")
         if os.path.exists(target_path):
             try:
                 with open(target_path, "r", encoding="utf-8") as f:

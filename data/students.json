@@ -4,14 +4,14 @@
     "name": "Amy",
     "aliases": [],
     "file": "/01.Docs/Students/Amy.md",
-    "lessons_count": 7,
-    "latest_date": "2026-08-29",
+    "lessons_count": 8,
+    "latest_date": "2026-09-04",
     "next_lesson": "2026-09-04",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2026-03-14",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 8
   },
   {
     "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
@@ -934,14 +934,14 @@
       "陳海陸 20 4"
     ],
     "file": "/01.Docs/Students/chen_hai_lu.md",
-    "lessons_count": 25,
-    "latest_date": "2026-08-28",
+    "lessons_count": 26,
+    "latest_date": "2026-09-04",
     "next_lesson": "2026-09-04",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 2
   },
   {
     "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
