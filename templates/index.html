@@ -64,20 +64,35 @@
     </header>
 
     <div class="container">
-        <section class="program-entry-card" style="margin-bottom: 24px; border-color: rgba(188, 140, 255, 0.35); background: linear-gradient(135deg, rgba(188, 140, 255, 0.1), rgba(22, 27, 34, 0.95));">
+        <section class="program-entry-card" style="margin-bottom: 24px; border-color: rgba(188, 140, 255, 0.35); background: linear-gradient(135deg, rgba(188, 140, 255, 0.12), rgba(22, 27, 34, 0.95)); border-radius: 16px; padding: 24px;">
             <div class="program-entry-copy">
-                <p class="section-kicker" style="color: #d2a8ff;">⚡ 商業戰情與續約決策</p>
-                <div class="program-entry-heading">
-                    <h2>成效雷達與 CSM 續約決策戰情室 (Effectiveness Radar)</h2>
-                    <a href="/radar" class="program-entry-link inline-program-link" style="background: #8957e5; border-color: #a371f7; color: #fff;">進入成效雷達戰情室 ➔</a>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <p class="section-kicker" style="color: #d2a8ff; margin-bottom: 4px;">⚡ 商業戰情與續約決策</p>
+                        <h2 style="margin: 0 0 6px; font-size: 1.35rem; color: #f0f6fc;">成效雷達與 CSM 續約決策戰情室 (Effectiveness Radar)</h2>
+                        <p class="meta-info" style="margin: 0; max-width: 780px;">依據 13 年教學資產與近三堂微行動卡，自動判定學員 AI 導入成熟度、7 天落地任務停滯預警與產品階梯提案錨點，輔助教練精準關懷與續約決策。</p>
+                    </div>
+                    <a href="/radar" class="program-entry-link inline-program-link" style="background: #8957e5; border-color: #a371f7; color: #fff; padding: 8px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">進入成效雷達戰情室 ➔</a>
                 </div>
-                <p class="meta-info">依據 13 年教學資產與近三堂微行動卡，自動判定學員 AI 導入成熟度、7 天落地任務停滯預警與產品階梯提案錨點，輔助教練精準關懷與續約決策。</p>
-                <div class="tag-list">
+
+                <!-- 成效雷達即時戰情指針 -->
+                {% if effectiveness_radar and effectiveness_radar.summary %}
+                <div class="radar-summary-badges" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;">
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(88, 166, 255, 0.15); border: 1px solid rgba(88, 166, 255, 0.35); color: #58a6ff; font-weight: 600; padding: 6px 12px; border-radius: 20px;">🎯 全域追蹤 {{ effectiveness_radar.summary.total_tracked or students|length }} 人</a>
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(188, 140, 255, 0.2); border: 1px solid rgba(188, 140, 255, 0.45); color: #d2a8ff; font-weight: 600; padding: 6px 12px; border-radius: 20px;">🚀 待續約/升級 {{ effectiveness_radar.summary.upgrade_ready_count or 0 }} 人</a>
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(248, 81, 73, 0.2); border: 1px solid rgba(248, 81, 73, 0.45); color: #ff7b72; font-weight: 600; padding: 6px 12px; border-radius: 20px;">🔴 高流失預警 {{ effectiveness_radar.summary.at_risk_count or 0 }} 人</a>
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(210, 153, 34, 0.2); border: 1px solid rgba(210, 153, 34, 0.45); color: #e3b341; font-weight: 600; padding: 6px 12px; border-radius: 20px;">🟡 需關懷 {{ effectiveness_radar.summary.attention_count or 0 }} 人</a>
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(240, 136, 62, 0.2); border: 1px solid rgba(240, 136, 62, 0.45); color: #ffa657; font-weight: 600; padding: 6px 12px; border-radius: 20px;">⚠️ 落地停滯 {{ effectiveness_radar.summary.stale_tasks_count or 0 }} 人</a>
+                    <a href="/radar" class="tag" style="text-decoration: none; background: rgba(63, 185, 80, 0.15); border: 1px solid rgba(63, 185, 80, 0.35); color: #7ee787; font-weight: 600; padding: 6px 12px; border-radius: 20px;">🟢 穩定留存 {{ effectiveness_radar.summary.stable_count or 0 }} 人</a>
+                </div>
+                {% else %}
+                <div class="tag-list" style="margin-top: 14px;">
                     <span class="tag">AI 導入四階段</span>
                     <span class="tag">7 天微行動卡追蹤</span>
                     <span class="tag">高流失 / 續約預警</span>
                     <span class="tag">一鍵複製關懷話術</span>
                 </div>
+                {% endif %}
             </div>
         </section>
 
@@ -137,7 +152,10 @@
                     <h2 style="font-size: 1.2rem; margin: 4px 0;">全域續約預警名冊（{{ renewal_radar|length }} 位學員即將結訓或滿堂）</h2>
                     <p class="meta-info" style="margin: 0;">自動追蹤每輪 8 堂進度，優先保留下一期輔導席位並產生專屬 LINE 提醒文案。</p>
                 </div>
-                <button type="button" class="radar-toggle-btn" id="radar-toggle-btn" onclick="toggleRadar()">收折清單</button>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <a href="/radar" style="text-decoration: none; color: #bc8cff; border: 1px solid rgba(188, 140, 255, 0.4); background: rgba(188, 140, 255, 0.1); padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">📊 成效雷達戰情室 ➔</a>
+                    <button type="button" class="radar-toggle-btn" id="radar-toggle-btn" onclick="toggleRadar()">收折清單</button>
+                </div>
             </div>
             <div class="renewal-radar-grid" id="renewal-radar-grid">
                 {% for r in renewal_radar %}

@@ -2,12 +2,15 @@ import json
 import os
 import time
 import copy
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
 from urllib.request import Request, urlopen
+
+logger = logging.getLogger(__name__)
 
 
 class DataGatewayError(RuntimeError):
@@ -123,6 +126,7 @@ class StudentDataGateway:
         self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
         self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
         self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
+        self.radar_cache_file = os.path.join(self.cache_dir, "effectiveness_radar.json")
 
         self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
         self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
@@ -505,7 +509,10 @@ class StudentDataGateway:
             "last_error": status.last_error,
             "checked_at": datetime.now(timezone.utc).isoformat(),
         }
-        self._write_json(self.status_file, payload)
+        try:
+            self._write_json(self.status_file, payload)
+        except Exception:
+            pass
 
     @staticmethod
     def _read_json(path: str) -> Any:
@@ -606,7 +613,7 @@ class StudentDataGateway:
         clear_gateway_memory_cache()
 
     def get_effectiveness_radar_data(self) -> dict[str, Any]:
-        """安全讀取成效雷達資料與快取。"""
+        """安全讀取成效雷達資料與快取（多級快取：記憶體 -> /tmp 快取 -> 預載 JSON）。"""
         now = time.time()
         cache_key = f"radar_{self.radar_file}"
         if cache_key in _MEMORY_CACHE:
@@ -614,6 +621,18 @@ class StudentDataGateway:
             if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
                 return copy.deepcopy(cached_data)
 
+        # 1. 優先嘗試讀取 cache_dir 中的最新雷達快取（例如 /tmp/studentcrm-cache）
+        if hasattr(self, "radar_cache_file") and os.path.exists(self.radar_cache_file):
+            try:
+                with open(self.radar_cache_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                if isinstance(data, dict) and data.get("items"):
+                    _MEMORY_CACHE[cache_key] = (now, data)
+                    return copy.deepcopy(data)
+            except (json.JSONDecodeError, UnicodeDecodeError, OSError):
+                pass
+
+        # 2. 其次嘗試讀取專案內預載的 radar_file
         if os.path.exists(self.radar_file):
             try:
                 with open(self.radar_file, "r", encoding="utf-8") as f:
@@ -621,7 +640,7 @@ class StudentDataGateway:
                 if isinstance(data, dict):
                     _MEMORY_CACHE[cache_key] = (now, data)
                     return copy.deepcopy(data)
-            except (json.JSONDecodeError, UnicodeDecodeError):
+            except (json.JSONDecodeError, UnicodeDecodeError, OSError):
                 pass
 
         default_data = {
@@ -639,12 +658,26 @@ class StudentDataGateway:
         return default_data
 
     def save_effectiveness_radar_data(self, payload: dict[str, Any]) -> None:
-        """安全寫入成效雷達數據，具備自動快照與斷路器保護。"""
+        """安全寫入成效雷達數據，具備自動快照、唯讀環境降級與多級快取保護。"""
         if not isinstance(payload, dict):
             raise DataGatewayError("成效雷達 payload 必須為 dict 結構")
 
-        self._write_json(self.radar_file, payload)
-        clear_gateway_memory_cache()
+        # 1. 優先寫入快取目錄（在 Vercel 為 /tmp/studentcrm-cache，永遠可寫）
+        if hasattr(self, "radar_cache_file"):
+            try:
+                self._write_json(self.radar_cache_file, payload)
+            except Exception as e:
+                logger.warning(f"寫入 radar_cache_file 失敗：{e}")
+
+        # 2. 嘗試持久化至專案資料庫檔案（本地開發有效；在 Vercel 唯讀環境安全略過）
+        try:
+            self._write_json(self.radar_file, payload)
+        except (OSError, PermissionError) as e:
+            logger.info(f"檔案系統為唯讀（如 Vercel），已安全略過專案資料夾寫入：{e}")
+
+        # 3. 即時更新記憶體快取
+        cache_key = f"radar_{self.radar_file}"
+        _MEMORY_CACHE[cache_key] = (time.time(), copy.deepcopy(payload))
 
     def update_csm_followup_record(self, student_id: str, update_data: dict[str, Any]) -> dict[str, Any]:
         """更新單一學員的 CSM 回訪追蹤記錄，自動寫入並同步快照。"""

@@ -3,10 +3,13 @@
 """
 
 import os
+import logging
 from urllib.parse import unquote
 from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+
+logger = logging.getLogger(__name__)
 
 from auth_service import (
     ADMIN_PASSKEYS,
@@ -83,6 +86,15 @@ async def read_root(request: Request):
     apple_summary = summarize_apple_ceo_program(apple_program)
     renewal_radar = get_global_renewal_radar(sorted_students)
 
+    # 載入成效雷達數據，供首頁戰情儀表板展示
+    gateway = deps["student_gateway"]
+    effectiveness_radar = gateway.get_effectiveness_radar_data()
+    if not effectiveness_radar.get("items"):
+        try:
+            effectiveness_radar = build_full_effectiveness_radar(gateway)
+        except Exception as exc:
+            logger.warning(f"首頁建構完整成效雷達失敗，使用預設快取: {exc}")
+
     admin_user_cookie = request.cookies.get(ADMIN_USER_COOKIE_NAME, "")
     admin_user = unquote(admin_user_cookie) if admin_user_cookie else "管理員"
 
@@ -96,6 +108,7 @@ async def read_root(request: Request):
         "apple_program": apple_program["program"],
         "apple_summary": apple_summary,
         "renewal_radar": renewal_radar,
+        "effectiveness_radar": effectiveness_radar,
     })
 
 
@@ -254,12 +267,16 @@ async def search(request: Request, q: str = ""):
     })
 
 
-@router.get("/radar", response_class=HTMLResponse)
+@router.api_route("/radar", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def get_effectiveness_radar_page(request: Request):
     """【成效與續約雷達戰情頁】展示 AI 導入階段、微行動卡進度、流失預警與 CSM 追蹤。"""
     deps = get_coach_deps()
     gateway = deps["student_gateway"]
-    radar_data = build_full_effectiveness_radar(gateway)
+    try:
+        radar_data = build_full_effectiveness_radar(gateway)
+    except Exception as exc:
+        logger.warning(f"即時計算成效雷達異常，降級至快取資料: {exc}")
+        radar_data = gateway.get_effectiveness_radar_data()
 
     return deps["templates"].TemplateResponse(request, "radar.html", {
         "request": request,

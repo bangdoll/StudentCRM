@@ -214,3 +214,35 @@ def test_radar_endpoints_auth_and_responses():
     assert refresh_json["success"] is True
     assert "radar" in refresh_json
 
+
+def test_radar_and_homepage_readonly_fs_resilience(monkeypatch):
+    """回歸測試：模擬 Vercel Serverless Function 唯讀檔案系統環境，確保 /radar 與首頁永不崩潰。"""
+    client = TestClient(app)
+    token = get_session_token()
+    client.cookies.set(SESSION_COOKIE_NAME, token)
+    client.cookies.set("admin_user", quote("蔡教練"))
+
+    orig_write = StudentDataGateway._write_json
+
+    def mock_readonly_write(path: str, payload):
+        if not path.startswith("/tmp"):
+            raise OSError(30, f"Read-only file system: {path}")
+        return orig_write(path, payload)
+
+    monkeypatch.setattr(StudentDataGateway, "_write_json", staticmethod(mock_readonly_write))
+
+    # 1. 唯讀環境下 GET /radar
+    resp_radar = client.get("/radar", headers={"X-Test-Auth": "true"})
+    assert resp_radar.status_code == 200
+    assert "成效雷達與 CSM 續約決策戰情室" in resp_radar.text
+
+    # 2. 唯讀環境下 HEAD /radar
+    resp_head = client.head("/radar", headers={"X-Test-Auth": "true"})
+    assert resp_head.status_code == 200
+
+    # 3. 唯讀環境下 GET / 首頁，驗證包含成效雷達即時指針
+    resp_root = client.get("/", headers={"X-Test-Auth": "true"})
+    assert resp_root.status_code == 200
+    assert "成效雷達與 CSM 續約決策戰情室" in resp_root.text
+    assert "全域追蹤" in resp_root.text
+
