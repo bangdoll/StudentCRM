@@ -11,6 +11,16 @@ from .radar import (
     EffectivenessRadarItem,
     FollowupUpdateRequest,
 )
+from .api import (
+    APIStatusResponse,
+    SyncStatusResponse,
+    StudentDetailResponse,
+    DigitalManagementStudentItem,
+    DigitalManagementListResponse,
+    DigitalManagementDetailResponse,
+    RadarRefreshResponse,
+    CSMFollowupUpdateResponse,
+)
 
 __all__ = [
     "StudentProfile",
@@ -21,4 +31,12 @@ __all__ = [
     "CSMFollowupRecord",
     "EffectivenessRadarItem",
     "FollowupUpdateRequest",
+    "APIStatusResponse",
+    "SyncStatusResponse",
+    "StudentDetailResponse",
+    "DigitalManagementStudentItem",
+    "DigitalManagementListResponse",
+    "DigitalManagementDetailResponse",
+    "RadarRefreshResponse",
+    "CSMFollowupUpdateResponse",
 ]

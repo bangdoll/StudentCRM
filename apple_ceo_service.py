@@ -28,6 +28,30 @@ def normalize_attendee_name(value: str) -> str:
     return re.sub(r"\s+", "", value or "").strip()
 
 
+CANONICAL_APPLE_STUDENT_ORDER: list[str] = [
+    "方博敦",
+    "劉邦寧",
+    "Roger老師",
+    "Lucia",
+    "王太太",
+    "方敏穎",
+    "林永青",
+    "陳總",
+    "Andy哥",
+]
+
+
+def sort_apple_student_rounds(rounds: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """依據教練指示強制排序：在學在前面（方博敦、劉邦寧、Roger老師、Lucia、王太太、方敏穎），已過期在下面（林永青、陳總、Andy哥在最底）。"""
+    def _key(item: dict[str, Any]) -> int:
+        name = item.get("student_name", "")
+        if name in CANONICAL_APPLE_STUDENT_ORDER:
+            return CANONICAL_APPLE_STUDENT_ORDER.index(name)
+        return 999
+
+    return sorted(rounds, key=_key)
+
+
 def clean_note_preview(content: str, limit: int = 150) -> str:
     """清理 Frontmatter 與開頭標題，萃取前 limit 個字作為精選摘要。"""
     text = re.sub(r"^---[\s\S]*?---\s*", "", content)

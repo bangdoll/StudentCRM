@@ -3,7 +3,19 @@
 """
 
 import unittest
-from schemas import StudentProfile, TeachingRecordItem, AppleAttendanceRecord, AppleLedgerItem
+from schemas import (
+    StudentProfile,
+    TeachingRecordItem,
+    AppleAttendanceRecord,
+    AppleLedgerItem,
+    APIStatusResponse,
+    SyncStatusResponse,
+    StudentDetailResponse,
+    DigitalManagementListResponse,
+    DigitalManagementDetailResponse,
+    RadarRefreshResponse,
+    CSMFollowupUpdateResponse,
+)
 
 
 class SchemaContractTests(unittest.TestCase):
@@ -47,6 +59,73 @@ class SchemaContractTests(unittest.TestCase):
         )
         self.assertEqual(attendance.count, 2)
         self.assertEqual(attendance.total_cost, 300)
+
+    def test_api_status_response_valid(self):
+        resp = APIStatusResponse(status="ok", message="Operation successful")
+        self.assertEqual(resp.status, "ok")
+        self.assertEqual(resp.message, "Operation successful")
+
+    def test_sync_status_response_valid(self):
+        resp = SyncStatusResponse(
+            engine="supabase",
+            source="students",
+            cache_path="/tmp/cache.json",
+            last_error="",
+            checked_at="2026-09-06T12:00:00Z",
+        )
+        self.assertEqual(resp.engine, "supabase")
+        self.assertEqual(resp.source, "students")
+
+    def test_student_detail_response_valid(self):
+        resp = StudentDetailResponse(
+            status="ok",
+            student_id="student-1",
+            student={"name": "Charlotte"},
+            features={"days_since_last_lesson": 5},
+            prediction={"status": "active"},
+            sync={"engine": "local"},
+        )
+        self.assertEqual(resp.status, "ok")
+        self.assertEqual(resp.student_id, "student-1")
+        self.assertEqual(resp.student["name"], "Charlotte")
+
+    def test_digital_management_list_response_valid(self):
+        resp = DigitalManagementListResponse(
+            status="ok",
+            count=1,
+            students=[
+                {
+                    "id": "digital-kelly",
+                    "name": "Kelly Woo",
+                    "current_lesson": 4,
+                    "lessons": [],
+                    "notes": [],
+                }
+            ],
+            calendar_event_count=10,
+            local_note_count=5,
+            teaching_note_count=15,
+        )
+        self.assertEqual(resp.count, 1)
+        self.assertEqual(len(resp.students), 1)
+        self.assertEqual(resp.students[0].name, "Kelly Woo")
+
+    def test_radar_refresh_and_followup_schemas(self):
+        refresh = RadarRefreshResponse(
+            success=True,
+            generated_at="2026-09-06T12:00:00Z",
+            items_count=64,
+        )
+        self.assertTrue(refresh.success)
+        self.assertEqual(refresh.items_count, 64)
+
+        followup = CSMFollowupUpdateResponse(
+            success=True,
+            student_id="student-1",
+            followup={"status": "contacted", "coach_notes": "已電聯關懷"},
+        )
+        self.assertTrue(followup.success)
+        self.assertEqual(followup.student_id, "student-1")
 
 
 if __name__ == "__main__":

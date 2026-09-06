@@ -13,6 +13,14 @@ from prediction_service import predict_student_status
 from student_service import generate_student_renewal_reminder, generate_preclass_briefing
 from note_service import resolve_note_detail
 
+from schemas import (
+    APIStatusResponse,
+    StudentDetailResponse,
+    DigitalManagementListResponse,
+    DigitalManagementDetailResponse,
+)
+
+
 router = APIRouter(tags=["student"])
 
 
@@ -148,7 +156,7 @@ async def open_file(request: Request, path: str):
     })
 
 
-@router.get("/trigger_open")
+@router.get("/trigger_open", response_model=APIStatusResponse)
 async def trigger_open(path: str):
     deps = get_student_deps()
     base_dir = deps["BASE_DIR"]
@@ -230,7 +238,7 @@ async def api_students():
     }
 
 
-@router.get("/api/students/{student_id}")
+@router.get("/api/students/{student_id}", response_model=StudentDetailResponse)
 async def api_student(student_id: str):
     deps = get_student_deps()
     students = deps["load_students"]()
@@ -240,6 +248,7 @@ async def api_student(student_id: str):
     features = deps["analyze_student_features"](student_id)
     return {
         "status": "ok",
+        "student_id": student_id,
         "student": student,
         "features": features,
         "prediction": predict_student_status(features, student.get("next_lesson")),
@@ -247,7 +256,7 @@ async def api_student(student_id: str):
     }
 
 
-@router.get("/api/digital-management/students")
+@router.get("/api/digital-management/students", response_model=DigitalManagementListResponse)
 async def api_digital_management_students():
     deps = get_student_deps()
     payload = deps["build_digital_management_profiles"](include_heptabase=False)
@@ -258,7 +267,7 @@ async def api_digital_management_students():
     }
 
 
-@router.get("/api/digital-management/students/{student_id}")
+@router.get("/api/digital-management/students/{student_id}", response_model=DigitalManagementDetailResponse)
 async def api_digital_management_student(student_id: str):
     deps = get_student_deps()
     payload = deps["build_digital_management_profiles"](include_heptabase=True)
@@ -267,6 +276,7 @@ async def api_digital_management_student(student_id: str):
         return {"status": "not_found", "student_id": student_id}
     return {
         "status": "ok",
+        "student_id": student_id,
         "student": student,
         "calendar_cache": payload.get("calendar_cache", ""),
         "heptabase_backup_root": payload.get("heptabase_backup_root", ""),
