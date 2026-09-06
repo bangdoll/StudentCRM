@@ -68,6 +68,7 @@ def analyze_student_features(
         "days_since_last_lesson": -1,
         "average_word_count": 0,
         "lessons_reviewed": 0,
+        "status": student.get("status", "active"),
     }
 
     if paths:
@@ -135,7 +136,23 @@ def analyze_student_features(
 
 
 def predict_student_status(features: dict, next_lesson: str = None) -> dict:
-    """根據最後上課日期與筆記平均字數，回傳三種 AI 學習狀態燈號。"""
+    """根據最後上課日期與筆記平均字數，回傳學員 AI 學習狀態燈號。"""
+    raw_status = features.get("status")
+    if raw_status == "memorial":
+        return {
+            "badge": "🎗️",
+            "status": "歷史典藏",
+            "class": "badge-placeholder",
+            "reason": "學員教學資產永久典藏，不再進行日常營運追蹤。",
+        }
+    if raw_status == "paused":
+        return {
+            "badge": "⏸️",
+            "status": "休學暫停",
+            "class": "badge-placeholder",
+            "reason": "學員目前為休學或暫停狀態，暫緩關懷追蹤。",
+        }
+
     days = features.get("days_since_last_lesson", -1)
     word_count = features.get("average_word_count", 0)
 

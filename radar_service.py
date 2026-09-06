@@ -235,6 +235,9 @@ def build_full_effectiveness_radar(
     for s in students:
         if not isinstance(s, dict):
             continue
+        # 僅追蹤 active 活躍學員；典藏 (memorial) 與休學 (paused) 徹底脫鉤靜音
+        if s.get("status") in ("memorial", "paused"):
+            continue
         sid = s.get("id") or ""
         name = s.get("name") or "未命名學員"
         cnt = s.get("lessons_count", 0)

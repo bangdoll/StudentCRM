@@ -11,7 +11,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2026-03-14",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "status": "active"
   },
   {
     "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
@@ -32,26 +33,27 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-04-01",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "e8d71234-9abc-4def-a123-567890abcdef",
     "name": "Annie",
     "aliases": [
-      "腦波Annie",
       "安妮",
       "安妮老師",
       "Annie老師"
     ],
     "file": "/01.Docs/Students/Annie.md",
     "lessons_count": 81,
-    "latest_date": "2026-08-02",
+    "latest_date": "2026-09-05",
     "next_lesson": "2026-09-05",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2021-03-06",
-    "current_cycle_lesson": 1
+    "current_cycle_lesson": 1,
+    "status": "active"
   },
   {
     "id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
@@ -68,7 +70,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-12-03",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "63e43675-2491-4d5c-b149-40019be779ef",
@@ -86,7 +89,8 @@
     "first_lesson_date": "2020-01-29",
     "current_cycle_lesson": 8,
     "renewal_reminder": false,
-    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束"
+    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束",
+    "status": "active"
   },
   {
     "id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
@@ -104,7 +108,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
@@ -118,7 +123,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-09-03",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
@@ -132,7 +138,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "active"
   },
   {
     "id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
@@ -148,7 +155,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-06-18",
-    "current_cycle_lesson": 4
+    "current_cycle_lesson": 4,
+    "status": "active"
   },
   {
     "id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
@@ -162,7 +170,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-06-07",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
@@ -178,7 +187,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-12-11",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "b5b5aef3-3514-478e-bbca-b0c568434551",
@@ -195,7 +205,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-12-10",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
@@ -209,7 +220,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-09-10",
-    "current_cycle_lesson": 4
+    "current_cycle_lesson": 4,
+    "status": "active"
   },
   {
     "id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
@@ -225,7 +237,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-06-30",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
@@ -241,7 +254,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-11-08",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
@@ -255,7 +269,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-08-23",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
@@ -271,7 +286,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-06-03",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "912a251a-c72d-437b-9cf4-37bf0eb18f4e",
@@ -285,7 +301,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-01-08",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "d2f9ac0e-0e8c-4d06-acbf-a26963241eaa",
@@ -299,7 +316,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-03-26",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "active"
   },
   {
     "id": "e1afbba6-6fd9-4515-b587-0e89d0312edb",
@@ -318,7 +336,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-08-23",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "5dc16e4f-fbdb-4aa8-8bf3-9105ef7abc83",
@@ -330,12 +349,14 @@
     "file": "/01.Docs/Students/大安妮.md",
     "lessons_count": 3,
     "latest_date": "2024-02-20",
-    "next_lesson": "安排中",
+    "next_lesson": null,
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2021-06-16",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "memorial",
+    "status_reason": "deceased"
   },
   {
     "id": "bea3a100-3534-4183-9d8c-db789f71302f",
@@ -351,7 +372,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-07-11",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "3a7f7764-ddc1-45cb-9912-463275a51336",
@@ -365,7 +387,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-06-09",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "status": "active"
   },
   {
     "id": "6e05699e-d21c-432e-b59b-0b1b916fef07",
@@ -379,7 +402,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-02-21",
-    "current_cycle_lesson": 1
+    "current_cycle_lesson": 1,
+    "status": "active"
   },
   {
     "id": "e0cf4cfd-1676-4c6e-bab8-1a9ef66a9a39",
@@ -393,7 +417,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2020-11-17",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "e50a010c-1668-4b23-b159-faa86f2cb23c",
@@ -407,7 +432,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-10-12",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "active"
   },
   {
     "id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
@@ -421,7 +447,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-08-12",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "status": "active"
   },
   {
     "id": "e101d0f5-8aa6-40b3-a4f3-1e3f02f3c98c",
@@ -437,7 +464,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-04-21",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "bf061abd-65f9-4ffa-b682-df1b5f437aa0",
@@ -446,12 +474,14 @@
     "file": "/01.Docs/Students/彭澤江.md",
     "lessons_count": 5,
     "latest_date": "2024-04-15",
-    "next_lesson": "安排中",
+    "next_lesson": null,
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-06-22",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "memorial",
+    "status_reason": "deceased"
   },
   {
     "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
@@ -467,7 +497,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-01-03",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "active"
   },
   {
     "id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
@@ -483,7 +514,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-11-19",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "3037a53b-0c97-4253-bd2a-d236af440191",
@@ -492,14 +524,15 @@
       "政佑"
     ],
     "file": "/01.Docs/Students/zheng_you.md",
-    "lessons_count": 7,
-    "latest_date": "2026-07-26",
+    "lessons_count": 8,
+    "latest_date": "2026-09-06",
     "next_lesson": "2026-09-06",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2025-08-02",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 8,
+    "status": "active"
   },
   {
     "id": "368cbe6e-935e-4ff2-9c4a-52748fbc1bf0",
@@ -513,7 +546,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-04-22",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
@@ -530,7 +564,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2026-01-15",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "b86cade3-c211-41c5-b33c-2124ee34d743",
@@ -544,7 +579,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-11-10",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "b946040e-8957-445b-a97a-d8c301ccf478",
@@ -560,7 +596,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-11-22",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
@@ -581,7 +618,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-03-10",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
@@ -597,7 +635,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-09-06",
-    "current_cycle_lesson": 4
+    "current_cycle_lesson": 4,
+    "status": "active"
   },
   {
     "id": "d233701d-0c16-427c-a9fe-71499a35d673",
@@ -611,7 +650,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-11-27",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "2b207c9b-7b6e-492b-a12c-64d8263abe6f",
@@ -625,7 +665,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-04-16",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "bb6e8cde-291d-4554-9afa-5b5bad0bc5ee",
@@ -643,7 +684,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-07-22",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
@@ -657,7 +699,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-12-08",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
@@ -671,7 +714,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-04-17",
-    "current_cycle_lesson": 14
+    "current_cycle_lesson": 14,
+    "status": "active"
   },
   {
     "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
@@ -685,7 +729,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-09-08",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
@@ -699,7 +744,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-04-12",
-    "current_cycle_lesson": 4
+    "current_cycle_lesson": 4,
+    "status": "active"
   },
   {
     "id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
@@ -715,7 +761,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-02-22",
-    "current_cycle_lesson": 1
+    "current_cycle_lesson": 1,
+    "status": "active"
   },
   {
     "id": "2944f0c1-48fb-4751-be82-9f6195607294",
@@ -735,7 +782,8 @@
     "first_lesson_date": "2026-03-10",
     "current_cycle_lesson": 8,
     "renewal_reminder": false,
-    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束"
+    "no_renewal_reminder_reason": "目前沒有要安排上課/已結束",
+    "status": "active"
   },
   {
     "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",
@@ -749,7 +797,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2019-07-10",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "95bc7f83-011b-4b16-aa13-b525446e2468",
@@ -763,7 +812,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-08-12",
-    "current_cycle_lesson": 1
+    "current_cycle_lesson": 1,
+    "status": "active"
   },
   {
     "id": "d9951845-6b4f-4c1b-8552-d313dada17f1",
@@ -777,7 +827,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-03-16",
-    "current_cycle_lesson": 3
+    "current_cycle_lesson": 3,
+    "status": "active"
   },
   {
     "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
@@ -791,7 +842,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-04-10",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
@@ -810,7 +862,8 @@
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -824,7 +877,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2024-11-14",
-    "current_cycle_lesson": 8
+    "current_cycle_lesson": 8,
+    "status": "active"
   },
   {
     "id": "d243b860-318e-4a64-9b98-95a28cb93821",
@@ -856,7 +910,8 @@
     ],
     "first_lesson_date": "2026-05-02",
     "current_cycle_lesson": 7,
-    "recurring_schedule": "biweekly:1:14:00"
+    "recurring_schedule": "biweekly:1:14:00",
+    "status": "active"
   },
   {
     "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
@@ -879,7 +934,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-03-02",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
@@ -895,7 +951,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-07-23",
-    "current_cycle_lesson": 7
+    "current_cycle_lesson": 7,
+    "status": "active"
   },
   {
     "id": "553599e9-053b-4270-b43f-44687278d256",
@@ -911,7 +968,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-06-16",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
@@ -925,7 +983,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-12-05",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "488bb965-ccbe-4909-b45a-cdce45778281",
@@ -941,7 +1000,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
@@ -957,7 +1017,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-04-19",
-    "current_cycle_lesson": 5
+    "current_cycle_lesson": 5,
+    "status": "active"
   },
   {
     "id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
@@ -973,7 +1034,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-01-10",
-    "current_cycle_lesson": 2
+    "current_cycle_lesson": 2,
+    "status": "active"
   },
   {
     "id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
@@ -989,7 +1051,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2025-11-09",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
   },
   {
     "id": "8c4fb758-70fe-4a68-838c-5003b9de8624",
@@ -1003,7 +1066,8 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-05-12",
-    "current_cycle_lesson": 1
+    "current_cycle_lesson": 1,
+    "status": "active"
   },
   {
     "id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
@@ -1017,6 +1081,25 @@
       "一般學員"
     ],
     "first_lesson_date": "2020-03-26",
-    "current_cycle_lesson": 6
+    "current_cycle_lesson": 6,
+    "status": "active"
+  },
+  {
+    "id": "c0de1234-0001-4000-8000-naoboannie01",
+    "name": "腦波Annie",
+    "aliases": [
+      "腦波Annie"
+    ],
+    "file": "/01.Docs/Students/腦波Annie.md",
+    "lessons_count": 1,
+    "latest_date": "2022-06-02",
+    "next_lesson": null,
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2022-06-02",
+    "current_cycle_lesson": 1,
+    "status": "paused",
+    "status_reason": "long_term_inactive"
   }
 ]

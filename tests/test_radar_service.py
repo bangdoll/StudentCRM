@@ -246,3 +246,28 @@ def test_radar_and_homepage_readonly_fs_resilience(monkeypatch):
     assert "成效雷達與 CSM 續約決策戰情室" in resp_root.text
     assert "全域追蹤" in resp_root.text
 
+
+def test_radar_excludes_memorial_and_paused_students(monkeypatch):
+    """驗證成效雷達徹底排除 memorial (已故典藏) 與 paused (休學暫停) 學員，守護教練情感與營運雜訊零打擾。"""
+    gateway = StudentDataGateway(base_dir=".")
+
+    mock_students = [
+        {"id": "s1", "name": "現役學員", "status": "active", "lessons_count": 8, "latest_date": "2026-09-01"},
+        {"id": "s2", "name": "彭澤江", "status": "memorial", "lessons_count": 5, "latest_date": "2024-04-15"},
+        {"id": "s3", "name": "大安妮", "status": "memorial", "lessons_count": 3, "latest_date": "2024-02-20"},
+        {"id": "s4", "name": "腦波Annie", "status": "paused", "lessons_count": 1, "latest_date": "2022-06-02"},
+    ]
+    monkeypatch.setattr(gateway, "load_students", lambda: mock_students)
+    monkeypatch.setattr(gateway, "save_effectiveness_radar_data", lambda x: None)
+
+    radar = build_full_effectiveness_radar(gateway)
+    items = radar.get("items", [])
+    tracked_names = [it["name"] for it in items]
+
+    assert "現役學員" in tracked_names
+    assert "彭澤江" not in tracked_names
+    assert "大安妮" not in tracked_names
+    assert "腦波Annie" not in tracked_names
+    assert radar["summary"]["total_tracked"] == 1
+
+

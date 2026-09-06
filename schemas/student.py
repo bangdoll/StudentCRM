@@ -20,6 +20,8 @@ class StudentProfile(BaseModel):
     next_lesson: Optional[str] = Field(default=None, description="下次預約日期")
     aliases: list[str] = Field(default_factory=list, description="別名/稱呼清單")
     hardware: list[str] = Field(default_factory=list, description="學員使用硬體")
+    status: str = Field(default="active", description="學員生命週期狀態：active, paused, graduated, memorial")
+    status_reason: Optional[str] = Field(default=None, description="狀態備註或原因，例如 deceased, long_term_inactive")
     raw: dict[str, Any] = Field(default_factory=dict, description="自訂擴充屬性")
 
     @field_validator("first_lesson_date")
