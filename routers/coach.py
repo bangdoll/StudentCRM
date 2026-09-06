@@ -112,7 +112,7 @@ async def read_root(request: Request):
     })
 
 
-@router.get("/dashboard", response_class=HTMLResponse)
+@router.api_route("/dashboard", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def read_dashboard(request: Request):
     deps = get_coach_deps()
     students = deps["load_students"]()
@@ -144,14 +144,17 @@ async def read_dashboard(request: Request):
     stable_students = []
 
     for student in students:
-        next_date = parse_next_lesson(student.get('next_lesson', ''))
-        student['next_lesson_days'] = (next_date - today).days if next_date else None
-        if next_date and 0 <= (next_date - today).days <= 14:
-            upcoming_students.append(student)
-        if not next_date:
+        next_date = parse_next_lesson(student.get('next_lesson'))
+        if next_date:
+            days = (next_date - today).days
+            student['next_lesson_days'] = days
+            if 0 <= days <= 14:
+                upcoming_students.append(student)
+        else:
+            student['next_lesson_days'] = None
             unscheduled_students.append(student)
 
-        status = student.get('prediction', {}).get('status', '')
+        status = student['prediction']['status']
         if '高流失' in status:
             risk_students.append(student)
         elif '冰凍期' in status:
@@ -165,8 +168,10 @@ async def read_dashboard(request: Request):
         item.get('name', ''),
     ))
 
+    sync_status = deps["student_gateway"].status()
+
     if deps["use_fallback_pages"]("dashboard.html"):
-        return deps["render_dashboard_fallback"](students, apple_summary, deps["student_gateway"].status())
+        return deps["render_dashboard_fallback"](students, apple_summary, sync_status)
 
     return deps["templates"].TemplateResponse(request, "dashboard.html", {
         "request": request,
@@ -179,6 +184,7 @@ async def read_dashboard(request: Request):
         "stable_students": stable_students,
         "apple_program": apple_program["program"],
         "apple_summary": apple_summary,
+        "sync_status": sync_status,
     })
 
 

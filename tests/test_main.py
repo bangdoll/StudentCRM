@@ -309,3 +309,30 @@ def test_note_endpoint_filename_fallback():
     response = client.get("/note?path=20260813%201359.蘋果總裁班.md")
     assert response.status_code == 200
     assert "1359.蘋果總裁班" in response.text
+
+
+def test_dashboard_endpoint_authenticated():
+    """驗證登入後的教練能正常存取 /dashboard，無 UndefinedError，且支援 HEAD。"""
+    from auth_service import get_session_token, SESSION_COOKIE_NAME, ADMIN_USER_COOKIE_NAME
+    from urllib.parse import quote
+
+    auth_client = TestClient(app)
+    auth_client.cookies.set(SESSION_COOKIE_NAME, get_session_token())
+    auth_client.cookies.set(ADMIN_USER_COOKIE_NAME, quote("蔡教練"))
+
+    resp_get = auth_client.get("/dashboard", headers={"X-Test-Auth": "true"})
+    assert resp_get.status_code == 200
+    assert "學員行動看板" in resp_get.text
+    assert "同步來源" in resp_get.text
+
+    resp_head = auth_client.head("/dashboard", headers={"X-Test-Auth": "true"})
+    assert resp_head.status_code == 200
+
+
+def test_dashboard_endpoint_unauthenticated():
+    """驗證未登入訪客存取 /dashboard 會被安全門禁攔截並回傳 403 隱私保護頁。"""
+    unauth_client = TestClient(app)
+    resp = unauth_client.get("/dashboard", headers={"X-Test-Auth": "true"})
+    assert resp.status_code == 403
+    assert "學員隱私保護空間" in resp.text
+

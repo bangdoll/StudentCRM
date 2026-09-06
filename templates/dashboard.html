@@ -25,7 +25,7 @@
             <div>
                 <p class="section-kicker">StudentCRM Web Dashboard</p>
                 <h1>學員行動看板</h1>
-                <p class="meta-info">同步來源：{{ sync_status.engine }} · {{ sync_status.source }}</p>
+                <p class="meta-info">同步來源：{{ sync_status.engine if sync_status else 'local' }} · {{ sync_status.source if sync_status else 'students' }}</p>
             </div>
             <nav class="dashboard-nav">
                 <a href="/" class="dashboard-nav-link">學員牆</a>
@@ -69,10 +69,12 @@
                     <input id="studentSearch" type="search" placeholder="搜尋學員、標籤、下次上課" class="dashboard-input">
                     <select id="statusFilter" class="dashboard-select">
                         <option value="all">全部狀態</option>
-                        <option value="穩定留存">穩定留存</option>
-                        <option value="冰凍期">冰凍期</option>
-                        <option value="高流失風險">高流失風險</option>
-                        <option value="無預測資料">無預測資料</option>
+                        <option value="穩定留存">穩定留存 🟢</option>
+                        <option value="冰凍期">冰凍期 🧊</option>
+                        <option value="高流失風險">高流失風險 🔴</option>
+                        <option value="歷史典藏">歷史典藏 🎗️</option>
+                        <option value="休學暫停">休學暫停 ⏸️</option>
+                        <option value="無預測資料">無預測資料 ⚪</option>
                     </select>
                 </div>
             </div>
