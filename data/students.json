@@ -131,14 +131,14 @@
     "name": "Kelly Woo",
     "aliases": [],
     "file": "/01.Docs/Students/kelly_woo.md",
-    "lessons_count": 67,
-    "latest_date": "2026-07-28",
+    "lessons_count": 68,
+    "latest_date": "2026-09-08",
     "next_lesson": "2026-09-08",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active"
   },
   {
@@ -230,14 +230,14 @@
       "Teresa Test"
     ],
     "file": "/01.Docs/Students/Teresa.md",
-    "lessons_count": 15,
-    "latest_date": "2026-08-18",
+    "lessons_count": 16,
+    "latest_date": "2026-09-08",
     "next_lesson": "2026-09-08",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-06-30",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active"
   },
   {
@@ -1085,7 +1085,7 @@
     "status": "active"
   },
   {
-    "id": "c0de1234-0001-4000-8000-naoboannie01",
+    "id": "e5db79b8-ec22-5731-9f29-f8aec8700ca8",
     "name": "腦波Annie",
     "aliases": [
       "腦波Annie"
