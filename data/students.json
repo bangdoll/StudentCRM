@@ -6,7 +6,7 @@
     "file": "/01.Docs/Students/Amy.md",
     "lessons_count": 8,
     "latest_date": "2026-09-04",
-    "next_lesson": "2026-09-04",
+    "next_lesson": "2026-09-19",
     "tags": [
       "一般學員"
     ],
@@ -28,7 +28,7 @@
     "file": "/01.Docs/Students/Anna 蕭.md",
     "lessons_count": 15,
     "latest_date": "2026-07-10",
-    "next_lesson": "2026-10-18",
+    "next_lesson": "2026-11-27",
     "tags": [
       "一般學員"
     ],
@@ -47,7 +47,7 @@
     "file": "/01.Docs/Students/Annie.md",
     "lessons_count": 81,
     "latest_date": "2026-09-05",
-    "next_lesson": "2026-09-05",
+    "next_lesson": "2026-09-14",
     "tags": [
       "一般學員"
     ],
@@ -133,7 +133,7 @@
     "file": "/01.Docs/Students/kelly_woo.md",
     "lessons_count": 68,
     "latest_date": "2026-09-08",
-    "next_lesson": "2026-09-08",
+    "next_lesson": "2026-09-22",
     "tags": [
       "一般學員"
     ],
@@ -232,7 +232,7 @@
     "file": "/01.Docs/Students/Teresa.md",
     "lessons_count": 16,
     "latest_date": "2026-09-08",
-    "next_lesson": "2026-09-08",
+    "next_lesson": "2026-09-21",
     "tags": [
       "一般學員"
     ],
@@ -442,7 +442,7 @@
     "file": "/01.Docs/Students/zhang_su_xing.md",
     "lessons_count": 17,
     "latest_date": "2026-09-07",
-    "next_lesson": "2026-09-07",
+    "next_lesson": "2026-09-14",
     "tags": [
       "一般學員"
     ],
@@ -526,7 +526,7 @@
     "file": "/01.Docs/Students/zheng_you.md",
     "lessons_count": 8,
     "latest_date": "2026-09-06",
-    "next_lesson": "2026-09-06",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -995,7 +995,7 @@
     "file": "/01.Docs/Students/chen_hai_lu.md",
     "lessons_count": 26,
     "latest_date": "2026-09-04",
-    "next_lesson": "2026-09-04",
+    "next_lesson": "2026-09-18",
     "tags": [
       "一般學員"
     ],
@@ -1101,5 +1101,23 @@
     "current_cycle_lesson": 1,
     "status": "paused",
     "status_reason": "long_term_inactive"
+  },
+  {
+    "id": "55baa163-909b-5973-92dc-9927132d678c",
+    "name": "敏穎",
+    "aliases": [
+      ".敏穎"
+    ],
+    "file": "/01.Docs/Students/敏穎.md",
+    "lessons_count": 5,
+    "latest_date": "2024-09-26",
+    "next_lesson": "安排中",
+    "tags": [
+      "一般學員",
+      "復原子產"
+    ],
+    "first_lesson_date": "2024-02-16",
+    "current_cycle_lesson": 5,
+    "status": "paused"
   }
 ]

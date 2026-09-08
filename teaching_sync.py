@@ -88,6 +88,8 @@ MANUAL_ALIASES = {
     "禮品公會": "禮品公會",
     "禮品公會手機班": "禮品公會",
     "禮品公會手機班第二期": "禮品公會",
+    "敏穎": "敏穎",
+    ".敏穎": "敏穎",
 }
 
 
@@ -448,6 +450,9 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
                 "lessons_count": s.get("lessons_count"),
             })
 
+    # 4.1 自動連動 Google 日曆最新排程至學員 next_lesson
+    next_lessons_updated = sync_student_next_lessons(students, crm_dir)
+
     # 確保兩處本地 SSOT (StudentCRM/data 與 OpenClaw/Data) 保持同步
     root_students_file = workspace_dir / "OpenClaw" / "Data" / "students.json"
     needs_sync_root = False
@@ -460,7 +465,7 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
         except Exception:
             needs_sync_root = True
 
-    if students_updated or needs_sync_root:
+    if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
 
     # 5. 清理記憶體快取
@@ -477,6 +482,80 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
         "apple_ceo_notes_count": apple_ceo_synced_count,
         "students_updated_count": len(students_updated),
         "students_updated": students_updated,
+        "next_lessons_updated_count": len(next_lessons_updated),
+        "next_lessons_updated": next_lessons_updated,
         "generated_at": result["generated_at"],
     }
+
+
+def sync_student_next_lessons(students: list[dict[str, Any]], crm_dir: Path | str = "") -> list[dict[str, Any]]:
+    """依據 Google 日曆事件，自動連動更新學員的 next_lesson。
+    
+    規則：
+    1. 尋找今天之後 (>= now) 該學員在 Google 日曆中的最近一筆課程。
+    2. 若找到未來排程：自動更新 next_lesson 為該日期 (YYYY-MM-DD)。
+    3. 若無未來排程：如果現有的 next_lesson 已過期 (< today)，自動將其更新為 '安排中'，避免留在過去。
+    """
+    crm_path = Path(crm_dir) if crm_dir else Path(__file__).resolve().parent
+    cal_file = crm_path / "data" / "digital_management_calendar_events.json"
+    if not cal_file.exists():
+        cal_file = crm_path / "cache" / "digital_management_calendar_events.json"
+    if not cal_file.exists():
+        return []
+
+    try:
+        from digital_management_service import (
+            load_digital_management_calendar_events,
+            parse_digital_management_calendar_events,
+            parse_datetime,
+        )
+        events = parse_digital_management_calendar_events(load_digital_management_calendar_events(str(cal_file)))
+    except Exception:
+        return []
+
+    now = datetime.now()
+    today_str = now.strftime("%Y-%m-%d")
+
+    future_map: dict[str, tuple[datetime, dict[str, Any]]] = {}
+    for ev in events:
+        start_dt = ev.get("start_dt") or parse_datetime(ev.get("start", "")) or parse_datetime(ev.get("date", ""))
+        if not start_dt or start_dt < now:
+            continue
+        s, _ = resolve_student(ev.get("student_name", ""), students)
+        if s:
+            sid = s["id"]
+            if sid not in future_map or start_dt < future_map[sid][0]:
+                future_map[sid] = (start_dt, ev)
+
+    updated: list[dict[str, Any]] = []
+    for s in students:
+        sid = s.get("id")
+        old_next = s.get("next_lesson") or ""
+        if sid in future_map:
+            earliest_dt, _ = future_map[sid]
+            new_next = earliest_dt.strftime("%Y-%m-%d")
+            if old_next != new_next:
+                s["next_lesson"] = new_next
+                updated.append({
+                    "id": sid,
+                    "name": s.get("name"),
+                    "old_next_lesson": old_next,
+                    "new_next_lesson": new_next,
+                    "reason": "已排定新課程",
+                })
+        else:
+            if old_next and old_next not in ["安排中", "尚未排定", "未記錄"]:
+                date_m = re.search(r"20\d{2}[-_/]\d{2}[-_/]\d{2}", old_next)
+                if date_m and date_m.group(0).replace("/", "-") < today_str:
+                    s["next_lesson"] = "安排中"
+                    updated.append({
+                        "id": sid,
+                        "name": s.get("name"),
+                        "old_next_lesson": old_next,
+                        "new_next_lesson": "安排中",
+                        "reason": "舊排程已過期",
+                    })
+
+    return updated
+
 

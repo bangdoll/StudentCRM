@@ -1,6 +1,6 @@
 {
-  "total_records": 705,
-  "total_students": 60,
+  "total_records": 706,
+  "total_students": 61,
   "records": [
     {
       "card_id": "e2cc6088572f87254da611f41a2e9b745fad2075",
@@ -10866,6 +10866,23 @@
       "matched_by": "Anna 蕭"
     },
     {
+      "card_id": "3ba8c33da421203f3e8cfb226baf0b553e174777",
+      "title": "#20240216 .敏穎數位管理教學",
+      "date": "2024-02-16",
+      "lesson_num": null,
+      "lesson_sub": null,
+      "student_name": "敏穎",
+      "created": "2026-05-23T18:00:27.089605Z",
+      "edited": "2026-05-23T18:00:27.089605Z",
+      "path": "/Users/aios/Projects/00.AI-Notes_Local/01.Docs/teaching/20240216 .敏穎數位管理教學.md",
+      "filename": "20240216 .敏穎數位管理教學.md",
+      "preview": "id: 2024-02-16 title: \"10-4.敏穎數位管理教學\" createdTime: 2024-02-16T10:00:00.000Z lastEditedTime: 2024-02-16T18:00:00.000Z syncTime: 2026-05-24T01:05:17.302734 > [!NOTE]",
+      "content": "---\nid: 2024-02-16\ntitle: \"10-4.敏穎數位管理教學\"\ncreatedTime: 2024-02-16T10:00:00.000Z\nlastEditedTime: 2024-02-16T18:00:00.000Z\nsyncTime: 2026-05-24T01:05:17.302734\n---\n\n> [!NOTE]\n> 本篇教學紀錄是從 2024 年 Google 日曆比對，並從 Heptabase 當日日誌中自動還原萃取的數位管理教學資產。\n\n20240216(五)，今日行程：小悠悠寒假結束，開學（隔天要補課）芝山附幼開學日+10-4.敏穎數位管理教學\n\n今天是大年初七，同時也是小悠悠寒假結束的日子，標誌著他在芝山國小附幼的開學日。一大早，我們一家的日程安排相當緊湊：先是陪伴老婆去醫院拿藥，隨後是敏穎的數位管理教學課程。\n\n下午，我與一位名叫小名的朋友簽訂了一項關於 BCard 的合約，這是一個人脈管理平臺。接著是敏穎的數位管理課程，我們發現她的 iPhone 13 Pro 和 MacBook Air 需要一些技術上的調整和更新。",
+      "source": "local_teaching",
+      "student_id": "55baa163-909b-5973-92dc-9927132d678c",
+      "matched_by": "敏穎"
+    },
+    {
       "card_id": "422e69c49bdcb1776ab1c2794e4bf7e1d6705d85",
       "title": "#20240215 蘋果總裁班(休息)數位管理教學",
       "date": "2024-02-15",
@@ -16246,6 +16263,25 @@
         "source": "local_teaching",
         "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
         "matched_by": "Kelly Woo"
+      }
+    ],
+    "55baa163-909b-5973-92dc-9927132d678c": [
+      {
+        "card_id": "3ba8c33da421203f3e8cfb226baf0b553e174777",
+        "title": "#20240216 .敏穎數位管理教學",
+        "date": "2024-02-16",
+        "lesson_num": null,
+        "lesson_sub": null,
+        "student_name": "敏穎",
+        "created": "2026-05-23T18:00:27.089605Z",
+        "edited": "2026-05-23T18:00:27.089605Z",
+        "path": "/Users/aios/Projects/00.AI-Notes_Local/01.Docs/teaching/20240216 .敏穎數位管理教學.md",
+        "filename": "20240216 .敏穎數位管理教學.md",
+        "preview": "id: 2024-02-16 title: \"10-4.敏穎數位管理教學\" createdTime: 2024-02-16T10:00:00.000Z lastEditedTime: 2024-02-16T18:00:00.000Z syncTime: 2026-05-24T01:05:17.302734 > [!NOTE]",
+        "content": "---\nid: 2024-02-16\ntitle: \"10-4.敏穎數位管理教學\"\ncreatedTime: 2024-02-16T10:00:00.000Z\nlastEditedTime: 2024-02-16T18:00:00.000Z\nsyncTime: 2026-05-24T01:05:17.302734\n---\n\n> [!NOTE]\n> 本篇教學紀錄是從 2024 年 Google 日曆比對，並從 Heptabase 當日日誌中自動還原萃取的數位管理教學資產。\n\n20240216(五)，今日行程：小悠悠寒假結束，開學（隔天要補課）芝山附幼開學日+10-4.敏穎數位管理教學\n\n今天是大年初七，同時也是小悠悠寒假結束的日子，標誌著他在芝山國小附幼的開學日。一大早，我們一家的日程安排相當緊湊：先是陪伴老婆去醫院拿藥，隨後是敏穎的數位管理教學課程。\n\n下午，我與一位名叫小名的朋友簽訂了一項關於 BCard 的合約，這是一個人脈管理平臺。接著是敏穎的數位管理課程，我們發現她的 iPhone 13 Pro 和 MacBook Air 需要一些技術上的調整和更新。",
+        "source": "local_teaching",
+        "student_id": "55baa163-909b-5973-92dc-9927132d678c",
+        "matched_by": "敏穎"
       }
     ],
     "5dc16e4f-fbdb-4aa8-8bf3-9105ef7abc83": [
@@ -24097,11 +24133,6 @@
   },
   "unmatched": [
     {
-      "filename": "20240216 .敏穎數位管理教學.md",
-      "candidate_name": "敏穎",
-      "date": "2024-02-16"
-    },
-    {
       "filename": "20240417 你的主題簡報結構，針對數位管理教學的服務流程：.md",
       "candidate_name": "你的主題簡報結構，針對",
       "date": "2024-04-17"
@@ -24233,5 +24264,5 @@
     }
   ],
   "duplicate_count": 0,
-  "generated_at": "2026-09-08T13:43:36.462675Z"
+  "generated_at": "2026-09-08T14:11:32.689256Z"
 }
