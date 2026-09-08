@@ -336,3 +336,16 @@ def test_dashboard_endpoint_unauthenticated():
     assert resp.status_code == 403
     assert "學員隱私保護空間" in resp.text
 
+
+def test_architecture_audit_endpoint_get_and_head():
+    """驗證 /architecture 端點能正確回傳架構審查報告，並支援 HEAD 請求。"""
+    client = TestClient(app)
+    resp_get = client.get("/architecture")
+    assert resp_get.status_code == 200
+    assert "StudentCRM 架構審查與深模組審計報告" in resp_get.text
+    assert "text/html" in resp_get.headers["content-type"]
+
+    resp_head = client.head("/architecture")
+    assert resp_head.status_code == 200
+
+

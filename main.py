@@ -231,6 +231,14 @@ async def service_worker():
     return HTMLResponse(content="// sw not found", status_code=404)
 
 
+@app.api_route("/architecture", methods=["GET", "HEAD"], include_in_schema=False)
+async def architecture_audit_page():
+    audit_file = os.path.join(APP_DIR, "architecture_audit.html")
+    if os.path.exists(audit_file):
+        return FileResponse(audit_file, media_type="text/html; charset=utf-8")
+    return HTMLResponse("<h1>Architecture Audit Report Not Found</h1>", status_code=404)
+
+
 # ── 系統健康與同步狀態端點 ────────────────────────────────────────────────────
 @app.get("/__health")
 async def health_check():

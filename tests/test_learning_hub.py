@@ -78,6 +78,7 @@ def test_guessable_names_and_slugs_are_strictly_blocked():
 
 
 def test_coach_magic_link_flow_and_privacy_lock():
+    client.cookies.clear()
     # 1. 訪客未授權進入首頁 -> 顯示 403 隱私保護鎖定頁
     unauth_resp = client.get("/", headers={"X-Test-Auth": "true"})
     assert unauth_resp.status_code == 403
@@ -104,7 +105,8 @@ def test_coach_magic_link_flow_and_privacy_lock():
 
     # 5. 攜帶 session cookie 即可自由進入首頁
     cookie_val = coach_resp.cookies["coach_session"]
-    auth_resp = client.get("/", cookies={"coach_session": cookie_val}, headers={"X-Test-Auth": "true"})
+    client.cookies.set("coach_session", cookie_val)
+    auth_resp = client.get("/", headers={"X-Test-Auth": "true"})
     assert auth_resp.status_code == 200
     assert "學員管理系統" in auth_resp.text
 
@@ -138,9 +140,10 @@ def test_student_pwa_manifest_and_home_screen_auto_redirect():
     assert "Charlotte" in manifest["name"]
 
     # 3. 學員主畫面圖標若因歷史原因開啟了首頁 /，門禁系統自動 303 轉址回其個人空間
+    client.cookies.clear()
+    client.cookies.set("last_student_token", valid_uuid)
     home_resp = client.get(
         "/",
-        cookies={"last_student_token": valid_uuid},
         headers={"X-Test-Auth": "true"},
         follow_redirects=False,
     )

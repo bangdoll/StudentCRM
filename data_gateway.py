@@ -26,6 +26,23 @@ def clear_gateway_memory_cache() -> None:
     _MEMORY_CACHE.clear()
 
 
+def _clone_student_dict(s: dict[str, Any]) -> dict[str, Any]:
+    """快速輕量複製單一學員物件，避免 copy.deepcopy 造成的高延遲，同時隔絕記憶體污染。"""
+    c = s.copy()
+    aliases = c.get("aliases")
+    if isinstance(aliases, list):
+        c["aliases"] = list(aliases)
+    tags = c.get("tags")
+    if isinstance(tags, list):
+        c["tags"] = list(tags)
+    return c
+
+
+def _clone_students_list(students: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """複製學員列表。"""
+    return [_clone_student_dict(s) for s in students]
+
+
 @dataclass(frozen=True)
 class GatewayStatus:
     engine: str
@@ -128,12 +145,12 @@ class StudentDataGateway:
         if cache_key in _MEMORY_CACHE:
             cached_time, cached_data = _MEMORY_CACHE[cache_key]
             if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
-                return copy.deepcopy(cached_data)
+                return _clone_students_list(cached_data)
 
         students = self._load_students_uncached()
         if students:
-            _MEMORY_CACHE[cache_key] = (now, students)
-        return students
+            _MEMORY_CACHE[cache_key] = (now, _clone_students_list(students))
+        return _clone_students_list(students)
 
     def _load_students_uncached(self) -> list[dict[str, Any]]:
         if self.backend != "supabase":

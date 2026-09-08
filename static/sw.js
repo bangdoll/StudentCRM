@@ -1,5 +1,5 @@
-// StudentCRM Service Worker - Local-First & Offline Resilience
-const CACHE_NAME = 'student-crm-v1.2';
+// StudentCRM Service Worker v1.3 - Local-First & Offline Resilience
+const CACHE_NAME = 'student-crm-v1.3';
 const PRECACHE_ASSETS = [
   '/static/style.css',
   '/static/site.webmanifest',
@@ -9,7 +9,7 @@ const PRECACHE_ASSETS = [
   '/static/icon-192.png'
 ];
 
-// Install: pre-cache static assets
+// Install: pre-cache critical static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate: clean up obsolete caches
+// Activate: clean up obsolete cache versions
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -35,7 +35,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch: Stale-While-Revalidate for HTML pages, Cache-First for static assets
+// Fetch dispatcher
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
@@ -43,16 +43,31 @@ self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (request.method !== 'GET') return;
 
-  // Ignore chrome-extension or external analytics
+  // 1. External fonts (Google Fonts & Webfonts) -> Cache-First
+  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        if (cachedResponse) return cachedResponse;
+        return fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+          }
+          return networkResponse;
+        }).catch(() => cachedResponse);
+      })
+    );
+    return;
+  }
+
+  // Ignore external origins
   if (url.origin !== self.location.origin) return;
 
-  // Cache-first for static assets
+  // 2. Cache-First for static assets
   if (url.pathname.startsWith('/static/')) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+        if (cachedResponse) return cachedResponse;
         return fetch(request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const responseClone = networkResponse.clone();
@@ -65,7 +80,33 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-While-Revalidate for navigation/HTML requests (home, apple-ceo, notes, student pages)
+  // 3. Stale-While-Revalidate for read-only learning APIs & dynamic student manifests
+  if (
+    url.pathname.startsWith('/api/cases') ||
+    url.pathname.startsWith('/api/practice/random') ||
+    url.pathname.endsWith('/manifest.webmanifest')
+  ) {
+    event.respondWith(
+      caches.match(request).then((cachedResponse) => {
+        const fetchPromise = fetch(request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+          }
+          return networkResponse;
+        }).catch(() => cachedResponse);
+
+        if (cachedResponse) {
+          event.waitUntil(fetchPromise);
+          return cachedResponse;
+        }
+        return fetchPromise;
+      })
+    );
+    return;
+  }
+
+  // 4. Stale-While-Revalidate for navigation/HTML requests (dashboard, apple-ceo, notes, student hubs)
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       caches.match(request).then((cachedResponse) => {
@@ -78,7 +119,7 @@ self.addEventListener('fetch', (event) => {
             return networkResponse;
           })
           .catch(() => {
-            // If network fails, return cached page; do not fallback to / for student hubs or notes
+            // If network fails, return cached page
             if (cachedResponse) return cachedResponse;
             if (!url.pathname.startsWith('/my/') && !url.pathname.startsWith('/hub/') && !url.pathname.startsWith('/note')) {
               return caches.match('/');
@@ -89,7 +130,11 @@ self.addEventListener('fetch', (event) => {
             );
           });
 
-        return cachedResponse || fetchPromise;
+        if (cachedResponse) {
+          event.waitUntil(fetchPromise);
+          return cachedResponse;
+        }
+        return fetchPromise;
       })
     );
   }
