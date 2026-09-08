@@ -55,23 +55,6 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-        .btn-open {
-            background: rgba(88, 166, 255, 0.15);
-            color: var(--accent-color);
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all 0.2s;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .btn-open:hover {
-            background: var(--accent-color);
-            color: #fff;
-            text-decoration: none;
-        }
         .markdown-body {
             color: #c9d1d9;
             font-size: 1rem;
@@ -256,9 +239,6 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if path %}
-                <a href="/trigger_open?path={{ path }}" class="btn-open">本機開啟 ↗</a>
-                {% endif %}
             </div>
 
             {% if micro_cards %}
