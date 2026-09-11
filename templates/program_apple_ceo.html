@@ -72,6 +72,7 @@
             <a href="#teachingNotesSection" class="subnav-pill active">📝 課堂教學紀錄 ({{ teaching_notes|length }})</a>
             <a href="#attendanceSection" class="subnav-pill">📅 上課日期的記錄 ({{ attendance_records|length }}堂)</a>
             <a href="#studentsSection" class="subnav-pill">👥 學員進度 ({{ student_rounds|length }})</a>
+            {% if not is_student_view %}
             <a href="#financialSection" class="subnav-pill">💰 財務總覽 ({{ summary.total_tuition_label }})</a>
             <a href="#ledgerSection" class="subnav-pill">🏢 場地流水 (餘額 ${{ venue_ledger[-1].balance_after }})</a>
             <a href="#tuitionSection" class="subnav-pill">💳 學費收取</a>
@@ -79,6 +80,7 @@
             <a href="#completionAlertSection" class="subnav-pill" style="border-color: rgba(255, 123, 114, 0.45); color: #ff7b72; font-weight: 700; background: rgba(255, 123, 114, 0.1);">🚨 完成通知 ({{ summary.completed_student_count }})</a>
             {% endif %}
             <a href="#previewSection" class="subnav-pill">⚡ HITL預覽</a>
+            {% endif %}
         </nav>
 
         <!-- 1. 課堂教學紀錄（置頂在最上方，以折疊方式保存最新 10 則，其他折疊收起） -->
@@ -201,9 +203,11 @@
                             <span class="meta-info" style="font-size: 0.76rem; display: block; color: var(--text-secondary);">本輪 8 堂已圓滿完成，可洽詢續約下一期</span>
                             {% endif %}
                         </div>
+                        {% if not is_student_view %}
                         <button type="button" class="btn-copy-reminder" data-msg="{{ round.reminder_message }}" title="一鍵複製 LINE 續班提醒文字">
                             📋 複製提醒
                         </button>
+                        {% endif %}
                     </div>
                     {% endfor %}
                 </div>
@@ -213,6 +217,7 @@
             </article>
         </section>
 
+        {% if not is_student_view %}
         <section class="summary-grid" id="financialSection">
             <article class="summary-card">
                 <p class="summary-label">累計學費入帳</p>
@@ -240,6 +245,7 @@
                 <p class="meta-info">6/8 或 7/8 建議預告續費</p>
             </article>
         </section>
+        {% endif %}
 
         <section class="panel-card" id="activeStripSection">
             <div class="panel-header">
@@ -279,6 +285,7 @@
                 </ul>
             </article>
 
+            {% if not is_student_view %}
             <article class="panel-card" id="ledgerSection">
                 <div class="panel-header">
                     <div>
@@ -324,8 +331,10 @@
                 </div>
                 {% endif %}
             </article>
+            {% endif %}
         </section>
 
+        {% if not is_student_view %}
         <section class="panel-card" id="tuitionSection" style="margin-top: 24px;">
             <div class="panel-header">
                 <div>
@@ -357,6 +366,7 @@
                 </table>
             </div>
         </section>
+        {% endif %}
 
         <section class="panel-card" id="studentsSection">
             <div class="panel-header">
@@ -589,6 +599,7 @@
         </section>
         {% endif %}
 
+        {% if not is_student_view %}
         <section class="panel-card attendance-preview-card" id="previewSection">
             <div class="panel-header">
                 <div>
@@ -624,6 +635,7 @@
                 <p class="meta-info">輸入日期與出席名單後，這裡會列出每位學員的預計課次變化。</p>
             </div>
         </section>
+        {% endif %}
 
         <section class="panel-card legacy-note-card">
             <p class="section-kicker">整理說明</p>

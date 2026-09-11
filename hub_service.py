@@ -180,13 +180,36 @@ def load_local_digital_management_notes(base_dir: str) -> list[dict]:
     return sorted(notes, key=lambda item: item.get("date") or "", reverse=True)
 
 
+_CLOUD_TEACHING_RECORDS_CACHE: dict[str, Any] = {
+    "timestamp": 0.0,
+    "cache_path": "",
+    "mtime": 0.0,
+    "data": [],
+}
+
+
 def load_cloud_digital_management_notes(app_dir: str) -> list[dict]:
-    """讀取本地快取或 Supabase 備份之 teaching_records.json。"""
+    """讀取本地快取或 Supabase 備份之 teaching_records.json（具備 mtime 與 TTL 記憶體快取）。"""
     cache_path = os.path.join(app_dir, "data", "teaching_records.json")
     if not os.path.exists(cache_path):
         cache_path = os.path.join(app_dir, "cache", "teaching_records.json")
     if not os.path.exists(cache_path):
         return []
+
+    try:
+        current_mtime = os.path.getmtime(cache_path)
+    except OSError:
+        current_mtime = 0.0
+
+    now = datetime.now(timezone.utc).timestamp()
+    cached = _CLOUD_TEACHING_RECORDS_CACHE
+    if (
+        cached["data"]
+        and cached["cache_path"] == cache_path
+        and cached["mtime"] == current_mtime
+        and (now - cached["timestamp"] < 30.0)
+    ):
+        return cached["data"]
 
     try:
         with open(cache_path, "r", encoding="utf-8") as f:
@@ -215,6 +238,11 @@ def load_cloud_digital_management_notes(app_dir: str) -> list[dict]:
             "preview": preview_text,
             "word_count": r.get("word_count") or len(r.get("content") or ""),
         })
+
+    cached["timestamp"] = now
+    cached["cache_path"] = cache_path
+    cached["mtime"] = current_mtime
+    cached["data"] = notes
     return notes
 
 

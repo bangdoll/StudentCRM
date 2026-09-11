@@ -116,6 +116,35 @@ def render_magic_link_page(admin_info: dict[str, str], target_url: str = "/") ->
     return response
 
 
+APPLE_CEO_MEMBER_KEYWORDS: tuple[str, ...] = (
+    "總裁班",
+    "方博敦",
+    "劉邦寧",
+    "roger",
+    "lucia",
+    "王太太",
+    "方敏穎",
+    "黃凱亮",
+    "徐露華",
+)
+
+
+def is_authorized_apple_ceo_student(token_param: str, st: dict[str, Any]) -> bool:
+    """檢查學員是否為蘋果總裁班之合法授權學員或專班 Token。"""
+    if token_param in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo"):
+        return True
+    sname = (st.get("name") or "").lower()
+    stags = [t.lower() for t in st.get("tags") or []]
+    saliases = [a.lower() for a in st.get("aliases") or []]
+    if "總裁班" in sname or "總裁班" in stags or "專班" in stags:
+        return True
+    all_names = [sname] + saliases
+    for name_candidate in all_names:
+        if any(kw in name_candidate for kw in APPLE_CEO_MEMBER_KEYWORDS):
+            return True
+    return False
+
+
 async def handle_coach_auth_middleware(
     request: Request,
     call_next: Callable,
@@ -166,7 +195,7 @@ async def handle_coach_auth_middleware(
             if st:
                 if path in ("/note", "/open_file"):
                     return await call_next(request)
-                if path == "/program/apple-ceo" and (token_param in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or "總裁班" in st.get("name", "")):
+                if path == "/program/apple-ceo" and is_authorized_apple_ceo_student(token_param, st):
                     return await call_next(request)
 
     # 2.5. 檢查網址列自帶合法管理員私鑰（解決部分手機瀏覽器在跨跳轉時遺失 Cookie 的問題）
