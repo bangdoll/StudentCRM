@@ -65,7 +65,7 @@
     "file": "/01.Docs/Students/bill_yang.md",
     "lessons_count": 5,
     "latest_date": "2026-07-25",
-    "next_lesson": "2026-09-11",
+    "next_lesson": "2026-10-20",
     "tags": [
       "一般學員"
     ],
@@ -103,7 +103,7 @@
     "file": "/01.Docs/Students/Charlotte.md",
     "lessons_count": 74,
     "latest_date": "2026-08-31",
-    "next_lesson": "2026-09-11",
+    "next_lesson": "2026-09-21",
     "tags": [
       "一般學員"
     ],
@@ -613,7 +613,7 @@
     "file": "/01.Docs/Students/Chami.md",
     "lessons_count": 45,
     "latest_date": "2026-07-27",
-    "next_lesson": "2026-09-10",
+    "next_lesson": "2026-09-24",
     "tags": [
       "一般學員"
     ],
@@ -854,15 +854,15 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1362,
-    "latest_date": "2026-09-03",
-    "next_lesson": "2026-09-10",
+    "lessons_count": 1363,
+    "latest_date": "2026-09-10",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active"
   },
   {
