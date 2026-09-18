@@ -164,7 +164,7 @@ def test_apple_ceo_program_page():
     assert "場地費流水" in response.text
     assert "請通知續班" in response.text
     assert "進行中 1 筆" in response.text
-    assert "累計 27 堂" in response.text
+    assert "累計 28 堂" in response.text
 
 
 
@@ -347,5 +347,4 @@ def test_architecture_audit_endpoint_get_and_head():
 
     resp_head = client.head("/architecture")
     assert resp_head.status_code == 200
-
 

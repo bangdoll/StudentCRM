@@ -210,66 +210,122 @@ async def logout():
 @router.get("/search", response_class=HTMLResponse)
 async def search(request: Request, q: str = ""):
     deps = get_coach_deps()
-    import glob
-    import re
+    query = q.strip()
     results = []
-    if q.strip():
+    matched_students = []
+
+    if query:
+        q_lower = query.lower()
         students = deps["load_students"]()
-        name_to_sid = {}
+        name_to_sid: dict[str, str] = {}
+
         for s in students:
-            name_to_sid[s.get('name', '')] = s.get('id', '')
-            for alias in s.get('aliases', []):
-                name_to_sid[alias] = s.get('id', '')
+            sid = s.get("id", "")
+            sname = s.get("name", "")
+            if sname:
+                name_to_sid[sname.lower()] = sid
+            for alias in s.get("aliases", []):
+                if alias:
+                    name_to_sid[str(alias).lower()] = sid
 
-        import main
-        cache_files = glob.glob(os.path.join(main.CACHE_DIR, "Lesson_*.md"))
-        teaching_files = glob.glob(os.path.join(main.TEACHING_DIR, "Lesson_*.md"))
-        all_files = sorted(cache_files + teaching_files, reverse=True)
+            # 比對學員姓名、別名、標籤
+            student_matched = False
+            if q_lower in sname.lower():
+                student_matched = True
+            elif any(q_lower in str(alias).lower() for alias in s.get("aliases", [])):
+                student_matched = True
+            elif any(q_lower in str(tag).lower() for tag in s.get("tags", [])):
+                student_matched = True
 
-        for fpath in all_files:
-            try:
-                with open(fpath, 'r', encoding='utf-8', errors='ignore') as f:
-                    content = f.read()
-            except Exception:
+            if student_matched:
+                matched_students.append(s)
+
+        gateway = deps["student_gateway"]
+        teaching_records = gateway.load_all_teaching_records()
+
+        apple_ceo = deps["load_apple_ceo_program"]()
+        apple_notes = apple_ceo.get("teaching_notes", []) if isinstance(apple_ceo, dict) else []
+
+        candidates: list[dict] = []
+
+        # 1. 一對一教學筆記
+        for rec in teaching_records:
+            candidates.append({
+                "date": rec.get("date", ""),
+                "title": rec.get("title", ""),
+                "student_name": rec.get("student_name", ""),
+                "path": rec.get("path", ""),
+                "preview": rec.get("preview", ""),
+                "content": rec.get("content", ""),
+            })
+
+        # 2. 蘋果總裁班教學筆記
+        for an in apple_notes:
+            candidates.append({
+                "date": an.get("date", ""),
+                "title": an.get("full_title") or an.get("title") or an.get("filename", ""),
+                "student_name": "蘋果總裁班",
+                "path": an.get("path", ""),
+                "preview": an.get("preview", ""),
+                "content": an.get("content", ""),
+            })
+
+        seen_keys = set()
+        for item in candidates:
+            title = str(item.get("title", "")).lstrip("#").strip()
+            student_name = str(item.get("student_name", "")).strip()
+            content = item.get("content", "")
+            preview_raw = item.get("preview", "")
+            date_str = item.get("date", "")
+            path = item.get("path", "")
+
+            matched = False
+            if q_lower in student_name.lower():
+                matched = True
+            elif q_lower in title.lower():
+                matched = True
+            elif q_lower in preview_raw.lower():
+                matched = True
+            elif content and q_lower in content.lower():
+                matched = True
+
+            if not matched:
                 continue
 
-            if q.lower() not in content.lower():
+            dedup_key = (date_str, title, student_name, path)
+            if dedup_key in seen_keys:
                 continue
+            seen_keys.add(dedup_key)
 
-            fname = os.path.basename(fpath)
-            m = re.match(r'Lesson_(\d{8})_(.+)\.md', fname)
-            if not m:
-                continue
-            date_str, student_name = m.group(1), m.group(2)
-            sid = name_to_sid.get(student_name, student_name.lower())
+            display_preview = ""
+            if content:
+                for line in content.splitlines():
+                    cleaned = line.strip().lstrip("#-*\t ")
+                    if q_lower in cleaned.lower():
+                        display_preview = cleaned[:180]
+                        break
+            if not display_preview:
+                display_preview = preview_raw[:180] if preview_raw else (content[:180] if content else "")
 
-            preview = ""
-            for line in content.split('\n'):
-                if q.lower() in line.lower():
-                    preview = line.strip()[:150]
-                    break
+            sid = name_to_sid.get(student_name.lower(), "")
 
-            title = fname
-            for line in content.split('\n'):
-                if line.startswith('#'):
-                    title = re.sub(r'^#+\s*', '', line).strip()
-                    break
-
-            y, mo, d = date_str[:4], date_str[4:6], date_str[6:]
             results.append({
-                "date": f"{y}-{mo}-{d}",
+                "date": date_str,
                 "title": title,
                 "student_name": student_name,
                 "student_id": sid,
-                "path": fpath,
-                "preview": preview,
+                "path": path,
+                "preview": display_preview,
             })
+
+        results.sort(key=lambda r: r.get("date") or "", reverse=True)
 
     return deps["templates"].TemplateResponse(request, "search.html", {
         "request": request,
-        "q": q,
+        "q": query,
         "results": results,
         "count": len(results),
+        "matched_students": matched_students,
     })
 
 

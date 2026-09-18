@@ -1,19 +1,32 @@
 import json
+import shutil
 import pytest
 from pathlib import Path
 from teaching_sync import sync_teaching_records_to_crm
 
 
-def test_sync_teaching_records_to_crm_basic():
-    res = sync_teaching_records_to_crm()
+def test_sync_teaching_records_to_crm_basic(tmp_path):
+    # 同步流程會寫入多份 CRM 檔案；使用工作區副本，避免測試污染正式資料。
+    source_crm_dir = Path(__file__).resolve().parents[1]
+    source_workspace_dir = source_crm_dir.parents[1]
+    isolated_workspace = tmp_path / "workspace"
+    isolated_crm_dir = isolated_workspace / "07.Projects" / "StudentCRM"
+    isolated_data_dir = isolated_crm_dir / "data"
+    isolated_teaching_dir = isolated_workspace / "01.Docs" / "teaching"
+
+    isolated_data_dir.mkdir(parents=True)
+    shutil.copytree(source_workspace_dir / "01.Docs" / "teaching", isolated_teaching_dir)
+    shutil.copy2(source_crm_dir / "data" / "students.json", isolated_data_dir / "students.json")
+    shutil.copy2(source_crm_dir / "data" / "apple_ceo_class.json", isolated_data_dir / "apple_ceo_class.json")
+
+    res = sync_teaching_records_to_crm(isolated_workspace)
     assert res["success"] is True
     assert res["total_records"] >= 698
     assert res["total_students"] >= 60
     assert res["apple_ceo_notes_count"] >= 80
 
-    crm_dir = Path(__file__).resolve().parents[1]
-    data_file = crm_dir / "data" / "teaching_records.json"
-    cache_file = crm_dir / "cache" / "teaching_records.json"
+    data_file = isolated_crm_dir / "data" / "teaching_records.json"
+    cache_file = isolated_crm_dir / "cache" / "teaching_records.json"
 
     assert data_file.exists()
     assert cache_file.exists()

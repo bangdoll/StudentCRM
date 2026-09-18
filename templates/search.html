@@ -87,6 +87,22 @@
         </div>
 
         {% if q %}
+        {% if matched_students %}
+        <div style="margin-bottom: 24px;">
+            <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 10px;">
+                🎯 符合條件的學員 ({{ matched_students|length }})
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for s in matched_students %}
+                <a href="/student/{{ s.id }}" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); padding: 8px 14px; border-radius: 20px; color: #38bdf8; text-decoration: none; font-size: 0.9rem; font-weight: 500;">
+                    <span>👤 {{ s.name }}</span>
+                    <span style="font-size: 0.75rem; opacity: 0.8;">({{ s.lessons_count or 0 }} 堂)</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
         <div class="result-count">
             關鍵字 <strong>「{{ q }}」</strong> 共找到 <strong>{{ count }}</strong> 筆課程記錄
         </div>
@@ -96,9 +112,13 @@
             <div class="result-card">
                 <div class="result-meta">
                     <span>{{ r.date }}</span>
+                    {% if r.student_id %}
                     <a href="/student/{{ r.student_id }}" class="result-student">{{ r.student_name }}</a>
+                    {% else %}
+                    <span class="result-student">{{ r.student_name }}</span>
+                    {% endif %}
                 </div>
-                <a href="/open_file?path={{ r.path }}" class="result-title">{{ r.title }}</a>
+                <a href="/note?path={{ r.path|urlencode }}" class="result-title">{{ r.title }}</a>
                 {% if r.preview %}
                 <div class="result-preview">{{ r.preview }}</div>
                 {% endif %}

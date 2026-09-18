@@ -15,25 +15,40 @@
     "status": "active"
   },
   {
-    "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "name": "Anna 蕭",
+    "id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "name": "Amanda 蕭秉慧",
     "aliases": [
       "Amanda",
-      "Amanda 蕭秉慧",
-      "Anna 蕭-Zoom",
-      "Anna蕭",
-      "Anna蕭-Zoom",
       "蕭秉慧"
     ],
-    "file": "/01.Docs/Students/Anna 蕭.md",
-    "lessons_count": 15,
+    "file": "/01.Docs/Students/Amanda 蕭秉慧.md",
+    "lessons_count": 6,
     "latest_date": "2026-07-10",
     "next_lesson": "2026-11-27",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2022-04-01",
-    "current_cycle_lesson": 7,
+    "first_lesson_date": "2023-09-08",
+    "current_cycle_lesson": 6,
+    "status": "active"
+  },
+  {
+    "id": "bdc7faee-6ffe-451e-8134-c923fc906238",
+    "name": "Anna 蕭",
+    "aliases": [
+      "Anna 蕭-Zoom",
+      "Anna蕭",
+      "Anna蕭-Zoom"
+    ],
+    "file": "/01.Docs/Students/Anna 蕭.md",
+    "lessons_count": 16,
+    "latest_date": "2026-09-18",
+    "next_lesson": "2026-11-27",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2024-01-13",
+    "current_cycle_lesson": 8,
     "status": "active"
   },
   {
@@ -45,14 +60,14 @@
       "Annie老師"
     ],
     "file": "/01.Docs/Students/Annie.md",
-    "lessons_count": 81,
-    "latest_date": "2026-09-05",
-    "next_lesson": "2026-09-14",
+    "lessons_count": 83,
+    "latest_date": "2026-09-14",
+    "next_lesson": "2026-10-24",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2021-03-06",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 3,
     "status": "active"
   },
   {
@@ -63,14 +78,14 @@
       "楊文祥"
     ],
     "file": "/01.Docs/Students/bill_yang.md",
-    "lessons_count": 5,
-    "latest_date": "2026-07-25",
+    "lessons_count": 6,
+    "latest_date": "2026-09-11",
     "next_lesson": "2026-10-20",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-12-03",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 6,
     "status": "active"
   },
   {
@@ -101,14 +116,14 @@
       "陳姐 Charlotte"
     ],
     "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 74,
-    "latest_date": "2026-08-31",
+    "lessons_count": 75,
+    "latest_date": "2026-09-11",
     "next_lesson": "2026-09-21",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active"
   },
   {
@@ -131,14 +146,14 @@
     "name": "Kelly Woo",
     "aliases": [],
     "file": "/01.Docs/Students/kelly_woo.md",
-    "lessons_count": 68,
-    "latest_date": "2026-09-08",
+    "lessons_count": 69,
+    "latest_date": "2026-09-15",
     "next_lesson": "2026-09-22",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 4,
+    "current_cycle_lesson": 5,
     "status": "active"
   },
   {
@@ -198,9 +213,9 @@
       "陳萱玲"
     ],
     "file": "/01.Docs/Students/shelley_chen.md",
-    "lessons_count": 21,
-    "latest_date": "2026-09-03",
-    "next_lesson": "2026-09-17",
+    "lessons_count": 22,
+    "latest_date": "2026-09-17",
+    "next_lesson": "2026-10-01",
     "tags": [
       "一般學員"
     ],
@@ -349,7 +364,7 @@
     "file": "/01.Docs/Students/大安妮.md",
     "lessons_count": 3,
     "latest_date": "2024-02-20",
-    "next_lesson": null,
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -440,14 +455,14 @@
     "name": "張素幸",
     "aliases": [],
     "file": "/01.Docs/Students/zhang_su_xing.md",
-    "lessons_count": 17,
-    "latest_date": "2026-09-07",
-    "next_lesson": "2026-09-14",
+    "lessons_count": 18,
+    "latest_date": "2026-09-14",
+    "next_lesson": "2026-10-05",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2025-08-12",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active"
   },
   {
@@ -474,7 +489,7 @@
     "file": "/01.Docs/Students/彭澤江.md",
     "lessons_count": 5,
     "latest_date": "2024-04-15",
-    "next_lesson": null,
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -559,7 +574,7 @@
     "file": "/01.Docs/Students/曾小米.md",
     "lessons_count": 14,
     "latest_date": "2026-08-25",
-    "next_lesson": "2026-09-15",
+    "next_lesson": "2026-09-29",
     "tags": [
       "一般學員"
     ],
@@ -613,7 +628,7 @@
     "file": "/01.Docs/Students/Chami.md",
     "lessons_count": 45,
     "latest_date": "2026-07-27",
-    "next_lesson": "2026-09-24",
+    "next_lesson": "2026-10-08",
     "tags": [
       "一般學員"
     ],
@@ -854,15 +869,15 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1363,
-    "latest_date": "2026-09-10",
+    "lessons_count": 1364,
+    "latest_date": "2026-09-17",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active"
   },
   {
@@ -929,7 +944,7 @@
     "file": "/01.Docs/Students/邱醫師.md",
     "lessons_count": 50,
     "latest_date": "2026-08-11",
-    "next_lesson": "2026-09-15",
+    "next_lesson": "2026-10-13",
     "tags": [
       "一般學員"
     ],
@@ -993,14 +1008,14 @@
       "陳海陸 20 4"
     ],
     "file": "/01.Docs/Students/chen_hai_lu.md",
-    "lessons_count": 26,
-    "latest_date": "2026-09-04",
-    "next_lesson": "2026-09-18",
+    "lessons_count": 27,
+    "latest_date": "2026-09-18",
+    "next_lesson": "2026-10-15",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active"
   },
   {
@@ -1044,14 +1059,14 @@
       "顧蓓華"
     ],
     "file": "/01.Docs/Students/gu_bei_hua.md",
-    "lessons_count": 6,
-    "latest_date": "2026-05-10",
-    "next_lesson": "2026-09-13",
+    "lessons_count": 7,
+    "latest_date": "2026-09-13",
+    "next_lesson": "2026-10-04",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2025-11-09",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active"
   },
   {
@@ -1093,11 +1108,11 @@
     "file": "/01.Docs/Students/腦波Annie.md",
     "lessons_count": 1,
     "latest_date": "2022-06-02",
-    "next_lesson": null,
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2022-06-02",
+    "first_lesson_date": "2021-10-09",
     "current_cycle_lesson": 1,
     "status": "paused",
     "status_reason": "long_term_inactive"
@@ -1109,15 +1124,15 @@
       ".敏穎"
     ],
     "file": "/01.Docs/Students/敏穎.md",
-    "lessons_count": 5,
-    "latest_date": "2024-09-26",
+    "lessons_count": 10,
+    "latest_date": "2024-02-16",
     "next_lesson": "安排中",
     "tags": [
       "一般學員",
       "復原子產"
     ],
-    "first_lesson_date": "2024-02-16",
-    "current_cycle_lesson": 5,
+    "first_lesson_date": "2018-02-27",
+    "current_cycle_lesson": 4,
     "status": "paused"
   }
 ]
