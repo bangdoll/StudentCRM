@@ -248,24 +248,50 @@ async def search(request: Request, q: str = ""):
 
         candidates: list[dict] = []
 
-        # 1. 一對一教學筆記
+        # 1. 一對一教學筆記（相容 local JSON 與 Supabase raw 封裝）
         for rec in teaching_records:
+            raw_data = rec.get("raw")
+            if isinstance(raw_data, str):
+                try:
+                    import json
+                    raw_data = json.loads(raw_data)
+                except Exception:
+                    raw_data = {}
+            elif not isinstance(raw_data, dict):
+                raw_data = {}
+
+            t_title = rec.get("title") or raw_data.get("title") or ""
+            t_student = rec.get("student_name") or raw_data.get("student_name") or ""
+            t_path = rec.get("path") or raw_data.get("path") or rec.get("filename") or raw_data.get("filename") or ""
+            if not t_path and t_title:
+                t_clean = t_title.lstrip("#").strip()
+                t_path = t_clean if t_clean.endswith(".md") else f"{t_clean}.md"
+
+            t_date = rec.get("date") or raw_data.get("date") or ""
+            t_preview = rec.get("preview") or raw_data.get("preview") or ""
+            t_content = rec.get("content") or raw_data.get("content") or ""
+            t_sid = rec.get("student_id") or raw_data.get("student_id") or ""
+
             candidates.append({
-                "date": rec.get("date", ""),
-                "title": rec.get("title", ""),
-                "student_name": rec.get("student_name", ""),
-                "path": rec.get("path", ""),
-                "preview": rec.get("preview", ""),
-                "content": rec.get("content", ""),
+                "date": t_date,
+                "title": t_title,
+                "student_name": t_student,
+                "student_id": t_sid,
+                "path": t_path,
+                "preview": t_preview,
+                "content": t_content,
             })
 
         # 2. 蘋果總裁班教學筆記
         for an in apple_notes:
+            an_title = an.get("full_title") or an.get("title") or an.get("filename", "")
+            an_path = an.get("path") or an.get("filename") or an_title
             candidates.append({
                 "date": an.get("date", ""),
-                "title": an.get("full_title") or an.get("title") or an.get("filename", ""),
+                "title": an_title,
                 "student_name": "蘋果總裁班",
-                "path": an.get("path", ""),
+                "student_id": "",
+                "path": an_path,
                 "preview": an.get("preview", ""),
                 "content": an.get("content", ""),
             })
@@ -307,7 +333,13 @@ async def search(request: Request, q: str = ""):
             if not display_preview:
                 display_preview = preview_raw[:180] if preview_raw else (content[:180] if content else "")
 
-            sid = name_to_sid.get(student_name.lower(), "")
+            # 確定 student_id
+            sid = item.get("student_id")
+            # 蕭秉慧不等於 Anna 蕭，精準校正
+            if not sid or (student_name in ("Amanda 蕭秉慧", "蕭秉慧", "Amanda") and sid == "bdc7faee-6ffe-451e-8134-c923fc906238"):
+                sid = name_to_sid.get(student_name.lower(), "")
+            if not sid:
+                sid = name_to_sid.get(student_name.lower(), "")
 
             results.append({
                 "date": date_str,
