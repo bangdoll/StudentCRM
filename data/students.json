@@ -4,14 +4,14 @@
     "name": "Amy",
     "aliases": [],
     "file": "/01.Docs/Students/Amy.md",
-    "lessons_count": 8,
-    "latest_date": "2026-09-04",
-    "next_lesson": "2026-09-19",
+    "lessons_count": 9,
+    "latest_date": "2026-09-19",
+    "next_lesson": "2026-10-03",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2026-03-14",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active"
   },
   {
@@ -146,14 +146,14 @@
     "name": "Kelly Woo",
     "aliases": [],
     "file": "/01.Docs/Students/kelly_woo.md",
-    "lessons_count": 69,
-    "latest_date": "2026-09-15",
+    "lessons_count": 70,
+    "latest_date": "2026-09-20",
     "next_lesson": "2026-09-22",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 6,
     "status": "active"
   },
   {
@@ -279,7 +279,7 @@
     "file": "/01.Docs/Students/元偉琴.md",
     "lessons_count": 23,
     "latest_date": "2025-12-26",
-    "next_lesson": "2026-09-20",
+    "next_lesson": "2026-09-29",
     "tags": [
       "一般學員"
     ],

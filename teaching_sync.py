@@ -167,6 +167,9 @@ def candidate_name_from_title(title: str) -> str:
     if "禮品公會" in stem:
         return "禮品公會"
 
+    if "kelly" in stem.lower():
+        return "Kelly Woo"
+
     lesson_match = re.match(r"Lesson[_\s-]*(20\d{6})[_\s-]+(.+)$", stem, re.IGNORECASE)
     if lesson_match:
         return re.sub(r"[_-]+", " ", lesson_match.group(2)).strip()
@@ -194,23 +197,40 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     is_lesson_file = bool(re.match(r"Lesson[_\s-]*20\d{6}[_\s-]+", title, re.IGNORECASE))
     is_apple_ceo = "蘋果總裁班" in title or "Apple_CEO" in title or "Apple CEO" in title
     is_group_class = any(k in title for k in ["資深少年", "AI學習團", "AI 學習團", "Senior_AI", "禮品公會"])
-    if not is_digital_management and not is_lesson_file and not is_apple_ceo and not is_group_class:
-        return None
-
-    date = parse_date_from_title(title)
-    title_without_date = re.sub(r"(20\d{2})[-_ ./年]?(\d{2})[-_ ./月]?(\d{2})", "", title, count=1).strip()
-    title_without_date = title_without_date.lstrip(" .-_#")
-    lesson_num, lesson_sub = parse_lesson_parts(title_without_date)
-    if lesson_num is None and not date:
-        lesson_num, lesson_sub = parse_lesson_parts(title)
-    candidate_name = candidate_name_from_title(title)
-    if not candidate_name:
+    is_special_guide = any(k in title for k in ["行動指南", "Reels 行動指南"])
+    if not is_digital_management and not is_lesson_file and not is_apple_ceo and not is_group_class and not is_special_guide:
         return None
 
     try:
         content = file_path.read_text(encoding="utf-8", errors="ignore")
     except OSError:
         content = ""
+
+    fm = {}
+    if content.startswith("---"):
+        parts = content.split("---", 2)
+        if len(parts) >= 3:
+            for line in parts[1].split("\n"):
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    fm[k.strip()] = v.strip().strip('"').strip("'")
+
+    date = parse_date_from_title(title)
+    if not date and fm.get("date"):
+        date = fm.get("date")
+    elif not date and fm.get("createdTime"):
+        date = fm.get("createdTime")[:10]
+
+    title_without_date = re.sub(r"(20\d{2})[-_ ./年]?(\d{2})[-_ ./月]?(\d{2})", "", title, count=1).strip()
+    title_without_date = title_without_date.lstrip(" .-_#")
+    lesson_num, lesson_sub = parse_lesson_parts(title_without_date)
+    if lesson_num is None and not date:
+        lesson_num, lesson_sub = parse_lesson_parts(title)
+    candidate_name = candidate_name_from_title(title)
+    if not candidate_name and fm.get("student"):
+        candidate_name = fm.get("student")
+    if not candidate_name:
+        return None
 
     try:
         stat = file_path.stat()
@@ -467,6 +487,21 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
 
     if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
+
+    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/
+    try:
+        src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
+        dst_assets = crm_dir / "static" / "teaching_assets"
+        if src_assets.exists():
+            dst_assets.mkdir(parents=True, exist_ok=True)
+            import shutil
+            for img in src_assets.iterdir():
+                if img.is_file() and not img.name.startswith("."):
+                    target_img = dst_assets / img.name
+                    if not target_img.exists() or target_img.stat().st_size != img.stat().st_size:
+                        shutil.copy2(img, target_img)
+    except Exception as img_err:
+        print(f"⚠️ 同步教學圖片至 static/teaching_assets 失敗: {img_err}")
 
     # 5. 清理記憶體快取
     try:

@@ -523,6 +523,8 @@ def resolve_note_detail(
                     next_label = same_student_records[idx + 1].get("date") or "下一堂"
 
     clean_content = clean_markdown_frontmatter(content)
+    clean_content = re.sub(r'!\[(.*?)\]\((?:assets|/assets)/([^)]+)\)', r'![\1](/static/teaching_assets/\2)', clean_content)
+    clean_content = re.sub(r'!\[(.*?)\]\(assets/([^)]+)\)', r'![\1](/static/teaching_assets/\2)', clean_content)
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))

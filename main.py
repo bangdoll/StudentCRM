@@ -67,6 +67,15 @@ student_gateway = StudentDataGateway(BASE_DIR)
 # ── 建立 FastAPI 實例與模板掛載 ──────────────────────────────────────────────
 app = FastAPI(title="StudentCRM", version="2.5.0")
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+TEACHING_ASSETS_DIR = os.path.join(TEACHING_DIR, "assets")
+if os.path.exists(TEACHING_ASSETS_DIR):
+    app.mount("/assets", StaticFiles(directory=TEACHING_ASSETS_DIR), name="assets")
+else:
+    crm_teaching_assets = os.path.join(STATIC_DIR, "teaching_assets")
+    if os.path.exists(crm_teaching_assets):
+        app.mount("/assets", StaticFiles(directory=crm_teaching_assets), name="assets")
+
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 # ── 身分認證與安全門禁深模組 (auth_service) ──────────────────────────────────
