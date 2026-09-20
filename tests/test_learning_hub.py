@@ -183,3 +183,48 @@ def test_apple_ceo_group_token_access_and_head_support():
     # 5. 學生透過帶有 token 或 cookie 瀏覽 /program/apple-ceo，門禁直接通行
     prog_resp = client.get(f"/program/apple-ceo?token={apple_token}", headers={"X-Test-Auth": "true"})
     assert prog_resp.status_code == 200
+
+
+def test_same_date_multiple_notes_and_image_resolution():
+    """驗證同日多篇筆記去重不誤殺，且圖片路徑正確轉譯為 /static/teaching_assets/。"""
+    kelly_id = "28ef42b0-8fc9-496f-a804-56b57b4011db"
+    hub_resp = client.get(f"/my/{kelly_id}")
+    assert hub_resp.status_code == 200
+    # 兩篇同在 2026-09-20 的筆記皆必須在 Hub 頁面出現
+    assert "20260920 70-1.Kelly Woo 數位管理教學" in hub_resp.text
+    assert "Kelly 法國旅行 AI Reels 行動指南" in hub_resp.text
+
+    # 點擊閱讀筆記，驗證圖片標籤已正確替換為 /static/teaching_assets/
+    note_resp = client.get(
+        f"/note?path=01.Docs/teaching/20260920%2070-1.Kelly%20Woo%20%E6%95%B8%E4%BD%8D%E7%AE%A1%E7%90%86%E6%95%99%E5%AD%B8.md&token={kelly_id}"
+    )
+    assert note_resp.status_code == 200
+    assert "/static/teaching_assets/D2FA4D4E-0C6B-4EB9-B94F-81E2094CA963-14f348ae-069f-4563-9c47-1528e6a1a3f3.png" in note_resp.text
+
+
+def test_student_note_back_link_not_polluted_by_apple_ceo_cookie():
+    """驗證當瀏覽器殘留蘋果總裁班 cookie 時，一般學員（如 Kelly Woo）筆記的返回按鈕絕不會跳轉至蘋果總裁班。"""
+    kelly_id = "28ef42b0-8fc9-496f-a804-56b57b4011db"
+    apple_token = "adf9958b-a23d-4e9b-a4a2-156b5329b0ed"
+    note_path = "01.Docs/teaching/20260920 70-1.Kelly Woo 數位管理教學.md"
+
+    # 情境 1: 教練在後台開啟 Kelly 筆記（無 query token），但瀏覽器存有蘋果總裁班的 last_student_token cookie
+    client.cookies.set("last_student_token", apple_token)
+    resp = client.get(f"/note?path={note_path}")
+    assert resp.status_code == 200
+    # 「返回學員檔案」連結必須是 Kelly 的學員檔案，絕對不能是蘋果總裁班
+    assert f"/student/{kelly_id}" in resp.text
+    assert f"/my/{apple_token}" not in resp.text
+    assert "/program/apple-ceo" not in resp.text
+
+    # 情境 2: 學員在自己的 Hub 點擊筆記（帶有自己的 token）
+    resp_with_token = client.get(f"/note?path={note_path}&token={kelly_id}")
+    assert resp_with_token.status_code == 200
+    assert f"/my/{kelly_id}" in resp_with_token.text
+    assert f"/my/{apple_token}" not in resp_with_token.text
+
+    # 情境 3: URL 誤帶總裁班 token 時，必須自動校正，不應跳往總裁班
+    resp_tampered = client.get(f"/note?path={note_path}&token={apple_token}")
+    assert resp_tampered.status_code == 200
+    assert f"/my/{apple_token}" not in resp_tampered.text
+

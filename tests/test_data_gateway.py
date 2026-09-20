@@ -14,6 +14,10 @@ from main import parse_frontmatter_metadata
 
 
 class StudentDataGatewayTests(unittest.TestCase):
+    def setUp(self):
+        from data_gateway import _MEMORY_CACHE
+        _MEMORY_CACHE.clear()
+
     def test_local_engine_reads_students_json(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -164,6 +168,7 @@ class StudentDataGatewayTests(unittest.TestCase):
                 "STUDENTCRM_DATA_BACKEND": "supabase",
                 "SUPABASE_URL": "https://example.supabase.co",
                 "SUPABASE_ANON_KEY": "test-key",
+                "STUDENTCRM_CACHE_DIR": str(root / "cache"),
             }
             with patch.dict(os.environ, env, clear=False):
                 gateway = StudentDataGateway(str(root))

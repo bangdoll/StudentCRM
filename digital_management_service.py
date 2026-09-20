@@ -243,6 +243,7 @@ def parse_digital_management_note_file(path: str, base_dir: str = "") -> dict:
         "description": "",
         "url": f"/open_file?path={path}" if path.startswith(effective_base) else "",
         "path": path,
+        "filename": filename,
         "preview": preview,
         "source": "本地 teaching 檔案",
     }

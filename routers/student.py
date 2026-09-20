@@ -143,7 +143,21 @@ async def open_file(request: Request, path: str):
         students=students,
     )
 
-    token = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
+    query_token = request.query_params.get("token") or ""
+    cookie_token = request.cookies.get("last_student_token") or ""
+    apple_ceo_tokens = {"adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo"}
+
+    token = ""
+    if query_token:
+        if note and not note.is_apple_ceo and query_token in apple_ceo_tokens:
+            token = note.student_id or ""
+        else:
+            token = query_token
+    elif cookie_token:
+        if note and note.is_apple_ceo and cookie_token in apple_ceo_tokens:
+            token = cookie_token
+        elif note and note.student_id and cookie_token == note.student_id:
+            token = cookie_token
 
     if not note:
         back_url = f"/my/{token}" if token else "/program/apple-ceo"

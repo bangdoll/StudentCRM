@@ -97,24 +97,35 @@ def parse_digital_management_title(summary: str) -> dict[str, Any]:
 def teaching_note_identity_keys(note: dict) -> list[tuple]:
     """生成教學筆記之唯一去重鑑別金鑰。"""
     keys = []
+    card_id = note.get("id") or note.get("card_id")
+    if card_id:
+        keys.append(("id", str(card_id)))
+
     path = note.get("path") or ""
     filename = note.get("filename") or os.path.basename(path)
     if filename:
         keys.append(("file", filename.lower()))
 
-    date = note.get("date") or ""
-    student_id = note.get("student_id") or ""
+    date = str(note.get("date") or "")
+    student_id = str(note.get("student_id") or "")
     student_name = (note.get("student_name") or "").lower()
-    lesson_num = note.get("lesson_number")
+    lesson_num = str(note.get("lesson_number") or note.get("lesson_num") or "")
+    lesson_sub = str(note.get("lesson_sub") or "")
+    title = str(note.get("title") or filename or "").lstrip("#").strip()
+    norm_title = re.sub(r"[^\w\u4e00-\u9fff]+", "", title.lower())
 
-    if date and student_id:
-        keys.append(("date_sid", date, student_id))
-    if date and student_name:
-        keys.append(("date_name", date, student_name))
-    if student_id and lesson_num:
-        keys.append(("sid_lesson", student_id, lesson_num))
-    if student_name and lesson_num:
-        keys.append(("name_lesson", student_name, lesson_num))
+    if norm_title:
+        if student_id:
+            keys.append(("sid_title", student_id, norm_title))
+        if student_name:
+            keys.append(("name_title", student_name, norm_title))
+        if date and student_id:
+            keys.append(("date_sid_title", date, student_id, norm_title))
+
+    if student_id and lesson_num and lesson_sub:
+        keys.append(("sid_lesson_sub", student_id, lesson_num, lesson_sub, norm_title))
+    elif student_id and lesson_num:
+        keys.append(("sid_lesson", student_id, lesson_num, norm_title))
 
     return keys
 
