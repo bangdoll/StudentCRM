@@ -488,18 +488,26 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
     if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
 
-    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/
+    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (精準防爆版)
     try:
         src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
         dst_assets = crm_dir / "static" / "teaching_assets"
         if src_assets.exists():
             dst_assets.mkdir(parents=True, exist_ok=True)
             import shutil
-            for img in src_assets.iterdir():
-                if img.is_file() and not img.name.startswith("."):
-                    target_img = dst_assets / img.name
-                    if not target_img.exists() or target_img.stat().st_size != img.stat().st_size:
-                        shutil.copy2(img, target_img)
+            # 從當前教學紀錄中萃取被引用的圖片清單，只精準同步必要圖片，避免 Function Bundle 爆出 225MB
+            referenced_images = set()
+            for rec in result.get("records", []):
+                cnt = rec.get("content", "")
+                for m in re.finditer(r'!\[.*?\]\((?:assets|/assets|/static/teaching_assets)/([^)]+)\)', cnt):
+                    referenced_images.add(m.group(1))
+
+            for img_name in referenced_images:
+                src_file = src_assets / img_name
+                if src_file.exists() and src_file.is_file():
+                    target_img = dst_assets / img_name
+                    if not target_img.exists() or target_img.stat().st_size != src_file.stat().st_size:
+                        shutil.copy2(src_file, target_img)
     except Exception as img_err:
         print(f"⚠️ 同步教學圖片至 static/teaching_assets 失敗: {img_err}")
 
