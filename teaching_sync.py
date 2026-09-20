@@ -488,14 +488,12 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
     if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
 
-    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (精準防爆版)
+    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (全量安全壓制版)
     try:
         src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
         dst_assets = crm_dir / "static" / "teaching_assets"
         if src_assets.exists():
             dst_assets.mkdir(parents=True, exist_ok=True)
-            import shutil
-            # 從當前教學紀錄中萃取被引用的圖片清單，只精準同步必要圖片，避免 Function Bundle 爆出 225MB
             referenced_images = set()
             for rec in result.get("records", []):
                 cnt = rec.get("content", "")
@@ -506,8 +504,24 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
                 src_file = src_assets / img_name
                 if src_file.exists() and src_file.is_file():
                     target_img = dst_assets / img_name
-                    if not target_img.exists() or target_img.stat().st_size != src_file.stat().st_size:
-                        shutil.copy2(src_file, target_img)
+                    if target_img.exists() and target_img.stat().st_size > 0:
+                        continue
+                    if src_file.stat().st_size < 300 * 1024:
+                        target_img.write_bytes(src_file.read_bytes())
+                    else:
+                        try:
+                            from PIL import Image
+                            im = Image.open(src_file)
+                            if max(im.size) > 1600:
+                                ratio = 1600 / max(im.size)
+                                im = im.resize((int(im.size[0] * ratio), int(im.size[1] * ratio)), Image.Resampling.LANCZOS)
+                            if src_file.suffix.lower() in ('.jpg', '.jpeg'):
+                                im.convert('RGB').save(target_img, format='JPEG', quality=82, optimize=True)
+                            else:
+                                q = im.convert('RGB').quantize(colors=256, method=Image.Quantize.MEDIANCUT)
+                                q.save(target_img, format='PNG', optimize=True)
+                        except Exception:
+                            target_img.write_bytes(src_file.read_bytes())
     except Exception as img_err:
         print(f"⚠️ 同步教學圖片至 static/teaching_assets 失敗: {img_err}")
 
