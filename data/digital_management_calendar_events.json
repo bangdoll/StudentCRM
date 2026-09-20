@@ -5324,6 +5324,17 @@
     "student_name": ""
   },
   {
+    "id": "0u5pm7l6ik45hr5dmmqkb3iico",
+    "date": "2021-06-29",
+    "title": "線上協助Kelly的女兒Kate買MacBook Air",
+    "description": "",
+    "location": "",
+    "start": "2021-06-29T11:25:00+08:00",
+    "end": "2021-06-29T12:25:00+08:00",
+    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "student_name": "Kelly Woo"
+  },
+  {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210701T060000Z",
     "date": "2021-07-01",
     "title": "蘋果總裁班",
@@ -7564,8 +7575,8 @@
     "location": "台北市大安區大安路一段101巷10號4樓",
     "start": "2022-04-01T12:30:00+08:00",
     "end": "2022-04-01T13:30:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "0k21uq8lpsqpov2k4bk7dmc0po",
@@ -10963,8 +10974,8 @@
     "location": "台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-06-23T10:00:00+08:00",
     "end": "2023-06-23T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "rqbn4g24u5hcctveg6sdrnqo8c",
@@ -11040,8 +11051,8 @@
     "location": "台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-07-07T10:00:00+08:00",
     "end": "2023-07-07T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "jnt4atmcmqp0f2prs60g6l1qr0",
@@ -11205,8 +11216,8 @@
     "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-07-28T10:00:00+08:00",
     "end": "2023-07-28T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "a1adeld13995vqko6b7e62tcj8",
@@ -11348,8 +11359,8 @@
     "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-08-15T10:00:00+08:00",
     "end": "2023-08-15T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "uk9aopi5ah12847122dslqh2cg",
@@ -11513,8 +11524,8 @@
     "location": "路易莎 德行西門市, 111台灣台北市士林區德行西路36號",
     "start": "2023-09-08T10:00:00+08:00",
     "end": "2023-09-08T11:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "8pmmd5uj2tk54k86r7h0r9cokc",
@@ -11777,8 +11788,8 @@
     "location": "客美多咖啡 Komeda‘s Coffee - 台北天母店, 111台灣台北市士林區中山北路六段136號",
     "start": "2023-10-16T10:00:00+08:00",
     "end": "2023-10-16T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "mssgd004oljlkeo58epi1e7ggk",
@@ -11799,8 +11810,8 @@
     "location": "客美多咖啡 Komeda‘s Coffee - 台北天母店, 111台灣台北市士林區中山北路六段136號",
     "start": "2023-10-19T10:00:00+08:00",
     "end": "2023-10-19T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231019T060000Z",
@@ -11975,8 +11986,8 @@
     "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-10-31T10:00:00+08:00",
     "end": "2023-10-31T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "vuiof7qfqrenqj2ffkr3vgshho",
@@ -11986,8 +11997,8 @@
     "location": "客美多咖啡 Komeda‘s Coffee - 台北天母店, 111台灣台北市士林區中山北路六段136號",
     "start": "2023-10-31T15:00:00+08:00",
     "end": "2023-10-31T17:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "6av1qqh7t0fafes3o4r23ejb54",
@@ -12074,8 +12085,8 @@
     "location": "客美多咖啡 Komeda‘s Coffee - 台北天母店, 111台灣台北市士林區中山北路六段136號",
     "start": "2023-11-14T10:00:00+08:00",
     "end": "2023-11-14T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "v4jnfjgsffnrj8cguhi3dbinlc",
@@ -12426,8 +12437,8 @@
     "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2023-12-28T10:00:00+08:00",
     "end": "2023-12-28T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231228T060000Z",
@@ -21303,8 +21314,8 @@
     "location": "",
     "start": "2026-06-12T08:00:00+08:00",
     "end": "2026-06-12T09:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "khscn1n9a44nn483ugo8kg5lv0",
@@ -21380,8 +21391,8 @@
     "location": "東締坊撥筋體雕健康館, 106台灣台北市大安区复兴南路二段84號2F-1",
     "start": "2026-06-16T14:00:00+08:00",
     "end": "2026-06-16T16:00:00+08:00",
-    "student_id": "bb6e8cde-291d-4554-9afa-5b5bad0bc5ee",
-    "student_name": "湘祺"
+    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "student_name": "Kelly Woo"
   },
   {
     "id": "em8mom9d9r9aqfobil8cmki14c",
@@ -21644,8 +21655,8 @@
     "location": "Starbucks星巴克 關渡門市, 112台灣臺北市北投區一德里大度路三段296巷45號",
     "start": "2026-07-10T10:00:00+08:00",
     "end": "2026-07-10T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "0ukbcfkpkjqslpoq7g7im6nv3k",
@@ -22539,28 +22550,6 @@
     "student_name": "Kelly Woo"
   },
   {
-    "id": "4gdirrm9qna9j6d1tglt862aus",
-    "date": "2026-09-15",
-    "title": "15-7.曾小米數位管理教學",
-    "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-09-15T10:00:00+08:00",
-    "end": "2026-09-15T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
-  },
-  {
-    "id": "j5st2vccielaa1d2hkhj59b16g",
-    "date": "2026-09-15",
-    "title": "51-3.邱醫師數位管理教學 頂溪捷運站2號出口",
-    "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
-    "location": "新北市永和區福和路275號11樓",
-    "start": "2026-09-15T14:00:00+08:00",
-    "end": "2026-09-15T16:00:00+08:00",
-    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
-    "student_name": "邱醫師"
-  },
-  {
     "id": "8kt03ln2n27f828idqcplvgoq8",
     "date": "2026-09-17",
     "title": "22-7.Shelley 陳萱玲數位管理教學",
@@ -22574,7 +22563,7 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20260917T060000Z",
     "date": "2026-09-17",
-    "title": "蘋果總裁班",
+    "title": "1364.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-09-17T14:00:00+08:00",
@@ -22616,15 +22605,15 @@
     "student_name": "Amy"
   },
   {
-    "id": "664mt22kakd6nnanm4qu4csojs",
+    "id": "rksqcd2gm7h3ua6knpcekrepds",
     "date": "2026-09-20",
-    "title": "24-8.元偉琴數位管理教學",
+    "title": "70-1.Kelly Woo 數位管理教學(新的一輪 $48000)",
     "description": "",
-    "location": "台北市杭州南路一段18巷13號3樓",
-    "start": "2026-09-20T10:00:00+08:00",
-    "end": "2026-09-20T12:00:00+08:00",
-    "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
-    "student_name": "元偉琴"
+    "location": "瑞安街135巷27號7F",
+    "start": "2026-09-20T08:00:00+08:00",
+    "end": "2026-09-20T10:00:00+08:00",
+    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "student_name": "Kelly Woo"
   },
   {
     "id": "blu5f26hbn9p1qvkvmi5jo1f10",
@@ -22649,15 +22638,15 @@
     "student_name": "Teresa"
   },
   {
-    "id": "rksqcd2gm7h3ua6knpcekrepds",
+    "id": "664mt22kakd6nnanm4qu4csojs",
     "date": "2026-09-22",
-    "title": "70-1.Kelly Woo 數位管理教學(新的一輪 $48000)",
+    "title": "24-8.元偉琴數位管理教學",
     "description": "",
-    "location": "瑞安街135巷27號7F",
+    "location": "台北市杭州南路一段18巷13號3樓",
     "start": "2026-09-22T10:00:00+08:00",
     "end": "2026-09-22T12:00:00+08:00",
-    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
-    "student_name": "Kelly Woo"
+    "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
+    "student_name": "元偉琴"
   },
   {
     "id": "60nsq5e1ib2ij631jcbdg2fdfs",
@@ -22693,15 +22682,15 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "hum65svujjcfo0d6t6d7g4qsgk",
-    "date": "2026-09-27",
-    "title": "07.柏宇數位管理教學",
+    "id": "chrbflpmraj98pis5t7glblkg4",
+    "date": "2026-09-28",
+    "title": "17-1.Anna蕭數位管理教學",
     "description": "",
-    "location": "新北市三重區民生東街15號1樓",
-    "start": "2026-09-27T10:00:00+08:00",
-    "end": "2026-09-27T12:00:00+08:00",
-    "student_id": "b946040e-8957-445b-a97a-d8c301ccf478",
-    "student_name": "柏宇"
+    "location": "Louisa Coffee 路易莎咖啡(德行西門市), 111台灣台北市士林區德行西路36號",
+    "start": "2026-09-28T10:00:00+08:00",
+    "end": "2026-09-28T12:00:00+08:00",
+    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
+    "student_name": "Anna 蕭"
   },
   {
     "id": "mgb5pi5s1q2ksoklji3kt8u9ag",
@@ -22713,17 +22702,6 @@
     "end": "2026-09-29T12:00:00+08:00",
     "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
     "student_name": "元偉琴"
-  },
-  {
-    "id": "nuju4d030r48bg0hnrtjvovl18",
-    "date": "2026-09-29",
-    "title": "16-8.曾小米數位管理教學",
-    "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-09-29T10:00:00+08:00",
-    "end": "2026-09-29T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
   },
   {
     "id": "r08nhcd8djk25s07eu04u1csvs",
@@ -22825,6 +22803,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "4gdirrm9qna9j6d1tglt862aus",
+    "date": "2026-10-06",
+    "title": "15-7.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2026-10-06T10:00:00+08:00",
+    "end": "2026-10-06T12:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
+  },
+  {
     "id": "bqsol0nfv3enk3captfm56e244",
     "date": "2026-10-06",
     "title": "17-1.曾小米數位管理教學",
@@ -22924,9 +22913,9 @@
     "student_name": "Charlotte"
   },
   {
-    "id": "dq2imn1bvbi9gga668fth2qf40",
+    "id": "j5st2vccielaa1d2hkhj59b16g",
     "date": "2026-10-13",
-    "title": "52-4.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "title": "51-3.邱醫師數位管理教學 頂溪捷運站2號出口",
     "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
     "location": "新北市永和區福和路275號11樓",
     "start": "2026-10-13T14:00:00+08:00",
@@ -22937,7 +22926,7 @@
   {
     "id": "6k8sii6emmgtuvng8r93genues",
     "date": "2026-10-15",
-    "title": "28-1.陳海陸數位管理教學",
+    "title": "28-2.陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-10-15T10:00:00+08:00",
@@ -22986,8 +22975,8 @@
     "location": "BRICK YARD 33 1/3美軍俱樂部, 111台灣臺北市士林區凱旋路49號",
     "start": "2026-10-18T12:00:00+08:00",
     "end": "2026-10-18T17:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "i0buksm5qt6emob2mqoihtlm1o",
@@ -23015,6 +23004,17 @@
     "id": "gcgisesa3ltr25gmk4dpulut14",
     "date": "2026-10-20",
     "title": "18-2.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2026-10-20T10:00:00+08:00",
+    "end": "2026-10-20T12:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
+  },
+  {
+    "id": "nuju4d030r48bg0hnrtjvovl18",
+    "date": "2026-10-20",
+    "title": "16-8.曾小米數位管理教學",
     "description": "",
     "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
     "start": "2026-10-20T10:00:00+08:00",
@@ -23102,7 +23102,7 @@
   {
     "id": "r8bpvoq8ue2rk4qs9rbjj69qqg",
     "date": "2026-10-26",
-    "title": "64-2.Julie 陳怡君醫師數位管理教學",
+    "title": "65-3.Julie 陳怡君醫師數位管理教學",
     "description": "",
     "location": "台北市松山區復興北路313巷10號1樓",
     "start": "2026-10-26T14:00:00+08:00",
@@ -23113,7 +23113,7 @@
   {
     "id": "lh6vet72iq419mj6ah6cbe8voo",
     "date": "2026-10-29",
-    "title": "29-3.陳海陸數位管理教學",
+    "title": "29-4.陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-10-29T10:00:00+08:00",
@@ -23243,6 +23243,17 @@
     "student_name": "Amy"
   },
   {
+    "id": "hum65svujjcfo0d6t6d7g4qsgk",
+    "date": "2026-11-08",
+    "title": "07.柏宇數位管理教學",
+    "description": "",
+    "location": "新北市三重區民生東街15號1樓",
+    "start": "2026-11-08T10:00:00+08:00",
+    "end": "2026-11-08T12:00:00+08:00",
+    "student_id": "b946040e-8957-445b-a97a-d8c301ccf478",
+    "student_name": "柏宇"
+  },
+  {
     "id": "upgis58l794577c5f1p35sh8p0",
     "date": "2026-11-09",
     "title": "06.明志數位管理教學",
@@ -23276,9 +23287,9 @@
     "student_name": "蕭世典"
   },
   {
-    "id": "1shmabmkjqdca6uqg7kp13s0hs",
+    "id": "dq2imn1bvbi9gga668fth2qf40",
     "date": "2026-11-10",
-    "title": "53-5.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "title": "52-4.邱醫師數位管理教學 頂溪捷運站2號出口",
     "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
     "location": "新北市永和區福和路275號11樓",
     "start": "2026-11-10T14:00:00+08:00",
@@ -23366,7 +23377,7 @@
   {
     "id": "bl1t0up8sjageluep2kdqfr94c",
     "date": "2026-11-16",
-    "title": "65-4.Julie 陳怡君醫師數位管理教學",
+    "title": "66-5.Julie 陳怡君醫師數位管理教學",
     "description": "",
     "location": "台北市松山區復興北路313巷10號1樓",
     "start": "2026-11-16T14:00:00+08:00",
@@ -23377,7 +23388,7 @@
   {
     "id": "5pak45cef28eciofd32tutrslg",
     "date": "2026-11-17",
-    "title": "37-5.Yvonne數位管理教學",
+    "title": "38-6.Yvonne數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-11-17T09:30:00+08:00",
@@ -23525,8 +23536,8 @@
     "location": "",
     "start": "2026-11-27T10:00:00+08:00",
     "end": "2026-11-27T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "rv5rrus76rpkvoir2qedaftf88",
@@ -23661,9 +23672,9 @@
     "student_name": "Charlotte"
   },
   {
-    "id": "g1sgbmd6gd7r15ph34h30lkp64",
+    "id": "1shmabmkjqdca6uqg7kp13s0hs",
     "date": "2026-12-08",
-    "title": "54-6.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "title": "53-5.邱醫師數位管理教學 頂溪捷運站2號出口",
     "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
     "location": "新北市永和區福和路275號11樓",
     "start": "2026-12-08T14:00:00+08:00",
@@ -23844,8 +23855,8 @@
     "location": "",
     "start": "2026-12-22T14:00:00+08:00",
     "end": "2026-12-22T16:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "njf13ehlk9lpmde1dhgmtpdsck",
@@ -23954,8 +23965,8 @@
     "location": "",
     "start": "2027-01-05T10:00:00+08:00",
     "end": "2027-01-05T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "a0qjemal2j7h67hrjcmrj27654",
@@ -24046,9 +24057,9 @@
     "student_name": "林佳"
   },
   {
-    "id": "fd73706m2ho0s8bvjgr13deknc",
+    "id": "g1sgbmd6gd7r15ph34h30lkp64",
     "date": "2027-01-12",
-    "title": "55-7.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "title": "54-6.邱醫師數位管理教學 頂溪捷運站2號出口",
     "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
     "location": "新北市永和區福和路275號11樓",
     "start": "2027-01-12T14:00:00+08:00",
@@ -24108,8 +24119,8 @@
     "location": "",
     "start": "2027-01-19T10:00:00+08:00",
     "end": "2027-01-19T12:00:00+08:00",
-    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
-    "student_name": "Anna 蕭"
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
   },
   {
     "id": "ksen0c7vsng8rqkmpk08c8tuf8",
@@ -24211,9 +24222,9 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "oft0v02bkh3cqstabtvg151u4g",
+    "id": "fd73706m2ho0s8bvjgr13deknc",
     "date": "2027-02-02",
-    "title": "56-8.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "title": "55-7.邱醫師數位管理教學 頂溪捷運站2號出口",
     "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
     "location": "新北市永和區福和路275號11樓",
     "start": "2027-02-02T14:00:00+08:00",
@@ -24330,6 +24341,17 @@
     "end": "2027-03-04T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "oft0v02bkh3cqstabtvg151u4g",
+    "date": "2027-03-09",
+    "title": "56-8.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
+    "location": "新北市永和區福和路275號11樓",
+    "start": "2027-03-09T14:00:00+08:00",
+    "end": "2027-03-09T16:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
   },
   {
     "id": "va4aeur44p56th9asqv096jejg",
