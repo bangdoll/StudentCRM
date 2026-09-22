@@ -373,7 +373,9 @@ def build_teaching_records_from_directory(teaching_dir: str | Path, students: li
     }
 
 
-def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dict[str, Any]:
+def sync_teaching_records_to_crm(
+    workspace_dir: str | Path | None = None, sync_cloud: bool = False
+) -> dict[str, Any]:
     """將 01.Docs/teaching 的所有教學筆記完整同步至 StudentCRM 系統。
     涵蓋：
     1. 一對一教學：更新 data/teaching_records.json，並自動推移 students.json 之最新上課日期與堂數。
@@ -558,6 +560,16 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
     except Exception:
         pass
 
+    # 6. 自動化雙 SSOT 雲端同步 (若配置 Supabase 憑證且允許聯動)
+    cloud_sync_summary = None
+    if sync_cloud and os.getenv("SUPABASE_URL") and os.getenv("SUPABASE_SERVICE_ROLE_KEY"):
+        try:
+            from teaching_sync_pipeline import TeachingSyncPipeline
+            pipeline = TeachingSyncPipeline(crm_dir)
+            cloud_sync_summary = pipeline.sync_all(dry_run=False)
+        except Exception as cloud_err:
+            print(f"⚠️ 雙 SSOT 雲端同步自動觸發略過或失敗: {cloud_err}")
+
     return {
         "success": True,
         "total_records": result["total_records"],
@@ -567,6 +579,7 @@ def sync_teaching_records_to_crm(workspace_dir: str | Path | None = None) -> dic
         "students_updated": students_updated,
         "next_lessons_updated_count": len(next_lessons_updated),
         "next_lessons_updated": next_lessons_updated,
+        "cloud_sync": cloud_sync_summary,
         "generated_at": result["generated_at"],
     }
 
