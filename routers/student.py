@@ -42,6 +42,9 @@ def get_student_deps():
         "render_cloud_student_timeline": main.render_cloud_student_timeline,
         "inject_badges": main.inject_badges,
         "build_digital_management_profiles": main.build_digital_management_profiles,
+        "get_digital_management_student_profile": getattr(main, "get_digital_management_student_profile", None),
+        "calendar_cache": getattr(main, "DIGITAL_MANAGEMENT_CALENDAR_CACHE", ""),
+        "heptabase_backup_root": getattr(main, "HEPTABASE_BACKUP_ROOT", ""),
         "use_fallback_pages": main.use_fallback_pages,
         "render_fallback_page": main.render_fallback_page,
         "get_student_by_id": main.get_student_by_id,
@@ -216,8 +219,12 @@ async def read_digital_management(request: Request):
 async def read_digital_management_student(request: Request, student_id: str):
     deps = get_student_deps()
     import html as html_lib
-    payload = deps["build_digital_management_profiles"](include_heptabase=True)
-    student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
+    student = None
+    if deps.get("get_digital_management_student_profile"):
+        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
+    if not student:
+        payload = deps["build_digital_management_profiles"](include_heptabase=True)
+        student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:
         return HTMLResponse(content="Digital management student not found", status_code=404)
     if deps["use_fallback_pages"]("digital_management_student.html"):
@@ -239,8 +246,8 @@ async def read_digital_management_student(request: Request, student_id: str):
     return deps["templates"].TemplateResponse(request, "digital_management_student.html", {
         "request": request,
         "student": student,
-        "calendar_cache": payload.get("calendar_cache", ""),
-        "heptabase_backup_root": payload.get("heptabase_backup_root", ""),
+        "calendar_cache": deps.get("calendar_cache", ""),
+        "heptabase_backup_root": deps.get("heptabase_backup_root", ""),
     })
 
 
@@ -287,14 +294,18 @@ async def api_digital_management_students():
 @router.get("/api/digital-management/students/{student_id}", response_model=DigitalManagementDetailResponse)
 async def api_digital_management_student(student_id: str):
     deps = get_student_deps()
-    payload = deps["build_digital_management_profiles"](include_heptabase=True)
-    student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
+    student = None
+    if deps.get("get_digital_management_student_profile"):
+        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
+    if not student:
+        payload = deps["build_digital_management_profiles"](include_heptabase=True)
+        student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:
         return {"status": "not_found", "student_id": student_id}
     return {
         "status": "ok",
         "student_id": student_id,
         "student": student,
-        "calendar_cache": payload.get("calendar_cache", ""),
-        "heptabase_backup_root": payload.get("heptabase_backup_root", ""),
+        "calendar_cache": deps.get("calendar_cache", ""),
+        "heptabase_backup_root": deps.get("heptabase_backup_root", ""),
     }

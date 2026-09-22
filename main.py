@@ -165,6 +165,19 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
     )
 
 
+def get_digital_management_student_profile(student_id: str, include_heptabase: bool = True) -> dict | None:
+    import main as current_module
+    return _dm_svc.get_digital_management_student_profile(
+        student_id=student_id,
+        include_heptabase=include_heptabase,
+        students_loader=lambda: current_module.load_students(),
+        data_gateway=getattr(current_module, "student_gateway", student_gateway),
+        calendar_events_loader=lambda: current_module.load_digital_management_calendar_events(),
+        local_notes_loader=lambda: current_module.load_local_digital_management_notes(),
+        cloud_notes_loader=lambda: current_module.load_cloud_digital_management_notes(),
+    )
+
+
 # ── 學員時間軸與前綴評估服務委派 (student_timeline_service) ────────────────────
 from student_timeline_service import (
     get_student_metadata,

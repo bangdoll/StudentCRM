@@ -712,3 +712,27 @@ def build_digital_management_profiles(
         "calendar_cache": DIGITAL_MANAGEMENT_CALENDAR_CACHE,
         "heptabase_backup_root": HEPTABASE_BACKUP_ROOT,
     }
+
+
+def get_digital_management_student_profile(
+    student_id: str,
+    include_heptabase: bool = True,
+    students_loader=None,
+    data_gateway=None,
+    calendar_events_loader=None,
+    local_notes_loader=None,
+    cloud_notes_loader=None,
+) -> dict | None:
+    """深模組單一學員查詢入口：直接取得特定學員的完整時間軸、筆記與統計。"""
+    payload = build_digital_management_profiles(
+        include_heptabase=include_heptabase,
+        students_loader=students_loader,
+        data_gateway=data_gateway,
+        calendar_events_loader=calendar_events_loader,
+        local_notes_loader=local_notes_loader,
+        cloud_notes_loader=cloud_notes_loader,
+    )
+    for student in payload.get("students", []):
+        if student.get("id") == student_id:
+            return student
+    return None
