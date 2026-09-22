@@ -1,815 +1,383 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudentCRM 架構審查與深模組審計報告 | Matt Pocock Architecture Audit</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-canvas: #090d13;
-            --bg-card: rgba(22, 27, 34, 0.85);
-            --bg-card-hover: rgba(33, 38, 45, 0.95);
-            --border-default: rgba(240, 246, 252, 0.1);
-            --border-accent: rgba(88, 166, 255, 0.35);
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
-            --accent-blue: #58a6ff;
-            --accent-green: #3fb950;
-            --accent-purple: #bc8cff;
-            --accent-orange: #d29922;
-            --accent-red: #f85149;
-            --glow-green: 0 0 20px rgba(63, 185, 80, 0.25);
-            --glow-blue: 0 0 20px rgba(88, 166, 255, 0.25);
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: var(--bg-canvas);
-            color: var(--text-primary);
-            font-family: "Inter", "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            padding: 32px 20px 80px;
-        }
-        .container { max-width: 1200px; margin: 0 auto; }
-        
-        /* Header & Hero */
-        .hero {
-            background: linear-gradient(135deg, rgba(22, 27, 34, 0.95), rgba(13, 17, 23, 0.9));
-            border: 1px solid var(--border-accent);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 32px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: -100px; right: -100px;
-            width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(88, 166, 255, 0.15) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .badge-green { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); }
-        .badge-blue { background: rgba(88, 166, 255, 0.15); color: var(--accent-blue); border: 1px solid rgba(88, 166, 255, 0.3); }
-        .badge-purple { background: rgba(188, 140, 255, 0.15); color: var(--accent-purple); border: 1px solid rgba(188, 140, 255, 0.3); }
-        .badge-orange { background: rgba(210, 153, 34, 0.15); color: var(--accent-orange); border: 1px solid rgba(210, 153, 34, 0.3); }
-        
-        h1 { font-size: 2.2rem; font-weight: 700; margin: 12px 0 8px; }
-        .hero-desc { color: var(--text-secondary); font-size: 1.05rem; max-width: 820px; margin-bottom: 24px; }
-        
-        /* KPI Grid */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 36px;
-        }
-        .kpi-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: 14px;
-            padding: 20px 24px;
-            backdrop-filter: blur(12px);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-        .kpi-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-blue);
-        }
-        .kpi-label { font-size: 0.82rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-        .kpi-val { font-size: 2rem; font-weight: 700; color: var(--text-primary); font-family: "JetBrains Mono", monospace; }
-        .kpi-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
-
-        /* Section Layout */
-        .section-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; }
-        
-        /* Architecture Flow Diagram */
-        .arch-diagram {
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: 16px;
-            padding: 28px;
-            margin-bottom: 40px;
-        }
-        .layers-flow {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .layer-box {
-            background: rgba(13, 17, 23, 0.8);
-            border: 1px solid rgba(240, 246, 252, 0.12);
-            border-radius: 12px;
-            padding: 16px 20px;
-            position: relative;
-        }
-        .layer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .layer-title { font-weight: 600; font-size: 0.95rem; color: var(--accent-blue); }
-        .module-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .chip {
-            background: rgba(33, 38, 45, 0.8);
-            border: 1px solid rgba(240, 246, 252, 0.12);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.82rem;
-            font-family: "JetBrains Mono", monospace;
-            color: #c9d1d9;
-        }
-        .chip-highlight {
-            border-color: rgba(63, 185, 80, 0.4);
-            background: rgba(63, 185, 80, 0.1);
-            color: #7ee787;
-        }
-
-        /* Modules Table & Cards */
-        .controls {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .search-input {
-            flex: 1;
-            min-width: 240px;
-            background: rgba(13, 17, 23, 0.8);
-            border: 1px solid var(--border-default);
-            color: var(--text-primary);
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .search-input:focus { border-color: var(--accent-blue); }
-        
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-        .module-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: 14px;
-            padding: 22px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.2s ease;
-        }
-        .module-card:hover {
-            border-color: var(--border-accent);
-            background: var(--bg-card-hover);
-            transform: translateY(-2px);
-        }
-        .module-top { margin-bottom: 14px; }
-        .module-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-family: "JetBrains Mono", monospace;
-            color: #f0f6fc;
-            margin-bottom: 6px;
-        }
-        .module-stats {
-            display: flex;
-            gap: 14px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-        }
-        .module-stats span strong { color: var(--text-primary); font-family: "JetBrains Mono", monospace; }
-        .depth-meter {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 12px;
-        }
-        .depth-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-            border-radius: 3px;
-        }
-        .module-summary {
-            font-size: 0.88rem;
-            color: #c9d1d9;
-            margin-bottom: 14px;
-            line-height: 1.5;
-        }
-        .api-list {
-            background: rgba(13, 17, 23, 0.6);
-            border: 1px solid rgba(240, 246, 252, 0.08);
-            border-radius: 8px;
-            padding: 10px;
-            font-family: "JetBrains Mono", monospace;
-            font-size: 0.76rem;
-            color: #8b949e;
-            max-height: 100px;
-            overflow-y: auto;
-        }
-        .api-item { margin-bottom: 4px; color: #a5d6ff; }
-        .api-item:last-child { margin-bottom: 0; }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 28px;
-            margin-bottom: 40px;
-        }
-        .timeline::before {
-            content: "";
-            position: absolute;
-            left: 8px; top: 0; bottom: 0;
-            width: 2px;
-            background: rgba(240, 246, 252, 0.12);
-        }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .timeline-item::before {
-            content: "";
-            position: absolute;
-            left: -24px; top: 6px;
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            box-shadow: 0 0 8px var(--accent-blue);
-        }
-        .timeline-date { font-size: 0.78rem; color: var(--text-muted); font-family: "JetBrains Mono", monospace; }
-        .timeline-title { font-size: 0.92rem; font-weight: 600; color: var(--text-primary); }
-        .timeline-desc { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; }
-
-        /* Verification Table */
-        .verif-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-card);
-            border: 1px solid var(--border-default);
-            border-radius: 12px;
-            overflow: hidden;
-            font-size: 0.88rem;
-        }
-        .verif-table th, .verif-table td {
-            padding: 12px 16px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-default);
-        }
-        .verif-table th { background: rgba(13, 17, 23, 0.7); color: var(--text-secondary); font-weight: 600; }
-        .verif-table tr:last-child td { border-bottom: none; }
-
-        /* Footer */
-        footer {
-            margin-top: 60px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border-default);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- Hero Header -->
-        <header class="hero">
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-                <span class="badge badge-green">GRADE A · DEEP MODULES</span>
-                <span class="badge badge-blue">120/120 TESTS PASSING</span>
-                <span class="badge badge-purple">ZERO WARNINGS</span>
-                <span class="badge badge-orange">MONOTONIC INTEGRITY</span>
-            </div>
-            <h1>StudentCRM 架構審查與深模組審計報告</h1>
-            <p class="hero-desc">
-                依據 Matt Pocock 深模組（Deep Modules）與 John Ousterhout 軟體設計哲學全面審查。深入評估 14 個核心 Python 服務之介面與實作比例（Depth Ratio）、資訊隱藏能力、隔離接縫（Seams）與 PWA 離線容災架構。
-            </p>
-            <div style="display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-secondary);">
-                <span>📍 審查專案：<strong>StudentCRM</strong></span>
-                <span>📅 審計日期：<strong>2026-09-08</strong></span>
-                <span>🛡️ 治理規範：<strong>OpenClaw 九層塔 · 第四層任務契約與零刪除鐵律</strong></span>
-            </div>
-        </header>
-
-        <!-- KPI Metrics -->
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-label">核心 Python 程式碼</div>
-                <div class="kpi-val">4,888 <span style="font-size: 1rem; color: var(--text-muted);">LOC</span></div>
-                <div class="kpi-sub">分佈於 14 個專業模組</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">平均深模組比 (Depth)</div>
-                <div class="kpi-val">45.8 <span style="font-size: 1rem; color: var(--accent-green);">LOC/API</span></div>
-                <div class="kpi-sub">極高介面簡潔度與實作隱藏</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">自動化測試覆蓋</div>
-                <div class="kpi-val" style="color: var(--accent-green);">120 / 120</div>
-                <div class="kpi-sub">100% 通過 · 0 棄用警告</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">快取複製效能優化</div>
-                <div class="kpi-val" style="color: var(--accent-blue);">16.8x</div>
-                <div class="kpi-sub">記憶體淺複製取代 deepcopy</div>
-            </div>
-        </div>
-
-        <!-- Architecture Flow -->
-        <section class="arch-diagram">
-            <div class="section-title">🏛️ 系統分層與深模組導航 (System Layer Architecture)</div>
-            <p class="section-desc">透過窄介面與單向資料流徹底隔離客戶端請求、領域模型與實體儲存。</p>
-            <div class="layers-flow">
-                <div class="layer-box">
-                    <div class="layer-header">
-                        <span class="layer-title">Layer 1: 客戶端與離線接縫 (Client & Offline PWA Layer)</span>
-                        <span class="badge badge-blue">Local-First</span>
-                    </div>
-                    <div class="module-chips">
-                        <span class="chip chip-highlight">sw.js (v1.3 Stale-While-Revalidate)</span>
-                        <span class="chip">templates/dashboard.html</span>
-                        <span class="chip">templates/hub.html (PWA Hub)</span>
-                        <span class="chip">static/site.webmanifest</span>
-                        <span class="chip">Google Fonts Web Cache</span>
-                    </div>
-                </div>
-
-                <div class="layer-box">
-                    <div class="layer-header">
-                        <span class="layer-title">Layer 2: 傳輸端點與安全門禁 (API Gateway & Security Seam)</span>
-                        <span class="badge badge-purple">Zero-Leakage</span>
-                    </div>
-                    <div class="module-chips">
-                        <span class="chip">main.py (FastAPI App & Routers)</span>
-                        <span class="chip chip-highlight">auth_service.py (Magic Links & Cookie Sessions)</span>
-                        <span class="chip">fallback_views.py (SSR Recovery)</span>
-                    </div>
-                </div>
-
-                <div class="layer-box">
-                    <div class="layer-header">
-                        <span class="layer-title">Layer 3: 核心業務深模組 (Domain Deep Modules)</span>
-                        <span class="badge badge-green">High Cohesion</span>
-                    </div>
-                    <div class="module-chips">
-                        <span class="chip chip-highlight">note_service.py (Depth: 78.3)</span>
-                        <span class="chip chip-highlight">radar_service.py (Depth: 52.4)</span>
-                        <span class="chip chip-highlight">apple_ceo_service.py (Depth: 56.3)</span>
-                        <span class="chip">prediction_service.py (Depth: 47.0)</span>
-                        <span class="chip">hub_service.py (Depth: 32.4)</span>
-                        <span class="chip">student_timeline_service.py (Depth: 27.4)</span>
-                        <span class="chip">digital_management_service.py (Depth: 39.6)</span>
-                        <span class="chip">schedule_service.py (Depth: 28.7)</span>
-                    </div>
-                </div>
-
-                <div class="layer-box">
-                    <div class="layer-header">
-                        <span class="layer-title">Layer 4: 儲存閘道與單調同步 (Storage & Monotonic Pipeline)</span>
-                        <span class="badge badge-orange">Zero-Loss</span>
-                    </div>
-                    <div class="module-chips">
-                        <span class="chip chip-highlight">data_gateway.py (Dual Engine & Readonly FS Resilience)</span>
-                        <span class="chip">teaching_sync.py (Alias Resolver & Monotonic Append)</span>
-                        <span class="chip">data/students.json</span>
-                        <span class="chip">data/teaching_records.json</span>
-                        <span class="chip">Supabase Cloud Mirror</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Deep Modules Inspection Grid -->
-        <section style="margin-bottom: 40px;">
-            <div class="section-title">🔍 深模組評分矩陣 (Deep Modules Depth Matrix)</div>
-            <p class="section-desc">Matt Pocock 原則：模組深度（Depth）= 程式碼行數 / 公開 API 數量。深度越高，代表該模組以最窄的介面封裝了越強大的複雜性。</p>
-            
-            <div class="controls">
-                <input type="text" id="filterInput" class="search-input" placeholder="🔍 搜尋模組名稱、關鍵詞或公開 API...">
-            </div>
-
-            <div class="modules-grid" id="modulesGrid">
-                <!-- note_service -->
-                <div class="module-card" data-search="note_service markdown micro action cards preview quality">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">note_service.py</div>
-                            <span class="badge badge-green">DEPTH 78.3</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>548</strong></span>
-                            <span>公開 API: <strong>7</strong></span>
-                            <span>內部隱藏: <strong>極高</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 98%;"></div></div>
-                        <p class="module-summary">
-                            極深模組。將複雜的 Markdown Frontmatter 剝離、微行動卡片正則萃取、架構觀點標籤與教學品質評分完全封裝，僅對外暴露乾淨的 <code>resolve_note_detail</code> 與 <code>NoteDetail</code> 領域物件。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">resolve_note_detail(...)</div>
-                        <div class="api-item">extract_micro_action_cards(...)</div>
-                        <div class="api-item">get_note_quality(...)</div>
-                        <div class="api-item">get_architect_insight(...)</div>
-                        <div class="api-item">clean_markdown_frontmatter(...)</div>
-                    </div>
-                </div>
-
-                <!-- data_gateway -->
-                <div class="module-card" data-search="data_gateway storage dual engine supabase memory cache readonly fs">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">data_gateway.py</div>
-                            <span class="badge badge-green">DEPTH 59.2</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>711</strong></span>
-                            <span>公開 API: <strong>12</strong></span>
-                            <span>內部實作: <strong>15 私有方法</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 85%;"></div></div>
-                        <p class="module-summary">
-                            雙引擎儲存防護艦。封裝 Supabase 雲端與本機 JSON 自動降級、Vercel 唯讀檔案系統熔斷保護、原子快照寫入與 15 秒記憶體快取。已升級專屬淺層屬性複製，避免 deepcopy 效能浪費。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">StudentDataGateway.load_students()</div>
-                        <div class="api-item">StudentDataGateway.save_students()</div>
-                        <div class="api-item">StudentDataGateway.get_effectiveness_radar_data()</div>
-                        <div class="api-item">StudentDataGateway.save_teaching_records()</div>
-                        <div class="api-item">clear_gateway_memory_cache()</div>
-                    </div>
-                </div>
-
-                <!-- apple_ceo_service -->
-                <div class="module-card" data-search="apple_ceo_service apple attendance venue rounds renewal">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">apple_ceo_service.py</div>
-                            <span class="badge badge-green">DEPTH 56.3</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>507</strong></span>
-                            <span>公開 API: <strong>9</strong></span>
-                            <span>領域邏輯: <strong>完整封裝</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 82%;"></div></div>
-                        <p class="module-summary">
-                            班務領域專用深模組。徹底封裝蘋果總裁班之點名簿矩陣、場地費分攤演算法、四象限四期輪次排序、到期續班提醒通知文案生成，消除 main.py 與 data_gateway 的領域污染。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">sort_apple_student_rounds(...)</div>
-                        <div class="api-item">summarize_apple_ceo_program(...)</div>
-                        <div class="api-item">preview_apple_ceo_attendance(...)</div>
-                        <div class="api-item">generate_renewal_reminder_message(...)</div>
-                    </div>
-                </div>
-
-                <!-- radar_service -->
-                <div class="module-card" data-search="radar_service effectiveness retention csm ai import stage">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">radar_service.py</div>
-                            <span class="badge badge-green">DEPTH 52.4</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>367</strong></span>
-                            <span>公開 API: <strong>7</strong></span>
-                            <span>四階演進論: <strong>簡立峰對齊</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 78%;"></div></div>
-                        <p class="module-summary">
-                            成效雷達與客戶成功模組。實作簡立峰老師「感知、生成、代理、實體」四階段分類演算法、7 天回訪跟進文案生成，並主動過濾休學與歷史典藏學員，確保指標零雜訊。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">build_full_effectiveness_radar(...)</div>
-                        <div class="api-item">determine_ai_import_stage(...)</div>
-                        <div class="api-item">evaluate_retention_signal(...)</div>
-                        <div class="api-item">build_7day_followup_copy(...)</div>
-                    </div>
-                </div>
-
-                <!-- auth_service -->
-                <div class="module-card" data-search="auth_service magic link coach privacy lock security cookie">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">auth_service.py</div>
-                            <span class="badge badge-green">DEPTH 52.2</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>209</strong></span>
-                            <span>公開 API: <strong>4</strong></span>
-                            <span>安全門禁: <strong>零破綻</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 76%;"></div></div>
-                        <p class="module-summary">
-                            極窄安全接縫。只對外暴露 4 個高內聚函式，管理蔡教練與師母專屬 Magic Link 私鑰、Cookie 簽名核驗、防猜測機制與自定義 403 門禁過渡頁，隔絕任何外部未授權探勘。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">is_authenticated_admin(request)</div>
-                        <div class="api-item">get_current_admin_name(request)</div>
-                        <div class="api-item">render_magic_link_page(admin_key)</div>
-                        <div class="api-item">get_session_token(request)</div>
-                    </div>
-                </div>
-
-                <!-- teaching_sync -->
-                <div class="module-card" data-search="teaching_sync sync alias heptabase matching monotonic">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">teaching_sync.py</div>
-                            <span class="badge badge-blue">DEPTH 48.2</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>482</strong></span>
-                            <span>公開 API: <strong>10</strong></span>
-                            <span>別名消除: <strong>已修復實體隔離</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 70%;"></div></div>
-                        <p class="module-summary">
-                            單調追加同步流水線。封裝正則標題解析、多重別名比對索引。已徹底修正「腦波Annie」獨立映射，杜絕被誤合併至 Annie，守護學員實體唯一性與歷史記錄安全。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">sync_teaching_records_to_crm(...)</div>
-                        <div class="api-item">resolve_student(...)</div>
-                        <div class="api-item">build_student_match_index(...)</div>
-                        <div class="api-item">parse_teaching_file(...)</div>
-                    </div>
-                </div>
-
-                <!-- prediction_service -->
-                <div class="module-card" data-search="prediction_service churn freezing risk machine learning">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">prediction_service.py</div>
-                            <span class="badge badge-blue">DEPTH 47.0</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>188</strong></span>
-                            <span>公開 API: <strong>4</strong></span>
-                            <span>狀態預測: <strong>自動快取</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 68%;"></div></div>
-                        <p class="module-summary">
-                            學員流失與冰凍期預測引擎。依據最後上課間隔、課表頻率與歷史特徵，動態評估穩定、冰凍與高風險狀態，內部自帶特徵記憶體快取以防重複計算。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">predict_student_status(...)</div>
-                        <div class="api-item">analyze_student_features(...)</div>
-                        <div class="api-item">get_student_lesson_paths(...)</div>
-                        <div class="api-item">clear_features_cache()</div>
-                    </div>
-                </div>
-
-                <!-- digital_management_service -->
-                <div class="module-card" data-search="digital_management_service heptabase backup profiles notes">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">digital_management_service.py</div>
-                            <span class="badge badge-blue">DEPTH 39.6</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>713</strong></span>
-                            <span>公開 API: <strong>18</strong></span>
-                            <span>整合度: <strong>高</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 62%;"></div></div>
-                        <p class="module-summary">
-                            數位管理教學領域整合。封裝 Heptabase 本地備份與 CLI 工具筆記檢索、日曆行程關聯比對與學員專屬檔案彙整，對外提供一站式學員全景歷程。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">build_digital_management_profiles(...)</div>
-                        <div class="api-item">load_cloud_digital_management_notes(...)</div>
-                        <div class="api-item">search_heptabase_backup_notes(...)</div>
-                        <div class="api-item">merge_teaching_notes(...)</div>
-                    </div>
-                </div>
-
-                <!-- hub_service -->
-                <div class="module-card" data-search="hub_service practice cards manifest pwa student hub">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">hub_service.py</div>
-                            <span class="badge badge-blue">DEPTH 32.4</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>453</strong></span>
-                            <span>公開 API: <strong>14</strong></span>
-                            <span>學員空間: <strong>專屬定製</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 55%;"></div></div>
-                        <p class="module-summary">
-                            學員個人 Hub 與 PWA 專屬服務。封裝個人專屬 WebManifest 生成、隨機刻意練習卡片抽卡、課前 3 分鐘備忘摘要及合併學員 301 重定向機制。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">generate_student_manifest_data(...)</div>
-                        <div class="api-item">get_random_practice_card(...)</div>
-                        <div class="api-item">get_student_teaching_notes(...)</div>
-                        <div class="api-item">get_merged_redirects()</div>
-                    </div>
-                </div>
-
-                <!-- main.py -->
-                <div class="module-card" data-search="main.py router fastapi endpoints app">
-                    <div class="module-top">
-                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                            <div class="module-name">main.py</div>
-                            <span class="badge badge-purple">FACADE · DEPTH 27.9</span>
-                        </div>
-                        <div class="module-stats">
-                            <span>行數: <strong>279</strong></span>
-                            <span>公開端點: <strong>10</strong></span>
-                            <span>狀態: <strong>高度瘦身 (Lean)</strong></span>
-                        </div>
-                        <div class="depth-meter"><div class="depth-fill" style="width: 48%;"></div></div>
-                        <p class="module-summary">
-                            整潔的應用門面。自先前的 1,500+ LOC 龐大檔案成功解耦成純路由與控制器門面，所有複雜業務已完全委託至上述各領域深模組，專注於 HTTP 請求處理與範本渲染。
-                        </p>
-                    </div>
-                    <div class="api-list">
-                        <div class="api-item">GET /dashboard (行動看板)</div>
-                        <div class="api-item">GET /my/{token} (學員 Hub)</div>
-                        <div class="api-item">GET /program/apple-ceo (總裁班)</div>
-                        <div class="api-item">GET /sw.js (PWA Service Worker)</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Track A, B, C Verification -->
-        <section style="margin-bottom: 40px;">
-            <div class="section-title">✅ 三軌優化交付驗證清單 (Tracks A, B, C Status)</div>
-            <p class="section-desc">嚴格遵守任務驗收契約與 Eval Gate，確保每一次交付具備可重現性與零回歸保證。</p>
-            <table class="verif-table">
-                <thead>
-                    <tr>
-                        <th>軌道 (Track)</th>
-                        <th>核心目標與變更</th>
-                        <th>驗證結果 (Logs & Evidence)</th>
-                        <th>狀態</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Track A: 實體消歧義硬化</strong></td>
-                        <td>修正 <code>teaching_sync.py</code> 別名，確保「腦波Annie」獨立映射，杜絕被誤合流至 Annie；修復 <code>test_learning_hub.py</code> Starlette Cookie 棄用警告。</td>
-                        <td>
-                            <code>.venv/bin/python -m pytest tests/</code><br>
-                            👉 <strong>120 passed in 3.58s with 0 warnings</strong>
-                        </td>
-                        <td><span class="badge badge-green">VERIFIED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Track A: 快取讀取效能</strong></td>
-                        <td><code>data_gateway.py</code> 在 <code>load_students()</code> 中改採專屬淺層屬性複製 <code>_clone_students_list</code>，杜絕 <code>copy.deepcopy</code> 反射開銷。</td>
-                        <td>
-                            基準測試 1000 次學員結構拷貝：<br>
-                            👉 <strong>0.293s 降至 0.017s，加速 16.8 倍</strong>
-                        </td>
-                        <td><span class="badge badge-green">VERIFIED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Track B: 深模組架構審計</strong></td>
-                        <td>依據 Matt Pocock 原則完成全系統 14 個模組 AST 分析，量化 Depth 指標並輸出單一自包含視覺審計儀表板。</td>
-                        <td>
-                            產出 <code>architecture_audit.html</code>，支援即時模組搜尋、分層架構流圖與演進時間軸。
-                        </td>
-                        <td><span class="badge badge-green">VERIFIED</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Track C: PWA 離線容災</strong></td>
-                        <td>升級 <code>static/sw.js</code> 至 v1.3，支援 Google Fonts 離線快取、靜態資產 Cache-First、學習 API 與導航 Stale-While-Revalidate。</td>
-                        <td>
-                            <code>node -c static/sw.js</code> 通過語法驗證；PWA 動態 Manifest 與離線回退頁完整就緒。
-                        </td>
-                        <td><span class="badge badge-green">VERIFIED</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Evolutionary History -->
-        <section style="margin-bottom: 40px;">
-            <div class="section-title">⏳ 架構演進里程碑 (Recent 20 Commits)</div>
-            <p class="section-desc">見證 StudentCRM 如何從單體巨石演進為高強韌、深模組、離線優先的專業教學系統。</p>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-08 · HEAD</div>
-                    <div class="timeline-title">fix(sync): harden entity disambiguation for 腦波Annie & eliminate all cookie warnings</div>
-                    <div class="timeline-desc">徹底隔絕腦波Annie與Annie之混淆，升級 TestClient cookie 存取至 0 警告，優化 load_students 快取複製效能 16.8 倍。</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-07</div>
-                    <div class="timeline-title">fix(dashboard): resolve UndefinedError for sync_status and support HEAD method</div>
-                    <div class="timeline-desc">修復看板範本變數缺失造成的 HTTP 500，全面支援 HEAD 探測請求，確保 iPhone 主畫面圖標存取正常。</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-06</div>
-                    <div class="timeline-title">feat(lifecycle): implement student lifecycle status machine and decouple deceased students</div>
-                    <div class="timeline-desc">導入學員生命週期狀態機（active, paused, memorial），自成效雷達中剔除已過世學員（彭澤江、大安妮），落實人道關懷與資料純淨。</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-05</div>
-                    <div class="timeline-title">refactor(architecture): decouple domain logic from data_gateway, enforce api response models</div>
-                    <div class="timeline-desc">拔除 data_gateway 中的班務計算，抽出 apple_ceo_service 專屬深模組，全面對齊 Pydantic 輸出合約。</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-04</div>
-                    <div class="timeline-title">fix(radar): resolve Vercel readonly filesystem crash and restore effectiveness radar</div>
-                    <div class="timeline-desc">引入雙層檔案快取（/tmp 降級），徹底根治雲端 Serverless 唯讀檔案系統崩潰，保證看板永不離線。</div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">2026-09-02</div>
-                    <div class="timeline-title">feat(governance): enshrine non-bypassable PRD and zero-loss regression test gate</div>
-                    <div class="timeline-desc">確立不可踰越之物理憲法：任何修改前必須具備 PRD、快照與自動化單調性檢驗，零遺失任何學員教學歷程。</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Matt Pocock Directives -->
-        <section style="background: var(--bg-card); border: 1px solid var(--border-accent); border-radius: 16px; padding: 28px; margin-bottom: 40px;">
-            <div class="section-title" style="color: var(--accent-blue);">💡 Matt Pocock 架構師總結與後續建議</div>
-            <div style="margin-top: 14px; font-size: 0.92rem; color: #c9d1d9; line-height: 1.7;">
-                <p style="margin-bottom: 12px;">
-                    <strong>1. 介面深度極佳（High Depth Ratio）：</strong><br>
-                    核心服務平均每 45.8 行程式碼才對外開放 1 個 API，特別是 <code>note_service</code> 與 <code>data_gateway</code>，成功將複雜的正則解析、快取容災與備份讀取藏於底層，使 <code>main.py</code> 控制器維持極低的認知負擔。
-                </p>
-                <p style="margin-bottom: 12px;">
-                    <strong>2. 實體邊界已完全閉環（Entity Integrity）：</strong><br>
-                    成功消弭「安妮 ＝ Annie」、「腦波Annie（獨立學員）」與「大安妮（歷史典藏）」的混淆風險，保證後續任何 Heptabase 或教學紀錄同步時，不會發生破壞性資料合流。
-                </p>
-                <p style="margin-bottom: 12px;">
-                    <strong>3. 零警告與單調性（Zero Warnings & Monotonicity）：</strong><br>
-                    全套 120 項自動化測試在 3.58 秒內完成，且達成 0 條 Python 棄用警告。搭配 <code>test_zero_loss_regression.py</code> 的物理防線，具備了高階系統該有的強韌度。
-                </p>
-                <p>
-                    <strong>4. 下一階段演進建議（Future Roadmap）：</strong><br>
-                    目前 <code>data_gateway.py</code> 內部針對 Supabase 雲端備援採用同步 <code>urllib.request</code>。建議未來若學員並發請求量放大，可平滑將雲端 HTTP 抓取遷移至 <code>httpx.AsyncClient</code>，使高並發下的 Event Loop 完全不受阻塞。
-                </p>
-            </div>
-        </section>
-
-        <footer>
-            StudentCRM System Architecture Audit · Matt Pocock Deep Modules Lens · OpenClaw Nine-Layer Governance Compliant
-        </footer>
-    </div>
-
-    <script>
-        // Interactive module search filter
-        const filterInput = document.getElementById("filterInput");
-        const cards = document.querySelectorAll(".module-card");
-
-        filterInput.addEventListener("input", (e) => {
-            const val = e.target.value.toLowerCase().trim();
-            cards.forEach(card => {
-                const searchData = card.getAttribute("data-search").toLowerCase();
-                const cardText = card.innerText.toLowerCase();
-                if (searchData.includes(val) || cardText.includes(val)) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
-            });
-        });
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Architecture Review for StudentCRM (2026-09-23)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
     </script>
-</body>
+    <style>
+      .seam { stroke-dasharray: 4 4; }
+      .leak { stroke: #dc2626; stroke-width: 2px; }
+      .deep-card { background: linear-gradient(135deg, #0f172a, #1e293b); color: #f8fafc; }
+      pre.mermaid { background: transparent !important; }
+    </style>
+  </head>
+  <body class="bg-stone-50 text-slate-900 font-sans antialiased">
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+      <!-- Header -->
+      <header class="border-b border-stone-200 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Matt Pocock Architecture Audit</span>
+          <h1 class="text-3xl font-bold tracking-tight text-slate-900 mt-1">StudentCRM 架構審查與深模組審計報告</h1>
+          <p class="text-xs text-stone-500 font-mono mt-1">基準：main @ be9b75a · 日期：2026-09-23 · 活躍範圍：最近 25 次提交</p>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-medium text-stone-600 bg-white border border-stone-200 rounded-lg px-4 py-2.5 shadow-sm">
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-3.5 h-3.5 border border-slate-700 bg-stone-100 rounded-sm"></span>
+            <span>模組 (Module)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-4 border-t-2 border-dashed border-stone-400"></span>
+            <span>接縫 (Seam)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-3 h-0.5 bg-red-600"></span>
+            <span>洩漏 (Leakage)</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <span class="inline-block w-3.5 h-3.5 bg-slate-900 rounded-sm"></span>
+            <span>深模組 (Deep Module)</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Top Recommendation Section -->
+      <section id="top-recommendation" class="rounded-xl border-2 border-emerald-500/40 bg-emerald-50/50 p-6 shadow-sm">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white uppercase tracking-wider">最高槓桿首選 (Top Pick)</span>
+              <span class="text-xs font-mono text-emerald-800 font-semibold">Candidate #1</span>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 mt-2">統一教學資產與雙向同步深模組 (Collapse Dual SSOT Sync Pipeline)</h2>
+            <p class="text-stone-700 text-sm mt-1">徹底終結手動 per-student 同步腳本，將 Markdown 解析、快取差分與 Supabase 遠端同步收攏於單一介面之後。</p>
+          </div>
+          <a href="#candidate-1" class="shrink-0 px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition">查看方案細節 &darr;</a>
+        </div>
+      </section>
+
+      <!-- Candidates Section -->
+      <section id="candidates" class="space-y-12">
+        <!-- Candidate 1 -->
+        <article id="candidate-1" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+            <div>
+              <span class="text-xs font-mono text-stone-400">CANDIDATE 01</span>
+              <h3 class="text-lg font-bold text-slate-900">統一教學資產與雙向同步深模組 (Collapse Dual SSOT Sync Pipeline)</h3>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">Strong</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">ports & adapters</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
+            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+              <span>07.Projects/StudentCRM/teaching_sync.py</span>
+              <span>07.Projects/StudentCRM/data_gateway.py</span>
+              <span>07.Projects/StudentCRM/scripts/sync_taoyuan_to_supabase.py</span>
+              <span>07.Projects/StudentCRM/scripts/sync_chen_consultant_to_supabase.py</span>
+              <span>07.Projects/StudentCRM/scripts/migrate_to_supabase.py</span>
+            </div>
+          </div>
+
+          <!-- Before / After Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 淺模組洩漏 (Shallow & Leaking)</span>
+                <span class="text-[11px] text-stone-500 font-mono">5 個呼叫入口 · 邏輯重疊</span>
+              </div>
+              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    CLI[呼叫端 / 腳本] -->|手動執行| S1[sync_taoyuan.py]
+                    CLI -->|手動執行| S2[sync_chen.py]
+                    CLI -->|本地同步| TS[teaching_sync.py]
+                    S1 -.清理孤立ID.-> SUPA[(Supabase)]
+                    S2 -.upsert.-> SUPA
+                    TS -.寫入本地JSON.-> CACHE[(Cache)]
+                    GW[data_gateway.py] -.條件讀取.-> SUPA
+                    GW -.條件讀取.-> CACHE
+                    classDef leak stroke:#dc2626,stroke-width:2px;
+                    class S1,S2,GW leak;
+                </pre>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 單一深模組 (Deep & Encapsulated)</span>
+                <span class="text-[11px] text-stone-500 font-mono">1 個公開介面 · 內部閉環</span>
+              </div>
+              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    CLI[呼叫端 / API / CLI] -->|sync| CORE[TeachingSyncPipeline]
+                    subgraph CORE [TeachingSyncPipeline 深模組]
+                      direction TB
+                      DIFF[Snapshot Diff Engine]
+                      CLEAN[Orphan Cleaner]
+                      LOCAL[Local JSON Cache]
+                    end
+                    CORE -->|Adapter| SUPA[(Supabase)]
+                    classDef deep fill:#0f172a,stroke:#334155,color:#f8fafc;
+                    class CORE deep;
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-stone-800">
+            <p><strong>Problem:</strong> 同步邏輯分散在多個 CLI 腳本與網關私有函式，呼叫端必須手動管理過期孤立 ID 清理與分批 upsert。</p>
+            <p><strong>Solution:</strong> 將教學資產同步封裝為具備極小公開介面的深模組 <code>TeachingSyncPipeline.sync()</code>，將本地快取與雲端差分同步徹底內部化。</p>
+          </div>
+
+          <div class="pt-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
+            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 同步與清理邏輯集中一處</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">interface shrinks: 刪除多個獨立同步腳本</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 一個介面支援 CLI 與 API</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">adapter justifies seam: 本地與雲端端點解耦</li>
+            </ul>
+          </div>
+
+          <div class="rounded-lg bg-amber-50/70 border border-amber-200 p-3 text-xs text-amber-900">
+            <strong class="font-semibold">ADR 決策建議：</strong>建立 <code>TeachingSyncPipeline</code> 作為雙 SSOT 同步唯一法定通道，禁止在業務路由或獨立腳本中直連 Supabase REST API。
+          </div>
+        </article>
+
+        <!-- Candidate 2 -->
+        <article id="candidate-2" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+            <div>
+              <span class="text-xs font-mono text-stone-400">CANDIDATE 02</span>
+              <h3 class="text-lg font-bold text-slate-900">收攏數位管理時間軸與日曆聚合 (Consolidate Digital Management Timeline)</h3>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">Strong</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">in-process</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
+            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+              <span>07.Projects/StudentCRM/digital_management_service.py</span>
+              <span>07.Projects/StudentCRM/student_timeline_service.py</span>
+              <span>07.Projects/StudentCRM/routers/coach.py</span>
+            </div>
+          </div>
+
+          <!-- Before / After Grid -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 715 行神類別洩漏</span>
+                <span class="text-[11px] text-stone-500 font-mono">正則、日曆、HTML欄位交織</span>
+              </div>
+              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    ROUTER[routers/coach.py] -->|解析標題| P[parse_title]
+                    ROUTER -->|查筆記| L[load_all_records]
+                    ROUTER -->|查日曆| C[load_calendar_events]
+                    ROUTER -->|拼裝Timeline| T[student_timeline_service]
+                    P -.洩漏正則實作.-> ROUTER
+                    classDef leak stroke:#dc2626,stroke-width:2px;
+                    class P,L,C leak;
+                </pre>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 獨立深模組 (Clean Domain Seam)</span>
+                <span class="text-[11px] text-stone-500 font-mono">1 個調用點 · 強型別輸出</span>
+              </div>
+              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
+                <pre class="mermaid">
+                  flowchart TD
+                    ROUTER[routers/coach.py] -->|get_profile| DMT[DigitalManagementTimeline]
+                    subgraph DMT [DigitalManagementTimeline 深模組]
+                      direction TB
+                      NORM[Title Normalizer & Regex]
+                      CAL[Calendar Event Cache]
+                      NOTE[Note Reconciler]
+                    end
+                    DMT -->|交付| MODEL[Immutable StudentTimelineProfile]
+                    classDef deep fill:#0f172a,stroke:#334155,color:#f8fafc;
+                    class DMT deep;
+                </pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-stone-800">
+            <p><strong>Problem:</strong> <code>digital_management_service.py</code> 承擔了日曆文字正則解析、堂號推導、多源筆記加載與 HTML 字典拼裝，導致路由層需要理解所有底層細節。</p>
+            <p><strong>Solution:</strong> 建立 <code>DigitalManagementTimeline</code> 深模組，單一介面 <code>get_profile(student_id)</code> 直接交付不可變且強型別的時間軸實體。</p>
+          </div>
+
+          <div class="pt-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
+            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 正則與堂號推導內聚</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 路由層只依賴單一時間軸介面</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leakage eliminated: 消除寬鬆 dict 傳遞</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">tests hit one interface: 測試無需 mock 多個內部函式</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Candidate 3 -->
+        <article id="candidate-3" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+            <div>
+              <span class="text-xs font-mono text-stone-400">CANDIDATE 03</span>
+              <h3 class="text-lg font-bold text-slate-900">隔離媒體資產儲存與 CDN 解析 (Isolate Media Asset Resolver)</h3>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">Worth exploring</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">ports & adapters</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
+            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+              <span>07.Projects/StudentCRM/note_service.py</span>
+              <span>07.Projects/StudentCRM/hub_service.py</span>
+              <span>07.Projects/StudentCRM/scripts/optimize_teaching_images.py</span>
+            </div>
+          </div>
+
+          <!-- Cross-Section Visual Pattern -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 圖檔直接捆綁進 Serverless Bundle</span>
+              <div class="space-y-1.5 font-mono text-xs">
+                <div class="h-10 border-l-4 border-red-500 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>Git Repository</span>
+                  <span class="text-red-600 font-bold">~74MB (147 images)</span>
+                </div>
+                <div class="h-10 border-l-4 border-red-500 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>Vercel Serverless Function</span>
+                  <span class="text-red-600 font-bold">逼近 50MB 硬上限</span>
+                </div>
+                <div class="h-10 border-l-4 border-stone-400 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>Markdown Inline Image Regex</span>
+                  <span class="text-stone-500">每次請求逐筆重算</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: MediaAssetResolver 抽象層 Seam</span>
+              <div class="space-y-1.5 font-mono text-xs">
+                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>Serverless Deployment</span>
+                  <span class="text-emerald-600 font-bold">&lt; 8MB (Zero Media)</span>
+                </div>
+                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>MediaAssetResolver (Adapter)</span>
+                  <span class="text-emerald-600 font-bold">透明切換 CDN / Supabase / Local</span>
+                </div>
+                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
+                  <span>NoteService Public Seam</span>
+                  <span class="text-emerald-600 font-bold">一處完成 URL 解析與縮圖</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-stone-800">
+            <p><strong>Problem:</strong> 筆記圖檔直接打入 Vercel 代碼庫隨時有超過 50MB 部署失敗風險，且各處 service 充斥著自製的圖片正則解析。</p>
+            <p><strong>Solution:</strong> 設立 <code>MediaAssetResolver</code> 介面，依環境透明提供本地 static 替換或外部雲端 Storage/CDN 網址。</p>
+          </div>
+
+          <div class="pt-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
+            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">seam: 徹底解耦圖檔與部署包</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: Markdown 圖檔正則集中單一模組</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 一處定義圖片載入與快取</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">zero loss: 生產環境無破損風險</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Candidate 4 -->
+        <article id="candidate-4" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+            <div>
+              <span class="text-xs font-mono text-stone-400">CANDIDATE 04</span>
+              <h3 class="text-lg font-bold text-slate-900">解耦測試環境與檔案系統 Seam (Introduce DocumentStore Seam)</h3>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">Worth exploring</span>
+              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">local-substitutable</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
+            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+              <span>07.Projects/StudentCRM/tests/test_teaching_sync_crm.py</span>
+              <span>07.Projects/StudentCRM/teaching_sync.py</span>
+              <span>07.Projects/StudentCRM/data_gateway.py</span>
+            </div>
+          </div>
+
+          <!-- Mass Diagram Visual Pattern -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 測試打擊實體磁碟 (39.63s)</span>
+              <div class="bg-white rounded border border-stone-200 p-4 space-y-2 text-xs font-mono">
+                <div class="text-stone-500">// 測試 setup</div>
+                <div class="text-red-700 font-bold">shutil.copytree("01.Docs/teaching", tmp)</div>
+                <div class="text-stone-600">複製 700+ 個實體檔案至臨時磁碟目錄</div>
+                <div class="w-full bg-red-100 h-6 rounded flex items-center px-2 text-red-800 font-bold">IO 等待：約 32 秒 (佔比 81%)</div>
+              </div>
+            </div>
+
+            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 替換式 DocumentStore (&lt; 2s)</span>
+              <div class="bg-white rounded border border-stone-200 p-4 space-y-2 text-xs font-mono">
+                <div class="text-stone-500">// 測試 setup (Local-Substitutable)</div>
+                <div class="text-emerald-700 font-bold">store = InMemoryDocumentStore(sample_notes)</div>
+                <div class="text-stone-600">純記憶體字典比對，無需打擊真實磁碟</div>
+                <div class="w-full bg-emerald-100 h-6 rounded flex items-center px-2 text-emerald-800 font-bold">執行時間：&lt; 1.5 秒 (加速 25 倍)</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-2 text-sm text-stone-800">
+            <p><strong>Problem:</strong> 同步測試因直接操作 700+ 個 Markdown 檔案的真實磁碟複製（copytree）導致 pytest 耗時近 40 秒，嚴重拖慢開發回饋迴圈。</p>
+            <p><strong>Solution:</strong> 在教學資產讀取處引入 <code>DocumentStore</code> 抽象介面，測試使用輕量 <code>InMemoryDocumentStore</code>，生產環境使用 <code>DiskDocumentStore</code>。</p>
+          </div>
+
+          <div class="pt-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
+            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 測試回饋迴圈由 40s 縮至 &lt;2s</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">adapter justifies seam: 記憶體與磁碟雙實作</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">zero loss: 生產環境無額外運行開銷</li>
+              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 檔案 IO 分支不污染業務邏輯</li>
+            </ul>
+          </div>
+        </article>
+      </section>
+
+      <!-- Footer -->
+      <footer class="border-t border-stone-200 pt-6 text-center text-xs text-stone-400 font-mono">
+        StudentCRM Architectural Audit · Generated via <code>/matt-improve-codebase-architecture</code> · Governed by OpenClaw Architecture
+      </footer>
+    </main>
+  </body>
 </html>
