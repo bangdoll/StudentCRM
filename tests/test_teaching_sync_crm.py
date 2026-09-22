@@ -15,7 +15,11 @@ def test_sync_teaching_records_to_crm_basic(tmp_path):
     isolated_teaching_dir = isolated_workspace / "01.Docs" / "teaching"
 
     isolated_data_dir.mkdir(parents=True)
-    shutil.copytree(source_workspace_dir / "01.Docs" / "teaching", isolated_teaching_dir)
+    shutil.copytree(
+        source_workspace_dir / "01.Docs" / "teaching",
+        isolated_teaching_dir,
+        ignore=shutil.ignore_patterns("assets", "*.png", "*.jpg", "*.jpeg", "*.docx", "*.m4a"),
+    )
     shutil.copy2(source_crm_dir / "data" / "students.json", isolated_data_dir / "students.json")
     shutil.copy2(source_crm_dir / "data" / "apple_ceo_class.json", isolated_data_dir / "apple_ceo_class.json")
 
