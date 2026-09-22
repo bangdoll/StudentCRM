@@ -10,6 +10,7 @@ from typing import Any
 
 
 DIGITAL_MANAGEMENT_LABEL = "數位管理教學"
+CHEN_CONSULTANT_COURSE_LABEL = "和陳顧問合作課程"
 
 MANUAL_ALIASES = {
     "chami": "查米",
@@ -142,6 +143,7 @@ def parse_lesson_parts(value: str) -> tuple[int | None, str | None]:
     text = value or ""
     patterns = [
         r"(?:^|[\s#._-])Lesson[_\s-]*(?!20\d{6})(\d+)(?:[_\s-]+(\d+))?",
+        r"^\s*(\d+)\s*_+",
         r"^\s*(\d+)\s*[-－]\s*(\d*)\s*[.．、]?",
         r"^\s*(\d+)\s*[.．、]",
     ]
@@ -157,6 +159,9 @@ def parse_lesson_parts(value: str) -> tuple[int | None, str | None]:
 
 def candidate_name_from_title(title: str) -> str:
     stem = title[:-3] if title.endswith(".md") else title
+
+    if CHEN_CONSULTANT_COURSE_LABEL in stem:
+        return "陳顧問"
 
     if "蘋果總裁班" in stem or "Apple_CEO" in stem or "Apple CEO" in stem:
         return "蘋果總裁班"
@@ -198,7 +203,8 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     is_apple_ceo = "蘋果總裁班" in title or "Apple_CEO" in title or "Apple CEO" in title
     is_group_class = any(k in title for k in ["資深少年", "AI學習團", "AI 學習團", "Senior_AI", "禮品公會"])
     is_special_guide = any(k in title for k in ["行動指南", "Reels 行動指南"])
-    if not is_digital_management and not is_lesson_file and not is_apple_ceo and not is_group_class and not is_special_guide:
+    is_chen_consultant = CHEN_CONSULTANT_COURSE_LABEL in title
+    if not is_digital_management and not is_lesson_file and not is_apple_ceo and not is_group_class and not is_special_guide and not is_chen_consultant:
         return None
 
     try:
@@ -232,6 +238,10 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     if not candidate_name:
         return None
 
+    display_title = f"#{title}"
+    if is_chen_consultant and date and lesson_num is not None:
+        display_title = f"#{date.replace('-', '')} {lesson_num:02d}.{CHEN_CONSULTANT_COURSE_LABEL}"
+
     try:
         stat = file_path.stat()
         mtime = datetime.fromtimestamp(stat.st_mtime, tz=timezone.utc).isoformat().replace("+00:00", "Z")
@@ -239,7 +249,7 @@ def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
         mtime = ""
     return {
         "card_id": hashlib.sha1(str(file_path).encode("utf-8")).hexdigest(),
-        "title": f"#{title}",
+        "title": display_title,
         "date": date,
         "lesson_num": lesson_num,
         "lesson_sub": lesson_sub,
@@ -302,7 +312,23 @@ def build_teaching_records_from_directory(teaching_dir: str | Path, students: li
     unmatched: list[dict[str, str]] = []
     by_student: dict[str, list[dict[str, Any]]] = {}
 
-    for path in sorted(Path(teaching_dir).glob("*.md")):
+    all_paths = sorted(Path(teaching_dir).rglob("*.md"))
+    paths: list[Path] = []
+    chen_variants: dict[tuple[str, int | None], Path] = {}
+    for path in all_paths:
+        if CHEN_CONSULTANT_COURSE_LABEL not in path.stem:
+            paths.append(path)
+            continue
+        parsed_variant = parse_teaching_file(path)
+        if not parsed_variant:
+            continue
+        variant_key = (parsed_variant.get("date", ""), parsed_variant.get("lesson_num"))
+        current = chen_variants.get(variant_key)
+        if current is None or path.stem.endswith("_v2"):
+            chen_variants[variant_key] = path
+
+    paths.extend(chen_variants.values())
+    for path in sorted(paths):
         parsed = parse_teaching_file(path)
         if not parsed:
             continue
@@ -614,5 +640,3 @@ def sync_student_next_lessons(students: list[dict[str, Any]], crm_dir: Path | st
                     })
 
     return updated
-
-

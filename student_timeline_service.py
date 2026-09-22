@@ -44,7 +44,7 @@ BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", DEFAULT_BASE_DIR)
 
 
 def get_student_metadata(file_path: str) -> dict:
-    if not os.path.exists(file_path):
+    if not os.path.isfile(file_path):
         return {}
     with open(file_path, "r", encoding="utf-8") as f:
         content = f.read()

@@ -58,6 +58,28 @@ def test_read_student_hub_alias_endpoint():
     assert "Charlotte" in response.text
 
 
+def test_chen_consultant_english_public_slug_and_manifest():
+    slug = "chen-consultant"
+    response = client.get(f"/my/{slug}")
+    assert response.status_code == 200
+    assert "陳顧問" in response.text
+    assert f"/my/{slug}/manifest.webmanifest" in response.text
+    assert response.cookies["last_student_token"] == slug
+
+    manifest_response = client.get(f"/my/{slug}/manifest.webmanifest")
+    assert manifest_response.status_code == 200
+    manifest = manifest_response.json()
+    assert manifest["start_url"] == f"/my/{slug}"
+    assert manifest["scope"] == f"/my/{slug}"
+
+
+def test_chen_consultant_profile_displays_public_hub_url():
+    response = client.get("/student/f13107ba-79fb-5bae-8728-99648687ef48")
+    assert response.status_code == 200
+    assert "專屬網址" in response.text
+    assert "https://student-crm-flax.vercel.app/my/chen-consultant" in response.text
+
+
 def test_read_student_hub_redirect_merged_student():
     # 測試已合併學員之 301 轉址 (例如古金桃之被合併 ID)
     response = client.get("/my/7071583c-13d4-4a2b-bf91-a52c9e968322", follow_redirects=False)
@@ -227,4 +249,3 @@ def test_student_note_back_link_not_polluted_by_apple_ceo_cookie():
     resp_tampered = client.get(f"/note?path={note_path}&token={apple_token}")
     assert resp_tampered.status_code == 200
     assert f"/my/{apple_token}" not in resp_tampered.text
-

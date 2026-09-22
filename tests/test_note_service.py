@@ -107,6 +107,32 @@ class TestNoteDetailResolver:
         assert "學員進度順暢" in note.content_html
         assert note.is_apple_ceo is False
 
+    def test_resolve_note_preserves_top_image_order(self):
+        cloud_records = [
+            {
+                "path": "/01.Docs/teaching/20260922 14.陳顧問.md",
+                "filename": "20260922 14.陳顧問.md",
+                "title": "陳顧問第 14 堂",
+                "date": "2026-09-22",
+                "lesson_number": 14,
+                "student_name": "陳顧問",
+                "student_id": "chen-consultant",
+                "content": "# 筆記\n\n![課堂圖片](assets/chen-consultant-14.png)\n\n正文內容。",
+            }
+        ]
+
+        note = resolve_note_detail(
+            path_or_filename="20260922 14.陳顧問.md",
+            base_dir="/tmp/test",
+            apple_notes=[],
+            cloud_records=cloud_records,
+        )
+
+        assert note is not None
+        image_html = "/static/teaching_assets/chen-consultant-14.png"
+        assert image_html in note.content_html
+        assert note.content_html.index(image_html) < note.content_html.index("正文內容")
+
     def test_resolve_non_existent_note_returns_none(self):
         note = resolve_note_detail(
             path_or_filename="non_existent_file.md",

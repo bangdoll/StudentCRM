@@ -10,7 +10,7 @@ from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 
 from schedule_service import get_document_exceptions, get_next_occurrence
 from prediction_service import predict_student_status
-from student_service import generate_student_renewal_reminder, generate_preclass_briefing
+from student_service import generate_student_renewal_reminder, generate_preclass_briefing, get_public_student_slug
 from note_service import resolve_note_detail
 
 from schemas import (
@@ -77,6 +77,7 @@ async def read_student(request: Request, student_id: str):
         )
 
     student_notes = deps["get_student_teaching_notes"](student)
+    hub_token = get_public_student_slug(student_id) or student_id
     file_meta = deps["get_student_metadata"](file_path) if file_path and os.path.exists(file_path) else {}
     cloud_meta = deps["build_cloud_student_meta"](student)
     student['meta'] = {**cloud_meta, **file_meta}
@@ -91,7 +92,7 @@ async def read_student(request: Request, student_id: str):
     renewal_message = generate_student_renewal_reminder(student)
     briefing = generate_preclass_briefing(student, student_notes)
 
-    if not file_path or not os.path.exists(file_path):
+    if not file_path or not os.path.isfile(file_path):
         teaching_records = deps["student_gateway"].load_teaching_records(student_id)
         return deps["templates"].TemplateResponse(request, "student.html", {
             "request": request,
@@ -99,6 +100,7 @@ async def read_student(request: Request, student_id: str):
             "student_notes": student_notes,
             "timeline_html": deps["render_cloud_student_timeline"](student, teaching_records),
             "student_id": student_id,
+            "hub_token": hub_token,
             "renewal_message": renewal_message,
             "briefing": briefing,
         })
@@ -120,6 +122,7 @@ async def read_student(request: Request, student_id: str):
         "student_notes": student_notes,
         "timeline_html": html_content,
         "student_id": student_id,
+        "hub_token": hub_token,
         "renewal_message": renewal_message,
         "briefing": briefing,
     })

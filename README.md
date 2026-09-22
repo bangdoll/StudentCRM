@@ -22,6 +22,7 @@ StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設�
   * 支援企業 AI 導入、自動化流程、提示詞工程、數位工作流等 6 大領域即時標籤篩選與關鍵字過濾。
 * **Heptabase ➔ StudentCRM 教學筆記全自動入庫管道**：
   * 每日 20:00 排程自 Heptabase 拉取最新卡片並寫入 `01.Docs/teaching` 後，**全自動連動入庫至 StudentCRM**。
+  * 教學同步引擎會遞迴掃描 `01.Docs/teaching` 子資料夾，支援「和陳顧問合作課程」等專屬課程命名與 v2 最新版本優先。
   * 一對一學員：自動解析日期與堂數，更新 `data/teaching_records.json`，推移 `students.json` 最新上課日期。
   * 蘋果總裁班：自動置頂更新 `apple_ceo_class.json` 之 `teaching_notes` 陣列。
   * 專班/團體班：精準關聯群組並入庫。

@@ -24,7 +24,7 @@
     "file": "/01.Docs/Students/Amanda 蕭秉慧.md",
     "lessons_count": 6,
     "latest_date": "2026-07-10",
-    "next_lesson": "2026-10-18",
+    "next_lesson": "2026-11-27",
     "tags": [
       "一般學員"
     ],
@@ -116,14 +116,14 @@
       "陳姐 Charlotte"
     ],
     "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 75,
-    "latest_date": "2026-09-11",
-    "next_lesson": "2026-09-21",
+    "lessons_count": 76,
+    "latest_date": "2026-09-21",
+    "next_lesson": "2026-10-05",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active"
   },
   {
@@ -245,14 +245,14 @@
       "Teresa Test"
     ],
     "file": "/01.Docs/Students/Teresa.md",
-    "lessons_count": 16,
-    "latest_date": "2026-09-08",
-    "next_lesson": "2026-09-21",
+    "lessons_count": 17,
+    "latest_date": "2026-09-21",
+    "next_lesson": "2026-11-13",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-06-30",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active"
   },
   {
@@ -277,14 +277,14 @@
     "name": "元偉琴",
     "aliases": [],
     "file": "/01.Docs/Students/元偉琴.md",
-    "lessons_count": 23,
-    "latest_date": "2025-12-26",
-    "next_lesson": "2026-09-22",
+    "lessons_count": 24,
+    "latest_date": "2026-09-22",
+    "next_lesson": "2026-09-29",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-08-23",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active"
   },
   {
@@ -1134,5 +1134,20 @@
     "first_lesson_date": "2018-02-27",
     "current_cycle_lesson": 4,
     "status": "paused"
+  },
+  {
+    "id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "name": "陳顧問",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 14,
+    "latest_date": "2026-09-22",
+    "next_lesson": "",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2026-05-13",
+    "current_cycle_lesson": 6,
+    "status": "active"
   }
 ]

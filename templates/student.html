@@ -26,13 +26,26 @@
             <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                 <button type="button" class="copy-reminder-btn" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 20px;"
                         data-student="{{ student.name }}"
-                        data-text="{{ student.name }} 您好！&#10;這是為您整理的專屬個人「數位管理學習空間」：&#10;🔗 https://student-crm-flax.vercel.app/my/{{ student.id }}&#10;&#10;💡 小撇步：&#10;用 iPhone / iPad 的 Safari 打開後，點擊下方「分享」按鈕 ➔ 選擇「加入主畫面」，就能像 App 一樣隨時秒開複習歷次課堂重點與小練習囉！"
+                        data-text="{{ student.name }} 您好！&#10;這是為您整理的專屬個人「數位管理學習空間」：&#10;🔗 https://student-crm-flax.vercel.app/my/{{ hub_token }}&#10;&#10;💡 小撇步：&#10;用 iPhone / iPad 的 Safari 打開後，點擊下方「分享」按鈕 ➔ 選擇「加入主畫面」，就能像 App 一樣隨時秒開複習歷次課堂重點與小練習囉！"
                         onclick="copyRadarReminder(this)">
                     📋 複製學員 LINE 專屬 Hub 邀請
                 </button>
-                <a href="/hub/{{ student.id }}" target="_blank" class="hub-header-link" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.35); border-radius: 20px; color: var(--accent-color); font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
+                <a href="/hub/{{ hub_token }}" target="_blank" class="hub-header-link" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(56, 139, 253, 0.15); border: 1px solid rgba(56, 139, 253, 0.35); border-radius: 20px; color: var(--accent-color); font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">
                     <span>📲</span> 預覽學員專屬視圖 (Hub) ➔
                 </a>
+            </div>
+        </div>
+        <div class="student-card" style="margin-bottom: 20px; padding: 16px 20px; border-color: rgba(88, 166, 255, 0.35); background: linear-gradient(135deg, rgba(56, 139, 253, 0.12), rgba(22, 27, 34, 0.92));">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+                <div style="min-width: 0;">
+                    <div style="font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 5px;">🔗 專屬網址</div>
+                    <a href="/my/{{ hub_token }}" target="_blank" rel="noopener" style="color: var(--accent-color); font-weight: 600; overflow-wrap: anywhere;">https://student-crm-flax.vercel.app/my/{{ hub_token }}</a>
+                </div>
+                <button type="button" class="copy-reminder-btn" style="padding: 7px 14px; font-size: 0.82rem; border-radius: 20px; white-space: nowrap;"
+                        data-text="https://student-crm-flax.vercel.app/my/{{ hub_token }}"
+                        onclick="copyRadarReminder(this)">
+                    複製網址
+                </button>
             </div>
         </div>
         <h1>{{ student.name }}</h1>

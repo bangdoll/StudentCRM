@@ -73,3 +73,43 @@ def test_sync_one_on_one_and_group_records():
     # 2. 驗證團體專班 (資深少年 AI 學習團)
     senior_ai_records = [r for r in data["records"] if "資深少年" in r.get("student_name", "")]
     assert len(senior_ai_records) >= 7
+
+
+def test_remove_liushuhua_online_and_consultation_events():
+    """驗證劉淑華線上與諮詢日曆事件不被解析為數位管理學員。"""
+    from digital_management_service import parse_digital_management_title, build_digital_management_profiles
+
+    # 1. 驗證標題解析排除諮詢與劉淑華線上
+    assert parse_digital_management_title("劉淑華線上數位管理教學諮詢") == {}
+    assert parse_digital_management_title("Smart的二兒子數位管理教學諮詢") == {}
+    assert parse_digital_management_title("60-4.Kelly Woo 數位管理教學") != {}
+
+    # 2. 驗證 profile 聚合中已徹底無此學員
+    payload = build_digital_management_profiles(include_heptabase=False)
+    students = payload.get("students", [])
+    found_liushuhua = next((s for s in students if s.get("id") == "digital-90b9bc3851" or "劉淑華" in s.get("name", "")), None)
+    assert found_liushuhua is None
+
+
+def test_taoyuan_teaching_notes_completed_and_clean_date():
+    """驗證桃園數位管理教學筆記已補齊且無 2025-01-00 畸形日期。"""
+    from digital_management_service import build_digital_management_profiles
+
+    payload = build_digital_management_profiles(include_heptabase=False)
+    students = payload.get("students", [])
+    taoyuan = next((s for s in students if s.get("id") == "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95"), None)
+
+    assert taoyuan is not None
+    assert taoyuan["name"] == "桃園"
+    notes = taoyuan.get("notes", [])
+
+    # 1. 筆記總數應從原本的 14 篇擴充至 30 篇以上
+    assert len(notes) >= 30
+
+    # 2. 驗證無畸形日期，且 2025-10-07 存在
+    dates = [n.get("date") for n in notes]
+    assert "2025-01-00" not in dates
+    assert "2025-10-07" in dates
+    assert "2026-07-03" in dates  # 第 100 堂
+    assert "2022-10-21" in dates  # 第 70 堂
+

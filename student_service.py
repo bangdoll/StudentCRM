@@ -5,6 +5,13 @@ import re
 from typing import Any
 
 
+# 由教練明確指定的學員公開入口。公開 slug 只負責導向既有 UUID，
+# 真正的學員資料仍以 UUID 在資料層辨識，避免改動既有資料主鍵。
+PUBLIC_STUDENT_SLUGS: dict[str, str] = {
+    "chen-consultant": "f13107ba-79fb-5bae-8728-99648687ef48",
+}
+
+
 def normalize_digital_name(value: str) -> str:
     """清理文字空白並轉為小寫，作為別名比對基準。"""
     return re.sub(r"\s+", "", value or "").lower()
@@ -49,6 +56,19 @@ def get_student_by_id(sid: Any, students: Any) -> dict[str, Any] | None:
     if not isinstance(students, list):
         return None
     return next((s for s in students if isinstance(s, dict) and s.get("id") == sid), None)
+
+
+def resolve_student_access_id(access_key: str) -> str:
+    """將公開英文 slug 解析為既有學員 UUID；未命中時保留原值。"""
+    return PUBLIC_STUDENT_SLUGS.get((access_key or "").strip(), access_key)
+
+
+def get_public_student_slug(student_id: str) -> str | None:
+    """取得學員的公開英文 slug，沒有指定 slug 時回傳 None。"""
+    for slug, mapped_id in PUBLIC_STUDENT_SLUGS.items():
+        if mapped_id == student_id:
+            return slug
+    return None
 
 
 def build_student_features(student: dict[str, Any]) -> dict[str, Any]:

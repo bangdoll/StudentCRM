@@ -87,7 +87,7 @@ def parse_datetime(value: str) -> datetime | None:
 def parse_digital_management_title(summary: str) -> dict:
     """Parse titles like `60-4.Kelly Woo 數位管理教學` into profile fields."""
     title = (summary or "").strip()
-    if any(ex in title for ex in ["看診", "中醫看診", "中醫", "門診", "回診", "就診", "牙醫"]):
+    if any(ex in title for ex in ["看診", "中醫看診", "中醫", "門診", "回診", "就診", "牙醫", "諮詢"]):
         return {}
     if DIGITAL_MANAGEMENT_LABEL not in title:
         return {}
@@ -103,7 +103,7 @@ def parse_digital_management_title(summary: str) -> dict:
         return {}
 
     name = re.sub(r"^[\s.．、-]+|[\s.．、-]+$", "", match.group("name") or "")
-    if not name:
+    if not name or name in ("劉淑華線上", "劉淑華"):
         return {}
 
     series_number = int(match.group("series")) if match.group("series") else None
