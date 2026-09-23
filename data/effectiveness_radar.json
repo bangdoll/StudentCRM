@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T22:33:04.378659+00:00",
+  "generated_at": "2026-09-23T02:07:43.007625+00:00",
   "summary": {
     "total_tracked": 64,
     "stable_count": 10,
@@ -16,9 +16,9 @@
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-22",
       "days_since_last": 1,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -41,16 +41,16 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 天 AI OS 陪跑",
-        "slug": "ai-os-coaching",
-        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "contacted",
         "last_contacted_date": "2026-09-23",
         "next_followup_date": "2026-09-20",
         "coach_notes": "自動化測試更新回訪紀錄",
-        "updated_at": "2026-09-22T22:33:04.293353+00:00"
+        "updated_at": "2026-09-23T02:07:42.169761+00:00"
       },
       "followup_copy": "元偉琴 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：把散落在 YouTube、手機、電腦、雲端與其他人手上的素材，先建立一套可以管理的數位系統，再把素材轉化成自己真正想留下的故事。\n2. 【關鍵動作】掌握實戰工作流：來源 → Inbox 素材入口 → 專案資料夾 → Filmora 專案 → 粗剪 → 故事結構 → B-roll → 聲音 → 驗收 → MP4 成品 → 備。\n3. 【每週小勝】本週驗收成果：直接進入電腦、檔案、專案與實際工作流程。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
@@ -61,9 +61,9 @@
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-18",
       "days_since_last": 5,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -86,9 +86,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
         "status": "pending",
@@ -106,9 +106,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2026-09-17",
       "days_since_last": 6,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -131,9 +131,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 天 AI OS 陪跑",
-        "slug": "ai-os-coaching",
-        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -151,9 +151,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2026-09-13",
       "days_since_last": 10,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -176,9 +176,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -196,9 +196,9 @@
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-06",
       "days_since_last": 17,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -221,9 +221,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -243,7 +243,7 @@
       "days_since_last": 22,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "重複繁瑣勞動佔據過多時間",
+      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -286,9 +286,9 @@
       "current_cycle_lesson": 8,
       "latest_date": "2026-08-27",
       "days_since_last": 27,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -311,9 +311,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "90 天 AI OS 陪跑",
+        "slug": "ai-os-coaching",
+        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
       },
       "followup": {
         "status": "pending",
@@ -331,9 +331,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-30",
       "days_since_last": 55,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -356,9 +356,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -421,9 +421,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-20",
       "days_since_last": 65,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "重複繁瑣勞動佔據過多時間",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -446,9 +446,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
         "status": "pending",
@@ -466,9 +466,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-17",
       "days_since_last": 68,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -491,9 +491,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+        "title": "90 天 AI OS 陪跑",
+        "slug": "ai-os-coaching",
+        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
       },
       "followup": {
         "status": "pending",
@@ -513,7 +513,7 @@
       "days_since_last": 142,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -556,9 +556,9 @@
       "current_cycle_lesson": 14,
       "latest_date": "2026-04-27",
       "days_since_last": 149,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -581,9 +581,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 天 AI OS 陪跑",
-        "slug": "ai-os-coaching",
-        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
         "status": "pending",
@@ -601,9 +601,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2025-12-29",
       "days_since_last": 268,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "重複繁瑣勞動佔據過多時間",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -626,9 +626,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
       },
       "followup": {
         "status": "pending",
@@ -646,9 +646,9 @@
       "current_cycle_lesson": 7,
       "latest_date": "2025-12-16",
       "days_since_last": 281,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -671,9 +671,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
       },
       "followup": {
         "status": "pending",
@@ -873,7 +873,7 @@
       "days_since_last": 548,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -961,9 +961,9 @@
       "current_cycle_lesson": 6,
       "latest_date": "2026-08-23",
       "days_since_last": 31,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -986,9 +986,9 @@
       "retention_signal_text": "高流失風險 🔴",
       "retention_badge_class": "badge-danger",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -1008,7 +1008,7 @@
       "days_since_last": 37,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1053,7 +1053,7 @@
       "days_since_last": 43,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1096,9 +1096,9 @@
       "current_cycle_lesson": 5,
       "latest_date": "2026-08-10",
       "days_since_last": 44,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1186,8 +1186,8 @@
       "current_cycle_lesson": 5,
       "latest_date": "2026-07-27",
       "days_since_last": 58,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
       "micro_action_cards": [
         {
@@ -1231,8 +1231,8 @@
       "current_cycle_lesson": 6,
       "latest_date": "2026-07-10",
       "days_since_last": 75,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
       "micro_action_cards": [
         {
@@ -1256,9 +1256,9 @@
       "retention_signal_text": "高流失風險 🔴",
       "retention_badge_class": "badge-danger",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
       },
       "followup": {
         "status": "pending",
@@ -1278,7 +1278,7 @@
       "days_since_last": 76,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1323,7 +1323,7 @@
       "days_since_last": 78,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1368,7 +1368,7 @@
       "days_since_last": 82,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1411,9 +1411,9 @@
       "current_cycle_lesson": 2,
       "latest_date": "2026-06-26",
       "days_since_last": 89,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1456,9 +1456,9 @@
       "current_cycle_lesson": 2,
       "latest_date": "2026-05-15",
       "days_since_last": 131,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1503,7 +1503,7 @@
       "days_since_last": 152,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "AI 提示詞缺乏背景前情提要",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1548,7 +1548,7 @@
       "days_since_last": 156,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1593,7 +1593,7 @@
       "days_since_last": 174,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1636,9 +1636,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-02-24",
       "days_since_last": 211,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1816,9 +1816,99 @@
       "current_cycle_lesson": 6,
       "latest_date": "2025-10-27",
       "days_since_last": 331,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+        }
+      ],
+      "task_staleness_warning": true,
+      "retention_signal": "at_risk",
+      "retention_signal_text": "高流失風險 🔴",
+      "retention_badge_class": "badge-danger",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "陳媽媽 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
+      "name": "琳琳律師",
+      "lessons_count": 6,
+      "current_cycle_lesson": 6,
+      "latest_date": "2025-08-30",
+      "days_since_last": 389,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "密碼與帳號同步問題",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "課堂核心原則：Gmail 帳號建立（6歲兒童）。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰工作流：點選 **Apple ID → 家人共享 → 新增家庭成員。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：Apple ID 建立（6歲兒童）。"
+        }
+      ],
+      "task_staleness_warning": true,
+      "retention_signal": "at_risk",
+      "retention_signal_text": "高流失風險 🔴",
+      "retention_badge_class": "badge-danger",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "琳琳律師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：Gmail 帳號建立（6歲兒童）。\n2. 【關鍵動作】掌握實戰工作流：點選 **Apple ID → 家人共享 → 新增家庭成員。\n3. 【每週小勝】本週驗收成果：Apple ID 建立（6歲兒童）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
+      "name": "王太太",
+      "lessons_count": 6,
+      "current_cycle_lesson": 6,
+      "latest_date": "2025-08-17",
+      "days_since_last": 402,
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1844,96 +1934,6 @@
         "title": "MVP 工作流建置",
         "slug": "mvp-workflow",
         "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "陳媽媽 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
-      "name": "琳琳律師",
-      "lessons_count": 6,
-      "current_cycle_lesson": 6,
-      "latest_date": "2025-08-30",
-      "days_since_last": 389,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "課堂核心原則：Gmail 帳號建立（6歲兒童）。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：點選 **Apple ID → 家人共享 → 新增家庭成員。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週驗收成果：Apple ID 建立（6歲兒童）。"
-        }
-      ],
-      "task_staleness_warning": true,
-      "retention_signal": "at_risk",
-      "retention_signal_text": "高流失風險 🔴",
-      "retention_badge_class": "badge-danger",
-      "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "琳琳律師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：Gmail 帳號建立（6歲兒童）。\n2. 【關鍵動作】掌握實戰工作流：點選 **Apple ID → 家人共享 → 新增家庭成員。\n3. 【每週小勝】本週驗收成果：Apple ID 建立（6歲兒童）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
-      "name": "王太太",
-      "lessons_count": 6,
-      "current_cycle_lesson": 6,
-      "latest_date": "2025-08-17",
-      "days_since_last": 402,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
-        }
-      ],
-      "task_staleness_warning": true,
-      "retention_signal": "at_risk",
-      "retention_signal_text": "高流失風險 🔴",
-      "retention_badge_class": "badge-danger",
-      "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
         "status": "pending",
@@ -2131,8 +2131,8 @@
       "current_cycle_lesson": 1,
       "latest_date": "2024-08-12",
       "days_since_last": 772,
-      "ai_import_stage": "數位地基",
-      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
       "micro_action_cards": [
         {
@@ -2223,7 +2223,7 @@
       "days_since_last": 941,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2266,9 +2266,9 @@
       "current_cycle_lesson": 2,
       "latest_date": "2026-09-01",
       "days_since_last": 22,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2311,9 +2311,9 @@
       "current_cycle_lesson": 2,
       "latest_date": "2026-08-28",
       "days_since_last": 26,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2356,9 +2356,9 @@
       "current_cycle_lesson": 6,
       "latest_date": "2026-08-25",
       "days_since_last": 29,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2446,8 +2446,8 @@
       "current_cycle_lesson": 6,
       "latest_date": "2026-09-22",
       "days_since_last": 1,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
       "micro_action_cards": [
         {
@@ -2471,9 +2471,9 @@
       "retention_signal_text": "穩定推進 🟢",
       "retention_badge_class": "badge-success",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",
@@ -2491,9 +2491,9 @@
       "current_cycle_lesson": 4,
       "latest_date": "2026-09-21",
       "days_since_last": 2,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2536,9 +2536,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-21",
       "days_since_last": 2,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2581,9 +2581,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-20",
       "days_since_last": 3,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+      "primary_pain": "重複繁瑣勞動佔據過多時間",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2626,9 +2626,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-19",
       "days_since_last": 4,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2671,9 +2671,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-18",
       "days_since_last": 5,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2716,9 +2716,9 @@
       "current_cycle_lesson": 4,
       "latest_date": "2026-09-17",
       "days_since_last": 6,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2761,9 +2761,9 @@
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-14",
       "days_since_last": 9,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "重複繁瑣勞動佔據過多時間",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2806,9 +2806,9 @@
       "current_cycle_lesson": 2,
       "latest_date": "2026-09-14",
       "days_since_last": 9,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2851,9 +2851,9 @@
       "current_cycle_lesson": 6,
       "latest_date": "2026-09-11",
       "days_since_last": 12,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -2876,9 +2876,9 @@
       "retention_signal_text": "穩定推進 🟢",
       "retention_badge_class": "badge-success",
       "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
       },
       "followup": {
         "status": "pending",

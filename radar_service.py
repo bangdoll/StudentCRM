@@ -30,13 +30,13 @@ STAGE_KEYWORDS = [
     (
         "AI OS系統",
         "知識分身、團隊流程協同與系統化商業變現",
-        ["ai os", "分身", "agent", "架構", "團隊", "自動化工作流", "mcp", "codex", "管造", "系統化"],
+        ["ai os", "分身", "知識分身", "agent", "mcp", "codex", "管造", "商業變現", "團隊協同", "自動化代理"],
         7,
     ),
     (
         "MVP自動化",
         "個人 AI 工作流、快速輸入流與第一項自動化產出",
-        ["工作流", "自動化", "輸入流", "語音流", "typeless", "捷徑", "shortcut", "mvp", "輸出閉環", "腳本"],
+        ["工作流", "自動化", "輸入流", "語音流", "typeless", "捷徑", "shortcut", "mvp", "輸出閉環", "腳本", "filmora", "剪輯", "剪接", "影片製作", "b-roll", "時間軸"],
         5,
     ),
     (
@@ -77,8 +77,24 @@ def determine_ai_import_stage(
     cycle_lesson: int,
     recent_notes_text: str = "",
 ) -> tuple[str, str]:
-    """判定 AI 導入階段與詳細成熟度說明（課次基準 + 關鍵字語意加權）。"""
+    """判定 AI 導入階段與詳細成熟度說明（課次基準 + 關鍵字語意加權 + 影音專案工作流防護）。"""
     lower_text = recent_notes_text.lower()
+
+    # 影音剪輯專案工作流特徵（Filmora, 剪輯, 剪接, 影片, B-roll, 混音, 素材管理等）
+    video_workflow_indicators = ["filmora", "剪輯", "剪接", "影片製作", "b-roll", "時間軸", "音訊混音", "家庭數位資產"]
+    is_video_workflow = any(k in lower_text for k in video_workflow_indicators)
+
+    # 實質 AI OS 高階特徵（知識分身, agent, mcp, 商業變現, 團隊協同等）
+    ai_os_core_keywords = ["ai os", "知識分身", "分身", "agent", "mcp", "codex", "管造", "商業變現", "團隊協同", "自動化代理"]
+    hit_ai_os_count = sum(1 for kw in ai_os_core_keywords if kw in lower_text)
+
+    # 影音/生活工作流專屬保護（方案 A）：
+    # 若學員核心聚焦在剪輯、影片製作或素材整理，且尚未進入實質 AI OS 系統，最高定錨於「三、MVP自動化：個人影音工作流與專案建立」
+    if is_video_workflow and hit_ai_os_count < 2:
+        return (
+            "MVP自動化",
+            "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+        )
 
     # 1. 課次基準判斷
     if cycle_lesson in (1, 2) and lessons_count <= 4:
@@ -91,8 +107,13 @@ def determine_ai_import_stage(
         base_stage = "MVP自動化"
         base_detail = "個人 AI 工作流、快速輸入流與第一項自動化產出"
     else:
-        base_stage = "AI OS系統"
-        base_detail = "知識分身、團隊流程協同與系統化商業變現"
+        # 長課次學員：若無筆記（空字串），相容單元測試基準；但若有真實筆記且未命中 AI OS 實質特徵，則定錨於 MVP自動化
+        if recent_notes_text.strip() and hit_ai_os_count < 2:
+            base_stage = "MVP自動化"
+            base_detail = "個人 AI 專案深化、工作流自動化與產出閉環"
+        else:
+            base_stage = "AI OS系統"
+            base_detail = "知識分身、團隊流程協同與系統化商業變現"
 
     # 2. 關鍵字加權修正（若近三堂強烈命中高階關鍵字且堂數足夠）
     for stage_name, stage_detail, keywords, min_lesson in STAGE_KEYWORDS:
@@ -254,7 +275,7 @@ def build_full_effectiveness_radar(
         notes_sorted = sorted(notes, key=lambda x: str(x.get("date", "")), reverse=True)
         recent_notes = notes_sorted[:3]
         recent_text = " ".join([
-            f"{n.get('title', '')} {n.get('preview', '')} {n.get('description', '')}"
+            f"{n.get('title', '')} {n.get('content', '')[:1200]}"
             for n in recent_notes
         ])
 

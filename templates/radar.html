@@ -758,6 +758,286 @@
         .btn-save:hover {
             filter: brightness(1.1);
         }
+
+        /* ── AI 導入四階段學員名單彈窗 (Stage Students Modal) ────────────────────────── */
+        .stage-modal-content {
+            background: #161b22;
+            border: 1px solid var(--border-hover);
+            border-radius: 18px;
+            width: 100%;
+            max-width: 820px;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 24px 56px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .stage-modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .stage-modal-header-left {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stage-modal-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+
+        .stage-modal-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .stage-modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .stage-modal-close:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .stage-mission-bar {
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-toolbar {
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: #0f141c;
+            flex-wrap: wrap;
+        }
+
+        .stage-search-box {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+
+        .stage-search-box input {
+            width: 100%;
+            background: #161b22;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 8px 12px 8px 32px;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .stage-search-box input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .stage-search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .stage-subfilter-group {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+        }
+
+        .stage-subfilter-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .stage-subfilter-btn.active, .stage-subfilter-btn:hover {
+            background: rgba(88, 166, 255, 0.15);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .stage-students-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 52vh;
+            scrollbar-width: thin;
+        }
+
+        .stage-student-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .stage-student-item:hover {
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .stage-student-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        .stage-student-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stage-student-link {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+
+        .stage-student-link:hover {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
+        .stage-student-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stage-student-pain {
+            font-size: 0.84rem;
+            color: #d0d7de;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .stage-student-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-mini {
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s;
+            font-weight: 500;
+        }
+
+        .btn-mini:hover {
+            background: rgba(88, 166, 255, 0.2);
+            border-color: var(--accent-blue);
+            color: #fff;
+        }
+
+        .stage-empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .stage-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f141c;
+            gap: 12px;
+        }
+
+        .stage-click-hint {
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+        }
+
+        .stage-bar-item:hover .stage-click-hint {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateX(2px);
+        }
     </style>
 </head>
 <body>
@@ -992,6 +1272,57 @@
 <!-- Toast 通知 -->
 <div id="toast" class="toast">已複製 7 天追蹤問候話術至剪貼簿！</div>
 
+<!-- AI 導入四階段學員名單 Modal (Stage Students Modal) -->
+<div id="stageStudentsModal" class="modal-overlay" onclick="handleStageModalOverlayClick(event)">
+    <div class="stage-modal-content" onclick="event.stopPropagation()">
+        <!-- Header -->
+        <div class="stage-modal-header">
+            <div class="stage-modal-header-left">
+                <h3 class="stage-modal-title" id="stageModalTitle">
+                    <span id="stageModalDot" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--accent-blue);"></span>
+                    <span id="stageModalName">AI 導入階段學員名單</span>
+                </h3>
+                <div class="stage-modal-subtitle" id="stageModalSubtitle">正在載入學員資料...</div>
+            </div>
+            <button class="stage-modal-close" onclick="closeStageStudentsModal()" title="關閉視窗">×</button>
+        </div>
+
+        <!-- 階段教學目標與定位說明 -->
+        <div class="stage-mission-bar" id="stageMissionBar">
+            <span>🎯 <strong>階段核心目標：</strong></span>
+            <span id="stageMissionText">建立扎實 AI 工作流地基</span>
+        </div>
+
+        <!-- 搜尋與次級狀態篩選列 -->
+        <div class="stage-toolbar">
+            <div class="stage-search-box">
+                <span class="stage-search-icon">🔍</span>
+                <input type="text" id="stageSearchInput" placeholder="在此階段搜尋姓名、核心痛點或標籤..." oninput="filterStageModalStudents()">
+            </div>
+            <div class="stage-subfilter-group">
+                <button class="stage-subfilter-btn active" data-subfilter="all" onclick="setStageSubfilter('all', this)">全部 (<span id="countSubAll">0</span>)</button>
+                <button class="stage-subfilter-btn" data-subfilter="stable" onclick="setStageSubfilter('stable', this)">🟢 穩定 (<span id="countSubStable">0</span>)</button>
+                <button class="stage-subfilter-btn" data-subfilter="attention" onclick="setStageSubfilter('attention', this)">🟡 關心 (<span id="countSubAttention">0</span>)</button>
+                <button class="stage-subfilter-btn" data-subfilter="at_risk" onclick="setStageSubfilter('at_risk', this)">🔴 風險 (<span id="countSubRisk">0</span>)</button>
+                <button class="stage-subfilter-btn" data-subfilter="upgrade_ready" onclick="setStageSubfilter('upgrade_ready', this)">🚀 升級 (<span id="countSubUpgrade">0</span>)</button>
+            </div>
+        </div>
+
+        <!-- 學員名單清單列表 (動態渲染) -->
+        <div class="stage-students-list" id="stageStudentsList">
+            <!-- 由 JavaScript 動態填入 -->
+        </div>
+
+        <!-- 底部操作列 -->
+        <div class="stage-modal-footer">
+            <button class="btn-mini" id="btnFocusInMainBoard" onclick="focusStageInMainBoard()" style="background:rgba(88,166,255,0.12); border-color:var(--accent-blue); color:var(--accent-blue); font-weight:600; padding:8px 16px;">
+                ⚡ 在主戰情看板中聚焦此階段
+            </button>
+            <button class="btn-cancel" onclick="closeStageStudentsModal()">關閉</button>
+        </div>
+    </div>
+</div>
+
 <!-- CSM 回訪 Modal -->
 <div id="csmModal" class="modal-overlay">
     <div class="modal-content">
@@ -1025,8 +1356,65 @@
 </div>
 
 <script>
+    // 全體雷達學員資料 SSOT (由後端安全注入，支援 0 延遲秒開與即時搜尋)
+    const RADAR_STUDENTS = [
+        {% for item in items %}
+        {
+            id: {{ item.student_id | tojson }},
+            name: {{ item.name | tojson }},
+            lessons_count: {{ item.lessons_count }},
+            current_cycle: {{ item.current_cycle_lesson }},
+            latest_date: {{ (item.latest_date or '未記錄') | tojson }},
+            days_since_last: {{ item.days_since_last }},
+            signal: {{ item.retention_signal | tojson }},
+            signal_text: {{ item.retention_signal_text | tojson }},
+            badge_class: {{ item.retention_badge_class | tojson }},
+            stage: {{ item.ai_import_stage | tojson }},
+            stage_detail: {{ item.ai_stage_detail | tojson }},
+            pain: {{ (item.primary_pain or '持續優化工作流') | tojson }},
+            is_stale: {{ 'true' if item.task_staleness_warning else 'false' }},
+            followup_copy: {{ item.followup_copy | tojson }},
+            followup_status: {{ item.followup.status | tojson }},
+            followup_date: {{ (item.followup.next_followup_date or '') | tojson }},
+            followup_notes: {{ item.followup.coach_notes | tojson }}
+        },
+        {% endfor %}
+    ];
+
+    // 四大階段核心說明與定位
+    const STAGE_CONFIGS = {
+        '數位地基': {
+            name: '一、數位地基：開機環境與檔案同步',
+            shortName: '數位地基',
+            color: '#58a6ff',
+            mission: '打造穩定雙向同步、桌面開機環境與每日筆記習慣，排除基礎數位工具操作障礙。'
+        },
+        '核心提示詞': {
+            name: '二、核心提示詞：Prompt 框架與白板知識庫',
+            shortName: '核心提示詞',
+            color: '#3fb950',
+            mission: '熟練 9 項 Prompt 提示架構與白板概念庫，建立與 AI 協同工作的高效標準語彙。'
+        },
+        'MVP自動化': {
+            name: '三、MVP自動化：個人 AI 工作流與快速輸入',
+            shortName: 'MVP自動化',
+            color: '#bc8cff',
+            mission: '落地個人專屬自動化流程（語音逐字稿、自動總結、快捷指令），實現高槓桿省時。'
+        },
+        'AI OS系統': {
+            name: '四、AI OS系統：知識分身與系統化商業變現',
+            shortName: 'AI OS系統',
+            color: '#f0883e',
+            mission: '建構一人知識分身、專屬產品階梯與商業自動化變現閉環，進入高階陪跑階段。'
+        }
+    };
+
     let currentFilter = 'all';
     let currentStageFilter = null;
+
+    // Stage Modal 狀態
+    let activeModalStageKey = null;
+    let activeModalSubfilter = 'all';
 
     function setFilter(filter, el) {
         currentFilter = filter;
@@ -1148,11 +1536,15 @@
 
             const item = document.createElement('div');
             item.className = 'stage-bar-item chart-interactive-bar';
-            item.onclick = function() { setStageFilter(s.key, this); };
+            item.title = `點擊展開「${s.name}」共 ${count} 位學員名單`;
+            item.onclick = function() { openStageStudentsModal(s.key, s.name, s.color); };
             item.innerHTML = `
                 <div class="stage-bar-header">
-                    <span style="color:${s.color};">${s.name}</span>
-                    <span style="color:var(--text-muted);">${count} 人 (${pct}%)</span>
+                    <span style="color:${s.color}; font-weight:700;">${s.name}</span>
+                    <span style="color:var(--text-muted); display:inline-flex; align-items:center; gap:6px;">
+                        <strong>${count} 人</strong> (${pct}%)
+                        <span class="stage-click-hint" style="color:${s.color};">點擊看名單 ➔</span>
+                    </span>
                 </div>
                 <div class="stage-bar-track">
                     <div class="stage-bar-fill" style="width:0%;background:${s.color};"></div>
@@ -1182,6 +1574,199 @@
             }, 100);
         }
     }
+
+    // ── AI 導入四階段學員名單 Modal 邏輯 ─────────────────────────────────
+    function openStageStudentsModal(stageKey, stageName, stageColor) {
+        activeModalStageKey = stageKey;
+        activeModalSubfilter = 'all';
+
+        const config = STAGE_CONFIGS[stageKey] || {
+            name: stageName || stageKey,
+            color: stageColor || 'var(--accent-blue)',
+            mission: '持續精進與深化 AI 導入實踐'
+        };
+
+        // 更新 Header
+        document.getElementById('stageModalDot').style.background = config.color;
+        document.getElementById('stageModalName').innerText = config.name;
+        document.getElementById('stageMissionText').innerText = config.mission;
+        document.getElementById('btnFocusInMainBoard').innerText = `⚡ 在主戰情看板中聚焦「${config.shortName || stageKey}」`;
+
+        // 清空搜尋框與重設次級篩選按鈕
+        document.getElementById('stageSearchInput').value = '';
+        document.querySelectorAll('.stage-subfilter-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-subfilter') === 'all');
+        });
+
+        renderStageStudentsModal();
+        document.getElementById('stageStudentsModal').classList.add('active');
+    }
+
+    function closeStageStudentsModal() {
+        document.getElementById('stageStudentsModal').classList.remove('active');
+    }
+
+    function handleStageModalOverlayClick(event) {
+        if (event.target && event.target.id === 'stageStudentsModal') {
+            closeStageStudentsModal();
+        }
+    }
+
+    function setStageSubfilter(filterKey, btnEl) {
+        activeModalSubfilter = filterKey;
+        document.querySelectorAll('.stage-subfilter-btn').forEach(btn => btn.classList.remove('active'));
+        if (btnEl) btnEl.classList.add('active');
+        renderStageStudentsModal();
+    }
+
+    function filterStageModalStudents() {
+        renderStageStudentsModal();
+    }
+
+    function renderStageStudentsModal() {
+        if (!activeModalStageKey) return;
+
+        const listEl = document.getElementById('stageStudentsList');
+        const query = (document.getElementById('stageSearchInput').value || '').trim().toLowerCase();
+
+        // 1. 篩選屬於該階段的全部學員
+        const stageAllStudents = RADAR_STUDENTS.filter(st => {
+            return (st.stage || '').includes(activeModalStageKey);
+        });
+
+        // 2. 更新次級分類計數器
+        let cntAll = stageAllStudents.length;
+        let cntStable = 0;
+        let cntAttention = 0;
+        let cntRisk = 0;
+        let cntUpgrade = 0;
+
+        stageAllStudents.forEach(st => {
+            if (st.signal === 'stable') cntStable++;
+            else if (st.signal === 'attention') cntAttention++;
+            else if (st.signal === 'at_risk') cntRisk++;
+            else if (st.signal === 'upgrade_ready') cntUpgrade++;
+        });
+
+        document.getElementById('countSubAll').innerText = cntAll;
+        document.getElementById('countSubStable').innerText = cntStable;
+        document.getElementById('countSubAttention').innerText = cntAttention;
+        document.getElementById('countSubRisk').innerText = cntRisk;
+        document.getElementById('countSubUpgrade').innerText = cntUpgrade;
+
+        const totalAllInCrm = RADAR_STUDENTS.length || 1;
+        const stagePct = Math.round((cntAll / totalAllInCrm) * 100);
+        document.getElementById('stageModalSubtitle').innerText = `共 ${cntAll} 位學員，佔比全體 ${stagePct}%`;
+
+        // 3. 根據 activeModalSubfilter 與搜尋關鍵字二次過濾
+        const filtered = stageAllStudents.filter(st => {
+            let matchSubfilter = true;
+            if (activeModalSubfilter !== 'all') {
+                matchSubfilter = (st.signal === activeModalSubfilter);
+            }
+
+            let matchQuery = true;
+            if (query) {
+                matchQuery = st.name.toLowerCase().includes(query) ||
+                             (st.pain || '').toLowerCase().includes(query) ||
+                             (st.signal_text || '').toLowerCase().includes(query);
+            }
+
+            return matchSubfilter && matchQuery;
+        });
+
+        // 4. 渲染學員列表
+        if (filtered.length === 0) {
+            listEl.innerHTML = `<div class="stage-empty-state">此篩選條件下暫無學員</div>`;
+            return;
+        }
+
+        listEl.innerHTML = filtered.map(st => {
+            const daysClass = st.days_since_last > 30 ? 'days-stale' : (st.days_since_last > 14 ? 'days-attention' : 'days-fresh');
+            const daysDisplay = st.days_since_last < 999 ? `距上次 ${st.days_since_last} 天` : '未記錄天數';
+            const staleBadge = st.is_stale ? `<span style="font-size:0.75rem; color:var(--accent-red); background:rgba(248,81,73,0.12); padding:2px 6px; border-radius:4px; font-weight:600;">⚠️ 落地卡停滯 >14天</span>` : '';
+
+            // 安全跳脫，避免雙引號干擾
+            const safeNotes = (st.followup_notes || '').replace(/`/g, '\\`').replace(/"/g, '&quot;');
+
+            return `
+                <div class="stage-student-item">
+                    <div class="stage-student-main">
+                        <div class="stage-student-head">
+                            <a href="/student/${st.id}" class="stage-student-link" title="進入學員檔案">${st.name}</a>
+                            <span class="cycle-badge" style="font-size:0.75rem;">累計 ${st.lessons_count} 堂 / 本輪 ${st.current_cycle}/8</span>
+                            <span class="days-badge ${daysClass}" style="font-size:0.75rem;">${daysDisplay}</span>
+                            <span class="days-badge ${st.badge_class}" style="font-size:0.75rem;">${st.signal_text}</span>
+                            ${staleBadge}
+                        </div>
+                        <div class="stage-student-meta">
+                            <span>末次上課：${st.latest_date}</span>
+                        </div>
+                        <div class="stage-student-pain">
+                            <span>🎯 <strong>核心痛點：</strong></span>
+                            <span>${st.pain}</span>
+                        </div>
+                    </div>
+                    <div class="stage-student-actions">
+                        <button class="btn-mini" onclick="copyStageFollowup('${st.id}')" title="複製7天關懷話術">
+                            📋 複製話術
+                        </button>
+                        <button class="btn-mini" onclick="openCsmFromStage('${st.id}', '${st.name}', '${st.followup_status}', '${st.followup_date}', \`${safeNotes}\`)" title="記錄CSM回訪">
+                            💬 記錄CSM
+                        </button>
+                        <a href="/student/${st.id}" class="btn-mini" title="前往學員檔案">
+                            👤 檔案 ➔
+                        </a>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function openCsmFromStage(studentId, name, status, nextDate, notes) {
+        // 從 Stage Modal 快速跳轉至 CSM 回訪 Modal
+        closeStageStudentsModal();
+        openCsmModal(studentId, name, status, nextDate, notes);
+    }
+
+    function copyStageFollowup(studentId) {
+        const student = RADAR_STUDENTS.find(s => s.id === studentId);
+        const text = (student && student.followup_copy) || '';
+        if (!text) {
+            // fallback 到原有的 copy-text
+            copyFollowupMsg(studentId);
+            return;
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('已複製 7 天追蹤問候話術至剪貼簿！');
+        }).catch(err => {
+            console.error('複製失敗:', err);
+            // 嘗試 fallback
+            copyFollowupMsg(studentId);
+        });
+    }
+
+    function focusStageInMainBoard() {
+        if (!activeModalStageKey) return;
+        const targetStage = activeModalStageKey;
+        closeStageStudentsModal();
+        setStageFilter(targetStage, null);
+
+        // 平滑滾動至主卡片區
+        const grid = document.getElementById('radarGrid');
+        if (grid) {
+            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // 按下 ESC 鍵自動關閉彈窗
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' || e.key === 'Esc') {
+            closeStageStudentsModal();
+            closeCsmModal();
+        }
+    });
 
     window.addEventListener('DOMContentLoaded', () => {
         initVisualAnalytics();

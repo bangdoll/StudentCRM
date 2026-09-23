@@ -299,3 +299,34 @@ def test_ai_import_stage_contract_and_radar_page():
     assert "⚡ AI 導入四階段成熟度分佈" in resp.text
 
 
+def test_video_workflow_stage_guard_and_stage_students_modal():
+    """驗證影音剪輯專案工作流學員（如元老師）不被誤判至第四階段，且雷達頁面具備點擊展開名單之互動能力。"""
+    # 1. 即使累積 24 堂課，只要筆記內容為 Filmora 與剪接流程建立，最高錨定於 MVP自動化
+    video_notes = "今天元老師練習 Filmora 軌道剪輯、時間軸縮放、B-roll 與音訊混音，建立影片製作 SOP"
+    stage, detail = determine_ai_import_stage(lessons_count=24, cycle_lesson=8, recent_notes_text=video_notes)
+    assert stage == "MVP自動化"
+    assert "影片剪輯" in detail or "專案" in detail
+
+    # 2. 驗證真實雷達資料中，元偉琴精準落入 MVP自動化
+    gateway = StudentDataGateway(base_dir=".")
+    radar = build_full_effectiveness_radar(gateway)
+    items = radar.get("items", [])
+    yuan_items = [it for it in items if "元偉琴" in it.get("name", "")]
+    assert len(yuan_items) == 1
+    yuan = yuan_items[0]
+    assert yuan["ai_import_stage"] == "MVP自動化"
+    assert "影片剪輯" in yuan["ai_stage_detail"]
+    assert "檔案混亂" in yuan["primary_pain"]
+
+    # 3. 驗證 /radar 前端頁面包裝了名單彈窗與客戶端資料 SSOT
+    from auth_service import get_session_token, SESSION_COOKIE_NAME
+    client = TestClient(app, cookies={SESSION_COOKIE_NAME: get_session_token()})
+    resp = client.get("/radar")
+    assert resp.status_code == 200
+    assert 'id="stageStudentsModal"' in resp.text
+    assert "RADAR_STUDENTS" in resp.text
+    assert "openStageStudentsModal" in resp.text
+    assert "點擊看名單 ➔" in resp.text
+
+
+
