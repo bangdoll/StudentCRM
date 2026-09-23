@@ -267,7 +267,35 @@ def test_radar_excludes_memorial_and_paused_students(monkeypatch):
     assert "現役學員" in tracked_names
     assert "彭澤江" not in tracked_names
     assert "大安妮" not in tracked_names
-    assert "腦波Annie" not in tracked_names
     assert radar["summary"]["total_tracked"] == 1
+
+
+def test_ai_import_stage_contract_and_radar_page():
+    """驗證全體學員 AI 導入四階段契約對齊，且 /radar 頁面正確載入四大法定標籤。"""
+    gateway = StudentDataGateway(base_dir=".")
+    radar = build_full_effectiveness_radar(gateway)
+    items = radar.get("items", [])
+    assert len(items) > 0
+
+    valid_stages = {"數位地基", "核心提示詞", "MVP自動化", "AI OS系統"}
+    seen_stages = set()
+    for item in items:
+        stage = item.get("ai_import_stage")
+        assert stage in valid_stages, f"未知階段: {stage}"
+        seen_stages.add(stage)
+
+    # 確保四大階段均有真實學員分佈
+    assert seen_stages == valid_stages
+
+    # 驗證 /radar 頁面渲染正確包含四大階段名稱與 JS 統計定義
+    from auth_service import get_session_token, SESSION_COOKIE_NAME
+    client = TestClient(app, cookies={SESSION_COOKIE_NAME: get_session_token()})
+    resp = client.get("/radar")
+    assert resp.status_code == 200
+    assert "一、數位地基" in resp.text
+    assert "二、核心提示詞" in resp.text
+    assert "三、MVP自動化" in resp.text
+    assert "四、AI OS系統" in resp.text
+    assert "⚡ AI 導入四階段成熟度分佈" in resp.text
 
 

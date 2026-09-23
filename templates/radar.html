@@ -1103,12 +1103,12 @@
 
         if (total === 0) return;
 
-        // 四階段統計
+        // 四階段統計（與後端 radar_service 產出標準名稱對齊）
         const stages = [
-            { key: '第一階段', name: '第一階段：單點提示詞嘗試', shortName: '單點提示詞', color: '#58a6ff' },
-            { key: '第二階段', name: '第二階段：工作流與知識庫整合', shortName: '工作流與知識庫', color: '#3fb950' },
-            { key: '第三階段', name: '第三階段：一人公司自動化與分身系統', shortName: '一人公司自動化', color: '#bc8cff' },
-            { key: '第四階段', name: '第四階段：生態系與商業賦能', shortName: '生態系與商業賦能', color: '#f0883e' },
+            { key: '數位地基', name: '一、數位地基：開機環境與檔案同步', shortName: '數位地基', color: '#58a6ff' },
+            { key: '核心提示詞', name: '二、核心提示詞：Prompt 框架與白板知識庫', shortName: '核心提示詞', color: '#3fb950' },
+            { key: 'MVP自動化', name: '三、MVP自動化：個人 AI 工作流與快速輸入', shortName: 'MVP自動化', color: '#bc8cff' },
+            { key: 'AI OS系統', name: '四、AI OS系統：知識分身與系統化商業變現', shortName: 'AI OS系統', color: '#f0883e' },
         ];
 
         const stageCounts = {};
