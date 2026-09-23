@@ -521,12 +521,12 @@ def sync_teaching_records_to_crm(
         src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
         dst_assets = crm_dir / "static" / "teaching_assets"
         if src_assets.exists():
-            dst_assets.mkdir(parents=True, exist_ok=True)
+            from media_asset_resolver import get_media_resolver
+            resolver = get_media_resolver()
             referenced_images = set()
             for rec in result.get("records", []):
                 cnt = rec.get("content", "")
-                for m in re.finditer(r'!\[.*?\]\((?:assets|/assets|/static/teaching_assets)/([^)]+)\)', cnt):
-                    referenced_images.add(m.group(1))
+                referenced_images.update(resolver.extract_image_references(cnt))
 
             for img_name in referenced_images:
                 src_file = src_assets / img_name
