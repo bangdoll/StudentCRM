@@ -105,17 +105,52 @@ class MediaAssetResolver:
 
         return f"{self._resolved_base_url}/{filename}"
 
+    @staticmethod
+    def _parse_markdown_image_target(inner_target: str) -> tuple[str, str]:
+        """安全解析 Markdown 圖片括號內的路徑與標題。
+        
+        支援格式：
+        - path.png
+        - path with spaces.png
+        - path.png "title"
+        - path with spaces.png "title"
+        - <path with spaces.png>
+        - <path with spaces.png> "title"
+        """
+        inner = inner_target.strip()
+        if not inner:
+            return "", ""
+
+        # 1. 處理角括號 <url>
+        if inner.startswith("<") and ">" in inner:
+            idx = inner.find(">")
+            raw_url = inner[1:idx].strip()
+            rest = inner[idx + 1 :].strip()
+            title_part = f" {rest}" if rest else ""
+            return raw_url, title_part
+
+        # 2. 檢查尾部是否有以引號包裹的 title (如 "title" 或 'title')
+        title_match = re.search(r'\s+([\"\'].*?[\"\'])$', inner)
+        if title_match:
+            title_part = f" {title_match.group(1)}"
+            raw_url = inner[: title_match.start()].strip()
+            return raw_url, title_part
+
+        return inner, ""
+
     def extract_image_references(self, markdown_text: str) -> list[str]:
         """從 Markdown 文本中萃取所有引用的教學圖片檔案名稱 (去重並按出現順序排列)。"""
         if not markdown_text:
             return []
 
-        pattern = r'!\[.*?\]\(([^)\s]+)(?:\s+["\'].*?["\'])?\)'
+        pattern = r'!\[.*?\]\((.*?)\)'
         found: list[str] = []
         seen: set[str] = set()
 
         for match in re.finditer(pattern, markdown_text):
-            raw_target = match.group(1).strip()
+            raw_target, _ = self._parse_markdown_image_target(match.group(1))
+            if not raw_target:
+                continue
             # 若為外部網址，跳過本地同步提取
             if raw_target.startswith(("http://", "https://", "data:")):
                 continue
@@ -136,17 +171,20 @@ class MediaAssetResolver:
         - ![alt](/assets/image.png)
         - ![alt](/static/teaching_assets/image.png)
         - ![alt](image.png) (具常見圖檔副檔名)
+        - 帶有空格的檔名：![alt](assets/Pasted image 2026.png)
         - 帶有 title 的語法：![alt](assets/image.png "標題")
+        - 角括號語法：![alt](<assets/image with spaces.png>)
         """
         if not markdown_text:
             return ""
 
-        pattern = r'!\[(.*?)\]\(([^)\s]+)(\s+["\'].*?["\'])?\)'
+        pattern = r'!\[(.*?)\]\((.*?)\)'
 
         def _repl(match: re.Match) -> str:
             alt_text = match.group(1)
-            raw_url = match.group(2).strip()
-            title_part = match.group(3) or ""
+            raw_url, title_part = self._parse_markdown_image_target(match.group(2))
+            if not raw_url:
+                return match.group(0)
 
             # 外部 URL 或 data URI 直接保留
             if raw_url.startswith(("http://", "https://", "data:")):

@@ -64,17 +64,38 @@ if not os.path.exists(APPLE_CEO_FILE):
 
 student_gateway = StudentDataGateway(BASE_DIR)
 
+class FallbackStaticFiles(StaticFiles):
+    """具備多目錄安全回退機制的靜態檔案伺服器。
+    
+    依序在多個備選目錄中查找檔案，解決 01.Docs/teaching/assets 與 static/teaching_assets 
+    在不同環境或同步間隔時的圖片遺失或 404 問題。
+    """
+    def __init__(self, *directories: str, **kwargs):
+        valid_dirs = [d for d in directories if d and os.path.isdir(d)]
+        primary = valid_dirs[0] if valid_dirs else (directories[0] if directories else ".")
+        super().__init__(directory=primary, check_dir=False, **kwargs)
+        if valid_dirs:
+            self.all_directories = valid_dirs
+
+
 # ── 建立 FastAPI 實例與模板掛載 ──────────────────────────────────────────────
 app = FastAPI(title="StudentCRM", version="2.5.0")
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 TEACHING_ASSETS_DIR = os.path.join(TEACHING_DIR, "assets")
-if os.path.exists(TEACHING_ASSETS_DIR):
-    app.mount("/assets", StaticFiles(directory=TEACHING_ASSETS_DIR), name="assets")
-else:
-    crm_teaching_assets = os.path.join(STATIC_DIR, "teaching_assets")
-    if os.path.exists(crm_teaching_assets):
-        app.mount("/assets", StaticFiles(directory=crm_teaching_assets), name="assets")
+crm_teaching_assets = os.path.join(STATIC_DIR, "teaching_assets")
+
+# 掛載優先順序：更具體的 /static/teaching_assets 優先於通配 /static
+app.mount(
+    "/static/teaching_assets",
+    FallbackStaticFiles(crm_teaching_assets, TEACHING_ASSETS_DIR),
+    name="teaching_assets_static",
+)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount(
+    "/assets",
+    FallbackStaticFiles(TEACHING_ASSETS_DIR, crm_teaching_assets),
+    name="assets",
+)
 
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 

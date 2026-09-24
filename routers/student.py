@@ -12,6 +12,7 @@ from schedule_service import get_document_exceptions, get_next_occurrence
 from prediction_service import predict_student_status
 from student_service import generate_student_renewal_reminder, generate_preclass_briefing, get_public_student_slug
 from note_service import resolve_note_detail
+from media_asset_resolver import get_media_resolver
 
 from schemas import (
     APIStatusResponse,
@@ -114,6 +115,7 @@ async def read_student(request: Request, student_id: str):
     parts = re.split(r"## 📅 教學時間軸 \(Lesson Timeline\)", content)
     body = parts[1] if len(parts) > 1 else ""
     body = body.replace("file://", "/open_file?path=")
+    body = get_media_resolver().transform_markdown_media(body)
 
     import markdown
     html_content = markdown.markdown(body, extensions=['tables'])

@@ -128,3 +128,54 @@ def test_singleton_get_media_resolver():
 
     r3 = get_media_resolver(base_url="https://temp.cdn", reload=True)
     assert r3.base_url == "https://temp.cdn"
+
+
+def test_transform_markdown_media_with_spaces():
+    """驗證包含空白字元與角括號的教學圖片檔名轉譯與萃取。"""
+    resolver = MediaAssetResolver()
+    raw_md = (
+        "包含空格的貼上圖片：\n"
+        "![截圖](assets/Pasted 2025-12-29-22-56-15-57266873-6241-4f05-a0ae-bc6ffee1581a.png)\n"
+        "包含空格與標題的 ChatGPT 圖片：\n"
+        "![AI生成圖](assets/ChatGPT Image 2026年6月4日.png \"課堂生成成果\")\n"
+        "使用角括號語法：\n"
+        "![角括號](<assets/my custom photo.jpg> \"自訂圖片\")\n"
+    )
+
+    transformed = resolver.transform_markdown_media(raw_md)
+    assert "![截圖](/static/teaching_assets/Pasted 2025-12-29-22-56-15-57266873-6241-4f05-a0ae-bc6ffee1581a.png)" in transformed
+    assert "![AI生成圖](/static/teaching_assets/ChatGPT Image 2026年6月4日.png \"課堂生成成果\")" in transformed
+    assert "![角括號](/static/teaching_assets/my custom photo.jpg \"自訂圖片\")" in transformed
+
+    refs = resolver.extract_image_references(raw_md)
+    assert refs == [
+        "Pasted 2025-12-29-22-56-15-57266873-6241-4f05-a0ae-bc6ffee1581a.png",
+        "ChatGPT Image 2026年6月4日.png",
+        "my custom photo.jpg",
+    ]
+
+
+def test_static_teaching_assets_and_fallback_endpoints():
+    """驗證在 FastAPI 實例中，/static/teaching_assets 與 /assets 均能雙向存取教學圖片。"""
+    from starlette.testclient import TestClient
+    from main import app
+
+    client = TestClient(app)
+
+    # 1. 驗證今日新課堂 (1365.蘋果總裁班) 圖片可正常存取 (HTTP 200)
+    asset_name = "42F96ECB-23F6-4734-9407-04AB4E718B1A-2970c806-1c76-41c9-8ee0-fea967d459ab.png"
+    r1 = client.get(f"/static/teaching_assets/{asset_name}")
+    assert r1.status_code == 200
+    assert r1.headers["content-type"].startswith("image/")
+
+    r2 = client.get(f"/assets/{asset_name}")
+    assert r2.status_code == 200
+    assert r2.headers["content-type"].startswith("image/")
+
+    # 2. 驗證含空白字元的真實課堂圖片可正常存取
+    space_img = "Pasted 2025-12-29-22-56-15-57266873-6241-4f05-a0ae-bc6ffee1581a.png"
+    r3 = client.get(f"/static/teaching_assets/{space_img}")
+    assert r3.status_code == 200
+    assert r3.headers["content-type"].startswith("image/")
+
+
