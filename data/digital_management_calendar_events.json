@@ -5566,6 +5566,17 @@
     "student_name": ""
   },
   {
+    "id": "fpo7f4hb1e7fefcuqiaq7ssdn0",
+    "date": "2021-07-27",
+    "title": "劉淑華線上數位管理教學諮詢",
+    "description": "",
+    "location": "",
+    "start": "2021-07-27T21:30:00+08:00",
+    "end": "2021-07-27T23:30:00+08:00",
+    "student_id": "",
+    "student_name": ""
+  },
+  {
     "id": "jl7vpdi908eh98lcir6g4uvmho",
     "date": "2021-07-29",
     "title": "Annie線上數位管理教學",
@@ -20423,8 +20434,8 @@
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-04-01T16:00:00+08:00",
     "end": "2026-04-01T17:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "6cqjadpj6thm4b9m6pi32b9k68s3cbb164s3cb9g6ti64pj56li3cp3160",
@@ -20775,8 +20786,8 @@
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-04-29T16:00:00+08:00",
     "end": "2026-04-29T17:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20260430T060000Z",
@@ -20856,6 +20867,17 @@
     "student_name": "禮品公會"
   },
   {
+    "id": "luhb0v1otbrnrjlsnm98p8rkng",
+    "date": "2026-05-06",
+    "title": "和陳顧問線上討論",
+    "description": "",
+    "location": "",
+    "start": "2026-05-06T10:00:00+08:00",
+    "end": "2026-05-06T11:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "c5tgijapdeu4jv06heimg7jkhc",
     "date": "2026-05-07",
     "title": "40-8.查米數位管理教學 315",
@@ -20933,6 +20955,17 @@
     "student_name": "顧蓓華"
   },
   {
+    "id": "dprh2epot854asnq16rg8u6nco",
+    "date": "2026-05-11",
+    "title": "和陳顧問線上討論",
+    "description": "",
+    "location": "",
+    "start": "2026-05-11T10:10:00+08:00",
+    "end": "2026-05-11T10:40:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "0kr9irejf8sqgg5tfhse3pmtcs",
     "date": "2026-05-11",
     "title": "59-2.Julie 陳怡君醫師數位管理教學",
@@ -20964,6 +20997,17 @@
     "end": "2026-05-12T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
     "student_name": "禮品公會"
+  },
+  {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260513T080000Z",
+    "date": "2026-05-13",
+    "title": "01.和陳顧問合作課程",
+    "description": "",
+    "location": "Starbucks 星巴克 (南京西門市), 103台灣臺北市大同區南京西路36號",
+    "start": "2026-05-13T16:00:00+08:00",
+    "end": "2026-05-13T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "3l34cj2b9c9pebq28m66aoinpc",
@@ -21065,6 +21109,17 @@
     "student_name": "鄺姐"
   },
   {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260520T080000Z",
+    "date": "2026-05-20",
+    "title": "02.和陳顧問合作課程",
+    "description": "",
+    "location": "Starbucks 星巴克 (南京西門市), 103台灣臺北市大同區南京西路36號",
+    "start": "2026-05-20T16:00:00+08:00",
+    "end": "2026-05-20T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "bnod2usnfbor1t95sjvfphh0v4",
     "date": "2026-05-21",
     "title": "42-2.查米數位管理教學 315",
@@ -21118,6 +21173,17 @@
     "end": "2026-05-25T16:30:00+08:00",
     "student_id": "bea3a100-3534-4183-9d8c-db789f71302f",
     "student_name": "大腳旅行社曹淑鈴Crystal"
+  },
+  {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260527T080000Z",
+    "date": "2026-05-26",
+    "title": "03.和陳顧問合作課程",
+    "description": "",
+    "location": "摩斯漢堡 師大附中店, 106台灣臺北市大安區龍圖里信義路三段184號",
+    "start": "2026-05-26T10:00:00+08:00",
+    "end": "2026-05-26T12:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "un5am9362kkerej6g13lkg1r00",
@@ -21208,6 +21274,17 @@
     "student_name": "查米"
   },
   {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260603T080000Z",
+    "date": "2026-06-02",
+    "title": "04.和陳顧問合作課程",
+    "description": "",
+    "location": "摩斯漢堡 師大附中店, 106台灣臺北市大安區龍圖里信義路三段184號",
+    "start": "2026-06-02T14:00:00+08:00",
+    "end": "2026-06-02T16:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "i5vqlshkenkjm2b2duptjv6sk0",
     "date": "2026-06-04",
     "title": "15-8.Shelley 陳萱玲數位管理教學",
@@ -21272,6 +21349,17 @@
     "end": "2026-06-09T16:00:00+08:00",
     "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
     "student_name": "曾小米"
+  },
+  {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260610T080000Z",
+    "date": "2026-06-10",
+    "title": "05.和陳顧問合作課程",
+    "description": "",
+    "location": "Starbucks 星巴克 (南京西門市), 103台灣臺北市大同區南京西路36號",
+    "start": "2026-06-10T16:00:00+08:00",
+    "end": "2026-06-10T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "47a3rshbt5h12jhiiet4e18t5s",
@@ -21384,6 +21472,17 @@
     "student_name": "Kelly Woo"
   },
   {
+    "id": "0amj1beckmnn528g0mtuv8gs9o_20260617T080000Z",
+    "date": "2026-06-17",
+    "title": "06.和陳顧問合作課程",
+    "description": "",
+    "location": "Starbucks 星巴克 (南京西門市), 103台灣臺北市大同區南京西路36號",
+    "start": "2026-06-17T16:00:00+08:00",
+    "end": "2026-06-17T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "em8mom9d9r9aqfobil8cmki14c",
     "date": "2026-06-18",
     "title": "16-1.Shelley 陳萱玲數位管理教學",
@@ -21437,6 +21536,17 @@
     "end": "2026-06-23T12:00:00+08:00",
     "student_id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
     "student_name": "Teresa"
+  },
+  {
+    "id": "8aavjdsqnucjtugp0f2l1va1ok_20260623T060000Z",
+    "date": "2026-06-23",
+    "title": "07.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-06-23T14:00:00+08:00",
+    "end": "2026-06-23T16:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "a033di8gse6m133d1r0fricm5o",
@@ -21538,6 +21648,17 @@
     "student_name": "曾小米"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260701T080000Z",
+    "date": "2026-07-01",
+    "title": "08.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-07-01T16:00:00+08:00",
+    "end": "2026-07-01T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "qfokpo3d3f4lta9uskkue9cebg",
     "date": "2026-07-02",
     "title": "17-2.Shelley 陳萱玲數位管理教學",
@@ -21613,6 +21734,17 @@
     "end": "2026-07-07T16:00:00+08:00",
     "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
     "student_name": "資深少年 AI 學習團"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260708T080000Z",
+    "date": "2026-07-08",
+    "title": "09.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-07-08T16:00:00+08:00",
+    "end": "2026-07-08T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "7cp5fibj9cm0oq8ftsdngf169g",
@@ -21701,6 +21833,17 @@
     "end": "2026-07-14T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260715T080000Z",
+    "date": "2026-07-15",
+    "title": "10.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-07-15T16:00:00+08:00",
+    "end": "2026-07-15T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "e332qhpqj9octtn1nvpf8rdd40",
@@ -22033,6 +22176,17 @@
     "student_name": "資深少年 AI 學習團"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260805T080000Z",
+    "date": "2026-08-05",
+    "title": "11.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-08-05T16:00:00+08:00",
+    "end": "2026-08-05T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "kbleufu832ks4uunuk9shsunhg",
     "date": "2026-08-06",
     "title": "19-4.Shelley 陳萱玲數位管理教學",
@@ -22108,6 +22262,17 @@
     "end": "2026-08-11T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260812T080000Z",
+    "date": "2026-08-12",
+    "title": "12.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-08-12T16:00:00+08:00",
+    "end": "2026-08-12T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "08kcmhckogqffnm7bh8u6ifq14",
@@ -22262,6 +22427,17 @@
     "end": "2026-08-25T16:00:00+08:00",
     "student_id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
     "student_name": "黃奕溱"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260826T080000Z",
+    "date": "2026-08-26",
+    "title": "13.和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-08-26T10:00:00+08:00",
+    "end": "2026-08-26T12:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "4shvkp9ui78eh07stvq9kj3l6c",
@@ -22638,15 +22814,15 @@
     "student_name": "元偉琴"
   },
   {
-    "id": "60nsq5e1ib2ij631jcbdg2fdfs",
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260923T080000Z",
     "date": "2026-09-22",
-    "title": "01.Liya數位管理教學",
+    "title": "14.和陳顧問合作課程",
     "description": "",
-    "location": "新北市中和區興南路一段135巷22弄14號",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
     "start": "2026-09-22T14:00:00+08:00",
     "end": "2026-09-22T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "pv651obos4edalr8vnve2snibg",
@@ -22662,7 +22838,7 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20260924T060000Z",
     "date": "2026-09-24",
-    "title": "蘋果總裁班",
+    "title": "1365.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-09-24T14:00:00+08:00",
@@ -22682,15 +22858,15 @@
     "student_name": "Anna 蕭"
   },
   {
-    "id": "mgb5pi5s1q2ksoklji3kt8u9ag",
+    "id": "jqcf7v3i81vk0j3cogv92slb4g",
     "date": "2026-09-29",
-    "title": "25-1.元偉琴數位管理教學",
+    "title": "01.家具怡君數位管理教學",
     "description": "",
-    "location": "台北市杭州南路一段18巷13號3樓",
+    "location": "臺北市松山區敦化北路 341 號",
     "start": "2026-09-29T10:00:00+08:00",
     "end": "2026-09-29T12:00:00+08:00",
-    "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
-    "student_name": "元偉琴"
+    "student_id": "e27176d0-22eb-4c16-95aa-c55fe2352bcf",
+    "student_name": "家具怡君"
   },
   {
     "id": "r08nhcd8djk25s07eu04u1csvs",
@@ -22702,6 +22878,17 @@
     "end": "2026-09-29T16:00:00+08:00",
     "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
     "student_name": "資深少年 AI 學習團"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20260930T080000Z",
+    "date": "2026-09-30",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-09-30T16:00:00+08:00",
+    "end": "2026-09-30T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "tn8gn7aqdrjnbpdfe70nlk4mis",
@@ -22814,6 +23001,17 @@
     "student_name": "曾小米"
   },
   {
+    "id": "60nsq5e1ib2ij631jcbdg2fdfs",
+    "date": "2026-10-06",
+    "title": "01.Liya數位管理教學",
+    "description": "",
+    "location": "新北市中和區興南路一段135巷22弄14號",
+    "start": "2026-10-06T14:00:00+08:00",
+    "end": "2026-10-06T16:00:00+08:00",
+    "student_id": "",
+    "student_name": ""
+  },
+  {
     "id": "laadhaab4k5uvln3jcg6d2mvv8",
     "date": "2026-10-06",
     "title": "02.Liya數位管理教學",
@@ -22823,6 +23021,17 @@
     "end": "2026-10-06T16:00:00+08:00",
     "student_id": "",
     "student_name": ""
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261007T080000Z",
+    "date": "2026-10-07",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-10-07T16:00:00+08:00",
+    "end": "2026-10-07T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "c7db3s0fbs7465mv213npvhnho",
@@ -22911,6 +23120,17 @@
     "end": "2026-10-13T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261014T080000Z",
+    "date": "2026-10-14",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-10-14T16:00:00+08:00",
+    "end": "2026-10-14T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "6k8sii6emmgtuvng8r93genues",
@@ -23023,6 +23243,17 @@
     "student_name": "Bill 楊文祥"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261021T080000Z",
+    "date": "2026-10-21",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-10-21T16:00:00+08:00",
+    "end": "2026-10-21T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "aqkhl4mc56tdkvrk0435o2og5c",
     "date": "2026-10-22",
     "title": "49-1.查米數位管理教學 315",
@@ -23100,6 +23331,17 @@
     "student_name": "Julie 陳怡君"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261028T080000Z",
+    "date": "2026-10-28",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-10-28T16:00:00+08:00",
+    "end": "2026-10-28T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "lh6vet72iq419mj6ah6cbe8voo",
     "date": "2026-10-29",
     "title": "29-4.陳海陸數位管理教學",
@@ -23157,13 +23399,13 @@
   {
     "id": "ql8tip5bflgnlf7s4kintosus8",
     "date": "2026-11-03",
-    "title": "01.家具怡君數位管理教學",
+    "title": "02.家具怡君數位管理教學",
     "description": "",
     "location": "臺北市松山區敦化北路 341 號",
     "start": "2026-11-03T10:00:00+08:00",
     "end": "2026-11-03T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "e27176d0-22eb-4c16-95aa-c55fe2352bcf",
+    "student_name": "家具怡君"
   },
   {
     "id": "qvogbm87rmprvprde16fvdsjsk",
@@ -23175,6 +23417,17 @@
     "end": "2026-11-03T12:00:00+08:00",
     "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
     "student_name": "曾小米"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261104T080000Z",
+    "date": "2026-11-04",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-11-04T16:00:00+08:00",
+    "end": "2026-11-04T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "f9icqp6p84tn2bs30vvgnik79s",
@@ -23287,6 +23540,17 @@
     "student_name": "邱醫師"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261111T080000Z",
+    "date": "2026-11-11",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-11-11T16:00:00+08:00",
+    "end": "2026-11-11T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "b7ifolcgntb1c8sfgquk57f4k0",
     "date": "2026-11-12",
     "title": "81-1.陳姐Charlotte數位管理教學",
@@ -23397,6 +23661,17 @@
     "student_name": "曾小米"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261118T080000Z",
+    "date": "2026-11-18",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-11-18T16:00:00+08:00",
+    "end": "2026-11-18T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "3mph7m73lcg4ngqd51e6tr8hf4",
     "date": "2026-11-19",
     "title": "51-3.查米數位管理教學 315",
@@ -23452,6 +23727,17 @@
     "student_name": "Amy"
   },
   {
+    "id": "mgb5pi5s1q2ksoklji3kt8u9ag",
+    "date": "2026-11-22",
+    "title": "25-1.元偉琴數位管理教學$32000",
+    "description": "",
+    "location": "台北市杭州南路一段18巷13號3樓",
+    "start": "2026-11-22T10:00:00+08:00",
+    "end": "2026-11-22T12:00:00+08:00",
+    "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
+    "student_name": "元偉琴"
+  },
+  {
     "id": "to1q7a3ftts7nmltl93cilssk0",
     "date": "2026-11-23",
     "title": "83-3.陳姐Charlotte數位管理教學",
@@ -23494,6 +23780,17 @@
     "end": "2026-11-24T16:00:00+08:00",
     "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
     "student_name": "張素幸"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261125T080000Z",
+    "date": "2026-11-25",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-11-25T16:00:00+08:00",
+    "end": "2026-11-25T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "27994fsk0vkfbsctft3fk7sjt0",
@@ -23584,6 +23881,17 @@
     "student_name": "曾小米"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261202T080000Z",
+    "date": "2026-12-02",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-12-02T16:00:00+08:00",
+    "end": "2026-12-02T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "ii9t50q5a90itj3s82bhc6qc1c",
     "date": "2026-12-03",
     "title": "02.長頸鹿美語AI導入",
@@ -23670,6 +23978,17 @@
     "end": "2026-12-08T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261209T080000Z",
+    "date": "2026-12-09",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-12-09T16:00:00+08:00",
+    "end": "2026-12-09T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "ce6vfks0vbuircl6olk5bqir94",
@@ -23760,6 +24079,17 @@
     "student_name": "曾小米"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261216T080000Z",
+    "date": "2026-12-16",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-12-16T16:00:00+08:00",
+    "end": "2026-12-16T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "9g4r3kqthhfuqhv8nvd22dhngk",
     "date": "2026-12-17",
     "title": "03.長頸鹿美語AI導入",
@@ -23848,6 +24178,17 @@
     "student_name": "Amanda 蕭秉慧"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261223T080000Z",
+    "date": "2026-12-23",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-12-23T16:00:00+08:00",
+    "end": "2026-12-23T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "njf13ehlk9lpmde1dhgmtpdsck",
     "date": "2026-12-24",
     "title": "53-5.查米數位管理教學 315",
@@ -23914,6 +24255,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20261230T080000Z",
+    "date": "2026-12-30",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2026-12-30T16:00:00+08:00",
+    "end": "2026-12-30T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "n2ivoj30jff3qcq9s6ethcjnvc",
     "date": "2026-12-31",
     "title": "04.長頸鹿美語AI導入",
@@ -23969,6 +24321,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270106T080000Z",
+    "date": "2027-01-06",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-01-06T16:00:00+08:00",
+    "end": "2027-01-06T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "0cjfmsk7vrq7cafrg888b54q3c",
     "date": "2027-01-07",
     "title": "54-6.查米數位管理教學 315",
@@ -23989,17 +24352,6 @@
     "end": "2027-01-07T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
-  },
-  {
-    "id": "886jrrljhmafm0qu3mnk7ldfo0",
-    "date": "2027-01-08",
-    "title": "49-11.Lucia數位管理教學",
-    "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
-    "location": "台北市士林區基河路21號21樓",
-    "start": "2027-01-08T14:00:00+08:00",
-    "end": "2027-01-08T16:00:00+08:00",
-    "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
-    "student_name": "Lucia 徐露華"
   },
   {
     "id": "romqo1bv80eao7hua13og5rflc",
@@ -24055,6 +24407,17 @@
     "end": "2027-01-12T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270113T080000Z",
+    "date": "2027-01-13",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-01-13T16:00:00+08:00",
+    "end": "2027-01-13T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "i6tjo9ehs7qmouf1fkf42dg7ic",
@@ -24123,6 +24486,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270120T080000Z",
+    "date": "2027-01-20",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-01-20T16:00:00+08:00",
+    "end": "2027-01-20T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "uq07u3gdgdepl2reklr3807cd0",
     "date": "2027-01-21",
     "title": "06.長頸鹿美語AI導入",
@@ -24167,6 +24541,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270127T080000Z",
+    "date": "2027-01-27",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-01-27T16:00:00+08:00",
+    "end": "2027-01-27T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "a2pt356tappu7j0dc9mn469j58",
     "date": "2027-01-28",
     "title": "07.長頸鹿美語AI導入",
@@ -24200,9 +24585,9 @@
     "student_name": "益堯哥"
   },
   {
-    "id": "4opasj3mlenha4js2amh0q6suo",
+    "id": "886jrrljhmafm0qu3mnk7ldfo0",
     "date": "2027-01-29",
-    "title": "50-12.Lucia數位管理教學",
+    "title": "49-11.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-01-29T14:00:00+08:00",
@@ -24222,6 +24607,17 @@
     "student_name": "邱醫師"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270203T080000Z",
+    "date": "2027-02-03",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-02-03T16:00:00+08:00",
+    "end": "2027-02-03T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270204T060000Z",
     "date": "2027-02-04",
     "title": "蘋果總裁班",
@@ -24231,6 +24627,17 @@
     "end": "2027-02-04T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270210T080000Z",
+    "date": "2027-02-10",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-02-10T16:00:00+08:00",
+    "end": "2027-02-10T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270211T060000Z",
@@ -24253,6 +24660,17 @@
     "end": "2027-02-16T16:00:00+08:00",
     "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
     "student_name": "張素幸"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270217T080000Z",
+    "date": "2027-02-17",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-02-17T16:00:00+08:00",
+    "end": "2027-02-17T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "jqnslpmlo15a4ctqrr3ori0n8k",
@@ -24288,6 +24706,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270224T080000Z",
+    "date": "2027-02-24",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-02-24T16:00:00+08:00",
+    "end": "2027-02-24T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270225T060000Z",
     "date": "2027-02-25",
     "title": "蘋果總裁班",
@@ -24299,9 +24728,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "o7lltp7lkprrp7g1dbpgu9lct4",
+    "id": "4opasj3mlenha4js2amh0q6suo",
     "date": "2027-02-26",
-    "title": "51-13.Lucia數位管理教學",
+    "title": "50-12.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-02-26T14:00:00+08:00",
@@ -24319,6 +24748,17 @@
     "end": "2027-03-02T16:00:00+08:00",
     "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
     "student_name": "張素幸"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270303T080000Z",
+    "date": "2027-03-03",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-03-03T16:00:00+08:00",
+    "end": "2027-03-03T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270304T060000Z",
@@ -24354,6 +24794,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270310T080000Z",
+    "date": "2027-03-10",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-03-10T16:00:00+08:00",
+    "end": "2027-03-10T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270311T060000Z",
     "date": "2027-03-11",
     "title": "蘋果總裁班",
@@ -24365,9 +24816,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "kcb094ipqfrn1ajtpagasuvf7o",
+    "id": "o7lltp7lkprrp7g1dbpgu9lct4",
     "date": "2027-03-12",
-    "title": "52-14.Lucia數位管理教學",
+    "title": "51-13.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-03-12T14:00:00+08:00",
@@ -24385,6 +24836,17 @@
     "end": "2027-03-16T16:00:00+08:00",
     "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
     "student_name": "張素幸"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270317T080000Z",
+    "date": "2027-03-17",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-03-17T16:00:00+08:00",
+    "end": "2027-03-17T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270318T060000Z",
@@ -24409,6 +24871,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270324T080000Z",
+    "date": "2027-03-24",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-03-24T16:00:00+08:00",
+    "end": "2027-03-24T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270325T060000Z",
     "date": "2027-03-25",
     "title": "蘋果總裁班",
@@ -24420,9 +24893,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "mu7fsqqmqlmv0usg400o96rca0",
+    "id": "kcb094ipqfrn1ajtpagasuvf7o",
     "date": "2027-03-26",
-    "title": "53-15.Lucia數位管理教學",
+    "title": "52-14.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-03-26T14:00:00+08:00",
@@ -24442,6 +24915,17 @@
     "student_name": "張素幸"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270331T080000Z",
+    "date": "2027-03-31",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-03-31T16:00:00+08:00",
+    "end": "2027-03-31T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270401T060000Z",
     "date": "2027-04-01",
     "title": "蘋果總裁班",
@@ -24453,15 +24937,26 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "1dg5bnjcak3mff33lo0idonv6c",
+    "id": "mu7fsqqmqlmv0usg400o96rca0",
     "date": "2027-04-02",
-    "title": "54-16.Lucia數位管理教學",
+    "title": "53-15.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-04-02T14:00:00+08:00",
     "end": "2027-04-02T16:00:00+08:00",
     "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
     "student_name": "Lucia 徐露華"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270407T080000Z",
+    "date": "2027-04-07",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-04-07T16:00:00+08:00",
+    "end": "2027-04-07T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270408T060000Z",
@@ -24475,15 +24970,26 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "6qcib9j3k9gosavkprept6148c",
+    "id": "1dg5bnjcak3mff33lo0idonv6c",
     "date": "2027-04-09",
-    "title": "55-17.Lucia數位管理教學",
+    "title": "54-16.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-04-09T14:00:00+08:00",
     "end": "2027-04-09T16:00:00+08:00",
     "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
     "student_name": "Lucia 徐露華"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270414T080000Z",
+    "date": "2027-04-14",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-04-14T16:00:00+08:00",
+    "end": "2027-04-14T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270415T060000Z",
@@ -24497,6 +25003,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270421T080000Z",
+    "date": "2027-04-21",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-04-21T16:00:00+08:00",
+    "end": "2027-04-21T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270422T060000Z",
     "date": "2027-04-22",
     "title": "蘋果總裁班",
@@ -24506,6 +25023,17 @@
     "end": "2027-04-22T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270428T080000Z",
+    "date": "2027-04-28",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-04-28T16:00:00+08:00",
+    "end": "2027-04-28T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270429T060000Z",
@@ -24519,6 +25047,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270505T080000Z",
+    "date": "2027-05-05",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-05-05T16:00:00+08:00",
+    "end": "2027-05-05T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270506T060000Z",
     "date": "2027-05-06",
     "title": "蘋果總裁班",
@@ -24528,6 +25067,17 @@
     "end": "2027-05-06T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270512T080000Z",
+    "date": "2027-05-12",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-05-12T16:00:00+08:00",
+    "end": "2027-05-12T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270513T060000Z",
@@ -24541,6 +25091,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270519T080000Z",
+    "date": "2027-05-19",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-05-19T16:00:00+08:00",
+    "end": "2027-05-19T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270520T060000Z",
     "date": "2027-05-20",
     "title": "蘋果總裁班",
@@ -24552,15 +25113,26 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "1k56e4kml5rt9aqd8mmbsirfs0",
+    "id": "6qcib9j3k9gosavkprept6148c",
     "date": "2027-05-21",
-    "title": "56-18.Lucia數位管理教學",
+    "title": "55-17.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-05-21T14:00:00+08:00",
     "end": "2027-05-21T16:00:00+08:00",
     "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
     "student_name": "Lucia 徐露華"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270526T080000Z",
+    "date": "2027-05-26",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-05-26T16:00:00+08:00",
+    "end": "2027-05-26T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270527T060000Z",
@@ -24574,6 +25146,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270602T080000Z",
+    "date": "2027-06-02",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-06-02T16:00:00+08:00",
+    "end": "2027-06-02T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270603T060000Z",
     "date": "2027-06-03",
     "title": "蘋果總裁班",
@@ -24585,15 +25168,26 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "kjf58gf3ips5e3lrntdf5ir23k",
+    "id": "1k56e4kml5rt9aqd8mmbsirfs0",
     "date": "2027-06-04",
-    "title": "57-19.Lucia數位管理教學",
+    "title": "56-18.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-06-04T14:00:00+08:00",
     "end": "2027-06-04T16:00:00+08:00",
     "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
     "student_name": "Lucia 徐露華"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270609T080000Z",
+    "date": "2027-06-09",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-06-09T16:00:00+08:00",
+    "end": "2027-06-09T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270610T060000Z",
@@ -24607,6 +25201,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270616T080000Z",
+    "date": "2027-06-16",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-06-16T16:00:00+08:00",
+    "end": "2027-06-16T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270617T060000Z",
     "date": "2027-06-17",
     "title": "蘋果總裁班",
@@ -24616,6 +25221,17 @@
     "end": "2027-06-17T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270623T080000Z",
+    "date": "2027-06-23",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-06-23T16:00:00+08:00",
+    "end": "2027-06-23T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270624T060000Z",
@@ -24629,6 +25245,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "kjf58gf3ips5e3lrntdf5ir23k",
+    "date": "2027-06-25",
+    "title": "57-19.Lucia數位管理教學",
+    "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
+    "location": "台北市士林區基河路21號21樓",
+    "start": "2027-06-25T14:00:00+08:00",
+    "end": "2027-06-25T16:00:00+08:00",
+    "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
+    "student_name": "Lucia 徐露華"
+  },
+  {
     "id": "tc3r808f0ictgn69or8porv27o",
     "date": "2027-06-25",
     "title": "58-20.Lucia數位管理教學",
@@ -24638,6 +25265,17 @@
     "end": "2027-06-25T16:00:00+08:00",
     "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
     "student_name": "Lucia 徐露華"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270630T080000Z",
+    "date": "2027-06-30",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-06-30T16:00:00+08:00",
+    "end": "2027-06-30T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270701T060000Z",
@@ -24651,6 +25289,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270707T080000Z",
+    "date": "2027-07-07",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-07-07T16:00:00+08:00",
+    "end": "2027-07-07T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270708T060000Z",
     "date": "2027-07-08",
     "title": "蘋果總裁班",
@@ -24660,6 +25309,17 @@
     "end": "2027-07-08T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270714T080000Z",
+    "date": "2027-07-14",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-07-14T16:00:00+08:00",
+    "end": "2027-07-14T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270715T060000Z",
@@ -24673,6 +25333,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270721T080000Z",
+    "date": "2027-07-21",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-07-21T16:00:00+08:00",
+    "end": "2027-07-21T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270722T060000Z",
     "date": "2027-07-22",
     "title": "蘋果總裁班",
@@ -24682,6 +25353,17 @@
     "end": "2027-07-22T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270728T080000Z",
+    "date": "2027-07-28",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-07-28T16:00:00+08:00",
+    "end": "2027-07-28T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270729T060000Z",
@@ -24695,6 +25377,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270804T080000Z",
+    "date": "2027-08-04",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-08-04T16:00:00+08:00",
+    "end": "2027-08-04T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270805T060000Z",
     "date": "2027-08-05",
     "title": "蘋果總裁班",
@@ -24704,6 +25397,17 @@
     "end": "2027-08-05T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270811T080000Z",
+    "date": "2027-08-11",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-08-11T16:00:00+08:00",
+    "end": "2027-08-11T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270812T060000Z",
@@ -24717,6 +25421,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270818T080000Z",
+    "date": "2027-08-18",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-08-18T16:00:00+08:00",
+    "end": "2027-08-18T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270819T060000Z",
     "date": "2027-08-19",
     "title": "蘋果總裁班",
@@ -24726,6 +25441,17 @@
     "end": "2027-08-19T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270825T080000Z",
+    "date": "2027-08-25",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-08-25T16:00:00+08:00",
+    "end": "2027-08-25T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270826T060000Z",
@@ -24739,6 +25465,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270901T080000Z",
+    "date": "2027-09-01",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-09-01T16:00:00+08:00",
+    "end": "2027-09-01T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270902T060000Z",
     "date": "2027-09-02",
     "title": "蘋果總裁班",
@@ -24748,6 +25485,17 @@
     "end": "2027-09-02T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270908T080000Z",
+    "date": "2027-09-08",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-09-08T16:00:00+08:00",
+    "end": "2027-09-08T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270909T060000Z",
@@ -24761,6 +25509,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270915T080000Z",
+    "date": "2027-09-15",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-09-15T16:00:00+08:00",
+    "end": "2027-09-15T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270916T060000Z",
     "date": "2027-09-16",
     "title": "蘋果總裁班",
@@ -24770,6 +25529,17 @@
     "end": "2027-09-16T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270922T080000Z",
+    "date": "2027-09-22",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-09-22T16:00:00+08:00",
+    "end": "2027-09-22T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270923T060000Z",
@@ -24783,6 +25553,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20270929T080000Z",
+    "date": "2027-09-29",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-09-29T16:00:00+08:00",
+    "end": "2027-09-29T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270930T060000Z",
     "date": "2027-09-30",
     "title": "蘋果總裁班",
@@ -24792,6 +25573,17 @@
     "end": "2027-09-30T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271006T080000Z",
+    "date": "2027-10-06",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-10-06T16:00:00+08:00",
+    "end": "2027-10-06T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271007T060000Z",
@@ -24805,6 +25597,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271013T080000Z",
+    "date": "2027-10-13",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-10-13T16:00:00+08:00",
+    "end": "2027-10-13T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271014T060000Z",
     "date": "2027-10-14",
     "title": "蘋果總裁班",
@@ -24814,6 +25617,17 @@
     "end": "2027-10-14T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271020T080000Z",
+    "date": "2027-10-20",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-10-20T16:00:00+08:00",
+    "end": "2027-10-20T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271021T060000Z",
@@ -24827,6 +25641,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271027T080000Z",
+    "date": "2027-10-27",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-10-27T16:00:00+08:00",
+    "end": "2027-10-27T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271028T060000Z",
     "date": "2027-10-28",
     "title": "蘋果總裁班",
@@ -24836,6 +25661,17 @@
     "end": "2027-10-28T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271103T080000Z",
+    "date": "2027-11-03",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-11-03T16:00:00+08:00",
+    "end": "2027-11-03T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271104T060000Z",
@@ -24849,6 +25685,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271110T080000Z",
+    "date": "2027-11-10",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-11-10T16:00:00+08:00",
+    "end": "2027-11-10T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271111T060000Z",
     "date": "2027-11-11",
     "title": "蘋果總裁班",
@@ -24858,6 +25705,17 @@
     "end": "2027-11-11T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271117T080000Z",
+    "date": "2027-11-17",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-11-17T16:00:00+08:00",
+    "end": "2027-11-17T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271118T060000Z",
@@ -24871,6 +25729,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271124T080000Z",
+    "date": "2027-11-24",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-11-24T16:00:00+08:00",
+    "end": "2027-11-24T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271125T060000Z",
     "date": "2027-11-25",
     "title": "蘋果總裁班",
@@ -24880,6 +25749,17 @@
     "end": "2027-11-25T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271201T080000Z",
+    "date": "2027-12-01",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-12-01T16:00:00+08:00",
+    "end": "2027-12-01T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271202T060000Z",
@@ -24893,6 +25773,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271208T080000Z",
+    "date": "2027-12-08",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-12-08T16:00:00+08:00",
+    "end": "2027-12-08T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271209T060000Z",
     "date": "2027-12-09",
     "title": "蘋果總裁班",
@@ -24902,6 +25793,17 @@
     "end": "2027-12-09T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271215T080000Z",
+    "date": "2027-12-15",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-12-15T16:00:00+08:00",
+    "end": "2027-12-15T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271216T060000Z",
@@ -24915,6 +25817,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271222T080000Z",
+    "date": "2027-12-22",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-12-22T16:00:00+08:00",
+    "end": "2027-12-22T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271223T060000Z",
     "date": "2027-12-23",
     "title": "蘋果總裁班",
@@ -24924,6 +25837,17 @@
     "end": "2027-12-23T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "18fq0ft48mipnmrklgd0hogjuh_20271229T080000Z",
+    "date": "2027-12-29",
+    "title": "和陳顧問合作課程",
+    "description": "",
+    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
+    "start": "2027-12-29T16:00:00+08:00",
+    "end": "2027-12-29T18:00:00+08:00",
+    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+    "student_name": "陳顧問"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20271230T060000Z",

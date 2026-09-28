@@ -24,7 +24,7 @@
     "file": "/01.Docs/Students/Amanda 蕭秉慧.md",
     "lessons_count": 6,
     "latest_date": "2026-07-10",
-    "next_lesson": "2026-11-27",
+    "next_lesson": "2026-10-18",
     "tags": [
       "一般學員"
     ],
@@ -41,14 +41,14 @@
       "Anna蕭-Zoom"
     ],
     "file": "/01.Docs/Students/Anna 蕭.md",
-    "lessons_count": 16,
-    "latest_date": "2026-09-18",
-    "next_lesson": "2026-09-28",
+    "lessons_count": 17,
+    "latest_date": "2026-09-28",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-10-10",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active"
   },
   {
@@ -279,7 +279,7 @@
     "file": "/01.Docs/Students/元偉琴.md",
     "lessons_count": 24,
     "latest_date": "2026-09-22",
-    "next_lesson": "2026-09-29",
+    "next_lesson": "2026-11-22",
     "tags": [
       "一般學員"
     ],
@@ -296,7 +296,7 @@
     "file": "/01.Docs/Students/gu_jin_tao.md",
     "lessons_count": 8,
     "latest_date": "2026-09-24",
-    "next_lesson": "2026-09-24",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -871,7 +871,7 @@
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
     "lessons_count": 1365,
     "latest_date": "2026-09-24",
-    "next_lesson": "2026-09-24",
+    "next_lesson": "2026-10-01",
     "tags": [
       "一般學員"
     ],
@@ -1142,12 +1142,30 @@
     "file": "",
     "lessons_count": 14,
     "latest_date": "2026-09-22",
-    "next_lesson": "",
+    "next_lesson": "2026-09-30",
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2026-05-13",
+    "first_lesson_date": "2026-04-01",
     "current_cycle_lesson": 6,
+    "status": "active"
+  },
+  {
+    "id": "e27176d0-22eb-4c16-95aa-c55fe2352bcf",
+    "name": "家具怡君",
+    "aliases": [
+      "怡君",
+      "家具怡君"
+    ],
+    "file": "/01.Docs/Students/家具怡君.md",
+    "lessons_count": 0,
+    "latest_date": "未記錄",
+    "next_lesson": "2026-09-29",
+    "tags": [
+      "一般學員"
+    ],
+    "first_lesson_date": "2026-09-29",
+    "current_cycle_lesson": 0,
     "status": "active"
   }
 ]
