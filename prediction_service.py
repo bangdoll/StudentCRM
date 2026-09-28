@@ -171,6 +171,13 @@ def predict_student_status(features: dict, next_lesson: str = None) -> dict:
             "class": "badge-full",
             "reason": f"距離上次上課 {days} 天，仍在穩定互動區間。",
         }
+    elif days >= 365:
+        return {
+            "badge": "⏸️",
+            "status": "休學暫停",
+            "class": "badge-placeholder",
+            "reason": f"已超過一年未上課 ({days} 天)，註明為休學暫停，暫緩營運關懷。",
+        }
     else:
         if word_count < 200:
             return {

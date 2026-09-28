@@ -268,6 +268,8 @@ def build_full_effectiveness_radar(
 
         latest_d = s.get("latest_date") or s.get("last_lesson_date") or ""
         days_since = calculate_days_since(latest_d, ref_date=ref_date)
+        if days_since >= 365:
+            continue
 
         # 取得學員筆記
         notes = student_records_map.get(sid, [])
