@@ -211,12 +211,16 @@
             {% set is_tbd = 1 if (not student.next_lesson or '安排中' in student.next_lesson or '待定' in student.next_lesson) else 0 %}
             {% set is_upcoming = 1 if (student.next_lesson and not is_tbd) else 0 %}
 
+            {% set is_paused = 1 if (student.status == 'paused' or student.status == 'memorial' or '休學暫停' in s_status or '歷史典藏' in s_status) else 0 %}
+            {% set is_full_cycle = 1 if (lessons in [2, 4, 8] or (lessons > 0 and lessons % 8 == 0)) else 0 %}
+            {% set completion_text = ('課程已上完' if is_full_cycle else '尚有剩餘課程未上完') if is_paused else '' %}
+
             <a href="/student/{{ student.id }}" class="student-card"
                data-name="{{ student.name|lower }}"
                data-status="{{ s_status }}"
                data-is-upcoming="{{ is_upcoming }}"
                data-is-tbd="{{ is_tbd }}"
-               data-search-text="{{ (student.name ~ ' ' ~ s_aliases ~ ' ' ~ s_tags ~ ' ' ~ s_next ~ ' ' ~ s_latest ~ ' ' ~ s_status)|lower }}">
+               data-search-text="{{ (student.name ~ ' ' ~ s_aliases ~ ' ' ~ s_tags ~ ' ' ~ s_next ~ ' ' ~ s_latest ~ ' ' ~ s_status ~ ' ' ~ completion_text)|lower }}">
                 <div>
                     <h2 style="display: flex; justify-content: space-between; align-items: center;">
                         <span>{{ student.name }}</span>
@@ -236,11 +240,25 @@
                     <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">📅 下次上課：{{ student.next_lesson }}</p>
                     {% endif %}
                     <p class="meta-info">累計總堂數：{{ lessons }}</p>
+                    {% if is_paused %}
+                        {% if is_full_cycle %}
+                        <p class="meta-info" style="color: #7ee787; font-weight: 600; margin-top: 4px;">🎓 課程已上完（滿 {{ lessons }} 堂結訓）</p>
+                        {% else %}
+                        <p class="meta-info" style="color: #ffa657; font-weight: 600; margin-top: 4px;">⚠️ 尚有剩餘課程未上完（目前已上 {{ lessons }} 堂）</p>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class="tag-list">
                     {% for tag in student.tags %}
                     <span class="tag">{{ tag }}</span>
                     {% endfor %}
+                    {% if is_paused %}
+                        {% if is_full_cycle %}
+                        <span class="tag" style="background: rgba(63, 185, 80, 0.15); border-color: rgba(63, 185, 80, 0.4); color: #7ee787;">🎓 課程已上完</span>
+                        {% else %}
+                        <span class="tag" style="background: rgba(219, 109, 40, 0.15); border-color: rgba(219, 109, 40, 0.4); color: #ffa657;">⚠️ 尚有剩餘課程未上完</span>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </a>
             {% endfor %}
