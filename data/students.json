@@ -410,7 +410,7 @@
     "file": "/01.Docs/Students/大安妮.md",
     "lessons_count": 3,
     "latest_date": "2024-02-20",
-    "next_lesson": "安排中",
+    "next_lesson": "",
     "tags": [
       "一般學員"
     ],
@@ -418,8 +418,13 @@
     "current_cycle_lesson": 3,
     "status": "memorial",
     "status_reason": "deceased",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
+    "completion_status": "memorial",
+    "completion_note": "已故・教學資產永久典藏",
+    "meta": {
+      "completion_status": "memorial",
+      "completion_note": "已故・教學資產永久典藏",
+      "next_lesson": ""
+    }
   },
   {
     "id": "bea3a100-3534-4183-9d8c-db789f71302f",
@@ -554,7 +559,7 @@
     "file": "/01.Docs/Students/彭澤江.md",
     "lessons_count": 5,
     "latest_date": "2024-04-15",
-    "next_lesson": "安排中",
+    "next_lesson": "",
     "tags": [
       "一般學員"
     ],
@@ -562,8 +567,13 @@
     "current_cycle_lesson": 5,
     "status": "memorial",
     "status_reason": "deceased",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
+    "completion_status": "memorial",
+    "completion_note": "已故・教學資產永久典藏",
+    "meta": {
+      "completion_status": "memorial",
+      "completion_note": "已故・教學資產永久典藏",
+      "next_lesson": ""
+    }
   },
   {
     "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
@@ -887,16 +897,19 @@
   },
   {
     "id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "name": "禮品公會",
+    "name": "禮品公會第二期",
     "aliases": [
-      "禮品公會 03",
       "Gift Association 2 L1",
-      "Gift Association 2 L2"
+      "Gift Association 2 L2",
+      "手機班",
+      "禮品公會",
+      "禮品公會 03",
+      "禮品公會第二期"
     ],
     "file": "/01.Docs/Students/gift_association_2.md",
     "lessons_count": 8,
     "latest_date": "2026-07-28",
-    "next_lesson": "安排中",
+    "next_lesson": "",
     "tags": [
       "一般學員"
     ],
@@ -904,9 +917,15 @@
     "current_cycle_lesson": 8,
     "renewal_reminder": false,
     "no_renewal_reminder_reason": "目前沒有要安排上課/已結束",
-    "status": "active",
+    "status": "graduated",
     "completion_status": "completed",
-    "completion_note": "課程已上完（滿 8 堂結訓）"
+    "completion_note": "課程已上完（滿 8 堂結訓）",
+    "status_reason": "course_completed",
+    "meta": {
+      "completion_status": "completed",
+      "completion_note": "課程已上完（滿 8 堂結訓）",
+      "next_lesson": ""
+    }
   },
   {
     "id": "51a7f13c-0a8a-40b5-982d-01f27193cc34",

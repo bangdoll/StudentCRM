@@ -211,9 +211,11 @@
             {% set is_tbd = 1 if (not student.next_lesson or '安排中' in student.next_lesson or '待定' in student.next_lesson) else 0 %}
             {% set is_upcoming = 1 if (student.next_lesson and not is_tbd) else 0 %}
 
-            {% set is_paused = 1 if (student.status == 'paused' or student.status == 'memorial' or '休學暫停' in s_status or '歷史典藏' in s_status) else 0 %}
+            {% set is_memorial = 1 if (student.status == 'memorial' or '歷史典藏' in s_status) else 0 %}
+            {% set is_graduated = 1 if (student.status == 'graduated' or '期滿結訓' in s_status) else 0 %}
+            {% set is_paused = 1 if (student.status == 'paused' or '休學暫停' in s_status) and not is_memorial and not is_graduated else 0 %}
             {% set is_full_cycle = 1 if (lessons in [2, 4, 8] or (lessons > 0 and lessons % 8 == 0)) else 0 %}
-            {% set completion_text = ('課程已上完' if is_full_cycle else '尚有剩餘課程未上完') if is_paused else '' %}
+            {% set completion_text = ('歷史典藏 已故' if is_memorial else ('課程已上完 結訓' if is_graduated else (('課程已上完' if is_full_cycle else '尚有剩餘課程未上完') if is_paused else ''))) %}
 
             <a href="/student/{{ student.id }}" class="student-card"
                data-name="{{ student.name|lower }}"
@@ -236,11 +238,15 @@
 
                     <p class="meta-info">🌱 首次上課：{{ student.meta.first_lesson_date or student.first_lesson_date or '未記錄' }}</p>
                     <p class="meta-info">🕒 最後上課：{{ student.meta.last_lesson_date or student.latest_date or '未記錄' }}</p>
-                    {% if student.next_lesson %}
+                    {% if student.next_lesson and not is_memorial %}
                     <p class="meta-info" style="color: #4fc3f7; font-weight: 700;">📅 下次上課：{{ student.next_lesson }}</p>
                     {% endif %}
                     <p class="meta-info">累計總堂數：{{ lessons }}</p>
-                    {% if is_paused %}
+                    {% if is_memorial %}
+                    <p class="meta-info" style="color: #8b949e; margin-top: 4px;">🎗️ 學員已故・教學資產永久典藏</p>
+                    {% elif is_graduated %}
+                    <p class="meta-info" style="color: #7ee787; font-weight: 600; margin-top: 4px;">🎓 課程已上完（滿 {{ lessons }} 堂結訓）</p>
+                    {% elif is_paused %}
                         {% if is_full_cycle %}
                         <p class="meta-info" style="color: #7ee787; font-weight: 600; margin-top: 4px;">🎓 課程已上完（滿 {{ lessons }} 堂結訓）</p>
                         {% else %}
@@ -252,7 +258,11 @@
                     {% for tag in student.tags %}
                     <span class="tag">{{ tag }}</span>
                     {% endfor %}
-                    {% if is_paused %}
+                    {% if is_memorial %}
+                    <span class="tag" style="background: rgba(139, 148, 158, 0.15); border-color: rgba(139, 148, 158, 0.4); color: #8b949e;">🎗️ 歷史典藏</span>
+                    {% elif is_graduated %}
+                    <span class="tag" style="background: rgba(63, 185, 80, 0.15); border-color: rgba(63, 185, 80, 0.4); color: #7ee787;">🎓 課程已上完</span>
+                    {% elif is_paused %}
                         {% if is_full_cycle %}
                         <span class="tag" style="background: rgba(63, 185, 80, 0.15); border-color: rgba(63, 185, 80, 0.4); color: #7ee787;">🎓 課程已上完</span>
                         {% else %}

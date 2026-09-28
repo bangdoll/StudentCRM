@@ -80,6 +80,8 @@ def build_student_features(student: dict[str, Any]) -> dict[str, Any]:
     raw_status = student.get("status")
     if raw_status == "memorial":
         status = "🎗️ 歷史典藏"
+    elif raw_status == "graduated":
+        status = "🎓 期滿結訓"
     elif raw_status == "paused":
         status = "休學/暫停"
     elif lessons_count >= 50:
@@ -112,7 +114,7 @@ def calculate_student_stats(students: list[dict[str, Any]]) -> dict[str, Any]:
 
 def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
     """為個別學員產生客製化 LINE 續課席位保留提醒文案。"""
-    if student.get("status") in ("memorial", "paused"):
+    if student.get("status") in ("memorial", "paused", "graduated"):
         return ""
     name = student.get("name", "同學")
     if student.get("renewal_reminder") is False or student.get("disable_renewal_reminder") is True:
@@ -152,7 +154,7 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
     radar = []
     for s in students:
         name = s.get("name", "")
-        if s.get("status") in ("memorial", "paused"):
+        if s.get("status") in ("memorial", "paused", "graduated"):
             continue
         if s.get("renewal_reminder") is False or s.get("disable_renewal_reminder") is True:
             continue

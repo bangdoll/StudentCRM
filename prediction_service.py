@@ -145,6 +145,13 @@ def predict_student_status(features: dict, next_lesson: str = None) -> dict:
             "class": "badge-placeholder",
             "reason": "學員教學資產永久典藏，不再進行日常營運追蹤。",
         }
+    if raw_status == "graduated":
+        return {
+            "badge": "🎓",
+            "status": "期滿結訓",
+            "class": "badge-placeholder",
+            "reason": "學員全期課程已圓滿完成結訓，暫緩日常營運追蹤。",
+        }
     if raw_status == "paused":
         return {
             "badge": "⏸️",
