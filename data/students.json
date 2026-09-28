@@ -463,18 +463,18 @@
     "name": "小腸",
     "aliases": [],
     "file": "/01.Docs/Students/小腸.md",
-    "lessons_count": 1,
+    "lessons_count": 2,
     "latest_date": "2024-02-25",
     "next_lesson": "",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-02-21",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "paused",
     "status_reason": "inactive_over_1_year",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 2 堂結訓）"
   },
   {
     "id": "e0cf4cfd-1676-4c6e-bab8-1a9ef66a9a39",
