@@ -1055,9 +1055,9 @@
       "08.資深少年AI學習團"
     ],
     "file": "/01.Docs/Students/資深少年AI學習團.md",
-    "lessons_count": 7,
-    "latest_date": "2026-09-01",
-    "next_lesson": "2026-09-29",
+    "lessons_count": 8,
+    "latest_date": "2026-09-29",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員",
       "團體班",
@@ -1065,7 +1065,7 @@
       "活躍學員"
     ],
     "first_lesson_date": "2026-03-27",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "recurring_schedule": "biweekly:1:14:00",
     "status": "active",
     "completion_status": "has_remaining",
@@ -1328,14 +1328,14 @@
       "家具怡君"
     ],
     "file": "/01.Docs/Students/家具怡君.md",
-    "lessons_count": 0,
+    "lessons_count": 1,
     "latest_date": "未記錄",
-    "next_lesson": "2026-09-29",
+    "next_lesson": "2026-11-03",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2026-09-29",
-    "current_cycle_lesson": 0,
+    "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 0 堂）"
