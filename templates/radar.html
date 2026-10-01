@@ -1055,6 +1055,43 @@
         <p>依據 13 年教學資產與近三堂微行動卡，自動判定學員 AI 導入成熟度、7 天落地任務停滯預警與產品階梯提案錨點，輔助教練精準關懷與續約決策。</p>
     </div>
 
+    {% if outcome_summary %}
+    <div class="radar-analytics-panel" style="margin-bottom:28px;">
+        <div class="analytics-card">
+            <div class="analytics-title-wrap">
+                <div class="analytics-title">🔁 教學成果閉環</div>
+                <span class="analytics-badge" style="background:rgba(63,185,80,0.15);color:var(--accent-green);">P0 試點</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-size:0.86rem;">
+                <div>已建立課堂 <strong>{{ outcome_summary.outcome_count }}</strong> 堂</div>
+                <div>教練已確認 <strong>{{ outcome_summary.verified_outcome_count }}</strong> 堂</div>
+                <div>案例草稿 <strong>{{ outcome_summary.case_draft_count }}</strong> 筆</div>
+                <div>高風險學員 <strong style="color:var(--accent-red);">{{ outcome_summary.risk_student_count }}</strong> 位</div>
+            </div>
+            <p style="margin:0;color:var(--text-muted);font-size:0.78rem;line-height:1.5;">先建立最新課堂的核心判斷與最多 3 個行動；學員回報後，再由教練確認成果。</p>
+        </div>
+        <div class="analytics-card">
+            <div class="analytics-title-wrap">
+                <div class="analytics-title">🧭 一人公司容量與停損閘門</div>
+                <span class="analytics-badge">P2 觀測</span>
+            </div>
+            <div style="font-size:0.86rem;line-height:1.7;">
+                <div>活躍學員：<strong>{{ outcome_summary.capacity.active_student_count }}</strong> / 暫定容量 <strong>{{ outcome_summary.capacity.active_student_target }}</strong></div>
+                <div>待處理行動：<strong>{{ outcome_summary.capacity.pending_action_count }}</strong>；逾期：<strong style="color:var(--accent-yellow);">{{ outcome_summary.capacity.overdue_action_count }}</strong></div>
+                <div>行動完成率：<strong>{{ ((outcome_summary.capacity.action_completion_rate * 100)|round(1)) ~ '%' if outcome_summary.capacity.action_completion_rate is not none else '尚無樣本' }}</strong></div>
+            </div>
+            <div style="margin-top:8px;display:grid;gap:5px;">
+                {% for gate in outcome_summary.feature_gates %}
+                <div style="font-size:0.75rem;color:var(--text-muted);">
+                    <span style="color:{% if gate.decision == 'continue' %}var(--accent-green){% elif gate.decision == 'stop' %}var(--accent-red){% else %}var(--accent-yellow){% endif %};">{{ '繼續' if gate.decision == 'continue' else ('停止' if gate.decision == 'stop' else '人工覆核') }}</span>
+                    {{ gate.name }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <!-- 戰情圖表看板 (Visual Analytics Panel) -->
     <div class="radar-analytics-panel">
         <!-- 左卡：AI 導入四階段成熟度分佈 -->
@@ -1253,6 +1290,9 @@
             <div class="card-actions">
                 <button class="btn-action btn-copy" onclick="copyFollowupMsg(`{{ item.student_id }}`)">
                     📋 複製關心話術
+                </button>
+                <button class="btn-action btn-copy" onclick="bootstrapOutcome('{{ item.student_id }}')">
+                    🔁 建立閉環
                 </button>
                 <button class="btn-action btn-csm" onclick="openCsmModal('{{ item.student_id }}', '{{ item.name }}', '{{ item.followup.status }}', '{{ item.followup.next_followup_date or '' }}', `{{ item.followup.coach_notes }}`)">
                     📝 記錄回訪
@@ -1856,6 +1896,22 @@
             alert('重算失敗：' + e.message);
             btn.innerText = '⚡ 手動重算快取';
             btn.disabled = false;
+        }
+    }
+
+    async function bootstrapOutcome(studentId) {
+        if (!confirm('要以此學員最新一堂課建立成果閉環草稿嗎？')) return;
+        try {
+            const response = await fetch('/api/outcomes/bootstrap', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({student_id: studentId})
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.detail || '建立失敗');
+            showToast(data.outcome && data.outcome.id ? '✅ 閉環草稿已建立，請補上教練判斷。' : '✅ 已完成');
+        } catch (error) {
+            alert('建立閉環失敗：' + error.message);
         }
     }
 </script>

@@ -27,6 +27,22 @@ from apple_ceo_service import summarize_apple_ceo_program, extract_session_date
 from prediction_service import predict_student_status
 from radar_service import build_full_effectiveness_radar
 from schemas.radar import FollowupUpdateRequest
+from note_service import extract_micro_action_cards
+from outcome_service import (
+    BootstrapOutcomeRequest,
+    CaseDraftRequest,
+    CreateOutcomeRequest,
+    ExperimentObservationRequest,
+    OutcomeStoreError,
+    VerifyOutcomeRequest,
+    bootstrap_outcome,
+    create_case_draft,
+    create_outcome,
+    outcome_summary,
+    record_experiment_observation,
+    list_outcomes,
+    verify_outcome,
+)
 
 
 router = APIRouter(tags=["coach"])
@@ -371,6 +387,7 @@ async def get_effectiveness_radar_page(request: Request):
     except Exception as exc:
         logger.warning(f"即時計算成效雷達異常，降級至快取資料: {exc}")
         radar_data = gateway.get_effectiveness_radar_data()
+    outcome_data = outcome_summary(deps["load_students"](), radar_data.get("items", []))
 
     return deps["templates"].TemplateResponse(request, "radar.html", {
         "request": request,
@@ -378,6 +395,7 @@ async def get_effectiveness_radar_page(request: Request):
         "summary": radar_data.get("summary", {}),
         "items": radar_data.get("items", []),
         "generated_at": radar_data.get("generated_at", ""),
+        "outcome_summary": outcome_data,
     })
 
 
@@ -415,3 +433,74 @@ async def refresh_effectiveness_radar_api():
     radar_data = build_full_effectiveness_radar(gateway)
     return JSONResponse({"success": True, "radar": radar_data})
 
+
+@router.get("/api/outcomes/summary", response_class=JSONResponse)
+async def get_outcome_summary_api():
+    """回傳教學成果閉環、容量與功能停損閘門摘要。"""
+    deps = get_coach_deps()
+    radar_data = deps["student_gateway"].get_effectiveness_radar_data()
+    return JSONResponse(outcome_summary(deps["load_students"](), radar_data.get("items", [])))
+
+
+@router.get("/api/outcomes", response_class=JSONResponse)
+async def get_outcomes_api():
+    """回傳教練端可讀的成果閉環紀錄；不對外暴露此端點。"""
+    return JSONResponse({"items": list_outcomes()})
+
+
+@router.post("/api/outcomes", response_class=JSONResponse)
+async def create_outcome_api(payload: CreateOutcomeRequest):
+    """由教練建立一堂課的核心判斷、下一步行動與回看問題。"""
+    try:
+        return JSONResponse({"success": True, "outcome": create_outcome(payload)})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.post("/api/outcomes/bootstrap", response_class=JSONResponse)
+async def bootstrap_outcome_api(payload: BootstrapOutcomeRequest):
+    """以學員最新一堂既有筆記建立待教練覆核的閉環草稿。"""
+    deps = get_coach_deps()
+    students = deps["load_students"]()
+    student = next((item for item in students if item.get("id") == payload.student_id), None)
+    if not student:
+        raise HTTPException(status_code=404, detail="找不到學員")
+    records = deps["student_gateway"].load_teaching_records(payload.student_id)
+    if not records:
+        raise HTTPException(status_code=400, detail="此學員尚無可建立閉環的教學筆記")
+    note = sorted(records, key=lambda item: str(item.get("date") or ""), reverse=True)[0]
+    content = str(note.get("content") or note.get("preview") or "")
+    cards = extract_micro_action_cards(content, str(note.get("title") or ""))
+    try:
+        outcome = bootstrap_outcome(student, note, cards)
+        return JSONResponse({"success": True, "outcome": outcome})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.post("/api/outcomes/{outcome_id}/verify", response_class=JSONResponse)
+async def verify_outcome_api(outcome_id: str, payload: VerifyOutcomeRequest):
+    """教練確認成果，作為案例草稿的必要閘門。"""
+    try:
+        return JSONResponse({"success": True, "outcome": verify_outcome(outcome_id, payload)})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.post("/api/outcomes/{outcome_id}/case-draft", response_class=JSONResponse)
+async def create_case_draft_api(outcome_id: str, payload: CaseDraftRequest):
+    """只允許已驗證且有證據的成果進入內部案例草稿。"""
+    try:
+        draft = create_case_draft(outcome_id, payload)
+        return JSONResponse({"success": True, "case_draft": draft})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+
+
+@router.post("/api/feature-gates/{gate_id}/observations", response_class=JSONResponse)
+async def record_feature_gate_observation_api(gate_id: str, payload: ExperimentObservationRequest):
+    """記錄 2–4 週試點訊號，沒有足夠證據時維持 human_review。"""
+    try:
+        return JSONResponse({"success": True, **record_experiment_observation(gate_id, payload)})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))

@@ -25,6 +25,21 @@ from schemas.radar import (
 )
 from main import app
 from data_gateway import StudentDataGateway
+from outcome_service import (
+    CaseDraftRequest,
+    CreateOutcomeRequest,
+    ExperimentObservationRequest,
+    StudentActionSubmission,
+    VerifyOutcomeRequest,
+    create_case_draft,
+    create_outcome,
+    feature_gate_summary,
+    load_store,
+    outcome_summary,
+    record_experiment_observation,
+    submit_student_action,
+    verify_outcome,
+)
 
 
 def test_calculate_days_since():
@@ -329,4 +344,62 @@ def test_video_workflow_stage_guard_and_stage_students_modal():
     assert "點擊看名單 ➔" in resp.text
 
 
+def test_teaching_outcome_loop_requires_evidence_and_privacy(tmp_path):
+    store_path = tmp_path / "teaching_outcomes.json"
+    created = create_outcome(
+        CreateOutcomeRequest(
+            student_id="student-1",
+            student_name="測試學員",
+            note_key="lesson-2026-10-01.md",
+            note_date="2026-10-01",
+            core_judgment="先完成一個可驗證的檔案整理閉環。",
+            action_titles=["整理一份正式檔案清冊"],
+        ),
+        path=store_path,
+    )
+    submit_student_action(
+        "student-1",
+        StudentActionSubmission(
+            note_key="lesson-2026-10-01.md",
+            action_index=0,
+            status="completed",
+            evidence="已完成清冊並放入正式資料夾。",
+        ),
+        path=store_path,
+    )
+    verified = verify_outcome(
+        created["id"],
+        VerifyOutcomeRequest(verified=True, coach_note="已對照課堂紀錄。"),
+        path=store_path,
+    )
+    assert verified["coach_verified"] is True
+
+    draft = create_case_draft(
+        created["id"],
+        CaseDraftRequest(
+            problem="檔案散落，課後找不到正式版本。",
+            action="建立清冊並固定存放位置。",
+            result="下一次能直接找到正式版本。",
+            privacy_checked=True,
+        ),
+        path=store_path,
+    )
+    assert draft["status"] == "internal_review"
+
+
+def test_capacity_and_feature_stop_gate(tmp_path):
+    store_path = tmp_path / "teaching_outcomes.json"
+    record_experiment_observation(
+        "teaching-outcome-loop",
+        ExperimentObservationRequest(completion_rate=0.2, verified_outcomes=0, note="小樣本"),
+        path=store_path,
+    )
+    gates = feature_gate_summary(load_store(store_path))
+    loop_gate = next(item for item in gates if item["id"] == "teaching-outcome-loop")
+    assert loop_gate["decision"] == "stop"
+    summary = outcome_summary(
+        [{"id": "student-1", "status": "active"}, {"id": "student-2", "status": "paused"}],
+        [],
+    )
+    assert summary["capacity"]["active_student_count"] == 1
 

@@ -237,9 +237,9 @@
       "陳萱玲"
     ],
     "file": "/01.Docs/Students/shelley_chen.md",
-    "lessons_count": 22,
-    "latest_date": "2026-09-17",
-    "next_lesson": "2026-10-01",
+    "lessons_count": 23,
+    "latest_date": "2026-10-01",
+    "next_lesson": "2026-11-20",
     "tags": [
       "一般學員"
     ],
@@ -1006,15 +1006,15 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1365,
-    "latest_date": "2026-09-24",
+    "lessons_count": 1366,
+    "latest_date": "2026-10-01",
     "next_lesson": "2026-10-01",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 1365 堂）"
@@ -1310,7 +1310,7 @@
     "file": "",
     "lessons_count": 14,
     "latest_date": "2026-09-22",
-    "next_lesson": "2026-09-30",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],

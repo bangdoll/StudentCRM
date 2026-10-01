@@ -13,6 +13,7 @@ from hub_service import generate_student_manifest_data, get_random_practice_card
 from note_service import extract_micro_action_cards
 from apple_ceo_service import summarize_apple_ceo_program
 from student_service import resolve_student_access_id
+from outcome_service import OutcomeStoreError, StudentActionSubmission, submit_student_action
 
 router = APIRouter(tags=["hub"])
 
@@ -160,6 +161,21 @@ async def student_hub_manifest(token: str):
         student_name = "蘋果總裁班"
     manifest_data = generate_student_manifest_data(student_name, token)
     return JSONResponse(content=manifest_data, media_type="application/manifest+json")
+
+
+@router.post("/my/{token}/outcomes/submit", response_class=JSONResponse)
+async def submit_student_outcome(token: str, payload: StudentActionSubmission):
+    """學員在專屬連結回報課後行動；只修改獨立成果層，不修改原始教學筆記。"""
+    deps = get_hub_deps()
+    students = deps["load_students"]()
+    student = deps["get_student_by_id"](deps["resolve_student_access_id"](token), students)
+    if not student:
+        raise HTTPException(status_code=404, detail="找不到學員專屬空間")
+    try:
+        outcome = submit_student_action(student.get("id", ""), payload)
+        return JSONResponse({"success": True, "outcome_id": outcome.get("id"), "outcome": outcome})
+    except OutcomeStoreError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
 
 
 @router.api_route("/api/practice/random", methods=["GET", "HEAD"])

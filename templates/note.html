@@ -286,6 +286,74 @@
                 {{ content_html | safe }}
             </div>
 
+            {% if token and student_id and micro_cards %}
+            <section style="margin-top: 32px; padding: 20px; border: 1px solid rgba(63, 185, 80, 0.35); border-radius: 14px; background: rgba(63, 185, 80, 0.06);">
+                <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start; flex-wrap:wrap;">
+                    <div>
+                        <h2 style="margin:0 0 6px; color:#7ee787; font-size:1.1rem;">✅ 課後實作回報</h2>
+                        <p style="margin:0; color:var(--text-secondary); font-size:0.86rem;">完成一個行動，留下成果證據，讓下一次上課可以直接接續。</p>
+                    </div>
+                    <span style="font-size:0.75rem; color:var(--text-secondary);">不會修改原始教學筆記</span>
+                </div>
+                <form id="outcomeFeedbackForm" style="margin-top:16px; display:grid; gap:12px;" onsubmit="submitOutcomeFeedback(event)">
+                    <label style="font-size:0.85rem; color:var(--text-secondary);">本次完成哪一個行動？
+                        <select id="outcomeActionIndex" required style="display:block; width:100%; margin-top:6px; padding:10px; border-radius:8px; background:#0d1117; color:#f0f6fc; border:1px solid var(--border-color);">
+                            <option value="0">📱 {{ micro_cards.micro_habit }}</option>
+                            <option value="1">⚡ {{ micro_cards.key_action }}</option>
+                            <option value="2">🎯 {{ micro_cards.weekly_win }}</option>
+                        </select>
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--text-secondary);">目前狀態
+                        <select id="outcomeActionStatus" style="display:block; width:100%; margin-top:6px; padding:10px; border-radius:8px; background:#0d1117; color:#f0f6fc; border:1px solid var(--border-color);">
+                            <option value="completed">已完成</option>
+                            <option value="in_progress">進行中</option>
+                            <option value="blocked">遇到卡點</option>
+                        </select>
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--text-secondary);">成果證據（做了什麼、產出什麼）
+                        <textarea id="outcomeEvidence" rows="3" maxlength="2000" placeholder="例如：完成一份檔案清冊，並把連結放到正式資料夾。" style="display:block; width:100%; box-sizing:border-box; margin-top:6px; padding:10px; border-radius:8px; background:#0d1117; color:#f0f6fc; border:1px solid var(--border-color);"></textarea>
+                    </label>
+                    <label style="font-size:0.85rem; color:var(--text-secondary);">想讓教練知道的回饋（選填）
+                        <textarea id="outcomeFeedback" rows="2" maxlength="2000" placeholder="哪一步最有幫助？哪一步卡住？" style="display:block; width:100%; box-sizing:border-box; margin-top:6px; padding:10px; border-radius:8px; background:#0d1117; color:#f0f6fc; border:1px solid var(--border-color);"></textarea>
+                    </label>
+                    <button type="submit" style="padding:11px 16px; border:0; border-radius:9px; background:#3fb950; color:#0d1117; font-weight:700; cursor:pointer;">送出課後回報</button>
+                    <div id="outcomeFeedbackStatus" role="status" style="font-size:0.85rem; color:var(--text-secondary);"></div>
+                </form>
+            </section>
+            <script>
+                async function submitOutcomeFeedback(event) {
+                    event.preventDefault();
+                    const statusEl = document.getElementById('outcomeFeedbackStatus');
+                    const button = event.target.querySelector('button[type="submit"]');
+                    button.disabled = true;
+                    statusEl.textContent = '正在保存回報…';
+                    try {
+                        const response = await fetch('/my/' + encodeURIComponent({{ token | tojson }}) + '/outcomes/submit', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                note_key: {{ filename | tojson }},
+                                note_date: {{ (note_date or '') | tojson }},
+                                action_index: Number(document.getElementById('outcomeActionIndex').value),
+                                status: document.getElementById('outcomeActionStatus').value,
+                                evidence: document.getElementById('outcomeEvidence').value,
+                                student_feedback: document.getElementById('outcomeFeedback').value
+                            })
+                        });
+                        const data = await response.json();
+                        if (!response.ok) throw new Error(data.detail || '回報失敗');
+                        statusEl.textContent = '✅ 已收到，下一次課程可以直接回看這筆證據。';
+                        document.getElementById('outcomeEvidence').value = '';
+                        document.getElementById('outcomeFeedback').value = '';
+                    } catch (error) {
+                        statusEl.textContent = '⚠️ ' + error.message;
+                    } finally {
+                        button.disabled = false;
+                    }
+                }
+            </script>
+            {% endif %}
+
             <!-- Prev / Next navigation -->
             <div class="lesson-nav">
                 {% if prev_path %}

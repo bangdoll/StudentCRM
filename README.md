@@ -2,6 +2,8 @@
 
 StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設計的全方位學員管理與教學資產運作系統。它無縫整合了過去 11 年、超過 1,220 篇的教學日記與課堂紀錄，結合 AI 學習動能預測、學員專屬入口（Magic Link Portal）、PWA 行動端桌面體驗、今日刻意練習小卡、100 篇學員實戰見證牆，以及全自動的 Heptabase 教學筆記入庫管道。
 
+目前另有一條獨立的「教學成果閉環」試點：課堂筆記 → 核心判斷 → 最多 3 個下一步 → 學員回報 → 教練確認 → 內部案例草稿。此資料層不覆蓋原始 Markdown、`students.json` 或 `teaching_records.json`。
+
 * 🌐 **生產環境網址**：[https://student-crm-flax.vercel.app](https://student-crm-flax.vercel.app)
 * 🧪 **測試覆蓋率**：92/92 PASSED (100%)
 
@@ -60,6 +62,11 @@ StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設�
 ### 核心 API
 * `GET /api/practice/random`：隨機抽取一張課堂實戰微行動卡片（支援 GET / HEAD）
 * `GET /api/cases`：取得 100 篇去識別化實戰見證列表（支援領域篩選）
+* `GET /api/outcomes/summary`：取得教學成果閉環、容量與功能停損閘門摘要
+* `POST /api/outcomes/bootstrap`：以指定學員最新教學筆記建立待教練覆核的閉環草稿
+* `POST /api/outcomes/{outcome_id}/verify`：教練確認成果
+* `POST /api/outcomes/{outcome_id}/case-draft`：將已確認且有證據的成果建立為內部案例草稿
+* `POST /my/{token}/outcomes/submit`：學員從專屬連結回報課後行動
 * `GET /api/students`：取得全體學員列表 JSON
 * `GET /api/students/{id}`：取得特定學員詳細特徵與預測動能
 * `GET /api/program/apple-ceo`：取得蘋果總裁班全量班務 JSON
