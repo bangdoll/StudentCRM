@@ -65,6 +65,30 @@ def clean_markdown_frontmatter(content: str) -> str:
     return re.sub(r"^---[\s\S]*?---\s*", "", content)
 
 
+def enhance_task_checkboxes(html: str) -> str:
+    """將 Markdown 產出之 [ ] 和 [x] 清單項目轉換為原生直出、自帶樣式且可點擊打勾之 Checkbox。"""
+    if not html:
+        return ""
+
+    pattern = re.compile(r"<li[^>]*>(?:\s*<p>)?\s*\[([ xX])\]\s*(.*?)(?:</p>)?\s*</li>", re.DOTALL)
+
+    def repl(m: re.Match) -> str:
+        checked = m.group(1).lower() == "x"
+        body = m.group(2)
+        checked_attr = "checked" if checked else ""
+        completed_cls = " completed" if checked else ""
+        return (
+            f'<li class="interactive-task-li">'
+            f'<label class="task-checkbox-label{completed_cls}">'
+            f'<input type="checkbox" class="interactive-task-checkbox" {checked_attr} onchange="toggleTaskCheck(this)"> '
+            f'<span class="task-checkbox-text">{body}</span>'
+            f'</label>'
+            f'</li>'
+        )
+
+    return pattern.sub(repl, html)
+
+
 def extract_note_preview(content: str, limit: int = 280) -> str:
     """從 Markdown 內容中提取乾淨之純文字重點摘要。"""
     if not content:
@@ -527,6 +551,7 @@ def resolve_note_detail(
     clean_content = clean_markdown_frontmatter(content)
     clean_content = get_media_resolver().transform_markdown_media(clean_content)
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
+    html_content = enhance_task_checkboxes(html_content)
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
     micro_cards = extract_micro_action_cards(clean_content, note_title)

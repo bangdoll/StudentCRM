@@ -347,9 +347,59 @@
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
         }
-        .dod-toast.show {
-            transform: translateY(0);
-            opacity: 1;
+        /* 直出打卡項目樣式 (Direct-Rendered Task List) */
+        .markdown-body ul li.interactive-task-li {
+            list-style: none !important;
+            margin: 10px 0 !important;
+            padding-left: 0 !important;
+        }
+        .task-checkbox-label {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            cursor: pointer !important;
+            width: 100% !important;
+            padding: 12px 16px !important;
+            background: rgba(22, 27, 34, 0.85) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 12px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-sizing: border-box !important;
+            user-select: none !important;
+            -webkit-tap-highlight-color: transparent !important;
+        }
+        .task-checkbox-label:hover {
+            border-color: rgba(88, 166, 255, 0.5) !important;
+            background: rgba(88, 166, 255, 0.08) !important;
+            transform: translateY(-1px);
+        }
+        .task-checkbox-label.completed {
+            border-color: rgba(63, 185, 80, 0.45) !important;
+            background: rgba(63, 185, 80, 0.08) !important;
+        }
+        .interactive-task-checkbox {
+            width: 22px !important;
+            height: 22px !important;
+            min-width: 22px !important;
+            min-height: 22px !important;
+            accent-color: #238636 !important;
+            cursor: pointer !important;
+            margin: 2px 0 0 0 !important;
+            border-radius: 6px !important;
+        }
+        .task-checkbox-text {
+            flex: 1 !important;
+            font-size: 0.95rem !important;
+            line-height: 1.55 !important;
+            color: #f0f6fc !important;
+            transition: color 0.2s ease;
+        }
+        .task-checkbox-label.completed .task-checkbox-text {
+            color: #8b949e !important;
+            text-decoration: line-through !important;
+        }
+        .task-checkbox-label.completed .task-checkbox-text strong {
+            color: #8b949e !important;
         }
     </style>
 </head>
@@ -736,8 +786,53 @@
             }
             requestAnimationFrame(animate);
         }
+        window.fireDoDConfetti = fireConfetti;
     })();
+
+    // 直出 Checkbox 全域切換函數 (即時更新樣式與 LocalStorage 保存)
+    window.toggleTaskCheck = function(input) {
+        const label = input.closest('.task-checkbox-label');
+        if (label) {
+            label.classList.toggle('completed', input.checked);
+        }
+        const NOTE_KEY = 'task_box_' + ({{ filename | tojson }} || window.location.pathname);
+        const allBoxes = Array.from(document.querySelectorAll('.interactive-task-checkbox'));
+        const idx = allBoxes.indexOf(input);
+        if (idx !== -1) {
+            localStorage.setItem(NOTE_KEY + '_' + idx, input.checked ? '1' : '0');
+        }
+        // 檢查是否全數通關
+        const total = allBoxes.length;
+        const completed = allBoxes.filter(b => b.checked).length;
+        if (total > 0 && completed === total) {
+            const toast = document.getElementById('dodToast');
+            if (toast) {
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3500);
+            }
+            if (typeof window.fireDoDConfetti === 'function') {
+                window.fireDoDConfetti();
+            }
+        }
+    };
+
+    // 頁面載入時自動還原直出 Checkbox 歷史狀態
+    document.addEventListener('DOMContentLoaded', function() {
+        const NOTE_KEY = 'task_box_' + ({{ filename | tojson }} || window.location.pathname);
+        const allBoxes = Array.from(document.querySelectorAll('.interactive-task-checkbox'));
+        allBoxes.forEach((box, idx) => {
+            const saved = localStorage.getItem(NOTE_KEY + '_' + idx);
+            if (saved !== null) {
+                box.checked = saved === '1';
+                const label = box.closest('.task-checkbox-label');
+                if (label) {
+                    label.classList.toggle('completed', box.checked);
+                }
+            }
+        });
+    });
     </script>
 </body>
 </html>
+
 
