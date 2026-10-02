@@ -609,6 +609,28 @@ def resolve_note_detail(
     read_minutes = max(1, round(word_count / 500))
     micro_cards = extract_micro_action_cards(clean_content, note_title)
     dod_tasks = extract_dod_tasks(clean_content)
+    # 若舊筆記尚未包含實體第三層 DoD，智能從微行動卡片動態轉化為三級打卡清單
+    if not dod_tasks and micro_cards:
+        dod_tasks = [
+            {
+                "tier": "🥉 銅牌（及格門檻 · 3 分鐘）",
+                "checked": False,
+                "task": micro_cards.get("micro_habit") or "完成今日 1 個微行動習慣養成",
+                "id": "dod_0"
+            },
+            {
+                "tier": "🥈 銀牌（實戰落地 · 15 分鐘）",
+                "checked": False,
+                "task": micro_cards.get("key_action") or "落實課堂核心快捷鍵與操作流程",
+                "id": "dod_1"
+            },
+            {
+                "tier": "🥇 金牌（系統進階 · 週末挑戰）",
+                "checked": False,
+                "task": micro_cards.get("weekly_win") or "完成本週 1 個小成就與成果沉澱",
+                "id": "dod_2"
+            },
+        ]
 
     return NoteDetail(
         filename=filename,
