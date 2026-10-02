@@ -487,7 +487,8 @@ def sync_teaching_records_to_crm(
 
         if max_lesson is not None and max_lesson > s.get("lessons_count", 0):
             s["lessons_count"] = max_lesson
-            s["current_cycle_lesson"] = ((max_lesson % 8) or 8) if max_lesson > 0 else 0
+            cycle_size = s.get("cycle_size", 8)
+            s["current_cycle_lesson"] = ((max_lesson % cycle_size) or cycle_size) if max_lesson > 0 else 0
             changed = True
 
         if changed:
