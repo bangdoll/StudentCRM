@@ -198,14 +198,14 @@
     "name": "Lucia 徐露華",
     "aliases": [],
     "file": "/01.Docs/Students/lucia.md",
-    "lessons_count": 40,
-    "latest_date": "2026-08-28",
-    "next_lesson": "2026-10-02",
+    "lessons_count": 41,
+    "latest_date": "2026-10-02",
+    "next_lesson": "2026-10-16",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-05-30",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "completed",
     "completion_note": "課程已上完（滿 40 堂結訓）"
@@ -582,14 +582,14 @@
       "彭老師"
     ],
     "file": "/01.Docs/Students/peng_lao_shi.md",
-    "lessons_count": 38,
-    "latest_date": "2026-08-07",
-    "next_lesson": "2026-10-02",
+    "lessons_count": 39,
+    "latest_date": "2026-10-02",
+    "next_lesson": "2026-12-11",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-03",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 38 堂）"
@@ -1008,7 +1008,7 @@
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
     "lessons_count": 1366,
     "latest_date": "2026-10-01",
-    "next_lesson": "2026-10-01",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
