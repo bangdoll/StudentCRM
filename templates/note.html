@@ -195,10 +195,161 @@
         .card-action .card-label { color: #58a6ff; }
         .card-win .card-label { color: #f6c177; }
         .card-text {
-            font-size: 0.85rem;
-            line-height: 1.45;
-            color: var(--text-primary);
+        /* ========================================================
+           🏆 第三層：本週分級通關打卡清單 (DoD Interactive Checklist)
+           ======================================================== */
+        .dod-section-wrapper {
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.95), rgba(13, 17, 23, 0.95));
+            border: 1px solid rgba(88, 166, 255, 0.35);
+            border-radius: 16px;
+            padding: 22px 24px;
+            margin: 32px 0 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+        }
+        .dod-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .dod-title {
+            font-size: 1.18rem;
+            font-weight: 700;
+            color: #f0f6fc;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin: 0;
+        }
+        .dod-progress-badge {
+            background: rgba(88, 166, 255, 0.15);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            font-size: 0.84rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .dod-progress-badge.all-done {
+            background: rgba(63, 185, 80, 0.2);
+            color: #3fb950;
+            border-color: rgba(63, 185, 80, 0.4);
+        }
+        .dod-progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+        .dod-progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #58a6ff, #3fb950);
+            border-radius: 4px;
+            transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .dod-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .dod-item-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 13px 16px;
+            background: rgba(13, 17, 23, 0.65);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .dod-item-card:hover {
+            border-color: rgba(88, 166, 255, 0.45);
+            background: rgba(88, 166, 255, 0.05);
+            transform: translateY(-1px);
+        }
+        .dod-item-card.completed {
+            border-color: rgba(63, 185, 80, 0.45);
+            background: rgba(63, 185, 80, 0.08);
+        }
+        .dod-custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #8b949e;
+            border-radius: 6px;
+            flex-shrink: 0;
+            margin-top: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(22, 27, 34, 0.8);
+        }
+        .dod-item-card.completed .dod-custom-checkbox {
+            background: #238636;
+            border-color: #3fb950;
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.4);
+            transform: scale(1.05);
+        }
+        .dod-custom-checkbox::after {
+            content: '';
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) scale(0);
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 2px;
+        }
+        .dod-item-card.completed .dod-custom-checkbox::after {
+            transform: rotate(45deg) scale(1);
+        }
+        .dod-item-body {
+            flex: 1;
+            font-size: 0.94rem;
+            line-height: 1.55;
+            color: #f0f6fc;
+            transition: color 0.2s ease;
+        }
+        .dod-item-card.completed .dod-item-body {
+            color: #8b949e;
+            text-decoration: line-through;
+        }
+        .dod-item-card.completed .dod-item-body strong {
+            color: #8b949e !important;
+        }
+        .dod-toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: #ffffff;
+            padding: 14px 22px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            transform: translateY(120%);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+        .dod-toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
@@ -382,5 +533,211 @@
             </div>
         </div>
     </div>
+    <!-- 🏆 第三層：本週分級通關打卡清單互動與持久化腳本 -->
+    <div id="dodToast" class="dod-toast">🎉 太棒了！本週分級通關清單全部達成！</div>
+    <canvas id="dodConfettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99998;display:none;"></canvas>
+
+    <script>
+    (function initInteractiveDoD() {
+        const NOTE_KEY = 'dod_' + ({{ filename | tojson }} || window.location.pathname);
+        const headings = Array.from(document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4'));
+        
+        // 尋找第三層通關打卡清單標題
+        const dodHeading = headings.find(h => {
+            const t = h.textContent.trim();
+            return t.includes('第三層') || t.includes('通關打卡清單') || t.includes('Definition of Done');
+        });
+
+        if (!dodHeading) return;
+
+        // 尋找緊接著標題的第一個清單 (ul / ol)
+        let cur = dodHeading.nextElementSibling;
+        let targetList = null;
+        while (cur && !cur.tagName.match(/^H[1-4]$/)) {
+            if (cur.tagName === 'UL' || cur.tagName === 'OL') {
+                targetList = cur;
+                break;
+            }
+            cur = cur.nextElementSibling;
+        }
+
+        if (!targetList) return;
+
+        // 收集所有打卡項目
+        const rawItems = Array.from(targetList.querySelectorAll('li'));
+        if (rawItems.length === 0) return;
+
+        // 解析打卡清單項目
+        const taskItems = [];
+        rawItems.forEach((li, idx) => {
+            let html = li.innerHTML.trim();
+            // 只處理帶有 [ ] 或 [x] 的項目
+            const match = html.match(/^\s*(?:<p>)?\s*\[([ xX])\]\s*(.*)$/s);
+            if (match) {
+                const defaultChecked = match[1].toLowerCase() === 'x';
+                let contentHtml = match[2];
+                if (contentHtml.endsWith('</p>')) contentHtml = contentHtml.slice(0, -4);
+                taskItems.push({
+                    idx: idx,
+                    defaultChecked: defaultChecked,
+                    html: contentHtml
+                });
+            }
+        });
+
+        if (taskItems.length === 0) return;
+
+        // 建立現代化卡片容器
+        const wrapper = document.createElement('div');
+        wrapper.className = 'dod-section-wrapper';
+        wrapper.innerHTML = `
+            <div class="dod-header-row">
+                <h3 class="dod-title">
+                    <span>🏆 本週分級通關打卡清單</span>
+                </h3>
+                <span class="dod-progress-badge" id="dodProgressBadge">0 / ${taskItems.length} 完成 (0%)</span>
+            </div>
+            <div class="dod-progress-bar-bg">
+                <div class="dod-progress-bar-fill" id="dodProgressBarFill"></div>
+            </div>
+            <div class="dod-items-list" id="dodItemsList"></div>
+        `;
+
+        const listContainer = wrapper.querySelector('#dodItemsList');
+        const badgeEl = wrapper.querySelector('#dodProgressBadge');
+        const barFillEl = wrapper.querySelector('#dodProgressBarFill');
+
+        // 渲染每個項目
+        taskItems.forEach((item, i) => {
+            const storageKey = `${NOTE_KEY}_item_${item.idx}`;
+            const stored = localStorage.getItem(storageKey);
+            const isCompleted = stored !== null ? stored === '1' : item.defaultChecked;
+
+            const card = document.createElement('div');
+            card.className = 'dod-item-card' + (isCompleted ? ' completed' : '');
+            card.setAttribute('role', 'checkbox');
+            card.setAttribute('aria-checked', isCompleted ? 'true' : 'false');
+            card.tabIndex = 0;
+
+            card.innerHTML = `
+                <div class="dod-custom-checkbox"></div>
+                <div class="dod-item-body">${item.html}</div>
+            `;
+
+            // 點擊事件
+            function toggleItem() {
+                const nowCompleted = !card.classList.contains('completed');
+                card.classList.toggle('completed', nowCompleted);
+                card.setAttribute('aria-checked', nowCompleted ? 'true' : 'false');
+                localStorage.setItem(storageKey, nowCompleted ? '1' : '0');
+                updateProgress(true);
+            }
+
+            card.addEventListener('click', toggleItem);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    toggleItem();
+                }
+            });
+
+            listContainer.appendChild(card);
+        });
+
+        // 隱藏原始 Markdown 靜態清單與標題，並插入互動卡片
+        dodHeading.style.display = 'none';
+        targetList.style.display = 'none';
+        dodHeading.parentNode.insertBefore(wrapper, targetList);
+
+        // 更新進度與回饋
+        function updateProgress(userTriggered) {
+            const allCards = Array.from(listContainer.querySelectorAll('.dod-item-card'));
+            const total = allCards.length;
+            const completed = allCards.filter(c => c.classList.contains('completed')).length;
+            const pct = Math.round((completed / total) * 100);
+
+            barFillEl.style.width = pct + '%';
+            badgeEl.textContent = `${completed} / ${total} 完成 (${pct}%)`;
+
+            if (completed === total) {
+                badgeEl.classList.add('all-done');
+                badgeEl.textContent = `🎉 全數通關！(${total}/${total})`;
+                if (userTriggered) {
+                    showToast();
+                    fireConfetti();
+                }
+            } else {
+                badgeEl.classList.remove('all-done');
+            }
+        }
+
+        updateProgress(false);
+
+        // 提示與彩花動畫
+        function showToast() {
+            const toast = document.getElementById('dodToast');
+            if (!toast) return;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
+        }
+
+        function fireConfetti() {
+            const canvas = document.getElementById('dodConfettiCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            canvas.style.display = 'block';
+
+            const colors = ['#3fb950', '#58a6ff', '#f6c177', '#f0883e', '#d2a8ff', '#ff7b72'];
+            const particles = [];
+            for (let i = 0; i < 90; i++) {
+                particles.push({
+                    x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+                    y: canvas.height * 0.4 + (Math.random() - 0.5) * 100,
+                    vx: (Math.random() - 0.5) * 12,
+                    vy: (Math.random() - 0.8) * 14,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    vrot: (Math.random() - 0.5) * 10,
+                    alpha: 1
+                });
+            }
+
+            let start = null;
+            function animate(ts) {
+                if (!start) start = ts;
+                const elapsed = ts - start;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += 0.35; // 重力
+                    p.rot += p.vrot;
+                    p.alpha = Math.max(0, 1 - (elapsed / 2200));
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.rot * Math.PI) / 180);
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+                    ctx.restore();
+                });
+
+                if (elapsed < 2200) {
+                    requestAnimationFrame(animate);
+                } else {
+                    canvas.style.display = 'none';
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+    })();
+    </script>
 </body>
 </html>
+
