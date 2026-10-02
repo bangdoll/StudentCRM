@@ -195,117 +195,132 @@
         .card-action .card-label { color: #58a6ff; }
         .card-win .card-label { color: #f6c177; }
         .card-text {
+            font-size: 0.88rem;
+            color: #c9d1d9;
+            line-height: 1.5;
+            margin: 0;
+        }
+
         /* ========================================================
            🏆 第三層：本週分級通關打卡清單 (DoD Interactive Checklist)
            ======================================================== */
         .dod-section-wrapper {
-            background: linear-gradient(135deg, rgba(22, 27, 34, 0.95), rgba(13, 17, 23, 0.95));
-            border: 1px solid rgba(88, 166, 255, 0.35);
-            border-radius: 16px;
-            padding: 22px 24px;
-            margin: 32px 0 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(135deg, rgba(22, 27, 34, 0.98), rgba(13, 17, 23, 0.95));
+            border: 1.5px solid rgba(88, 166, 255, 0.35);
+            border-radius: 18px;
+            padding: 24px;
+            margin: 28px 0;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
             backdrop-filter: blur(12px);
         }
         .dod-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
         .dod-title {
-            font-size: 1.18rem;
+            font-size: 1.25rem;
             font-weight: 700;
             color: #f0f6fc;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin: 0;
+            letter-spacing: 0.3px;
         }
         .dod-progress-badge {
             background: rgba(88, 166, 255, 0.15);
             color: #58a6ff;
-            border: 1px solid rgba(88, 166, 255, 0.3);
-            font-size: 0.84rem;
+            border: 1px solid rgba(88, 166, 255, 0.4);
+            font-size: 0.9rem;
             font-weight: 700;
-            padding: 4px 12px;
+            padding: 6px 16px;
             border-radius: 20px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
         .dod-progress-badge.all-done {
-            background: rgba(63, 185, 80, 0.2);
+            background: rgba(63, 185, 80, 0.25);
             color: #3fb950;
-            border-color: rgba(63, 185, 80, 0.4);
+            border-color: #3fb950;
+            box-shadow: 0 0 14px rgba(63, 185, 80, 0.35);
         }
         .dod-progress-bar-bg {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
         .dod-progress-bar-fill {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #58a6ff, #3fb950);
-            border-radius: 4px;
+            border-radius: 6px;
             transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .dod-items-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 14px;
         }
         .dod-item-card {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-            padding: 13px 16px;
-            background: rgba(13, 17, 23, 0.65);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 16px;
+            padding: 16px 20px;
+            background: rgba(13, 17, 23, 0.75);
+            border: 1.5px solid var(--border-color);
+            border-radius: 14px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
         .dod-item-card:hover {
-            border-color: rgba(88, 166, 255, 0.45);
-            background: rgba(88, 166, 255, 0.05);
-            transform: translateY(-1px);
+            border-color: rgba(88, 166, 255, 0.6);
+            background: rgba(88, 166, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
         .dod-item-card.completed {
-            border-color: rgba(63, 185, 80, 0.45);
-            background: rgba(63, 185, 80, 0.08);
+            border-color: rgba(63, 185, 80, 0.6);
+            background: rgba(63, 185, 80, 0.1);
         }
         .dod-custom-checkbox {
-            width: 22px;
-            height: 22px;
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            min-height: 26px;
             border: 2px solid #8b949e;
-            border-radius: 6px;
-            flex-shrink: 0;
-            margin-top: 1px;
+            border-radius: 8px;
+            margin-top: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background: rgba(22, 27, 34, 0.8);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(22, 27, 34, 0.9);
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+        .dod-item-card:hover .dod-custom-checkbox {
+            border-color: #58a6ff;
         }
         .dod-item-card.completed .dod-custom-checkbox {
             background: #238636;
             border-color: #3fb950;
-            box-shadow: 0 0 10px rgba(63, 185, 80, 0.4);
-            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(63, 185, 80, 0.5);
+            transform: scale(1.08);
         }
         .dod-custom-checkbox::after {
             content: '';
-            width: 5px;
-            height: 10px;
+            width: 6px;
+            height: 12px;
             border: solid white;
-            border-width: 0 2px 2px 0;
+            border-width: 0 2.5px 2.5px 0;
             transform: rotate(45deg) scale(0);
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
             margin-bottom: 2px;
@@ -315,17 +330,39 @@
         }
         .dod-item-body {
             flex: 1;
-            font-size: 0.94rem;
-            line-height: 1.55;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .dod-tier-tag {
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .tier-bronze .dod-tier-tag { color: #f0883e; }
+        .tier-silver .dod-tier-tag { color: #79c0ff; }
+        .tier-gold .dod-tier-tag { color: #f6c177; }
+        .dod-task-desc {
+            font-size: 0.98rem;
+            line-height: 1.6;
             color: #f0f6fc;
             transition: color 0.2s ease;
         }
-        .dod-item-card.completed .dod-item-body {
+        .dod-item-card.completed .dod-task-desc {
             color: #8b949e;
             text-decoration: line-through;
         }
-        .dod-item-card.completed .dod-item-body strong {
+        .dod-item-card.completed .dod-task-desc strong {
             color: #8b949e !important;
+        }
+        .dod-hint-tip {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.5;
         }
         .dod-toast {
             position: fixed;
@@ -347,7 +384,11 @@
             transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
         }
-        /* 直出打卡項目樣式 (Direct-Rendered Task List) */
+        .dod-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        /* 直出打卡項目樣式 (Direct-Rendered Task List Fallback) */
         .markdown-body ul li.interactive-task-li {
             list-style: none !important;
             margin: 10px 0 !important;
@@ -483,6 +524,40 @@
             </div>
             {% endif %}
 
+            {% if dod_tasks %}
+            <!-- 🏆 本週分級通關打卡看板 (Top DoD Action Board) -->
+            <div class="dod-section-wrapper" id="topDoDSection" style="margin-bottom: 32px;">
+                <div class="dod-header-row">
+                    <h3 class="dod-title">
+                        <span>🏆 本週分級通關打卡清單（Definition of Done）</span>
+                    </h3>
+                    <span class="dod-progress-badge" id="dodTopBadge">0 / {{ dod_tasks|length }} 完成 (0%)</span>
+                </div>
+                <div class="dod-progress-bar-bg">
+                    <div class="dod-progress-bar-fill" id="dodTopBarFill"></div>
+                </div>
+                <div class="dod-items-list" id="topDoDList">
+                    {% for task in dod_tasks %}
+                    <div class="dod-item-card {% if '銅牌' in task.tier %}tier-bronze{% elif '銀牌' in task.tier %}tier-silver{% elif '金牌' in task.tier %}tier-gold{% endif %} {% if task.checked %}completed{% endif %}" 
+                         data-task-idx="{{ loop.index0 }}" 
+                         role="checkbox" 
+                         aria-checked="{% if task.checked %}true{% else %}false{% endif %}" 
+                         tabindex="0" 
+                         onclick="toggleTopDoDCard(this)">
+                        <div class="dod-custom-checkbox"></div>
+                        <div class="dod-item-body">
+                            <span class="dod-tier-tag">{{ task.tier }}</span>
+                            <div class="dod-task-desc">{{ task.task }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="dod-hint-tip">
+                    <span>💡</span> 點擊上方任何一張卡片即可直接打勾通關，進度將即時自動保存在您的手機或電腦中。
+                </div>
+            </div>
+            {% endif %}
+
             <div class="markdown-body">
                 {{ content_html | safe }}
             </div>
@@ -588,122 +663,18 @@
     <canvas id="dodConfettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:99998;display:none;"></canvas>
 
     <script>
-    (function initInteractiveDoD() {
+    (function initTopDoD() {
         const NOTE_KEY = 'dod_' + ({{ filename | tojson }} || window.location.pathname);
-        const headings = Array.from(document.querySelectorAll('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4'));
-        
-        // 尋找第三層通關打卡清單標題
-        const dodHeading = headings.find(h => {
-            const t = h.textContent.trim();
-            return t.includes('第三層') || t.includes('通關打卡清單') || t.includes('Definition of Done');
-        });
+        const topList = document.getElementById('topDoDList');
+        const badgeEl = document.getElementById('dodTopBadge');
+        const barFillEl = document.getElementById('dodTopBarFill');
 
-        if (!dodHeading) return;
-
-        // 尋找緊接著標題的第一個清單 (ul / ol)
-        let cur = dodHeading.nextElementSibling;
-        let targetList = null;
-        while (cur && !cur.tagName.match(/^H[1-4]$/)) {
-            if (cur.tagName === 'UL' || cur.tagName === 'OL') {
-                targetList = cur;
-                break;
-            }
-            cur = cur.nextElementSibling;
-        }
-
-        if (!targetList) return;
-
-        // 收集所有打卡項目
-        const rawItems = Array.from(targetList.querySelectorAll('li'));
-        if (rawItems.length === 0) return;
-
-        // 解析打卡清單項目
-        const taskItems = [];
-        rawItems.forEach((li, idx) => {
-            let html = li.innerHTML.trim();
-            // 只處理帶有 [ ] 或 [x] 的項目
-            const match = html.match(/^\s*(?:<p>)?\s*\[([ xX])\]\s*(.*)$/s);
-            if (match) {
-                const defaultChecked = match[1].toLowerCase() === 'x';
-                let contentHtml = match[2];
-                if (contentHtml.endsWith('</p>')) contentHtml = contentHtml.slice(0, -4);
-                taskItems.push({
-                    idx: idx,
-                    defaultChecked: defaultChecked,
-                    html: contentHtml
-                });
-            }
-        });
-
-        if (taskItems.length === 0) return;
-
-        // 建立現代化卡片容器
-        const wrapper = document.createElement('div');
-        wrapper.className = 'dod-section-wrapper';
-        wrapper.innerHTML = `
-            <div class="dod-header-row">
-                <h3 class="dod-title">
-                    <span>🏆 本週分級通關打卡清單</span>
-                </h3>
-                <span class="dod-progress-badge" id="dodProgressBadge">0 / ${taskItems.length} 完成 (0%)</span>
-            </div>
-            <div class="dod-progress-bar-bg">
-                <div class="dod-progress-bar-fill" id="dodProgressBarFill"></div>
-            </div>
-            <div class="dod-items-list" id="dodItemsList"></div>
-        `;
-
-        const listContainer = wrapper.querySelector('#dodItemsList');
-        const badgeEl = wrapper.querySelector('#dodProgressBadge');
-        const barFillEl = wrapper.querySelector('#dodProgressBarFill');
-
-        // 渲染每個項目
-        taskItems.forEach((item, i) => {
-            const storageKey = `${NOTE_KEY}_item_${item.idx}`;
-            const stored = localStorage.getItem(storageKey);
-            const isCompleted = stored !== null ? stored === '1' : item.defaultChecked;
-
-            const card = document.createElement('div');
-            card.className = 'dod-item-card' + (isCompleted ? ' completed' : '');
-            card.setAttribute('role', 'checkbox');
-            card.setAttribute('aria-checked', isCompleted ? 'true' : 'false');
-            card.tabIndex = 0;
-
-            card.innerHTML = `
-                <div class="dod-custom-checkbox"></div>
-                <div class="dod-item-body">${item.html}</div>
-            `;
-
-            // 點擊事件
-            function toggleItem() {
-                const nowCompleted = !card.classList.contains('completed');
-                card.classList.toggle('completed', nowCompleted);
-                card.setAttribute('aria-checked', nowCompleted ? 'true' : 'false');
-                localStorage.setItem(storageKey, nowCompleted ? '1' : '0');
-                updateProgress(true);
-            }
-
-            card.addEventListener('click', toggleItem);
-            card.addEventListener('keydown', (e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                    e.preventDefault();
-                    toggleItem();
-                }
-            });
-
-            listContainer.appendChild(card);
-        });
-
-        // 隱藏原始 Markdown 靜態清單與標題，並插入互動卡片
-        dodHeading.style.display = 'none';
-        targetList.style.display = 'none';
-        dodHeading.parentNode.insertBefore(wrapper, targetList);
-
-        // 更新進度與回饋
-        function updateProgress(userTriggered) {
-            const allCards = Array.from(listContainer.querySelectorAll('.dod-item-card'));
-            const total = allCards.length;
-            const completed = allCards.filter(c => c.classList.contains('completed')).length;
+        function updateTopDoDProgress(userTriggered) {
+            if (!topList || !badgeEl || !barFillEl) return;
+            const cards = Array.from(topList.querySelectorAll('.dod-item-card'));
+            const total = cards.length;
+            if (total === 0) return;
+            const completed = cards.filter(c => c.classList.contains('completed')).length;
             const pct = Math.round((completed / total) * 100);
 
             barFillEl.style.width = pct + '%';
@@ -721,7 +692,32 @@
             }
         }
 
-        updateProgress(false);
+        window.toggleTopDoDCard = function(card) {
+            const isNowCompleted = !card.classList.contains('completed');
+            card.classList.toggle('completed', isNowCompleted);
+            card.setAttribute('aria-checked', isNowCompleted ? 'true' : 'false');
+            const idx = card.getAttribute('data-task-idx');
+            if (idx !== null) {
+                localStorage.setItem(NOTE_KEY + '_top_' + idx, isNowCompleted ? '1' : '0');
+            }
+            updateTopDoDProgress(true);
+        };
+
+        // 頁面載入時自動還原頂部卡片勾選狀態
+        document.addEventListener('DOMContentLoaded', function() {
+            if (topList) {
+                const cards = Array.from(topList.querySelectorAll('.dod-item-card'));
+                cards.forEach((card, idx) => {
+                    const saved = localStorage.getItem(NOTE_KEY + '_top_' + idx);
+                    if (saved !== null) {
+                        const isDone = saved === '1';
+                        card.classList.toggle('completed', isDone);
+                        card.setAttribute('aria-checked', isDone ? 'true' : 'false');
+                    }
+                });
+                updateTopDoDProgress(false);
+            }
+        });
 
         // 提示與彩花動畫
         function showToast() {
@@ -789,7 +785,7 @@
         window.fireDoDConfetti = fireConfetti;
     })();
 
-    // 直出 Checkbox 全域切換函數 (即時更新樣式與 LocalStorage 保存)
+    // 正文直出 Checkbox 切換函數 (即時更新樣式與 LocalStorage 保存)
     window.toggleTaskCheck = function(input) {
         const label = input.closest('.task-checkbox-label');
         if (label) {
@@ -801,22 +797,9 @@
         if (idx !== -1) {
             localStorage.setItem(NOTE_KEY + '_' + idx, input.checked ? '1' : '0');
         }
-        // 檢查是否全數通關
-        const total = allBoxes.length;
-        const completed = allBoxes.filter(b => b.checked).length;
-        if (total > 0 && completed === total) {
-            const toast = document.getElementById('dodToast');
-            if (toast) {
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3500);
-            }
-            if (typeof window.fireDoDConfetti === 'function') {
-                window.fireDoDConfetti();
-            }
-        }
     };
 
-    // 頁面載入時自動還原直出 Checkbox 歷史狀態
+    // 頁面載入時自動還原正文直出 Checkbox 歷史狀態
     document.addEventListener('DOMContentLoaded', function() {
         const NOTE_KEY = 'task_box_' + ({{ filename | tojson }} || window.location.pathname);
         const allBoxes = Array.from(document.querySelectorAll('.interactive-task-checkbox'));

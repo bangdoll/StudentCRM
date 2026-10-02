@@ -389,9 +389,14 @@
                                 📅 {{ note.date or '課堂紀錄' }}
                             </span>
                         </div>
-                        <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 14px;">
-                            閱讀完整筆記 ➔
-                        </a>
+                        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                            <a href="/note?path={{ note.path|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600;">
+                                🏆 本週打卡清單
+                            </a>
+                            <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px;">
+                                完整筆記 ➔
+                            </a>
+                        </div>
                     </div>
 
                     <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="note-title-link">

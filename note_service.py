@@ -35,6 +35,7 @@ class NoteDetail:
     word_count: int
     read_minutes: int
     micro_cards: dict = field(default_factory=dict)
+    dod_tasks: list[dict] = field(default_factory=list)
 
     def to_template_context(self) -> dict:
         """轉換為傳遞至 Jinja2 樣板的字典。"""
@@ -55,7 +56,59 @@ class NoteDetail:
             "word_count": self.word_count,
             "read_minutes": self.read_minutes,
             "micro_cards": self.micro_cards,
+            "dod_tasks": self.dod_tasks,
         }
+
+
+def extract_dod_tasks(content: str) -> list[dict]:
+    """從教學筆記 Markdown 內容中提取第三層『本週分級通關打卡清單（Definition of Done）』結構化項目。"""
+    if not content:
+        return []
+
+    # 尋找第三層區塊
+    m = re.search(r"###\s*🏆\s*第三層[^\n]*\n([\s\S]*?)(?=\n---\n|\n###|\Z)", content)
+    if not m:
+        return []
+
+    block = m.group(1).strip()
+    items = []
+    lines = block.split("\n")
+    current_tier = None
+    current_tier_checked = False
+
+    for line in lines:
+        line_s = line.strip()
+        if not line_s:
+            continue
+        m_tier = re.search(r"^-\s*\[([ xX])\]\s*\*\*([🥉🥈🥇].*?)\*\*", line_s)
+        if m_tier:
+            current_tier_checked = m_tier.group(1).lower() == "x"
+            current_tier = m_tier.group(2).strip()
+            rest = re.sub(r"^-\s*\[([ xX])\]\s*\*\*([🥉🥈🥇].*?)\*\*[:：]?\s*", "", line_s)
+            if rest:
+                items.append({
+                    "tier": current_tier,
+                    "checked": current_tier_checked,
+                    "task": rest,
+                    "id": f"dod_{len(items)}"
+                })
+                current_tier = None
+            continue
+
+        m_sub = re.search(r"^-\s*\[([ xX])\]\s*(.*)$", line_s)
+        if m_sub:
+            sub_checked = m_sub.group(1).lower() == "x"
+            sub_task = m_sub.group(2).strip()
+            items.append({
+                "tier": current_tier or "實戰任務",
+                "checked": sub_checked or current_tier_checked,
+                "task": sub_task,
+                "id": f"dod_{len(items)}"
+            })
+            current_tier = None
+            continue
+
+    return items
 
 
 def clean_markdown_frontmatter(content: str) -> str:
@@ -555,6 +608,7 @@ def resolve_note_detail(
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
     micro_cards = extract_micro_action_cards(clean_content, note_title)
+    dod_tasks = extract_dod_tasks(clean_content)
 
     return NoteDetail(
         filename=filename,
@@ -573,4 +627,5 @@ def resolve_note_detail(
         word_count=word_count,
         read_minutes=read_minutes,
         micro_cards=micro_cards,
+        dod_tasks=dod_tasks,
     )
