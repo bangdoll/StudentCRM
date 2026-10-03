@@ -4,14 +4,14 @@
     "name": "Amy",
     "aliases": [],
     "file": "/01.Docs/Students/Amy.md",
-    "lessons_count": 9,
-    "latest_date": "2026-09-19",
-    "next_lesson": "2026-10-03",
+    "lessons_count": 10,
+    "latest_date": "2026-10-03",
+    "next_lesson": "2026-10-17",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2026-03-14",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 9 堂）"
