@@ -128,14 +128,14 @@
       "陳姐 Charlotte"
     ],
     "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 76,
-    "latest_date": "2026-09-21",
-    "next_lesson": "2026-10-05",
+    "lessons_count": 77,
+    "latest_date": "2026-10-05",
+    "next_lesson": "2026-10-13",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 4,
+    "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 76 堂）"
@@ -522,14 +522,14 @@
     "name": "張素幸",
     "aliases": [],
     "file": "/01.Docs/Students/zhang_su_xing.md",
-    "lessons_count": 18,
-    "latest_date": "2026-09-14",
-    "next_lesson": "2026-10-05",
+    "lessons_count": 19,
+    "latest_date": "2026-10-05",
+    "next_lesson": "2026-10-12",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2025-08-12",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 18 堂）"
@@ -1219,7 +1219,7 @@
     "file": "/01.Docs/Students/gu_bei_hua.md",
     "lessons_count": 7,
     "latest_date": "2026-09-13",
-    "next_lesson": "2026-10-04",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
