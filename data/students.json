@@ -14,7 +14,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 9 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
@@ -55,7 +55,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 17 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "e8d71234-9abc-4def-a123-567890abcdef",
@@ -76,7 +76,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 83 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
@@ -138,7 +138,7 @@
     "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 76 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
@@ -172,7 +172,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 70 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
@@ -190,8 +190,8 @@
     "first_lesson_date": "2019-06-18",
     "current_cycle_lesson": 4,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 4 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
@@ -208,7 +208,7 @@
     "current_cycle_lesson": 3,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前第 2 輪第 3/30 堂，剩餘 27 堂）",
+    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）",
     "cycle_size": 30
   },
   {
@@ -228,7 +228,7 @@
     "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 15 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "b5b5aef3-3514-478e-bbca-b0c568434551",
@@ -245,10 +245,10 @@
       "一般學員"
     ],
     "first_lesson_date": "2021-12-10",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 22 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
@@ -285,7 +285,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 17 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
@@ -304,7 +304,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 37 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
@@ -321,7 +321,7 @@
     "current_cycle_lesson": 8,
     "status": "active",
     "completion_status": "completed",
-    "completion_note": "課程已上完（滿 24 堂結訓）"
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
@@ -444,7 +444,7 @@
     "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 21 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
   },
   {
     "id": "3a7f7764-ddc1-45cb-9912-463275a51336",
@@ -532,7 +532,7 @@
     "current_cycle_lesson": 3,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 18 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
   },
   {
     "id": "e101d0f5-8aa6-40b3-a4f3-1e3f02f3c98c",
@@ -590,10 +590,10 @@
       "一般學員"
     ],
     "first_lesson_date": "2018-01-03",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 38 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
@@ -612,7 +612,7 @@
     "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 15 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "3037a53b-0c97-4253-bd2a-d236af440191",
@@ -660,7 +660,7 @@
     "file": "/01.Docs/Students/曾小米.md",
     "lessons_count": 14,
     "latest_date": "2026-08-25",
-    "next_lesson": "2026-10-06",
+    "next_lesson": "2026-10-20",
     "tags": [
       "一般學員"
     ],
@@ -668,7 +668,7 @@
     "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 14 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "b86cade3-c211-41c5-b33c-2124ee34d743",
@@ -728,7 +728,7 @@
     "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 45 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
   },
   {
     "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
@@ -747,7 +747,7 @@
     "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 100 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "d233701d-0c16-427c-a9fe-71499a35d673",
@@ -804,7 +804,7 @@
     "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 15 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "eb2ead55-fdaf-4b30-a029-08a6c7c44ec0",
@@ -838,8 +838,8 @@
     "first_lesson_date": "2023-04-17",
     "current_cycle_lesson": 14,
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 22 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",
@@ -996,7 +996,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
@@ -1018,7 +1018,7 @@
     "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1365 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -1069,8 +1069,8 @@
     "current_cycle_lesson": 8,
     "recurring_schedule": "biweekly:1:14:00",
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
@@ -1096,7 +1096,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 50 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
@@ -1134,7 +1134,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 10 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
@@ -1170,7 +1170,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 27 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
@@ -1208,7 +1208,7 @@
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 108 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
@@ -1244,7 +1244,7 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 9 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "375a8fd2-3aa6-4e7f-a577-c109c6f8fca0",
@@ -1261,7 +1261,7 @@
     "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 22 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "e5db79b8-ec22-5731-9f29-f8aec8700ca8",
@@ -1319,7 +1319,7 @@
     "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 14 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "e27176d0-22eb-4c16-95aa-c55fe2352bcf",
@@ -1339,6 +1339,6 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 0 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   }
 ]
