@@ -85,6 +85,15 @@ async def read_student(request: Request, student_id: str):
     file_meta = deps["get_student_metadata"](file_path) if file_path and os.path.exists(file_path) else {}
     cloud_meta = deps["build_cloud_student_meta"](student)
     student['meta'] = {**cloud_meta, **file_meta}
+    if isinstance(student.get("raw"), dict):
+        for k in ("current_cycle_lesson", "cycle_size", "completion_status", "completion_note"):
+            if student.get(k) is None and student["raw"].get(k) is not None:
+                student[k] = student["raw"][k]
+    if not student.get('current_cycle_lesson') and student['meta'].get('current_cycle_lesson'):
+        student['current_cycle_lesson'] = student['meta']['current_cycle_lesson']
+    if not student.get('cycle_size') and student['meta'].get('cycle_size'):
+        student['cycle_size'] = student['meta']['cycle_size']
+
     if not student['meta'].get('first_lesson_date') or student['meta']['first_lesson_date'] in ("未記錄", "TBD"):
         student['meta']['first_lesson_date'] = student.get('first_lesson_date') or "未記錄"
     if not student['meta'].get('last_lesson_date') or student['meta']['last_lesson_date'] in ("未記錄", "TBD"):

@@ -213,12 +213,17 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
 
 def build_cloud_student_meta(student: dict) -> dict:
     latest = student.get("latest_date") or student.get("last_lesson_date") or "未記錄"
+    raw = student.get("raw") if isinstance(student.get("raw"), dict) else {}
     return {
         "hardware": [],
-        "first_lesson_date": student.get("first_lesson_date") or "未記錄",
+        "first_lesson_date": student.get("first_lesson_date") or raw.get("first_lesson_date") or "未記錄",
         "lessons_count": student.get("lessons_count", 0),
         "last_lesson_date": latest,
         "latest_date": latest,
+        "current_cycle_lesson": student.get("current_cycle_lesson") or raw.get("current_cycle_lesson"),
+        "cycle_size": student.get("cycle_size") or raw.get("cycle_size") or 8,
+        "completion_status": student.get("completion_status") or raw.get("completion_status"),
+        "completion_note": student.get("completion_note") or raw.get("completion_note"),
     }
 
 
