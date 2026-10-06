@@ -1208,7 +1208,7 @@
                 <div class="student-title-wrap">
                     <h2 class="student-name">
                         {{ item.name }}
-                        <span class="cycle-badge">累計 {{ item.lessons_count }} 堂 / 本輪 {{ item.current_cycle_lesson }}/8</span>
+                        <span class="cycle-badge">累計 {{ item.lessons_count }} 堂 / 本輪 {{ item.current_cycle_lesson }}/{{ item.cycle_size or 8 }}</span>
                     </h2>
                     <div style="font-size: 0.8rem; color: var(--text-muted);">
                         末次上課：{{ item.latest_date or '未記錄' }}
@@ -1404,6 +1404,7 @@
             name: {{ item.name | tojson }},
             lessons_count: {{ item.lessons_count }},
             current_cycle: {{ item.current_cycle_lesson }},
+            cycle_size: {{ item.cycle_size or 8 }},
             latest_date: {{ (item.latest_date or '未記錄') | tojson }},
             days_since_last: {{ item.days_since_last }},
             signal: {{ item.retention_signal | tojson }},
@@ -1734,7 +1735,7 @@
                     <div class="stage-student-main">
                         <div class="stage-student-head">
                             <a href="/student/${st.id}" class="stage-student-link" title="進入學員檔案">${st.name}</a>
-                            <span class="cycle-badge" style="font-size:0.75rem;">累計 ${st.lessons_count} 堂 / 本輪 ${st.current_cycle}/8</span>
+                            <span class="cycle-badge" style="font-size:0.75rem;">累計 ${st.lessons_count} 堂 / 本輪 ${st.current_cycle}/${st.cycle_size || 8}</span>
                             <span class="days-badge ${daysClass}" style="font-size:0.75rem;">${daysDisplay}</span>
                             <span class="days-badge ${st.badge_class}" style="font-size:0.75rem;">${st.signal_text}</span>
                             ${staleBadge}

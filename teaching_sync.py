@@ -485,10 +485,31 @@ def sync_teaching_records_to_crm(
             s["latest_date"] = max_date
             changed = True
 
-        if max_lesson is not None and max_lesson > s.get("lessons_count", 0):
+        if max_lesson is not None and max_lesson >= s.get("lessons_count", 0):
             s["lessons_count"] = max_lesson
             cycle_size = s.get("cycle_size", 8)
-            s["current_cycle_lesson"] = ((max_lesson % cycle_size) or cycle_size) if max_lesson > 0 else 0
+            
+            # 若最新一堂課有明確的 lesson_sub (例如 23-8 中的 8)，優先以該輪堂數為準
+            latest_sub = None
+            for rec in student_records:
+                if rec.get("date") == max_date and rec.get("lesson_sub") is not None:
+                    try:
+                        latest_sub = int(str(rec.get("lesson_sub")).strip())
+                        break
+                    except (ValueError, TypeError):
+                        pass
+            
+            if latest_sub is not None:
+                s["current_cycle_lesson"] = latest_sub
+            else:
+                s["current_cycle_lesson"] = ((max_lesson % cycle_size) or cycle_size) if max_lesson > 0 else 0
+
+            if s.get("current_cycle_lesson", 0) >= cycle_size:
+                s["completion_status"] = "completed"
+                s["completion_note"] = f"課程已上完（滿 {cycle_size} 堂結訓）"
+            else:
+                s["completion_status"] = "has_remaining"
+                s["completion_note"] = f"尚有剩餘課程未上完（目前已上 {s.get('current_cycle_lesson')} 堂）"
             changed = True
 
         if changed:
@@ -497,6 +518,7 @@ def sync_teaching_records_to_crm(
                 "name": s.get("name"),
                 "latest_date": s.get("latest_date"),
                 "lessons_count": s.get("lessons_count"),
+                "current_cycle_lesson": s.get("current_cycle_lesson"),
             })
 
     # 4.1 自動連動 Google 日曆最新排程至學員 next_lesson
@@ -517,11 +539,22 @@ def sync_teaching_records_to_crm(
     if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
 
-    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (全量安全壓制版)
+    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (全量安全壓制版 + Heptabase 自動自癒)
     try:
         src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
         dst_assets = crm_dir / "static" / "teaching_assets"
+        dst_assets.mkdir(parents=True, exist_ok=True)
         if src_assets.exists():
+            # 自動收攏子目錄圖片（如陳顧問/assets）
+            chen_assets = workspace_dir / "01.Docs" / "teaching" / "陳顧問" / "assets"
+            if chen_assets.is_dir():
+                for cf in chen_assets.iterdir():
+                    if cf.is_file() and not cf.name.startswith("."):
+                        target_cf = src_assets / cf.name
+                        if not target_cf.exists():
+                            import shutil
+                            shutil.copy2(cf, target_cf)
+
             from media_asset_resolver import get_media_resolver
             resolver = get_media_resolver()
             referenced_images = set()
@@ -531,9 +564,30 @@ def sync_teaching_records_to_crm(
 
             for img_name in referenced_images:
                 src_file = src_assets / img_name
+                # 若本地缺失，嘗試透過 Heptabase CLI 自癒抽取
+                if not src_file.exists() or src_file.stat().st_size == 0:
+                    uuid_match = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", img_name, re.IGNORECASE)
+                    if uuid_match:
+                        target_file_id = uuid_match[-1]
+                        try:
+                            import subprocess
+                            cmd = ["heptabase", "file", "export", target_file_id, "--output-dir", str(src_assets)]
+                            res = subprocess.run(cmd, capture_output=True, text=True, timeout=25, check=False)
+                            if res.returncode == 0:
+                                exp_data = json.loads(res.stdout)
+                                exp_path = Path(exp_data.get("path", ""))
+                                if exp_path.exists():
+                                    src_file = exp_path
+                                    # 若匯出檔名與引用略有不同，建立副本確保兩邊皆可讀
+                                    if exp_path.name != img_name:
+                                        import shutil
+                                        shutil.copy2(exp_path, src_assets / img_name)
+                        except Exception as export_err:
+                            print(f"⚠️ 從 Heptabase 自癒匯出圖片 {img_name} 失敗: {export_err}")
+
                 if src_file.exists() and src_file.is_file():
                     target_img = dst_assets / img_name
-                    if target_img.exists() and target_img.stat().st_size > 0:
+                    if target_img.exists() and target_img.stat().st_size > 0 and target_img.stat().st_mtime >= src_file.stat().st_mtime:
                         continue
                     if src_file.stat().st_size < 300 * 1024:
                         target_img.write_bytes(src_file.read_bytes())
