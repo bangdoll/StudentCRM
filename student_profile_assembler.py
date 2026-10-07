@@ -16,6 +16,14 @@ from typing import Any, Callable
 logger = logging.getLogger(__name__)
 
 
+_TIMELINE_CACHE: dict[str, tuple[float, str]] = {}
+
+
+def clear_timeline_cache() -> None:
+    """清除時間軸渲染 HTML 記憶體快取。"""
+    _TIMELINE_CACHE.clear()
+
+
 class StudentProfileAssembler:
     """學員個人檔案視圖模型聚合器。"""
 
@@ -87,7 +95,10 @@ class StudentProfileAssembler:
 
         # 1. 檔案路徑與排程計算
         file_value = student.get("file") or ""
-        file_path = os.path.join(self.base_dir, file_value.lstrip("/")) if file_value else ""
+        if file_value and os.path.isabs(file_value) and os.path.exists(file_value):
+            file_path = file_value
+        else:
+            file_path = os.path.join(self.base_dir, file_value.lstrip("/")) if file_value else ""
 
         if "recurring_schedule" in student and not student.get("next_lesson"):
             from schedule_service import get_document_exceptions, get_next_occurrence
@@ -137,20 +148,29 @@ class StudentProfileAssembler:
                 timeline_html = self.timeline_renderer(student, teaching_records)
         else:
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
+                mtime = os.path.getmtime(file_path)
+                cached = _TIMELINE_CACHE.get(file_path)
+                if cached and cached[0] == mtime:
+                    timeline_html = cached[1]
+                else:
+                    with open(file_path, "r", encoding="utf-8") as f:
+                        content = f.read()
 
-                parts = re.split(r"## 📅 教學時間軸 \(Lesson Timeline\)", content)
-                body = parts[1] if len(parts) > 1 else ""
-                body = body.replace("file://", "/open_file?path=")
+                    parts = re.split(r"## 📅 教學時間軸 \(Lesson Timeline\)", content)
+                    body = parts[1] if len(parts) > 1 else ""
+                    body = body.replace("file://", "/open_file?path=")
 
-                from media_asset_resolver import get_media_resolver
-                body = get_media_resolver().transform_markdown_media(body)
+                    from media_asset_resolver import get_media_resolver
+                    resolver = get_media_resolver()
+                    body = resolver.transform_markdown_media(body)
 
-                import markdown
-                timeline_html = markdown.markdown(body, extensions=["tables"])
-                if self.badges_injector:
-                    timeline_html = self.badges_injector(timeline_html)
+                    import markdown
+                    raw_html = markdown.markdown(body, extensions=["tables"])
+                    if self.badges_injector:
+                        raw_html = self.badges_injector(raw_html)
+                    
+                    timeline_html = resolver.inject_lazy_loading(raw_html)
+                    _TIMELINE_CACHE[file_path] = (mtime, timeline_html)
             except Exception as read_err:
                 logger.warning("讀取學員時間軸 Markdown 失敗: %s", read_err)
                 timeline_html = "<p class='muted'>時間軸讀取失敗</p>"

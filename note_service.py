@@ -605,6 +605,7 @@ def resolve_note_detail(
     clean_content = get_media_resolver().transform_markdown_media(clean_content)
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
     html_content = enhance_task_checkboxes(html_content)
+    html_content = get_media_resolver().inject_lazy_loading(html_content)
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
     micro_cards = extract_micro_action_cards(clean_content, note_title)

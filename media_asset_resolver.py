@@ -205,6 +205,22 @@ class MediaAssetResolver:
 
         return re.sub(pattern, _repl, markdown_text)
 
+    def inject_lazy_loading(self, html_content: str) -> str:
+        """【效能深模組】為 HTML 中的 <img> 標籤自動注入 loading="lazy" 與 decoding="async"。
+
+        若標籤中已顯式設定 loading 屬性則予以保留，避免破壞特殊需求（如 LCP 首圖 eager 標記）。
+        """
+        if not html_content or "<img" not in html_content:
+            return html_content
+
+        def _repl(match: re.Match) -> str:
+            tag = match.group(0)
+            if "loading=" in tag:
+                return tag
+            return re.sub(r"<img\s+", '<img loading="lazy" decoding="async" ', tag, count=1)
+
+        return re.sub(r"<img\b[^>]*>", _repl, html_content, flags=re.IGNORECASE)
+
 
 # 全域單例快取
 _DEFAULT_RESOLVER: MediaAssetResolver | None = None
