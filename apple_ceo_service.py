@@ -269,10 +269,101 @@ def preview_apple_ceo_attendance(
     }
 
 
+def sync_attendance_to_student_rounds(program_data: dict) -> bool:
+    """自動將出席紀錄 (attendance_records) 中有到課但尚未排入學員梯次 (student_rounds) 的日期，
+    自動追加至該學員的進行中輪次（若滿 8 堂則自動建立新一輪）。
+    確保教練只要記錄出席與繳費，學員各自的 8 堂課進度與後續統計永遠保持最新。
+    """
+    student_rounds = program_data.get("student_rounds", [])
+    attendance_records = program_data.get("attendance_records", [])
+    if not student_rounds or not attendance_records:
+        return False
+
+    alias_to_student = {}
+    for s in student_rounds:
+        canon = s.get("student_name", "")
+        if canon:
+            alias_to_student[canon] = s
+            alias_to_student[normalize_attendee_name(canon)] = s
+        for a in s.get("aliases", []):
+            if a:
+                alias_to_student[a] = s
+                alias_to_student[normalize_attendee_name(a)] = s
+
+    all_recorded_sessions = {}
+    for s in student_rounds:
+        canon = s.get("student_name", "")
+        recorded = set()
+        for r in s.get("rounds", []):
+            for sess in r.get("sessions", []):
+                if sess:
+                    recorded.add(extract_session_date(sess))
+        all_recorded_sessions[canon] = recorded
+
+    has_changes = False
+    for att in sorted(attendance_records, key=lambda x: x.get("date", "")):
+        att_date = extract_session_date(att.get("date", ""))
+        if not att_date:
+            continue
+        for attendee in att.get("attendees", []):
+            target = alias_to_student.get(attendee) or alias_to_student.get(normalize_attendee_name(attendee))
+            if not target:
+                continue
+            canon = target.get("student_name", "")
+            if att_date not in all_recorded_sessions.get(canon, set()):
+                rounds = target.get("rounds", [])
+                if not rounds:
+                    rounds.append({
+                        "label": "最新梯次 (進行中)",
+                        "payment_status": "未收 (待補單)",
+                        "payment_date": None,
+                        "sessions": [att_date] + [""] * 7,
+                    })
+                    has_changes = True
+                    all_recorded_sessions.setdefault(canon, set()).add(att_date)
+                    continue
+
+                latest_round = rounds[0]
+                first_session = next((extract_session_date(s) for s in latest_round.get("sessions", []) if s), "")
+                # 若出席日期比最新輪次的首堂上課日還要早，表示屬於歷史紀錄，不排入最新進行中梯次
+                if first_session and att_date < first_session:
+                    continue
+
+                sessions = list(latest_round.get("sessions", []))
+                if len(sessions) < 8:
+                    sessions.extend([""] * (8 - len(sessions)))
+                sessions = sessions[:8]
+
+                if "" in sessions:
+                    empty_idx = sessions.index("")
+                    sessions[empty_idx] = att_date
+                    latest_round["sessions"] = sessions
+                    has_changes = True
+                    all_recorded_sessions.setdefault(canon, set()).add(att_date)
+                else:
+                    # 前一輪已滿 8 堂，標記完成並開新一輪
+                    if "進行中" in latest_round.get("label", ""):
+                        latest_round["label"] = latest_round["label"].replace("進行中", "滿 8 堂結訓")
+                    new_round = {
+                        "label": "最新梯次 (進行中)",
+                        "payment_status": "未收 (待補單)",
+                        "payment_date": None,
+                        "sessions": [att_date] + [""] * 7,
+                    }
+                    rounds.insert(0, new_round)
+                    has_changes = True
+                    all_recorded_sessions.setdefault(canon, set()).add(att_date)
+
+    return has_changes
+
+
 def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -> dict:
     """計算蘋果總裁班的核心財務、出勤、效期與學員狀態指標。"""
     if today is None:
         today = date.today()
+
+    # 自動對齊出席紀錄至學員各輪次
+    sync_attendance_to_student_rounds(program_data)
 
     attendance_records = program_data.get("attendance_records", [])
     ledger = program_data.get("venue_ledger", [])
@@ -330,19 +421,23 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
                 except ValueError:
                     base_date = None
 
-            # 2. 若無，比對 tuition_records 該學員之繳費日
-            if not base_date:
+            # 2. 若無，比對 tuition_records 該學員之繳費日（排除未收狀態與已過期舊輪次的學費）
+            if not base_date and not ("未收" in round_item.get("payment_status", "")):
                 student_name = student.get("student_name", "")
                 aliases = student.get("aliases", [])
                 matched_tuitions = [
                     t for t in tuition_records
                     if t.get("student_name") == student_name or t.get("student_name") in aliases
                 ]
-                if "進行中" in round_item.get("label", "") and matched_tuitions:
+                if "進行中" in round_item.get("label", "") and matched_tuitions and normalized_sessions:
                     try:
                         latest_t_date = matched_tuitions[-1].get("date")
-                        base_date = datetime.strptime(latest_t_date, "%Y-%m-%d").date()
-                        validity_base_desc = f"繳學費日 {latest_t_date}"
+                        t_dt = datetime.strptime(latest_t_date, "%Y-%m-%d").date()
+                        first_session_dt = datetime.strptime(normalized_sessions[0], "%Y-%m-%d").date()
+                        # 僅當繳費日在首堂課前後 60 天內或在首堂課之後，才視為本輪繳費
+                        if (first_session_dt - t_dt).days <= 60 and (t_dt <= first_session_dt or (t_dt - first_session_dt).days <= 120):
+                            base_date = t_dt
+                            validity_base_desc = f"繳學費日 {latest_t_date}"
                     except ValueError:
                         base_date = None
 

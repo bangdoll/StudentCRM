@@ -350,3 +350,65 @@ class TestCanonicalOrderAndLayout:
 
         assert idx_fang_bodun < idx_liu < idx_roger < idx_lucia < idx_wang < idx_divider
         assert idx_divider < idx_fang_minying < idx_lin < idx_chen < idx_andy
+
+    def test_sync_attendance_to_student_rounds_and_roll_over(self):
+        """測試自動記帳引擎：當教練記錄出席名單時，系統自動將出席日期填入該學員的 8 堂課；滿 8 堂自動開新輪次並產出正確統計。"""
+        from apple_ceo_service import sync_attendance_to_student_rounds, summarize_apple_ceo_program
+
+        mock_data = {
+            "student_rounds": [
+                {
+                    "student_name": "測試學員",
+                    "aliases": ["小測"],
+                    "rounds": [
+                        {
+                            "label": "第 1 輪 (進行中)",
+                            "payment_status": "已收 $8,000",
+                            "payment_date": "2026-08-01",
+                            "sessions": [
+                                "2026-08-01", "2026-08-08", "2026-08-15", "2026-08-22",
+                                "2026-08-29", "2026-09-05", "2026-09-12", ""
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "attendance_records": [
+                # 第 8 堂
+                {"date": "2026-09-19", "venue": "玫瑰客廳", "attendees": ["小測"]},
+                # 第 9 堂（應自動觸發滾動開闢新一輪第 1 堂）
+                {"date": "2026-09-26", "venue": "玫瑰客廳", "attendees": ["測試學員"]},
+            ],
+            "tuition_records": [
+                {"date": "2026-08-01", "student_name": "測試學員", "amount": 8000}
+            ],
+            "venue_ledger": []
+        }
+
+        # 執行自動對齊
+        changed = sync_attendance_to_student_rounds(mock_data)
+        assert changed is True
+
+        rounds = mock_data["student_rounds"][0]["rounds"]
+        # 應自動滾動產生 2 輪
+        assert len(rounds) == 2
+
+        # 最新一輪：第 1 堂課為 2026-09-26，待收學費
+        latest_round = rounds[0]
+        assert "進行中" in latest_round["label"]
+        assert latest_round["sessions"][0] == "2026-09-26"
+        assert latest_round["sessions"][1] == ""
+
+        # 前一輪：已滿 8 堂結訓
+        prev_round = rounds[1]
+        assert prev_round["sessions"][-1] == "2026-09-19"
+        assert "" not in prev_round["sessions"]
+
+        # 統計驗證
+        summary = summarize_apple_ceo_program(mock_data, today=date(2026, 10, 1))
+        assert summary["active_student_count"] == 1
+        active_student = summary["active_students"][0]
+        assert active_student["student_name"] == "測試學員"
+        assert active_student["attended_count"] == 1
+        assert active_student["is_expired"] is False
+        assert active_student["expiry_date"] == "2027-01-26"
