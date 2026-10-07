@@ -97,6 +97,19 @@ cd 07.Projects/StudentCRM
 
 ---
 
+## 🍎 蘋果總裁班自動記帳與班務治理規範
+
+依據最高憲法 `AGENTS.md` 規範：
+* **教學日程**：每週四下午（14:00–17:00 @民族東路玫瑰客廳）。
+* **教練職責**：記錄「誰上課（出席名單 attendees）」與「誰繳錢（學費 tuition / 繳費日 payment_date）」。
+* **系統自動對齊 (`sync_attendance_to_student_rounds`)**：
+  * 每位學員以 8 堂課為一輪（自繳學費日起算 4 個月效期；未繳費新輪次以首堂課起算 4 個月）。
+  * 系統自動將出席日期填入學員進行中輪次（未滿 8 堂依序填入；滿 8 堂自動標記結訓並滾動開啟新一輪第 1 堂）。
+  * 自動產出活躍學員數、6/8 與 8/8 續班提醒、場地流水餘額。
+  * 異動時自動執行 `python scripts/migrate_to_supabase.py --apply --apple-only` 同步 Supabase，確保 `/program/apple-ceo` 前後台一致。
+
+---
+
 ## 📂 檔案目錄結構
 
 ```text
