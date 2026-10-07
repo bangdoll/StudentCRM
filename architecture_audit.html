@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Architecture Review for StudentCRM (2026-09-23)</title>
+    <title>StudentCRM 架構審查與深模組審計報告 (Architecture Review)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="module">
       import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
@@ -12,374 +12,197 @@
     <style>
       .seam { stroke-dasharray: 4 4; }
       .leak { stroke: #dc2626; stroke-width: 2px; }
-      .deep-card { background: linear-gradient(135deg, #0f172a, #1e293b); color: #f8fafc; }
-      pre.mermaid { background: transparent !important; }
+      .deep-card { background: linear-gradient(135deg, #0f172a, #1e293b); }
     </style>
   </head>
   <body class="bg-stone-50 text-slate-900 font-sans antialiased">
     <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
       <!-- Header -->
-      <header class="border-b border-stone-200 pb-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600">Matt Pocock Architecture Audit</span>
-          <h1 class="text-3xl font-bold tracking-tight text-slate-900 mt-1">StudentCRM 架構審查與深模組審計報告</h1>
-          <p class="text-xs text-stone-500 font-mono mt-1">基準：main @ 0760f1b · 日期：2026-09-23 · 活躍範圍：最近 25 次提交</p>
-        </div>
-        <div class="flex items-center gap-4 text-xs font-medium text-stone-600 bg-white border border-stone-200 rounded-lg px-4 py-2.5 shadow-sm">
-          <div class="flex items-center gap-1.5">
-            <span class="inline-block w-3.5 h-3.5 border border-slate-700 bg-stone-100 rounded-sm"></span>
-            <span>模組 (Module)</span>
+      <header class="border-b border-stone-200 pb-8">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">Matt Pocock Codebase Design</span>
+            <h1 class="text-3xl font-bold font-serif text-slate-900 mt-2">StudentCRM 架構審查與深模組審計報告</h1>
+            <p class="text-sm text-slate-500 mt-1">審計時間：2026-10-07 ｜ 程式庫範圍：07.Projects/StudentCRM (8,109 行代碼)</p>
           </div>
-          <div class="flex items-center gap-1.5">
-            <span class="inline-block w-4 border-t-2 border-dashed border-stone-400"></span>
-            <span>接縫 (Seam)</span>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="inline-block w-3 h-0.5 bg-red-600"></span>
-            <span>洩漏 (Leakage)</span>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <span class="inline-block w-3.5 h-3.5 bg-slate-900 rounded-sm"></span>
-            <span>深模組 (Deep Module)</span>
+          <div class="hidden sm:flex items-center gap-3 text-xs font-mono bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-800 inline-block"></span> Deep Module</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 border-t border-dashed border-slate-500 inline-block"></span> Seam</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-0.5 bg-red-600 inline-block"></span> Leakage</span>
           </div>
         </div>
       </header>
 
-      <!-- Top Recommendation Section -->
-      <section id="top-recommendation" class="rounded-xl border-2 border-emerald-500/40 bg-emerald-50/50 p-6 shadow-sm">
-        <div class="flex items-start justify-between gap-4">
+      <!-- Top Recommendation Banner -->
+      <section id="top-recommendation" class="bg-gradient-to-r from-emerald-950 to-slate-900 text-white rounded-2xl p-8 shadow-md">
+        <div class="flex items-start justify-between">
           <div>
-            <div class="flex items-center gap-2">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-600 text-white uppercase tracking-wider">最高槓桿首選 (Top Pick)</span>
-              <span class="text-xs font-mono text-emerald-800 font-semibold">Candidate #1</span>
-            </div>
-            <h2 class="text-xl font-bold text-slate-900 mt-2">統一教學資產與雙向同步深模組 (Collapse Dual SSOT Sync Pipeline)</h2>
-            <p class="text-stone-700 text-sm mt-1">徹底終結手動 per-student 同步腳本，將 Markdown 解析、快取差分與 Supabase 遠端同步收攏於單一介面之後。</p>
+            <span class="text-xs uppercase tracking-wider font-semibold text-emerald-400">第一優先建議 (Top Recommendation)</span>
+            <h2 class="text-2xl font-bold font-serif mt-1">候選方案 1：收斂雙 SSOT 存取邊界，深化 StudentDataGateway</h2>
+            <p class="text-slate-300 text-sm mt-2 max-w-2xl leading-relaxed">
+              將散落於 <code>routers/student.py</code>、<code>teaching_sync.py</code> 與 <code>migrate_to_supabase.py</code> 中的 <code>raw</code> 提昇與 Fallback 拼裝邏輯完全吸收至單一深模組之後。呼叫端不再關心 Local JSON 與 Supabase 之差異。
+            </p>
           </div>
-          <a href="#candidate-1" class="shrink-0 px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition">查看方案細節 &darr;</a>
+          <a href="#candidate-1" class="hidden sm:inline-flex px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold rounded-lg text-sm transition-colors">
+            直達審計細節 →
+          </a>
         </div>
       </section>
 
       <!-- Candidates Section -->
       <section id="candidates" class="space-y-12">
+        
         <!-- Candidate 1 -->
-        <article id="candidate-1" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
-            <div>
-              <span class="text-xs font-mono text-stone-400">CANDIDATE 01</span>
-              <h3 class="text-lg font-bold text-slate-900">統一教學資產與雙向同步深模組 (Collapse Dual SSOT Sync Pipeline)</h3>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-600 text-white">✅ 已實作 (Implemented)</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">Strong</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">ports & adapters</span>
+        <article id="candidate-1" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">1. 深化 StudentDataGateway：隱藏雙 SSOT 與 raw 解包細節</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Strong Recommendation</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">ports & adapters</span>
             </div>
           </div>
 
-          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
-            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-              <span>07.Projects/StudentCRM/teaching_sync.py</span>
-              <span>07.Projects/StudentCRM/data_gateway.py</span>
-              <span>07.Projects/StudentCRM/scripts/sync_taoyuan_to_supabase.py</span>
-              <span>07.Projects/StudentCRM/scripts/sync_chen_consultant_to_supabase.py</span>
-              <span>07.Projects/StudentCRM/scripts/migrate_to_supabase.py</span>
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: data_gateway.py (712行) · routers/student.py · scripts/migrate_to_supabase.py
+          </div>
+
+          <!-- Before / After -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="rounded-xl border border-stone-200 p-4 bg-stone-50">
+              <div class="text-xs font-semibold uppercase tracking-wider text-red-600 mb-2">Before: 淺介面與資訊洩漏 (Shallow & Leaky)</div>
+              <pre class="mermaid">
+                flowchart TD
+                  R[Router: student.py] -->|調用 load_students| DG[DataGateway]
+                  DG -->|回傳含 raw jsonb| R
+                  R -.洩漏解包 raw 欄位.-> R
+                  R -.手動合併.-> FM[file_meta / markdown]
+                  classDef leak stroke:#dc2626,stroke-width:2px;
+                  class R leak
+              </pre>
+            </div>
+            <div class="rounded-xl border border-slate-900 p-4 deep-card text-white">
+              <div class="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">After: 深模組單一窄介面 (Deep Module)</div>
+              <pre class="mermaid">
+                flowchart TD
+                  R2[Router: student.py] -->|僅調用 get_student_profile| DGW[StudentRepository]
+                  subgraph DGW["深模組內部封裝 (Deep Module)"]
+                    JSON[Local JSON]
+                    SUPA[Supabase Client]
+                    UNPACK[自動解包 raw & 合併檔案]
+                  end
+                  classDef deepBox fill:#1e293b,stroke:#10b981,stroke-width:2px;
+                  class DGW deepBox
+              </pre>
             </div>
           </div>
 
-          <!-- Before / After Grid -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 淺模組洩漏 (Shallow & Leaking)</span>
-                <span class="text-[11px] text-stone-500 font-mono">5 個呼叫入口 · 邏輯重疊</span>
-              </div>
-              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
-                <pre class="mermaid">
-                  flowchart TD
-                    CLI[呼叫端 / 腳本] -->|手動執行| S1[sync_taoyuan.py]
-                    CLI -->|手動執行| S2[sync_chen.py]
-                    CLI -->|本地同步| TS[teaching_sync.py]
-                    S1 -.清理孤立ID.-> SUPA[(Supabase)]
-                    S2 -.upsert.-> SUPA
-                    TS -.寫入本地JSON.-> CACHE[(Cache)]
-                    GW[data_gateway.py] -.條件讀取.-> SUPA
-                    GW -.條件讀取.-> CACHE
-                    classDef leak stroke:#dc2626,stroke-width:2px;
-                    class S1,S2,GW leak;
-                </pre>
-              </div>
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong>外部呼叫端（如 <code>routers/student.py</code>）被迫理解 Supabase 與本地 JSON 的欄位差異，手動由 <code>raw</code> 提取 <code>current_cycle_lesson</code>，導致昨晚的 7/8 堂顯示脫節 Bug。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>將 <code>data_gateway.py</code> 升級為強型別 Repository，介面僅暴露純粹的 <code>Student</code> 物件，內部完全消化雲端/本地多資料來源與 Fallback 策略。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>Locality</strong>：資料合併與解包 Bug 集中單一模組。</li>
+                <li><strong>Interface shrinks</strong>：路由層不再出現任何 <code>raw</code> 取值邏輯。</li>
+                <li><strong>Leverage</strong>：Web 路由、定時排程、測試共用相同穩定實體。</li>
+              </ul>
             </div>
-
-            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 單一深模組 (Deep & Encapsulated)</span>
-                <span class="text-[11px] text-stone-500 font-mono">1 個公開介面 · 內部閉環</span>
-              </div>
-              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
-                <pre class="mermaid">
-                  flowchart TD
-                    CLI[呼叫端 / API / CLI] -->|sync| CORE[TeachingSyncPipeline]
-                    subgraph CORE [TeachingSyncPipeline 深模組]
-                      direction TB
-                      DIFF[Snapshot Diff Engine]
-                      CLEAN[Orphan Cleaner]
-                      LOCAL[Local JSON Cache]
-                    end
-                    CORE -->|Adapter| SUPA[(Supabase)]
-                    classDef deep fill:#0f172a,stroke:#334155,color:#f8fafc;
-                    class CORE deep;
-                </pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-sm text-stone-800">
-            <p><strong>Problem:</strong> 同步邏輯分散在多個 CLI 腳本與網關私有函式，呼叫端必須手動管理過期孤立 ID 清理與分批 upsert。</p>
-            <p><strong>Solution:</strong> 將教學資產同步封裝為具備極小公開介面的深模組 <code>TeachingSyncPipeline.sync()</code>，將本地快取與雲端差分同步徹底內部化。</p>
-          </div>
-
-          <div class="pt-2">
-            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
-            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 同步與清理邏輯集中一處</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">interface shrinks: 刪除多個獨立同步腳本</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 一個介面支援 CLI 與 API</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">adapter justifies seam: 本地與雲端端點解耦</li>
-            </ul>
-          </div>
-
-          <div class="rounded-lg bg-amber-50/70 border border-amber-200 p-3 text-xs text-amber-900">
-            <strong class="font-semibold">ADR 決策建議：</strong>建立 <code>TeachingSyncPipeline</code> 作為雙 SSOT 同步唯一法定通道，禁止在業務路由或獨立腳本中直連 Supabase REST API。
           </div>
         </article>
 
         <!-- Candidate 2 -->
-        <article id="candidate-2" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
-            <div>
-              <span class="text-xs font-mono text-stone-400">CANDIDATE 02</span>
-              <h3 class="text-lg font-bold text-slate-900">收攏數位管理時間軸與日曆聚合 (Consolidate Digital Management Timeline)</h3>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-600 text-white">✅ 已實作 (Implemented)</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">Strong</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">in-process</span>
+        <article id="candidate-2" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">2. 拆離 ImageSyncEngine：解構 TeachingSync 巨石模組</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Strong Recommendation</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">in-process pipeline</span>
             </div>
           </div>
 
-          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
-            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-              <span>07.Projects/StudentCRM/digital_management_service.py</span>
-              <span>07.Projects/StudentCRM/student_timeline_service.py</span>
-              <span>07.Projects/StudentCRM/routers/coach.py</span>
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: teaching_sync.py (794行) · scripts/sync_teaching_assets.py · media_asset_resolver.py
+          </div>
+
+          <!-- Before / After -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="rounded-xl border border-stone-200 p-4 bg-stone-50">
+              <div class="text-xs font-semibold uppercase tracking-wider text-red-600 mb-2">Before: 794 行巨石責任過載 (Monolith)</div>
+              <pre class="mermaid">
+                flowchart TD
+                  TS[teaching_sync.py] --> P[Markdown 解析]
+                  TS --> M[學員名字比對]
+                  TS --> L[堂數取模計算]
+                  TS -.纏繞.-> CLI[Heptabase CLI 子程序]
+                  TS -.纏繞.-> PIL[PIL 圖片壓制]
+                  classDef leak stroke:#dc2626,stroke-width:2px;
+                  class TS leak
+              </pre>
+            </div>
+            <div class="rounded-xl border border-slate-900 p-4 deep-card text-white">
+              <div class="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">After: 乾淨 Seam 隔離 (Isolated Seam)</div>
+              <pre class="mermaid">
+                flowchart TD
+                  TS2[teaching_sync.py] -->|僅調用 sync_records| TP[TeachingRecordPipeline]
+                  TS2 -->|委派資產處理| ISE[ImageSyncEngine]
+                  subgraph ISE["獨立深模組: ImageSyncEngine"]
+                    HEPTA[Heptabase File Export]
+                    COMP[WebP/PNG 安全壓制]
+                    GIT[GitHub 自動推送閉環]
+                  end
+                  classDef deepBox fill:#1e293b,stroke:#10b981,stroke-width:2px;
+                  class ISE deepBox
+              </pre>
             </div>
           </div>
 
-          <!-- Before / After Grid -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 715 行神類別洩漏</span>
-                <span class="text-[11px] text-stone-500 font-mono">正則、日曆、HTML欄位交織</span>
-              </div>
-              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
-                <pre class="mermaid">
-                  flowchart TD
-                    ROUTER[routers/coach.py] -->|解析標題| P[parse_title]
-                    ROUTER -->|查筆記| L[load_all_records]
-                    ROUTER -->|查日曆| C[load_calendar_events]
-                    ROUTER -->|拼裝Timeline| T[student_timeline_service]
-                    P -.洩漏正則實作.-> ROUTER
-                    classDef leak stroke:#dc2626,stroke-width:2px;
-                    class P,L,C leak;
-                </pre>
-              </div>
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong><code>teaching_sync.py</code> 既要負責文字教案解析與學員關聯，又要呼叫 Heptabase CLI 導圖與處理 PIL 二進位圖檔壓制，責任邊界嚴重模糊。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>將圖片提取、格式校正、壓制與 Git 遠端推送閉環封裝進獨立的 <code>ImageSyncEngine</code> 深模組，讓 <code>teaching_sync.py</code> 專注於教學資料結構。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>Seam</strong>：圖檔處理與文字解析完全解耦。</li>
+                <li><strong>Testability</strong>：圖片自癒可獨立進行離線 Mock 測試。</li>
+                <li><strong>Delete wrappers</strong>：消除多處重複定義的檔案比對與路徑解析代碼。</li>
+              </ul>
             </div>
-
-            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 獨立深模組 (Clean Domain Seam)</span>
-                <span class="text-[11px] text-stone-500 font-mono">1 個調用點 · 強型別輸出</span>
-              </div>
-              <div class="bg-white rounded border border-stone-200 p-2 min-h-[220px] flex items-center justify-center">
-                <pre class="mermaid">
-                  flowchart TD
-                    ROUTER[routers/coach.py] -->|get_profile| DMT[DigitalManagementTimeline]
-                    subgraph DMT [DigitalManagementTimeline 深模組]
-                      direction TB
-                      NORM[Title Normalizer & Regex]
-                      CAL[Calendar Event Cache]
-                      NOTE[Note Reconciler]
-                    end
-                    DMT -->|交付| MODEL[Immutable StudentTimelineProfile]
-                    classDef deep fill:#0f172a,stroke:#334155,color:#f8fafc;
-                    class DMT deep;
-                </pre>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-sm text-stone-800">
-            <p><strong>Problem:</strong> <code>digital_management_service.py</code> 承擔了日曆文字正則解析、堂號推導、多源筆記加載與 HTML 字典拼裝，導致路由層需要理解所有底層細節。</p>
-            <p><strong>Solution:</strong> 建立 <code>DigitalManagementTimeline</code> 深模組，單一介面 <code>get_profile(student_id)</code> 直接交付不可變且強型別的時間軸實體。</p>
-          </div>
-
-          <div class="pt-2">
-            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
-            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 正則與堂號推導內聚</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 路由層只依賴單一時間軸介面</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leakage eliminated: 消除寬鬆 dict 傳遞</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">tests hit one interface: 測試無需 mock 多個內部函式</li>
-            </ul>
           </div>
         </article>
 
         <!-- Candidate 3 -->
-        <article id="candidate-3" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
-            <div>
-              <span class="text-xs font-mono text-stone-400">CANDIDATE 03</span>
-              <h3 class="text-lg font-bold text-slate-900">隔離媒體資產儲存與 CDN 解析 (Isolate Media Asset Resolver)</h3>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-600 text-white">✅ 已實作 (Implemented)</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">ports & adapters</span>
+        <article id="candidate-3" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">3. 建立 StudentProfileAssembler：收斂視圖模型聚合邏輯</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-amber-100 text-amber-800 border border-amber-300">Worth Exploring</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">view-model aggregator</span>
             </div>
           </div>
 
-          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
-            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-              <span>07.Projects/StudentCRM/note_service.py</span>
-              <span>07.Projects/StudentCRM/hub_service.py</span>
-              <span>07.Projects/StudentCRM/scripts/optimize_teaching_images.py</span>
-            </div>
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: routers/student.py (322行) · student_timeline_service.py · digital_management_service.py
           </div>
 
-          <!-- Cross-Section Visual Pattern -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 圖檔直接捆綁進 Serverless Bundle</span>
-              <div class="space-y-1.5 font-mono text-xs">
-                <div class="h-10 border-l-4 border-red-500 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>Git Repository</span>
-                  <span class="text-red-600 font-bold">~74MB (147 images)</span>
-                </div>
-                <div class="h-10 border-l-4 border-red-500 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>Vercel Serverless Function</span>
-                  <span class="text-red-600 font-bold">逼近 50MB 硬上限</span>
-                </div>
-                <div class="h-10 border-l-4 border-stone-400 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>Markdown Inline Image Regex</span>
-                  <span class="text-stone-500">每次請求逐筆重算</span>
-                </div>
-              </div>
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong><code>routers/student.py</code> 的 <code>read_student</code> 端點包含過多程序性代碼：合體 <code>cloud_meta</code> 與 <code>file_meta</code>、呼叫 <code>predict_student_status</code>、產生 <code>briefing</code>、產生 <code>renewal_message</code>。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>引入 <code>StudentProfileAssembler</code> 深模組，路由端點只需傳入 <code>student_id</code>，直接取得完全組裝好的視圖模型，路由代碼降至 10 行以內。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>Locality</strong>：視圖組裝規則不洩漏於 HTTP 控制層。</li>
+                <li><strong>Leverage</strong>：Web 介面與未來 NativeApp / 桌面客戶端可共享相同視圖聚合器。</li>
+              </ul>
             </div>
-
-            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: MediaAssetResolver 抽象層 Seam</span>
-              <div class="space-y-1.5 font-mono text-xs">
-                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>Serverless Deployment</span>
-                  <span class="text-emerald-600 font-bold">&lt; 8MB (Zero Media)</span>
-                </div>
-                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>MediaAssetResolver (Adapter)</span>
-                  <span class="text-emerald-600 font-bold">透明切換 CDN / Supabase / Local</span>
-                </div>
-                <div class="h-10 border-l-4 border-emerald-500 bg-white rounded-r p-2 flex items-center justify-between">
-                  <span>NoteService Public Seam</span>
-                  <span class="text-emerald-600 font-bold">一處完成 URL 解析與縮圖</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-sm text-stone-800">
-            <p><strong>Problem:</strong> 筆記圖檔直接打入 Vercel 代碼庫隨時有超過 50MB 部署失敗風險，且各處 service 充斥著自製的圖片正則解析。</p>
-            <p><strong>Solution:</strong> 設立 <code>MediaAssetResolver</code> 介面，依環境透明提供本地 static 替換或外部雲端 Storage/CDN 網址。</p>
-          </div>
-
-          <div class="pt-2">
-            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
-            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">seam: 徹底解耦圖檔與部署包</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: Markdown 圖檔正則集中單一模組</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 一處定義圖片載入與快取</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">zero loss: 生產環境無破損風險</li>
-            </ul>
           </div>
         </article>
 
-        <!-- Candidate 4 -->
-        <article id="candidate-4" class="rounded-xl border border-stone-200 bg-white p-6 shadow-sm space-y-6">
-          <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-stone-100 pb-4">
-            <div>
-              <span class="text-xs font-mono text-stone-400">CANDIDATE 04</span>
-              <h3 class="text-lg font-bold text-slate-900">解耦測試環境與檔案系統 Seam (Introduce DocumentStore Seam)</h3>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-emerald-600 text-white">✅ 已實作 (39s → 6s)</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-amber-100 text-amber-800">Worth exploring</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-stone-100 text-stone-700 border border-stone-200">local-substitutable</span>
-            </div>
-          </div>
-
-          <div class="text-xs font-mono text-stone-600 bg-stone-50 rounded-lg p-3 border border-stone-100 space-y-1">
-            <div class="font-semibold text-stone-500 uppercase tracking-wider text-[10px]">相關檔案 (Files)</div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-              <span>07.Projects/StudentCRM/tests/test_teaching_sync_crm.py</span>
-              <span>07.Projects/StudentCRM/teaching_sync.py</span>
-              <span>07.Projects/StudentCRM/data_gateway.py</span>
-            </div>
-          </div>
-
-          <!-- Mass Diagram Visual Pattern -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <div class="rounded-lg border border-red-200 bg-red-50/20 p-4 space-y-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-red-700">Before: 測試打擊實體磁碟 (39.63s)</span>
-              <div class="bg-white rounded border border-stone-200 p-4 space-y-2 text-xs font-mono">
-                <div class="text-stone-500">// 測試 setup</div>
-                <div class="text-red-700 font-bold">shutil.copytree("01.Docs/teaching", tmp)</div>
-                <div class="text-stone-600">複製 700+ 個實體檔案至臨時磁碟目錄</div>
-                <div class="w-full bg-red-100 h-6 rounded flex items-center px-2 text-red-800 font-bold">IO 等待：約 32 秒 (佔比 81%)</div>
-              </div>
-            </div>
-
-            <div class="rounded-lg border border-emerald-200 bg-emerald-50/20 p-4 space-y-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-emerald-700">After: 替換式 DocumentStore (&lt; 2s)</span>
-              <div class="bg-white rounded border border-stone-200 p-4 space-y-2 text-xs font-mono">
-                <div class="text-stone-500">// 測試 setup (Local-Substitutable)</div>
-                <div class="text-emerald-700 font-bold">store = InMemoryDocumentStore(sample_notes)</div>
-                <div class="text-stone-600">純記憶體字典比對，無需打擊真實磁碟</div>
-                <div class="w-full bg-emerald-100 h-6 rounded flex items-center px-2 text-emerald-800 font-bold">執行時間：&lt; 1.5 秒 (加速 25 倍)</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-2 text-sm text-stone-800">
-            <p><strong>Problem:</strong> 同步測試因直接操作 700+ 個 Markdown 檔案的真實磁碟複製（copytree）導致 pytest 耗時近 40 秒，嚴重拖慢開發回饋迴圈。</p>
-            <p><strong>Solution:</strong> 在教學資產讀取處引入 <code>DocumentStore</code> 抽象介面，測試使用輕量 <code>InMemoryDocumentStore</code>，生產環境使用 <code>DiskDocumentStore</code>。</p>
-          </div>
-
-          <div class="pt-2">
-            <div class="text-xs font-bold uppercase tracking-wider text-stone-500 mb-2">設計收益 (Wins)</div>
-            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">leverage: 測試回饋迴圈由 40s 縮至 &lt;2s</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">adapter justifies seam: 記憶體與磁碟雙實作</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">zero loss: 生產環境無額外運行開銷</li>
-              <li class="bg-stone-50 border border-stone-200 rounded p-2 text-stone-700 font-medium">locality: 檔案 IO 分支不污染業務邏輯</li>
-            </ul>
-          </div>
-        </article>
       </section>
 
-      <!-- Footer -->
-      <footer class="border-t border-stone-200 pt-6 text-center text-xs text-stone-400 font-mono">
-        StudentCRM Architectural Audit · Generated via <code>/matt-improve-codebase-architecture</code> · Governed by OpenClaw Architecture
+      <!-- Footer Note -->
+      <footer class="pt-8 border-t border-stone-200 text-xs text-slate-400 flex justify-between items-center">
+        <span>遵循 John Ousterhout《軟體設計哲學》深模組原則</span>
+        <span>Generated by Antigravity · Matt Engineering Framework</span>
       </footer>
     </main>
   </body>

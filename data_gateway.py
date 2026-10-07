@@ -139,6 +139,55 @@ class StudentDataGateway:
             or self.supabase_key
         )
 
+    def normalize_student(self, student: dict[str, Any]) -> dict[str, Any]:
+        """【深模組封裝】正規化單一學員資料，提昇 raw 內部欄位並推導缺失之輪次堂數。
+
+        外部呼叫端無需理解 Supabase 與 Local JSON 的儲存差異，保證拿到一致的領域物件。
+        """
+        if not isinstance(student, dict):
+            return student
+        s = _clone_student_dict(student)
+        raw_data = s.get("raw")
+        if isinstance(raw_data, dict):
+            for k, v in raw_data.items():
+                if (k not in s or s[k] is None or s[k] in ("", "未記錄", "TBD")) and v is not None:
+                    s[k] = v
+
+        cycle_size = s.get("cycle_size")
+        if not cycle_size or not isinstance(cycle_size, int) or cycle_size <= 0:
+            cycle_size = 8
+            s["cycle_size"] = cycle_size
+
+        current_cycle = s.get("current_cycle_lesson")
+        if current_cycle is None or current_cycle == "":
+            lessons_count = s.get("lessons_count")
+            if isinstance(lessons_count, int) and lessons_count > 0:
+                s["current_cycle_lesson"] = (lessons_count % cycle_size) or cycle_size
+            else:
+                s["current_cycle_lesson"] = 1
+
+        return s
+
+    def get_student_profile(self, identifier: str) -> dict[str, Any] | None:
+        """【深模組窄介面】透過 ID、Public Token 或別名獲取已正規化之學員完整檔案。"""
+        if not identifier:
+            return None
+        target = str(identifier).strip().lower()
+        students = self.load_students()
+        for s in students:
+            if not isinstance(s, dict):
+                continue
+            if str(s.get("id", "")).strip().lower() == target:
+                return self.normalize_student(s)
+            if str(s.get("public_token", "")).strip().lower() == target:
+                return self.normalize_student(s)
+            if str(s.get("name", "")).strip().lower() == target:
+                return self.normalize_student(s)
+            aliases = s.get("aliases") or []
+            if isinstance(aliases, list) and any(str(a).strip().lower() == target for a in aliases if a):
+                return self.normalize_student(s)
+        return None
+
     def load_students(self) -> list[dict[str, Any]]:
         now = time.time()
         cache_key = f"students_{self.backend}_{self.students_file}"
@@ -149,6 +198,7 @@ class StudentDataGateway:
 
         students = self._load_students_uncached()
         if students:
+            students = [self.normalize_student(s) for s in students]
             _MEMORY_CACHE[cache_key] = (now, _clone_students_list(students))
         return _clone_students_list(students)
 
@@ -189,6 +239,8 @@ class StudentDataGateway:
                         s["recurring_schedule"] = loc["recurring_schedule"]
                     if not s.get("schedule_exceptions") and loc.get("schedule_exceptions"):
                         s["schedule_exceptions"] = loc["schedule_exceptions"]
+                    if not s.get("public_token") and loc.get("public_token"):
+                        s["public_token"] = loc["public_token"]
             self._write_json(self.students_cache_file, students)
             self._write_status(GatewayStatus("supabase", "students", self.students_cache_file))
             return students
@@ -708,4 +760,3 @@ class StudentDataGateway:
 
         self.save_effectiveness_radar_data(radar_data)
         return target_item
-

@@ -80,6 +80,21 @@ def test_chen_consultant_profile_displays_public_hub_url():
     assert "https://student-crm-flax.vercel.app/my/chen-consultant" in response.text
 
 
+def test_liya_private_token_is_required_for_personal_hub():
+    private_token = "liya-QkXfoZUKIJqFmzfE-6UY1phQ"
+    response = client.get(f"/my/{private_token}")
+    assert response.status_code == 200
+    assert "Liya" in response.text
+    assert f"/my/{private_token}/manifest.webmanifest" in response.text
+
+    guessed_id_response = client.get("/my/806fac9e-6139-54e0-a774-75f87fc0202e")
+    assert guessed_id_response.status_code == 404
+
+    manifest_response = client.get(f"/my/{private_token}/manifest.webmanifest")
+    assert manifest_response.status_code == 200
+    assert manifest_response.json()["start_url"] == f"/my/{private_token}"
+
+
 def test_read_student_hub_redirect_merged_student():
     # 測試已合併學員之 301 轉址 (例如古金桃之被合併 ID)
     response = client.get("/my/7071583c-13d4-4a2b-bf91-a52c9e968322", follow_redirects=False)

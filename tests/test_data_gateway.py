@@ -152,6 +152,7 @@ class StudentDataGatewayTests(unittest.TestCase):
                 "name": "Charlotte",
                 "first_lesson_date": "2023-12-07",
                 "file": "/01.Docs/Students/Charlotte.md",
+                "public_token": "charlotte-private-token",
             }]
             (data_dir / "students.json").write_text(json.dumps(local_students), encoding="utf-8")
 
@@ -178,6 +179,7 @@ class StudentDataGatewayTests(unittest.TestCase):
             self.assertEqual(len(students), 1)
             self.assertEqual(students[0]["first_lesson_date"], "2023-12-07")
             self.assertEqual(students[0]["file"], "/01.Docs/Students/Charlotte.md")
+            self.assertEqual(students[0]["public_token"], "charlotte-private-token")
 
     def test_parse_frontmatter_metadata_without_pyyaml(self):
         metadata = parse_frontmatter_metadata(

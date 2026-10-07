@@ -238,17 +238,17 @@
       "陳萱玲"
     ],
     "file": "/01.Docs/Students/shelley_chen.md",
-    "lessons_count": 23,
-    "latest_date": "2026-10-01",
+    "lessons_count": 24,
+    "latest_date": "2026-10-06",
     "next_lesson": "2026-11-20",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2021-12-10",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 8 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "9d511f1a-763f-40dc-a877-818f634a45e0",
@@ -1340,5 +1340,491 @@
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+  },
+  {
+    "id": "806fac9e-6139-54e0-a774-75f87fc0202e",
+    "name": "Liya",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2026-10-06",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2026-10-06",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "liya-QkXfoZUKIJqFmzfE-6UY1phQ"
+  },
+  {
+    "id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "name": "Ben哥線上",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2020-06-21",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2020-06-21",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "ben-Ew9H_aa1TmGtDcnUgebv2drC"
+  },
+  {
+    "id": "4d8eddf5-edbb-59be-9e88-c3ea9dc30331",
+    "name": "葉菁菁",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-01-31",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-01-31",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-UeP4dMZ1PH-p7XFcicO0vHai"
+  },
+  {
+    "id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "name": "子奕",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-03-08",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-03-08",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-Z7xaTI8thn5MfTuSjmdhJakE"
+  },
+  {
+    "id": "0d7bb70b-e3fb-5219-a7cd-564c3b016604",
+    "name": "林文雄",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-04-10",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-04-10",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-zZ3w2-mDsbaiLUBeoqRMKuBu"
+  },
+  {
+    "id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "name": "彭彭",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-04-22",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-04-22",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-JAu3mzrSYqVcrQOMKg_-PdTv"
+  },
+  {
+    "id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "name": "黃毓婕",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-05-18",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-05-18",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-_HjivZ93qALDoQzLcxQW47c8"
+  },
+  {
+    "id": "79af0372-ebd0-50e0-9813-b28435660679",
+    "name": "鍾天竣",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-06-21",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-06-21",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-R1JEPH-RFP2NGywK0I5_xJiV"
+  },
+  {
+    "id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "name": "岳陵姐",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-07-31",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-07-31",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-4TqWiroM7wx-edlJg33C8whm"
+  },
+  {
+    "id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "name": "浩峰生技陳董事長",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-08-20",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-08-20",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-7Kjn7oom9IoWOo13QrUieTKX"
+  },
+  {
+    "id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "name": "賴怡之",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-08-24",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-08-24",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-WdZpTDGjfPVzisx1DEBwCLtm"
+  },
+  {
+    "id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "name": "林嘉琪",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-09-13",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-09-13",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-c74e2hvUcrrcdTOWZQ0JkusX"
+  },
+  {
+    "id": "d1ec9935-1343-511a-8ad3-16a6e57de257",
+    "name": "美然",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-09-16",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-09-16",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-x2dMc1YEnzaRcn5YOHfa3Q9f"
+  },
+  {
+    "id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "name": "龔金華",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2021-10-21",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2021-10-21",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-kQoLiSi7aZNxTUPtIMrpwp5B"
+  },
+  {
+    "id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "name": "夏紫騰",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-02-14",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-02-14",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-NAUvbz-wc5cUiFkNfjwOmZuJ"
+  },
+  {
+    "id": "561d8767-01b6-525b-a39d-f7ccb75da17f",
+    "name": "呂怡儒",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-02-18",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-02-18",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-fQeLK8zwC0AVHnh09Bfcp_kI"
+  },
+  {
+    "id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "name": "胡大姐",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-08-12",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-08-12",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-e0ejvHqIQBTtse5R7TiPATC-"
+  },
+  {
+    "id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "name": "李小姐",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-08-26",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-08-26",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-tx6VZ_gIfW2Il14XXAX80SDE"
+  },
+  {
+    "id": "7f8def80-e6eb-5225-9b1a-9eb0de24f7e2",
+    "name": "吳潤慈",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-09-15",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-09-15",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-pVnGfBPxaj1UgiHU5ylDqSP0"
+  },
+  {
+    "id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "name": "曾珮貞",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-10-25",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-10-25",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-kel5J1md2lNMBKR6lRLYxSR6"
+  },
+  {
+    "id": "40d33283-147b-5c3e-b4cc-818e6158edd2",
+    "name": "秀敏姐",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2022-12-27",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2022-12-27",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-m2kHrx76PY2l76RTOrGHCLDe"
+  },
+  {
+    "id": "09de67c0-1c5f-5b15-8331-4dfe658e0719",
+    "name": "張淑華",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2023-05-13",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2023-05-13",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-HpkAcF-Ofzw1o2dJiJawkh_B"
+  },
+  {
+    "id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "name": "達賢",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2023-06-09",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2023-06-09",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-RQwYqchCsvLQ_q7YAC6CKFD5"
+  },
+  {
+    "id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "name": "陳淑華",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2023-07-19",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2023-07-19",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "student-hhuqsZQy_uLUvcN5N2P1NaQF"
+  },
+  {
+    "id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "name": "Polly",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2024-06-17",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2024-06-17",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "polly-0MmMg1IBivhXBljDCqHGpjph"
+  },
+  {
+    "id": "b5ce2201-33e7-52f1-bd2d-75525f49cb2c",
+    "name": "Ray",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2024-08-13",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2024-08-13",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "ray-W7its2W3gFOaTlNM7mWYx_Rl"
+  },
+  {
+    "id": "fa9f0bd9-d7fd-57ed-b84c-e6adbaf060ab",
+    "name": "Tina",
+    "aliases": [],
+    "file": "",
+    "lessons_count": 1,
+    "latest_date": "2025-01-06",
+    "next_lesson": "",
+    "tags": [
+      "數位管理教學"
+    ],
+    "first_lesson_date": "2025-01-06",
+    "current_cycle_lesson": 1,
+    "status": "active",
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "tina-oCVZ3JZXJ6pIdtBBIIObp2nj"
   }
 ]

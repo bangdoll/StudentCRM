@@ -208,7 +208,7 @@ def supabase_sync_students(url: str, key: str, students_data: list[dict[str, Any
     for s in students_data:
         if not isinstance(s.get("raw"), dict):
             s["raw"] = {}
-        for field in ("current_cycle_lesson", "cycle_size", "completion_status", "completion_note", "first_lesson_date", "file"):
+        for field in ("current_cycle_lesson", "cycle_size", "completion_status", "completion_note", "first_lesson_date", "file", "public_token"):
             if s.get(field) is not None:
                 s["raw"][field] = s[field]
     supabase_upsert(url, key, "students", students_data, dry_run=dry_run)

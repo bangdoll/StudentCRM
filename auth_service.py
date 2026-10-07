@@ -15,7 +15,7 @@ from typing import Any, Callable
 from urllib.parse import quote, unquote
 from fastapi import Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
-from student_service import resolve_student_access_id
+from student_service import is_valid_student_access_key, resolve_student_access_id
 
 # ── 雙管理員密鑰系統（Coach Tsai & Mrs. Tsai Admin Passkeys） ──────────────────
 COACH_PASSKEY = os.getenv("COACH_PASSKEY", "tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b")
@@ -193,8 +193,8 @@ async def handle_coach_auth_middleware(
         token_param = request.query_params.get("token") or request.cookies.get("last_student_token")
         if token_param:
             students = load_students_fn()
-            st = get_student_by_id_fn(resolve_student_access_id(token_param), students)
-            if st:
+            st = get_student_by_id_fn(resolve_student_access_id(token_param, students), students)
+            if st and is_valid_student_access_key(token_param, st):
                 if path in ("/note", "/open_file"):
                     return await call_next(request)
                 if path == "/program/apple-ceo" and is_authorized_apple_ceo_student(token_param, st):
@@ -233,7 +233,8 @@ async def handle_coach_auth_middleware(
     student_cookie = request.cookies.get("last_student_token")
     if path == "/" and student_cookie:
         students = load_students_fn()
-        if get_student_by_id_fn(resolve_student_access_id(student_cookie), students):
+        cookie_student = get_student_by_id_fn(resolve_student_access_id(student_cookie, students), students)
+        if cookie_student and is_valid_student_access_key(student_cookie, cookie_student):
             return RedirectResponse(url=f"/my/{student_cookie}", status_code=303)
 
     # 4. 未授權攔截：陌生人或未授權訪客一律顯示隱私保護提示，絕不洩漏學員名單與後台

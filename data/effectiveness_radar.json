@@ -1,111 +1,21 @@
 {
-  "generated_at": "2026-10-02T16:01:42.595567+00:00",
+  "generated_at": "2026-10-07T00:00:20.584307+00:00",
   "summary": {
-    "total_tracked": 50,
-    "stable_count": 8,
-    "attention_count": 4,
+    "total_tracked": 51,
+    "stable_count": 9,
+    "attention_count": 6,
     "at_risk_count": 22,
-    "upgrade_ready_count": 16,
-    "stale_tasks_count": 37
+    "upgrade_ready_count": 14,
+    "stale_tasks_count": 40
   },
   "items": [
-    {
-      "student_id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
-      "name": "彭老師",
-      "lessons_count": 39,
-      "current_cycle_lesson": 7,
-      "latest_date": "2026-10-02",
-      "days_since_last": 1,
-      "ai_import_stage": "AI OS系統",
-      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "檔案混亂與找不到資料",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "不習慣鍵盤輸入，想直接說給 AI 聽。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：| **「我的 ChatGPT 對話太多，內容總是找不到！」** | ➔ **八 從 ChatGPT 對話累積到知識保存** | 5-8 分鐘 |。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週驗收成果：想把跟 AI 討論的結果，整理成可用的文章與卡片。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "upgrade_ready",
-      "retention_signal_text": "待續約 / 升級評估 🚀",
-      "retention_badge_class": "badge-primary",
-      "product_recommendation": {
-        "title": "90 天 AI OS 陪跑",
-        "slug": "ai-os-coaching",
-        "pitch_message": "適合有穩定業務或團隊管理需求，進行深度人機協同營運重塑、個人知識分身打造與全流程數位轉型。"
-      },
-      "followup": {
-        "status": "contacted",
-        "last_contacted_date": "2026-10-03",
-        "next_followup_date": "2026-09-20",
-        "coach_notes": "自動化測試更新回訪紀錄",
-        "updated_at": "2026-10-02T16:01:41.602618+00:00"
-      },
-      "followup_copy": "彭老師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】不習慣鍵盤輸入，想直接說給 AI 聽。\n2. 【關鍵動作】掌握實戰工作流：| **「我的 ChatGPT 對話太多，內容總是找不到！」** | ➔ **八 從 ChatGPT 對話累積到知識保存** | 5-8 分鐘 |。\n3. 【每週小勝】本週驗收成果：想把跟 AI 討論的結果，整理成可用的文章與卡片。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "b5b5aef3-3514-478e-bbca-b0c568434551",
-      "name": "Shelley 陳萱玲",
-      "lessons_count": 23,
-      "current_cycle_lesson": 7,
-      "latest_date": "2026-10-01",
-      "days_since_last": 2,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "密碼與帳號同步問題",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "課堂核心原則：給 Shelley 的課後導航指南（Mac 操作、檔案管理與簡報工作流程篇）。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰快捷鍵：Command + Delete，形成無干擾肌肉記憶。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週驗收成果：你能清楚說出選取的簡報檔名及其所在的「下載專案」資料夾，即圓滿達標！🎉。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "upgrade_ready",
-      "retention_signal_text": "待續約 / 升級評估 🚀",
-      "retention_badge_class": "badge-primary",
-      "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "Shelley 陳萱玲 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給 Shelley 的課後導航指南（Mac 操作、檔案管理與簡報工作流程篇）。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + Delete，形成無干擾肌肉記憶。\n3. 【每週小勝】本週驗收成果：你能清楚說出選取的簡報檔名及其所在的「下載專案」資料夾，即圓滿達標！🎉。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
     {
       "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
       "name": "資深少年 AI 學習團",
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-29",
-      "days_since_last": 4,
+      "days_since_last": 8,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
@@ -136,11 +46,11 @@
         "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
+        "status": "contacted",
+        "last_contacted_date": "2026-10-07",
+        "next_followup_date": "2026-09-20",
+        "coach_notes": "自動化測試更新回訪紀錄",
+        "updated_at": "2026-10-07T00:00:19.484784+00:00"
       },
       "followup_copy": "資深少年 AI 學習團 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「造 (Build) 的浪漫：建構個人 AI 作業系統」：不再被動等待軟體功能，而是主動運用 AI 打造符合自己生活節奏的微型系統。\n2. 【關鍵動作】「專案式學習 (PBL) 閉環」：從日常生活中的真實問題出發，經歷「探索 ➔ 踩坑 ➔ 驗證 ➔ 沉澱為 Skill」的完整過程。\n3. 【每週小勝】「跑通 1 個生活自動化專案」：在個人電腦或手機上獨立建立 1 個可重複觸發的生活或學習小幫手。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
@@ -150,9 +60,9 @@
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-24",
-      "days_since_last": 9,
-      "ai_import_stage": "數位地基",
-      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "days_since_last": 13,
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
@@ -176,9 +86,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "數位基礎救援包",
-        "slug": "digital-foundation",
-        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
       },
       "followup": {
         "status": "pending",
@@ -195,10 +105,10 @@
       "lessons_count": 24,
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-22",
-      "days_since_last": 11,
+      "days_since_last": 15,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
-      "primary_pain": "檔案混亂與找不到資料",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -216,7 +126,7 @@
           "content": "本週驗收成果：【驗收標誌：桌面上或常用位置有一個名為 `01_待整理素材` 的資料夾，並且已成功放入至少一個你剛從手機傳過來的隨意照片或影片即圓滿達標！🎉】。"
         }
       ],
-      "task_staleness_warning": false,
+      "task_staleness_warning": true,
       "retention_signal": "upgrade_ready",
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
@@ -240,7 +150,7 @@
       "lessons_count": 7,
       "current_cycle_lesson": 7,
       "latest_date": "2026-09-13",
-      "days_since_last": 20,
+      "days_since_last": 24,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
       "primary_pain": "密碼與帳號同步問題",
@@ -285,7 +195,7 @@
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2026-09-06",
-      "days_since_last": 27,
+      "days_since_last": 31,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "重複繁瑣勞動佔據過多時間",
@@ -330,10 +240,10 @@
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2026-08-27",
-      "days_since_last": 37,
+      "days_since_last": 41,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
-      "primary_pain": "密碼與帳號同步問題",
+      "primary_pain": "重複繁瑣勞動佔據過多時間",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -375,9 +285,9 @@
       "lessons_count": 7,
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-30",
-      "days_since_last": 65,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "days_since_last": 69,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
@@ -401,9 +311,9 @@
       "retention_signal_text": "待續約 / 升級評估 🚀",
       "retention_badge_class": "badge-primary",
       "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
       },
       "followup": {
         "status": "pending",
@@ -420,7 +330,7 @@
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2026-07-28",
-      "days_since_last": 67,
+      "days_since_last": 71,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
@@ -428,17 +338,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "《從提問者到架構師：AI 數位管理實戰》。"
+          "content": "課堂核心原則：給禮品公會學員的課後導航指南（數位資產與任務卡實踐篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：- 雲端 AI (ChatGPT) → 這是「基礎建設（Basic）。"
+          "content": "掌握實戰工作流：完課覺得很棒，但下課後不知從何下手，或不知如何應用到工作？」** | ➔ **【今日 3 分鐘微行動】**：建立第一個 AI 任務卡 | 3 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週實踐目標：內容太雜，缺乏「一根針」戳破痛點。"
+          "content": "本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。"
         }
       ],
       "task_staleness_warning": true,
@@ -457,7 +367,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "禮品公會第二期 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】《從提問者到架構師：AI 數位管理實戰》。\n2. 【關鍵動作】掌握實戰工作流：- 雲端 AI (ChatGPT) → 這是「基礎建設（Basic）。\n3. 【每週小勝】本週實踐目標：內容太雜，缺乏「一根針」戳破痛點。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "禮品公會第二期 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給禮品公會學員的課後導航指南（數位資產與任務卡實踐篇）。\n2. 【關鍵動作】掌握實戰工作流：完課覺得很棒，但下課後不知從何下手，或不知如何應用到工作？」** | ➔ **【今日 3 分鐘微行動】**：建立第一個 AI 任務卡 | 3 分鐘 |。\n3. 【每週小勝】本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
@@ -465,10 +375,10 @@
       "lessons_count": 15,
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-20",
-      "days_since_last": 75,
+      "days_since_last": 79,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "重複繁瑣勞動佔據過多時間",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -510,7 +420,7 @@
       "lessons_count": 15,
       "current_cycle_lesson": 7,
       "latest_date": "2026-07-17",
-      "days_since_last": 78,
+      "days_since_last": 82,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
       "primary_pain": "密碼與帳號同步問題",
@@ -555,7 +465,7 @@
       "lessons_count": 7,
       "current_cycle_lesson": 7,
       "latest_date": "2026-05-04",
-      "days_since_last": 152,
+      "days_since_last": 156,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -563,17 +473,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "課堂核心原則：什麼是 AI Agent？。"
+          "content": "課堂核心原則：給【郭姐】的課後導航指南（數位管理與 AI 實戰應用篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：上課、工具使用情形）與目標（建立工作流程）之間的落差，再規劃「選擇工具→建立流程→建立系統」的路徑來填補差距。"
+          "content": "掌握實戰工作流：| **「我的文字指令 AI 常常聽不懂，回覆不精準」** | ➔ **提示詞最佳化** | 5 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+          "content": "本週驗收成果：想快速產出各種報告、文案或內容草稿。"
         }
       ],
       "task_staleness_warning": true,
@@ -592,7 +502,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "郭姐 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：什麼是 AI Agent？。\n2. 【關鍵動作】掌握實戰工作流：上課、工具使用情形）與目標（建立工作流程）之間的落差，再規劃「選擇工具→建立流程→建立系統」的路徑來填補差距。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "郭姐 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給【郭姐】的課後導航指南（數位管理與 AI 實戰應用篇）。\n2. 【關鍵動作】掌握實戰工作流：| **「我的文字指令 AI 常常聽不懂，回覆不精準」** | ➔ **提示詞最佳化** | 5 分鐘 |。\n3. 【每週小勝】本週驗收成果：想快速產出各種報告、文案或內容草稿。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
@@ -600,7 +510,7 @@
       "lessons_count": 22,
       "current_cycle_lesson": 14,
       "latest_date": "2026-04-27",
-      "days_since_last": 159,
+      "days_since_last": 163,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -608,17 +518,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
+          "content": "課堂核心原則：給【王敏賢】的課後導航指南（【AI 驅動網站與問卷系統實戰】篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：設計思考（迭代） — 整個流程就是迭代：先出第一版規格 → 第一版問卷框架 → 持續修正。沒有追求一次到位，而是用快速雛形換取進度感。"
+          "content": "掌握實戰工作流：| **「我有一個新網站想法，想快速產出規格書。」** | ➔ **用 Antigravity Agent 產出網站規格書** | 5 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+          "content": "本週驗收成果：AI 幫我建的網站跟預期有落差，不知如何修正？。"
         }
       ],
       "task_staleness_warning": true,
@@ -637,7 +547,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "王敏賢 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】掌握實戰工作流：設計思考（迭代） — 整個流程就是迭代：先出第一版規格 → 第一版問卷框架 → 持續修正。沒有追求一次到位，而是用快速雛形換取進度感。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "王敏賢 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給【王敏賢】的課後導航指南（【AI 驅動網站與問卷系統實戰】篇）。\n2. 【關鍵動作】掌握實戰工作流：| **「我有一個新網站想法，想快速產出規格書。」** | ➔ **用 Antigravity Agent 產出網站規格書** | 5 分鐘 |。\n3. 【每週小勝】本週驗收成果：AI 幫我建的網站跟預期有落差，不知如何修正？。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "eb20c844-ed1a-40ab-ac29-a78ceb7d8818",
@@ -645,7 +555,7 @@
       "lessons_count": 15,
       "current_cycle_lesson": 7,
       "latest_date": "2025-12-29",
-      "days_since_last": 278,
+      "days_since_last": 282,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "重複繁瑣勞動佔據過多時間",
@@ -658,7 +568,7 @@
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：1️⃣ 開啟 OBS → 右下角【設定】。"
+          "content": "掌握實戰工作流：> 2. **執行關鍵設定：** 進入 OBS 右下角【設定】→【音訊】。在「音訊裝置設定」中，將「桌面音效（Desktop Audio）」選為「預設」或「實際正在播放聲音的。"
         },
         {
           "type": "每週小勝",
@@ -682,7 +592,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "徐玉芳 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】原則：桌面音效要開，麥克風要關。\n2. 【關鍵動作】掌握實戰工作流：1️⃣ 開啟 OBS → 右下角【設定】。\n3. 【每週小勝】本週驗收成果：裝置與系統層的穩定性建立。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "徐玉芳 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】原則：桌面音效要開，麥克風要關。\n2. 【關鍵動作】掌握實戰工作流：> 2. **執行關鍵設定：** 進入 OBS 右下角【設定】→【音訊】。在「音訊裝置設定」中，將「桌面音效（Desktop Audio）」選為「預設」或「實際正在播放聲音的。\n3. 【每週小勝】本週驗收成果：裝置與系統層的穩定性建立。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -690,25 +600,25 @@
       "lessons_count": 8,
       "current_cycle_lesson": 8,
       "latest_date": "2025-11-17",
-      "days_since_last": 320,
+      "days_since_last": 324,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "課堂核心原則：Part 1｜導師制度完整講解（Mentor System Overview）。"
+          "content": "課堂核心原則：給【許娜】的課後導航指南（【數位管理與 AI 導師賦能】篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：左側：詢問（Ask） → 類似 ChatGPT 的看圖能力。"
+          "content": "掌握實戰工作流：| **「我剛接導師，不確定角色定位與制度，會不會搞砸？」** | ➔ **Part 1｜導師制度完整講解** | 10 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週實踐目標：Part 2｜Apple 裝置環境整備（Device Setup for Productivity）。"
+          "content": "本週驗收成果：Part 3.2｜建立 Raindrop 雲端書籤。"
         }
       ],
       "task_staleness_warning": true,
@@ -727,7 +637,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "許娜 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：Part 1｜導師制度完整講解（Mentor System Overview）。\n2. 【關鍵動作】掌握實戰工作流：左側：詢問（Ask） → 類似 ChatGPT 的看圖能力。\n3. 【每週小勝】本週實踐目標：Part 2｜Apple 裝置環境整備（Device Setup for Productivity）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "許娜 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給【許娜】的課後導航指南（【數位管理與 AI 導師賦能】篇）。\n2. 【關鍵動作】掌握實戰工作流：| **「我剛接導師，不確定角色定位與制度，會不會搞砸？」** | ➔ **Part 1｜導師制度完整講解** | 10 分鐘 |。\n3. 【每週小勝】本週驗收成果：Part 3.2｜建立 Raindrop 雲端書籤。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
@@ -735,7 +645,7 @@
       "lessons_count": 6,
       "current_cycle_lesson": 2,
       "latest_date": "2026-09-01",
-      "days_since_last": 32,
+      "days_since_last": 36,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "密碼與帳號同步問題",
@@ -780,7 +690,7 @@
       "lessons_count": 14,
       "current_cycle_lesson": 6,
       "latest_date": "2026-08-25",
-      "days_since_last": 39,
+      "days_since_last": 43,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
       "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
@@ -825,7 +735,7 @@
       "lessons_count": 22,
       "current_cycle_lesson": 6,
       "latest_date": "2026-08-25",
-      "days_since_last": 39,
+      "days_since_last": 43,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "檔案混亂與找不到資料",
@@ -870,7 +780,7 @@
       "lessons_count": 6,
       "current_cycle_lesson": 6,
       "latest_date": "2026-08-23",
-      "days_since_last": 41,
+      "days_since_last": 45,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "密碼與帳號同步問題",
@@ -915,7 +825,7 @@
       "lessons_count": 21,
       "current_cycle_lesson": 5,
       "latest_date": "2026-08-17",
-      "days_since_last": 47,
+      "days_since_last": 51,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "密碼與帳號同步問題",
@@ -960,10 +870,10 @@
       "lessons_count": 50,
       "current_cycle_lesson": 2,
       "latest_date": "2026-08-11",
-      "days_since_last": 53,
+      "days_since_last": 57,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1005,7 +915,7 @@
       "lessons_count": 64,
       "current_cycle_lesson": 5,
       "latest_date": "2026-08-10",
-      "days_since_last": 54,
+      "days_since_last": 58,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
       "primary_pain": "AI 提示詞缺乏背景前情提要",
@@ -1050,7 +960,7 @@
       "lessons_count": 45,
       "current_cycle_lesson": 5,
       "latest_date": "2026-07-27",
-      "days_since_last": 68,
+      "days_since_last": 72,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
       "primary_pain": "重複繁瑣勞動佔據過多時間",
@@ -1095,7 +1005,7 @@
       "lessons_count": 6,
       "current_cycle_lesson": 6,
       "latest_date": "2026-07-10",
-      "days_since_last": 85,
+      "days_since_last": 89,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
@@ -1140,7 +1050,7 @@
       "lessons_count": 3,
       "current_cycle_lesson": 3,
       "latest_date": "2026-07-09",
-      "days_since_last": 86,
+      "days_since_last": 90,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -1185,7 +1095,7 @@
       "lessons_count": 37,
       "current_cycle_lesson": 2,
       "latest_date": "2026-07-07",
-      "days_since_last": 88,
+      "days_since_last": 92,
       "ai_import_stage": "AI OS系統",
       "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
       "primary_pain": "檔案混亂與找不到資料",
@@ -1230,7 +1140,7 @@
       "lessons_count": 100,
       "current_cycle_lesson": 4,
       "latest_date": "2026-07-03",
-      "days_since_last": 92,
+      "days_since_last": 96,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "密碼與帳號同步問題",
@@ -1275,7 +1185,7 @@
       "lessons_count": 10,
       "current_cycle_lesson": 2,
       "latest_date": "2026-06-26",
-      "days_since_last": 99,
+      "days_since_last": 103,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "檔案混亂與找不到資料",
@@ -1320,7 +1230,7 @@
       "lessons_count": 108,
       "current_cycle_lesson": 2,
       "latest_date": "2026-05-15",
-      "days_since_last": 141,
+      "days_since_last": 145,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "檔案混亂與找不到資料",
@@ -1365,7 +1275,7 @@
       "lessons_count": 1,
       "current_cycle_lesson": 1,
       "latest_date": "2026-04-24",
-      "days_since_last": 162,
+      "days_since_last": 166,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "AI 提示詞缺乏背景前情提要",
@@ -1378,12 +1288,12 @@
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：你把「數位管理」這個大題目拆成三層遞進結構：工具使用 → SOP 流程建立 → 完整系統。這正是密涅瓦「將複雜問題分解成子問題再組合成連貫整體」的典型應用。"
+          "content": "掌握實戰工作流：想快速抓取一份檔案的重點，或將會議內容轉成簡報/摘要」** | ➔ **NotebookLM 的核心應用**（強調來源建立、語音摘要、簡報與資訊圖表生成） | 10 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週實踐目標：差距分析(gapanalysis)。"
+          "content": "本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。"
         }
       ],
       "task_staleness_warning": true,
@@ -1402,7 +1312,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "益堯哥 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】領導原則(leadprinciples)。\n2. 【關鍵動作】掌握實戰工作流：你把「數位管理」這個大題目拆成三層遞進結構：工具使用 → SOP 流程建立 → 完整系統。這正是密涅瓦「將複雜問題分解成子問題再組合成連貫整體」的典型應用。\n3. 【每週小勝】本週實踐目標：差距分析(gapanalysis)。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "益堯哥 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】領導原則(leadprinciples)。\n2. 【關鍵動作】掌握實戰工作流：想快速抓取一份檔案的重點，或將會議內容轉成簡報/摘要」** | ➔ **NotebookLM 的核心應用**（強調來源建立、語音摘要、簡報與資訊圖表生成） | 10 分鐘 |。\n3. 【每週小勝】本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "368cbe6e-935e-4ff2-9c4a-52748fbc1bf0",
@@ -1410,25 +1320,25 @@
       "lessons_count": 5,
       "current_cycle_lesson": 5,
       "latest_date": "2026-04-20",
-      "days_since_last": 166,
+      "days_since_last": 170,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
+          "content": "課堂核心原則：給 AI 實踐家的課後導航指南（AI 生產力系統啟動篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：無法升級 → 無法安裝現代 AI 工具。"
+          "content": "掌握實戰工作流：想提升文字溝通與內容發想效率（如文案、信件、結構化思考）」** | ➔ **ChatGPT (思考中樞)** | 5 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+          "content": "本週驗收成果：想快速整理郵件、檔案，或自動生成報告初稿（整合 Google 生態系）。"
         }
       ],
       "task_staleness_warning": true,
@@ -1447,7 +1357,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "明志 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】掌握實戰工作流：無法升級 → 無法安裝現代 AI 工具。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "明志 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給 AI 實踐家的課後導航指南（AI 生產力系統啟動篇）。\n2. 【關鍵動作】掌握實戰工作流：想提升文字溝通與內容發想效率（如文案、信件、結構化思考）」** | ➔ **ChatGPT (思考中樞)** | 5 分鐘 |。\n3. 【每週小勝】本週驗收成果：想快速整理郵件、檔案，或自動生成報告初稿（整合 Google 生態系）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "d21e405e-ceb9-406e-82d7-28fe10dbb00d",
@@ -1455,7 +1365,7 @@
       "lessons_count": 4,
       "current_cycle_lesson": 4,
       "latest_date": "2026-04-02",
-      "days_since_last": 184,
+      "days_since_last": 188,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -1463,17 +1373,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "把一個非技術使用者，從「會問AI」升級為「讓AI替他做事」的操作能力轉換。"
+          "content": "課堂核心原則：給Lily老師的課後導航指南（數位管理與 AI 任務自動化篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：> Chatbot → Workflow → Agent 的能力躍遷。"
+          "content": "掌握實戰工作流：| **「我想建立一個能自動化排程的預約系統」** | ➔ **Calendly 搭配 Antigravity 的應用** | 8 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週實踐目標：你現在應該把這堂課「產品化成三層架構。"
+          "content": "本週驗收成果：如何用 AI 高效產出簡報內容與音檔？。"
         }
       ],
       "task_staleness_warning": true,
@@ -1492,7 +1402,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "Lily老師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】把一個非技術使用者，從「會問AI」升級為「讓AI替他做事」的操作能力轉換。\n2. 【關鍵動作】掌握實戰工作流：> Chatbot → Workflow → Agent 的能力躍遷。\n3. 【每週小勝】本週實踐目標：你現在應該把這堂課「產品化成三層架構。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "Lily老師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給Lily老師的課後導航指南（數位管理與 AI 任務自動化篇）。\n2. 【關鍵動作】掌握實戰工作流：| **「我想建立一個能自動化排程的預約系統」** | ➔ **Calendly 搭配 Antigravity 的應用** | 8 分鐘 |。\n3. 【每週小勝】本週驗收成果：如何用 AI 高效產出簡報內容與音檔？。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "8c4fb758-70fe-4a68-838c-5003b9de8624",
@@ -1500,7 +1410,7 @@
       "lessons_count": 9,
       "current_cycle_lesson": 1,
       "latest_date": "2026-02-24",
-      "days_since_last": 221,
+      "days_since_last": 225,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -1508,17 +1418,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
+          "content": "RAG 原理與 AI 幻覺應對：信任與驗證機制。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。"
+          "content": "掌握實戰工作流：| **「簡報製作效率低落，花太多時間整理內容與排版」** | ➔ **AI 簡報高速生產線：人機混合工作流** | 10 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+          "content": "本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。"
         }
       ],
       "task_staleness_warning": true,
@@ -1537,7 +1447,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "高碧鴻 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "高碧鴻 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】RAG 原理與 AI 幻覺應對：信任與驗證機制。\n2. 【關鍵動作】掌握實戰工作流：| **「簡報製作效率低落，花太多時間整理內容與排版」** | ➔ **AI 簡報高速生產線：人機混合工作流** | 10 分鐘 |。\n3. 【每週小勝】本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "b86cade3-c211-41c5-b33c-2124ee34d743",
@@ -1545,25 +1455,25 @@
       "lessons_count": 5,
       "current_cycle_lesson": 5,
       "latest_date": "2026-01-10",
-      "days_since_last": 266,
+      "days_since_last": 270,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "課堂核心原則：的工程化 SOP，目標只有一個。"
+          "content": "課堂核心原則：給【林佳】的課後導航指南（數位管理與 AI 產品化篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：線的 AI + Vibe Coding 產品管線跑通：從訂閱策略判斷 → 知識工具匯入（NotebookLM）→ 開發環境切換（Antigravity）→ 版本控管（GitHub）→。"
+          "content": "掌握實戰工作流：不知道我的 AI 工具該怎麼買，或現有工具怎麼盤點？」** | ➔ **A. 訂閱與帳號盤點** | 10 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週驗收成果：讓專案不再只活在某臺電腦或某個 AI 對話裡。"
+          "content": "本週驗收成果：網站還在本機跑，想讓它上線給別人用？。"
         }
       ],
       "task_staleness_warning": true,
@@ -1582,7 +1492,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "林佳 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：的工程化 SOP，目標只有一個。\n2. 【關鍵動作】掌握實戰工作流：線的 AI + Vibe Coding 產品管線跑通：從訂閱策略判斷 → 知識工具匯入（NotebookLM）→ 開發環境切換（Antigravity）→ 版本控管（GitHub）→。\n3. 【每週小勝】本週驗收成果：讓專案不再只活在某臺電腦或某個 AI 對話裡。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "林佳 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給【林佳】的課後導航指南（數位管理與 AI 產品化篇）。\n2. 【關鍵動作】掌握實戰工作流：不知道我的 AI 工具該怎麼買，或現有工具怎麼盤點？」** | ➔ **A. 訂閱與帳號盤點** | 10 分鐘 |。\n3. 【每週小勝】本週驗收成果：網站還在本機跑，想讓它上線給別人用？。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
@@ -1590,7 +1500,7 @@
       "lessons_count": 5,
       "current_cycle_lesson": 5,
       "latest_date": "2025-11-22",
-      "days_since_last": 315,
+      "days_since_last": 319,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
@@ -1598,17 +1508,17 @@
         {
           "type": "微習慣",
           "title": "微習慣塑造",
-          "content": "前瞻、務實、以企業語言整理的《今日教學紀要：AI 工具部署與生產力升級》。"
+          "content": "課堂核心原則：給陸總的課後導航指南（AI 生產線整備與企業級工作流重構篇）。"
         },
         {
           "type": "關鍵動作",
           "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：na Pro**（Gemini 3 文字生成圖片）已能處理高質量中文 → 企業終於可真正使用於 DM、海報、社群物料。"
+          "content": "掌握實戰工作流：| **「想快速製作高品質的企業宣傳圖文，降低設計成本。」** | ➔ **2. (A) Google AI 工具鏈部署 > Nano Banana Pro** | 5 分鐘 |。"
         },
         {
           "type": "每週小勝",
           "title": "每週驗收小勝",
-          "content": "本週驗收成果：企業 AI 影片製作 SOP 的第一步。"
+          "content": "本週驗收成果：手上有大量資料（檔案、筆記），需要快速梳理、分析並產出簡報。"
         }
       ],
       "task_staleness_warning": true,
@@ -1627,7 +1537,7 @@
         "coach_notes": "",
         "updated_at": ""
       },
-      "followup_copy": "陸總 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】前瞻、務實、以企業語言整理的《今日教學紀要：AI 工具部署與生產力升級》。\n2. 【關鍵動作】掌握實戰工作流：na Pro**（Gemini 3 文字生成圖片）已能處理高質量中文 → 企業終於可真正使用於 DM、海報、社群物料。\n3. 【每週小勝】本週驗收成果：企業 AI 影片製作 SOP 的第一步。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+      "followup_copy": "陸總 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：給陸總的課後導航指南（AI 生產線整備與企業級工作流重構篇）。\n2. 【關鍵動作】掌握實戰工作流：| **「想快速製作高品質的企業宣傳圖文，降低設計成本。」** | ➔ **2. (A) Google AI 工具鏈部署 > Nano Banana Pro** | 5 分鐘 |。\n3. 【每週小勝】本週驗收成果：手上有大量資料（檔案、筆記），需要快速梳理、分析並產出簡報。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
       "student_id": "e50a010c-1668-4b23-b159-faa86f2cb23c",
@@ -1635,7 +1545,7 @@
       "lessons_count": 19,
       "current_cycle_lesson": 3,
       "latest_date": "2025-10-31",
-      "days_since_last": 337,
+      "days_since_last": 341,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
@@ -1680,10 +1590,10 @@
       "lessons_count": 14,
       "current_cycle_lesson": 6,
       "latest_date": "2025-10-27",
-      "days_since_last": 341,
+      "days_since_last": 345,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "primary_pain": "檔案混亂與找不到資料",
       "micro_action_cards": [
         {
           "type": "微習慣",
@@ -1720,12 +1630,147 @@
       "followup_copy": "陳媽媽 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】落實「數位管理」標準化流程，將步驟梳理為個人可重用操作。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
+      "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
+      "name": "陳顧問",
+      "lessons_count": 14,
+      "current_cycle_lesson": 6,
+      "latest_date": "2026-09-22",
+      "days_since_last": 15,
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "檔案混亂與找不到資料",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "[第二部分：Benchmark 資料來源與責任邊界]。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰工作流：工具與概念很多，不知道現階段到底該做什麼、砍什麼？」** | ➔ **[第二部分：三大風險與錯誤假設]**<br>➔ **[第四部分：明確不建議現在做的事]** | 3 分鐘。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：請作為戰略規範查閱，切勿試圖平行展開所有專案！。"
+        }
+      ],
+      "task_staleness_warning": true,
+      "retention_signal": "attention",
+      "retention_signal_text": "需要關心 🟡",
+      "retention_badge_class": "badge-warning",
+      "product_recommendation": {
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "陳顧問 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】[第二部分：Benchmark 資料來源與責任邊界]。\n2. 【關鍵動作】掌握實戰工作流：工具與概念很多，不知道現階段到底該做什麼、砍什麼？」** | ➔ **[第二部分：三大風險與錯誤假設]**<br>➔ **[第四部分：明確不建議現在做的事]** | 3 分鐘。\n3. 【每週小勝】本週驗收成果：請作為戰略規範查閱，切勿試圖平行展開所有專案！。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
+      "name": "Teresa",
+      "lessons_count": 17,
+      "current_cycle_lesson": 1,
+      "latest_date": "2026-09-21",
+      "days_since_last": 16,
+      "ai_import_stage": "核心提示詞",
+      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "primary_pain": "檔案混亂與找不到資料",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰快捷鍵：Command + S，形成無干擾肌肉記憶。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
+        }
+      ],
+      "task_staleness_warning": true,
+      "retention_signal": "attention",
+      "retention_signal_text": "需要關心 🟡",
+      "retention_badge_class": "badge-warning",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Teresa 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + S，形成無干擾肌肉記憶。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+      "name": "Kelly Woo",
+      "lessons_count": 70,
+      "current_cycle_lesson": 1,
+      "latest_date": "2026-09-20",
+      "days_since_last": 17,
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
+      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "「專案分工與環境防呆」：建立清晰的專案管理觀念，本地專案落地於實體檔案，雲端專案用於跨裝置輕量溝通。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "「標準專案建立流程」：熟練「建立新專案 ➔ 建立實體資料夾 ➔ 選擇資料夾 ➔ 建立 Project」之標準動作鏈。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "「AI 工作環境全面梳理」：完成 ChatGPT 電腦版重新配置與專案資料夾建立，獨立跑通 1 次專案建立與輸出。"
+        }
+      ],
+      "task_staleness_warning": true,
+      "retention_signal": "attention",
+      "retention_signal_text": "需要關心 🟡",
+      "retention_badge_class": "badge-warning",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Kelly Woo 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「專案分工與環境防呆」：建立清晰的專案管理觀念，本地專案落地於實體檔案，雲端專案用於跨裝置輕量溝通。\n2. 【關鍵動作】「標準專案建立流程」：熟練「建立新專案 ➔ 建立實體資料夾 ➔ 選擇資料夾 ➔ 建立 Project」之標準動作鏈。\n3. 【每週小勝】「AI 工作環境全面梳理」：完成 ChatGPT 電腦版重新配置與專案資料夾建立，獨立跑通 1 次專案建立與輸出。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
       "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
       "name": "陳海陸",
       "lessons_count": 27,
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-18",
-      "days_since_last": 15,
+      "days_since_last": 19,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "快捷鍵操作生疏與依賴滑鼠",
@@ -1770,7 +1815,7 @@
       "lessons_count": 83,
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-14",
-      "days_since_last": 19,
+      "days_since_last": 23,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
       "primary_pain": "檔案混亂與找不到資料",
@@ -1810,57 +1855,12 @@
       "followup_copy": "Annie 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：不要再把自己當成操作電腦的人；把自己當成老闆。你負責定義問題、提供 Context、下達任務與驗收結果，AI 負責執行。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + Tab，形成無干擾肌肉記憶。\n3. 【每週小勝】本週實踐目標：不要再把自己當成操作電腦的人；把自己當成老闆。你負責定義問題、提供 Context、下達任務與驗收結果，AI 負責執行。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
-      "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
-      "name": "張素幸",
-      "lessons_count": 18,
-      "current_cycle_lesson": 2,
-      "latest_date": "2026-09-14",
-      "days_since_last": 19,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "密碼與帳號同步問題",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "「界定問題先於尋找解法」：在尋找任何數位工具前，先精確界定現況、目標、障礙與問題範圍，避免在錯誤問題上用力。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "「數位入口治理收攏」：將分散的網站入口、帳號、裝置與付款方式收斂至單一清晰路徑，不再層層翻找。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "「個人數位資料入口盤點」：完成常用網站、Booking 與付款帳號的跨裝置入口同步，落實高頻 Typeless 語音輸入。"
-        }
-      ],
-      "task_staleness_warning": true,
-      "retention_signal": "attention",
-      "retention_signal_text": "需要關心 🟡",
-      "retention_badge_class": "badge-warning",
-      "product_recommendation": {
-        "title": "數位基礎救援包",
-        "slug": "digital-foundation",
-        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "張素幸 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「界定問題先於尋找解法」：在尋找任何數位工具前，先精確界定現況、目標、障礙與問題範圍，避免在錯誤問題上用力。\n2. 【關鍵動作】「數位入口治理收攏」：將分散的網站入口、帳號、裝置與付款方式收斂至單一清晰路徑，不再層層翻找。\n3. 【每週小勝】「個人數位資料入口盤點」：完成常用網站、Booking 與付款帳號的跨裝置入口同步，落實高頻 Typeless 語音輸入。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
       "student_id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
       "name": "Bill 楊文祥",
       "lessons_count": 6,
       "current_cycle_lesson": 6,
       "latest_date": "2026-09-11",
-      "days_since_last": 22,
+      "days_since_last": 26,
       "ai_import_stage": "核心提示詞",
       "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
       "primary_pain": "密碼與帳號同步問題",
@@ -1900,12 +1900,237 @@
       "followup_copy": "Bill 楊文祥 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：公司正式工作 → 弘農 Project。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + C，形成無干擾肌肉記憶。\n3. 【每週小勝】本週實踐目標：零散／臨時問題 → New Project。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
+      "student_id": "b5b5aef3-3514-478e-bbca-b0c568434551",
+      "name": "Shelley 陳萱玲",
+      "lessons_count": 24,
+      "current_cycle_lesson": 1,
+      "latest_date": "2026-10-06",
+      "days_since_last": 1,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "檔案混亂與找不到資料",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "你在訓練的思考是：先確定目的，再選擇動作。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰工作流：| **「我不確定月報檔名或位置，AI 搜尋也沒結果」** | ➔ **「練習一｜找回上課做好的九月份月報」**、**「六、第一個實作：查詢 LINE 中的報表是否已存到公司雲。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：練習二｜讀取現有月報，補齊九月份資料。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Shelley 陳萱玲 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】你在訓練的思考是：先確定目的，再選擇動作。\n2. 【關鍵動作】掌握實戰工作流：| **「我不確定月報檔名或位置，AI 搜尋也沒結果」** | ➔ **「練習一｜找回上課做好的九月份月報」**、**「六、第一個實作：查詢 LINE 中的報表是否已存到公司雲。\n3. 【每週小勝】本週驗收成果：練習二｜讀取現有月報，補齊九月份資料。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "806fac9e-6139-54e0-a774-75f87fc0202e",
+      "name": "Liya",
+      "lessons_count": 1,
+      "current_cycle_lesson": 1,
+      "latest_date": "2026-10-06",
+      "days_since_last": 1,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "初步判斷：Liya 的教學重點，是讓「已經做好的系統」真正用起來，並讓「已經拍好的影片」更容易變成可使用的成果。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰工作流：整理常見問題 → 確認標準答案 → 讓 AI 產生回覆草稿 → 用真實問題測試 → 修正錯誤。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Liya 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】初步判斷：Liya 的教學重點，是讓「已經做好的系統」真正用起來，並讓「已經拍好的影片」更容易變成可使用的成果。\n2. 【關鍵動作】掌握實戰工作流：整理常見問題 → 確認標準答案 → 讓 AI 產生回覆草稿 → 用真實問題測試 → 修正錯誤。\n3. 【每週小勝】本週驗收成果：🥈 銀牌（實戰落地 · 15 分鐘）。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+      "name": "Charlotte",
+      "lessons_count": 77,
+      "current_cycle_lesson": 5,
+      "latest_date": "2026-10-05",
+      "days_since_last": 2,
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "「快速鍵是手段，工作流程才是目的」：在 Mac 桌面落實 Command + Tab 與多視窗平滑切換，減少依賴滑鼠層層點選的零碎摩擦。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "「掌握五階工作鏈」：熟練「操作熟練 ➔ 資訊流動 ➔ 資料治理 ➔ AI 協作 ➔ 人工驗收」實踐架構，建立一人公司自驅工作流。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "「個人桌面與 AI Work 整合實踐」：在本地資料夾與 ChatGPT Work 中獨立完成一組工作流演練，形成穩定肌肉記憶。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "MVP 工作流建置",
+        "slug": "mvp-workflow",
+        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Charlotte 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「快速鍵是手段，工作流程才是目的」：在 Mac 桌面落實 Command + Tab 與多視窗平滑切換，減少依賴滑鼠層層點選的零碎摩擦。\n2. 【關鍵動作】「掌握五階工作鏈」：熟練「操作熟練 ➔ 資訊流動 ➔ 資料治理 ➔ AI 協作 ➔ 人工驗收」實踐架構，建立一人公司自驅工作流。\n3. 【每週小勝】「個人桌面與 AI Work 整合實踐」：在本地資料夾與 ChatGPT Work 中獨立完成一組工作流演練，形成穩定肌肉記憶。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
+      "name": "張素幸",
+      "lessons_count": 19,
+      "current_cycle_lesson": 3,
+      "latest_date": "2026-10-05",
+      "days_since_last": 2,
+      "ai_import_stage": "MVP自動化",
+      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
+      "primary_pain": "密碼與帳號同步問題",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "「界定問題先於尋找解法」：在尋找任何數位工具前，先精確界定現況、目標、障礙與問題範圍，避免在錯誤問題上用力。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "「數位入口治理收攏」：將分散的網站入口、帳號、裝置與付款方式收斂至單一清晰路徑，不再層層翻找。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "「個人數位資料入口盤點」：完成常用網站、Booking 與付款帳號的跨裝置入口同步，落實高頻 Typeless 語音輸入。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "張素幸 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「界定問題先於尋找解法」：在尋找任何數位工具前，先精確界定現況、目標、障礙與問題範圍，避免在錯誤問題上用力。\n2. 【關鍵動作】「數位入口治理收攏」：將分散的網站入口、帳號、裝置與付款方式收斂至單一清晰路徑，不再層層翻找。\n3. 【每週小勝】「個人數位資料入口盤點」：完成常用網站、Booking 與付款帳號的跨裝置入口同步，落實高頻 Typeless 語音輸入。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
+      "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
+      "name": "Amy",
+      "lessons_count": 10,
+      "current_cycle_lesson": 2,
+      "latest_date": "2026-10-03",
+      "days_since_last": 4,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
+      "primary_pain": "檔案混亂與找不到資料",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "課堂核心原則：先選一件事做。完成的依據，是你實際檢查過的成果。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰快捷鍵：Command+C，形成無干擾肌肉記憶。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：立刻體驗指揮 AI 工作的成就感，建立行動的第一步信心。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "數位基礎救援包",
+        "slug": "digital-foundation",
+        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "Amy 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：先選一件事做。完成的依據，是你實際檢查過的成果。\n2. 【關鍵動作】掌握實戰快捷鍵：Command+C，形成無干擾肌肉記憶。\n3. 【每週小勝】本週驗收成果：立刻體驗指揮 AI 工作的成就感，建立行動的第一步信心。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
       "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
       "name": "Lucia 徐露華",
       "lessons_count": 41,
       "current_cycle_lesson": 3,
       "latest_date": "2026-10-02",
-      "days_since_last": 1,
+      "days_since_last": 5,
       "ai_import_stage": "數位地基",
       "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "密碼與帳號同步問題",
@@ -1945,12 +2170,57 @@
       "followup_copy": "Lucia 徐露華 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「雲端即時使用，本地真正累積」：清晰劃分雲端對話與本地專案邊界，不讓重要工作成果散落在未整理的聊天室中。\n2. 【關鍵動作】「先建前情提要，再開始即時互動」：在 Finder 建立標準專案層級，讓 AI 在明確的背景脈絡下參與工作協作。\n3. 【每週小勝】「本地專案工作區建立」：在 Finder 建立標準專案資料夾並連入工作模式，產出首份經過驗收的結構化交付物。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     },
     {
+      "student_id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
+      "name": "彭老師",
+      "lessons_count": 39,
+      "current_cycle_lesson": 4,
+      "latest_date": "2026-10-02",
+      "days_since_last": 5,
+      "ai_import_stage": "AI OS系統",
+      "ai_stage_detail": "知識分身、團隊流程協同與系統化商業變現",
+      "primary_pain": "檔案混亂與找不到資料",
+      "micro_action_cards": [
+        {
+          "type": "微習慣",
+          "title": "微習慣塑造",
+          "content": "不習慣鍵盤輸入，想直接說給 AI 聽。"
+        },
+        {
+          "type": "關鍵動作",
+          "title": "落地關鍵動作",
+          "content": "掌握實戰工作流：| **「我的 ChatGPT 對話太多，內容總是找不到！」** | ➔ **八 從 ChatGPT 對話累積到知識儲存** | 5-8 分鐘 |。"
+        },
+        {
+          "type": "每週小勝",
+          "title": "每週驗收小勝",
+          "content": "本週驗收成果：想把跟 AI 討論的結果，整理成可用的文章與卡片。"
+        }
+      ],
+      "task_staleness_warning": false,
+      "retention_signal": "stable",
+      "retention_signal_text": "穩定推進 🟢",
+      "retention_badge_class": "badge-success",
+      "product_recommendation": {
+        "title": "90 分鐘工作流啟動課",
+        "slug": "workflow-starter",
+        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
+      },
+      "followup": {
+        "status": "pending",
+        "last_contacted_date": null,
+        "next_followup_date": null,
+        "coach_notes": "",
+        "updated_at": ""
+      },
+      "followup_copy": "彭老師 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】不習慣鍵盤輸入，想直接說給 AI 聽。\n2. 【關鍵動作】掌握實戰工作流：| **「我的 ChatGPT 對話太多，內容總是找不到！」** | ➔ **八 從 ChatGPT 對話累積到知識儲存** | 5-8 分鐘 |。\n3. 【每週小勝】本週驗收成果：想把跟 AI 討論的結果，整理成可用的文章與卡片。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
+    },
+    {
       "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
       "name": "蘋果總裁班",
       "lessons_count": 1366,
       "current_cycle_lesson": 6,
       "latest_date": "2026-10-01",
-      "days_since_last": 2,
+      "days_since_last": 6,
       "ai_import_stage": "MVP自動化",
       "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
       "primary_pain": "重複繁瑣勞動佔據過多時間",
@@ -1995,9 +2265,9 @@
       "lessons_count": 17,
       "current_cycle_lesson": 1,
       "latest_date": "2026-09-28",
-      "days_since_last": 5,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
+      "days_since_last": 9,
+      "ai_import_stage": "數位地基",
+      "ai_stage_detail": "核心開機環境、檔案命名、GTD 與跨裝置同步基礎",
       "primary_pain": "密碼與帳號同步問題",
       "micro_action_cards": [
         {
@@ -2033,231 +2303,6 @@
         "updated_at": ""
       },
       "followup_copy": "Anna 蕭 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】課堂核心原則：資料進來 → 物有所歸 → 建立 Context → 指派 AI → AI 執行 → 人類驗收 → 修正 → 正式輸出 → 歸檔 → SOP 化。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + Q，形成無干擾肌肉記憶。\n3. 【每週小勝】本週實踐目標：《從電腦使用者到 AI 管理者：企業主的數位工作系統實戰》。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
-      "name": "陳顧問",
-      "lessons_count": 14,
-      "current_cycle_lesson": 6,
-      "latest_date": "2026-09-22",
-      "days_since_last": 11,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "檔案混亂與找不到資料",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "[第二部分：Benchmark 資料來源與責任邊界]。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：工具與概念很多，不知道現階段到底該做什麼、砍什麼？」** | ➔ **[第二部分：三大風險與錯誤假設]**<br>➔ **[第四部分：明確不建議現在做的事]** | 3 分鐘。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週驗收成果：請作為戰略規範查閱，切勿試圖平行展開所有專案！。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "stable",
-      "retention_signal_text": "穩定推進 🟢",
-      "retention_badge_class": "badge-success",
-      "product_recommendation": {
-        "title": "MVP 工作流建置",
-        "slug": "mvp-workflow",
-        "pitch_message": "針對固定高頻痛點建立專屬 AI Agent 與端到端資料流水線，釋放每週 5~10 小時重複繁重勞動。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "陳顧問 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】[第二部分：Benchmark 資料來源與責任邊界]。\n2. 【關鍵動作】掌握實戰工作流：工具與概念很多，不知道現階段到底該做什麼、砍什麼？」** | ➔ **[第二部分：三大風險與錯誤假設]**<br>➔ **[第四部分：明確不建議現在做的事]** | 3 分鐘。\n3. 【每週小勝】本週驗收成果：請作為戰略規範查閱，切勿試圖平行展開所有專案！。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
-      "name": "Charlotte",
-      "lessons_count": 76,
-      "current_cycle_lesson": 4,
-      "latest_date": "2026-09-21",
-      "days_since_last": 12,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人 AI 工作流、快速輸入流與第一項自動化產出",
-      "primary_pain": "檔案混亂與找不到資料",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "「快速鍵是手段，工作流程才是目的」：在 Mac 桌面落實 Command + Tab 與多視窗平滑切換，減少依賴滑鼠層層點選的零碎摩擦。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "「掌握五階工作鏈」：熟練「操作熟練 ➔ 資訊流動 ➔ 資料治理 ➔ AI 協作 ➔ 人工驗收」實踐架構，建立一人公司自驅工作流。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "「個人桌面與 AI Work 整合實踐」：在本地資料夾與 ChatGPT Work 中獨立完成一組工作流演練，形成穩定肌肉記憶。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "stable",
-      "retention_signal_text": "穩定推進 🟢",
-      "retention_badge_class": "badge-success",
-      "product_recommendation": {
-        "title": "90 分鐘工作流啟動課",
-        "slug": "workflow-starter",
-        "pitch_message": "針對日常重複溝通與撰寫痛點，導入結構化 Prompt 框架與語音快速輸入流，90 分鐘帶出第一個高質量產出。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "Charlotte 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「快速鍵是手段，工作流程才是目的」：在 Mac 桌面落實 Command + Tab 與多視窗平滑切換，減少依賴滑鼠層層點選的零碎摩擦。\n2. 【關鍵動作】「掌握五階工作鏈」：熟練「操作熟練 ➔ 資訊流動 ➔ 資料治理 ➔ AI 協作 ➔ 人工驗收」實踐架構，建立一人公司自驅工作流。\n3. 【每週小勝】「個人桌面與 AI Work 整合實踐」：在本地資料夾與 ChatGPT Work 中獨立完成一組工作流演練，形成穩定肌肉記憶。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "5e0ac3dc-99bf-4ad6-95f6-d24744bce6cc",
-      "name": "Teresa",
-      "lessons_count": 17,
-      "current_cycle_lesson": 1,
-      "latest_date": "2026-09-21",
-      "days_since_last": 12,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "檔案混亂與找不到資料",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰快捷鍵：Command + S，形成無干擾肌肉記憶。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "stable",
-      "retention_signal_text": "穩定推進 🟢",
-      "retention_badge_class": "badge-success",
-      "product_recommendation": {
-        "title": "數位基礎救援包",
-        "slug": "digital-foundation",
-        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "Teresa 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】掌握實戰快捷鍵：Command + S，形成無干擾肌肉記憶。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
-      "name": "Kelly Woo",
-      "lessons_count": 70,
-      "current_cycle_lesson": 1,
-      "latest_date": "2026-09-20",
-      "days_since_last": 13,
-      "ai_import_stage": "MVP自動化",
-      "ai_stage_detail": "個人影片剪輯工作流、素材集中管理與家庭數位資產專案建立",
-      "primary_pain": "日常操作穩定，引導落實每日微習慣與實踐輸出",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "「專案分工與環境防呆」：建立清晰的專案管理觀念，本地專案落地於實體檔案，雲端專案用於跨裝置輕量溝通。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "「標準專案建立流程」：熟練「建立新專案 ➔ 建立實體資料夾 ➔ 選擇資料夾 ➔ 建立 Project」之標準動作鏈。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "「AI 工作環境全面梳理」：完成 ChatGPT 電腦版重新配置與專案資料夾建立，獨立跑通 1 次專案建立與輸出。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "stable",
-      "retention_signal_text": "穩定推進 🟢",
-      "retention_badge_class": "badge-success",
-      "product_recommendation": {
-        "title": "數位基礎救援包",
-        "slug": "digital-foundation",
-        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "Kelly Woo 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】「專案分工與環境防呆」：建立清晰的專案管理觀念，本地專案落地於實體檔案，雲端專案用於跨裝置輕量溝通。\n2. 【關鍵動作】「標準專案建立流程」：熟練「建立新專案 ➔ 建立實體資料夾 ➔ 選擇資料夾 ➔ 建立 Project」之標準動作鏈。\n3. 【每週小勝】「AI 工作環境全面梳理」：完成 ChatGPT 電腦版重新配置與專案資料夾建立，獨立跑通 1 次專案建立與輸出。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
-    },
-    {
-      "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
-      "name": "Amy",
-      "lessons_count": 9,
-      "current_cycle_lesson": 1,
-      "latest_date": "2026-09-19",
-      "days_since_last": 14,
-      "ai_import_stage": "核心提示詞",
-      "ai_stage_detail": "Prompt 結構化框架、逐字稿提煉與知識庫白板",
-      "primary_pain": "檔案混亂與找不到資料",
-      "micro_action_cards": [
-        {
-          "type": "微習慣",
-          "title": "微習慣塑造",
-          "content": "每日開機複習「數位管理」核心觀念，落實日常無痛微練習。"
-        },
-        {
-          "type": "關鍵動作",
-          "title": "落地關鍵動作",
-          "content": "掌握實戰工作流：研究 → 寫成檔案 → 存進 Project → 成為下一輪 Context。"
-        },
-        {
-          "type": "每週小勝",
-          "title": "每週驗收小勝",
-          "content": "本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。"
-        }
-      ],
-      "task_staleness_warning": false,
-      "retention_signal": "stable",
-      "retention_signal_text": "穩定推進 🟢",
-      "retention_badge_class": "badge-success",
-      "product_recommendation": {
-        "title": "數位基礎救援包",
-        "slug": "digital-foundation",
-        "pitch_message": "針對檔案與環境混亂，一對一協助建立零摩擦開機桌面、GTD 檔案目錄與跨裝置無縫同步底座。"
-      },
-      "followup": {
-        "status": "pending",
-        "last_contacted_date": null,
-        "next_followup_date": null,
-        "coach_notes": "",
-        "updated_at": ""
-      },
-      "followup_copy": "Amy 你好！我是蔡教練 😊\n這週日常操作與工作練習還順利嗎？\n\n回顧一下上次課堂我們整理的落地練習目標：\n1. 【微習慣】每日開機複習「數位管理」核心觀念，落實日常無痛微練習。\n2. 【關鍵動作】掌握實戰工作流：研究 → 寫成檔案 → 存進 Project → 成為下一輪 Context。\n3. 【每週小勝】本週獨立完成「數位管理」課堂作業演練，向教練回饋 1 個具體效率提升成果。\n\n想了解一下你的落地進度：\n1. 上次這幾個練習卡，你目前完成了哪一步？\n2. 哪一步最卡或遇到阻礙？\n3. 有沒有產出可重複使用的檔案、提示詞或筆記？\n4. 這個工作流有沒有幫你省到時間？\n5. 下次上課最想優先解決哪一個流程？\n\n有任何卡點隨時在 LINE 發訊息給我，我們隨時調整！"
     }
   ]
 }

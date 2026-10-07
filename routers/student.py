@@ -61,84 +61,18 @@ async def read_student(request: Request, student_id: str):
         target_id = redirects[student_id]
         return RedirectResponse(url=f"/student/{target_id}", status_code=301)
 
-    students = deps["load_students"]()
-    student = next((s for s in students if s.get('id') == student_id), None)
-    if not student:
+    from student_profile_assembler import StudentProfileAssembler
+    assembler = StudentProfileAssembler(
+        data_gateway=deps["student_gateway"],
+        base_dir=deps["BASE_DIR"],
+    )
+    context = assembler.assemble_student_view_context(student_id)
+    if not context:
         return HTMLResponse(content="Student not found", status_code=404)
-
-    base_dir = deps["BASE_DIR"]
-    file_value = student.get('file') or ""
-    file_path = os.path.join(base_dir, file_value.lstrip('/')) if file_value else ""
-
-    if 'recurring_schedule' in student and not student.get('next_lesson'):
-        doc_exceptions = get_document_exceptions(file_path) if file_path else []
-        json_exceptions = student.get('schedule_exceptions', [])
-        all_exceptions = list(set(json_exceptions + doc_exceptions))
-
-        student['next_lesson'] = get_next_occurrence(
-            student['recurring_schedule'],
-            all_exceptions
-        )
-
-    student_notes = deps["get_student_teaching_notes"](student)
-    hub_token = get_public_student_slug(student_id) or student_id
-    file_meta = deps["get_student_metadata"](file_path) if file_path and os.path.exists(file_path) else {}
-    cloud_meta = deps["build_cloud_student_meta"](student)
-    student['meta'] = {**cloud_meta, **file_meta}
-    if isinstance(student.get("raw"), dict):
-        for k in ("current_cycle_lesson", "cycle_size", "completion_status", "completion_note"):
-            if student.get(k) is None and student["raw"].get(k) is not None:
-                student[k] = student["raw"][k]
-    if not student.get('current_cycle_lesson') and student['meta'].get('current_cycle_lesson'):
-        student['current_cycle_lesson'] = student['meta']['current_cycle_lesson']
-    if not student.get('cycle_size') and student['meta'].get('cycle_size'):
-        student['cycle_size'] = student['meta']['cycle_size']
-
-    if not student['meta'].get('first_lesson_date') or student['meta']['first_lesson_date'] in ("未記錄", "TBD"):
-        student['meta']['first_lesson_date'] = student.get('first_lesson_date') or "未記錄"
-    if not student['meta'].get('last_lesson_date') or student['meta']['last_lesson_date'] in ("未記錄", "TBD"):
-        student['meta']['last_lesson_date'] = student.get('latest_date') or "未記錄"
-    if not student['meta'].get('lessons_count') or student['meta']['lessons_count'] == 0:
-        student['meta']['lessons_count'] = student.get('lessons_count') or len(student_notes)
-    student['features'] = deps["analyze_student_features"](student_id)
-    student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
-    renewal_message = generate_student_renewal_reminder(student)
-    briefing = generate_preclass_briefing(student, student_notes)
-
-    if not file_path or not os.path.isfile(file_path):
-        teaching_records = deps["student_gateway"].load_teaching_records(student_id)
-        return deps["templates"].TemplateResponse(request, "student.html", {
-            "request": request,
-            "student": student,
-            "student_notes": student_notes,
-            "timeline_html": deps["render_cloud_student_timeline"](student, teaching_records),
-            "student_id": student_id,
-            "hub_token": hub_token,
-            "renewal_message": renewal_message,
-            "briefing": briefing,
-        })
-
-    with open(file_path, 'r', encoding='utf-8') as f:
-        content = f.read()
-
-    parts = re.split(r"## 📅 教學時間軸 \(Lesson Timeline\)", content)
-    body = parts[1] if len(parts) > 1 else ""
-    body = body.replace("file://", "/open_file?path=")
-    body = get_media_resolver().transform_markdown_media(body)
-
-    import markdown
-    html_content = markdown.markdown(body, extensions=['tables'])
-    html_content = deps["inject_badges"](html_content)
 
     return deps["templates"].TemplateResponse(request, "student.html", {
         "request": request,
-        "student": student,
-        "student_notes": student_notes,
-        "timeline_html": html_content,
-        "student_id": student_id,
-        "hub_token": hub_token,
-        "renewal_message": renewal_message,
-        "briefing": briefing,
+        **context,
     })
 
 

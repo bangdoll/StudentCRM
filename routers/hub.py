@@ -12,7 +12,7 @@ from auth_service import ADMIN_PASSKEYS
 from hub_service import generate_student_manifest_data, get_random_practice_card
 from note_service import extract_micro_action_cards
 from apple_ceo_service import summarize_apple_ceo_program
-from student_service import resolve_student_access_id
+from student_service import is_valid_student_access_key, resolve_student_access_id
 from outcome_service import OutcomeStoreError, StudentActionSubmission, submit_student_action
 
 router = APIRouter(tags=["hub"])
@@ -28,6 +28,7 @@ def get_hub_deps():
         "load_students": main.load_students,
         "get_student_by_id": main.get_student_by_id,
         "resolve_student_access_id": resolve_student_access_id,
+        "is_valid_student_access_key": is_valid_student_access_key,
         "load_apple_ceo_program": main.load_apple_ceo_program,
         "get_merged_redirects": lambda: get_merged_redirects(main.APP_DIR),
         "get_student_teaching_notes": main.get_student_teaching_notes,
@@ -61,7 +62,9 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
         return RedirectResponse(url=f"/my/{target_id}", status_code=301)
 
     students = deps["load_students"]()
-    student = deps["get_student_by_id"](deps["resolve_student_access_id"](lookup_key), students)
+    student = deps["get_student_by_id"](deps["resolve_student_access_id"](lookup_key, students), students)
+    if student and not deps["is_valid_student_access_key"](lookup_key, student):
+        student = None
     if not student:
         raise HTTPException(status_code=404, detail="找不到此專屬學員空間，請確認連結是否正確")
 
@@ -155,7 +158,9 @@ async def student_hub_manifest(token: str):
     """【學員專屬 PWA 清單】將 start_url 綁定至學員個人 URL，委託 hub_service 產生標準配置。"""
     deps = get_hub_deps()
     students = deps["load_students"]()
-    student = deps["get_student_by_id"](deps["resolve_student_access_id"](token), students)
+    student = deps["get_student_by_id"](deps["resolve_student_access_id"](token, students), students)
+    if student and not is_valid_student_access_key(token, student):
+        student = None
     student_name = student.get("name", "學員") if student else "學員"
     if token in ("adf9958b-a23d-4e9b-a4a2-156b5329b0ed", "apple-ceo") or (student and "總裁班" in student.get("name", "")):
         student_name = "蘋果總裁班"
@@ -168,7 +173,9 @@ async def submit_student_outcome(token: str, payload: StudentActionSubmission):
     """學員在專屬連結回報課後行動；只修改獨立成果層，不修改原始教學筆記。"""
     deps = get_hub_deps()
     students = deps["load_students"]()
-    student = deps["get_student_by_id"](deps["resolve_student_access_id"](token), students)
+    student = deps["get_student_by_id"](deps["resolve_student_access_id"](token, students), students)
+    if student and not is_valid_student_access_key(token, student):
+        student = None
     if not student:
         raise HTTPException(status_code=404, detail="找不到學員專屬空間")
     try:

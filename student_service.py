@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import hmac
 import re
 from typing import Any
 
@@ -58,16 +59,40 @@ def get_student_by_id(sid: Any, students: Any) -> dict[str, Any] | None:
     return next((s for s in students if isinstance(s, dict) and s.get("id") == sid), None)
 
 
-def resolve_student_access_id(access_key: str) -> str:
-    """將公開英文 slug 解析為既有學員 UUID；未命中時保留原值。"""
-    return PUBLIC_STUDENT_SLUGS.get((access_key or "").strip(), access_key)
+def resolve_student_access_id(access_key: str, students: list[dict[str, Any]] | None = None) -> str:
+    """解析公開英文 slug 或學員專屬高熵 Token；未命中時保留原值。"""
+    key = (access_key or "").strip()
+    mapped = PUBLIC_STUDENT_SLUGS.get(key)
+    if mapped:
+        return mapped
+    for student in students or []:
+        public_token = str(student.get("public_token") or "")
+        if public_token and hmac.compare_digest(public_token.encode("utf-8"), key.encode("utf-8")):
+            return str(student.get("id") or key)
+    return key
 
 
-def get_public_student_slug(student_id: str) -> str | None:
-    """取得學員的公開英文 slug，沒有指定 slug 時回傳 None。"""
+def is_valid_student_access_key(access_key: str, student: dict[str, Any] | None) -> bool:
+    """確認目前網址是否是該學員允許的入口；私密 Token 不接受學員 ID 直連。"""
+    if not student:
+        return False
+    key = (access_key or "").strip()
+    public_token = str(student.get("public_token") or "")
+    if public_token:
+        return bool(key) and hmac.compare_digest(public_token.encode("utf-8"), key.encode("utf-8"))
+    if PUBLIC_STUDENT_SLUGS.get(key) == student.get("id"):
+        return True
+    return key == str(student.get("id") or "")
+
+
+def get_public_student_slug(student_id: str, students: list[dict[str, Any]] | None = None) -> str | None:
+    """取得學員的公開英文 slug 或專屬 Token，沒有指定入口時回傳 None。"""
     for slug, mapped_id in PUBLIC_STUDENT_SLUGS.items():
         if mapped_id == student_id:
             return slug
+    for student in students or []:
+        if student.get("id") == student_id and student.get("public_token"):
+            return str(student["public_token"])
     return None
 
 

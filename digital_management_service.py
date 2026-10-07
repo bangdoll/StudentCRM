@@ -43,6 +43,7 @@ BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", DEFAULT_BASE_DIR)
 CACHE_DIR = os.getenv("STUDENTCRM_CACHE_DIR", "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(APP_DIR, "cache"))
 TEACHING_DIR = os.path.join(BASE_DIR, "01.Docs/teaching")
 DIGITAL_MANAGEMENT_LABEL = "數位管理教學"
+FIRST_LESSON_TITLE_MARKER = "第一堂數位管理教學"
 DIGITAL_MANAGEMENT_CALENDAR_CACHE = os.getenv(
     "STUDENTCRM_DIGITAL_MANAGEMENT_CALENDAR_CACHE",
     os.path.join(CACHE_DIR, "digital_management_calendar_events.json"),
@@ -85,12 +86,40 @@ def parse_datetime(value: str) -> datetime | None:
 
 
 def parse_digital_management_title(summary: str) -> dict:
-    """Parse titles like `60-4.Kelly Woo 數位管理教學` into profile fields."""
+    """解析數位管理日曆標題，並辨識第一堂課建頁訊號。
+
+    支援既有的 `01.Liya數位管理教學` 格式，也支援日曆直接寫成
+    `Liya第一堂數位管理教學`、`第一堂數位管理教學：Liya` 等語意格式。
+    """
     title = (summary or "").strip()
     if any(ex in title for ex in ["看診", "中醫看診", "中醫", "門診", "回診", "就診", "牙醫", "諮詢"]):
         return {}
     if DIGITAL_MANAGEMENT_LABEL not in title:
         return {}
+
+    if FIRST_LESSON_TITLE_MARKER in title:
+        before_marker, after_marker = title.split(FIRST_LESSON_TITLE_MARKER, 1)
+        candidates = [after_marker, before_marker]
+        name = ""
+        for candidate in candidates:
+            candidate = candidate.split("@", 1)[0]
+            candidate = re.sub(r"20\d{2}[-_ ./年]?\d{2}[-_ ./月]?\d{2}", " ", candidate)
+            candidate = re.sub(r"^\s*\d+\s*[-－.]?\s*", "", candidate)
+            candidate = re.sub(r"^[\s.．、:：\-–—|/]+|[\s.．、:：\-–—|/]+$", "", candidate)
+            candidate = re.sub(r"\s+", " ", candidate).strip()
+            if candidate:
+                name = candidate
+                break
+        if not name or name in ("劉淑華線上", "劉淑華"):
+            return {}
+        return {
+            "student_name": name,
+            "student_id": digital_student_id(name),
+            "calendar_series_number": None,
+            "lesson_number": 1,
+            "first_lesson_signal": "explicit_title_marker",
+            "title": title,
+        }
 
     head = title.split(DIGITAL_MANAGEMENT_LABEL, 1)[0]
     head = head.split("@", 1)[0].strip()
@@ -113,6 +142,7 @@ def parse_digital_management_title(summary: str) -> dict:
         "student_id": digital_student_id(name),
         "calendar_series_number": series_number,
         "lesson_number": lesson_number,
+        "first_lesson_signal": "lesson_number" if lesson_number == 1 else "",
         "title": title,
     }
 

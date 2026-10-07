@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 import re
+import secrets
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -405,6 +407,10 @@ def sync_teaching_records_to_crm(
     with open(students_file, "r", encoding="utf-8") as f:
         students = json.load(f)
 
+    # 0. 第一堂數位管理課若尚無正式學員，先建立最小個人頁面資料。
+    # 不在 GET 讀取路由執行，僅由明確的教學同步流程觸發。
+    first_lesson_students_created = ensure_first_lesson_students_from_calendar(students, crm_dir)
+
     # 1. 產生全量教學紀錄
     result = build_teaching_records_from_directory(teaching_dir, students)
 
@@ -539,74 +545,15 @@ def sync_teaching_records_to_crm(
     if students_updated or needs_sync_root or next_lessons_updated:
         gateway.save_students(students)
 
-    # 4.2 同步教學筆記圖片資產至 StudentCRM static/teaching_assets/ (全量安全壓制版 + Heptabase 自動自癒)
+    # 4.2 委派 ImageSyncEngine 深模組：同步與自癒教學筆記圖片資產
     try:
-        src_assets = workspace_dir / "01.Docs" / "teaching" / "assets"
-        dst_assets = crm_dir / "static" / "teaching_assets"
-        dst_assets.mkdir(parents=True, exist_ok=True)
-        if src_assets.exists():
-            # 自動收攏子目錄圖片（如陳顧問/assets）
-            chen_assets = workspace_dir / "01.Docs" / "teaching" / "陳顧問" / "assets"
-            if chen_assets.is_dir():
-                for cf in chen_assets.iterdir():
-                    if cf.is_file() and not cf.name.startswith("."):
-                        target_cf = src_assets / cf.name
-                        if not target_cf.exists():
-                            import shutil
-                            shutil.copy2(cf, target_cf)
-
-            from media_asset_resolver import get_media_resolver
-            resolver = get_media_resolver()
-            referenced_images = set()
-            for rec in result.get("records", []):
-                cnt = rec.get("content", "")
-                referenced_images.update(resolver.extract_image_references(cnt))
-
-            for img_name in referenced_images:
-                src_file = src_assets / img_name
-                # 若本地缺失，嘗試透過 Heptabase CLI 自癒抽取
-                if not src_file.exists() or src_file.stat().st_size == 0:
-                    uuid_match = re.findall(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", img_name, re.IGNORECASE)
-                    if uuid_match:
-                        target_file_id = uuid_match[-1]
-                        try:
-                            import subprocess
-                            cmd = ["heptabase", "file", "export", target_file_id, "--output-dir", str(src_assets)]
-                            res = subprocess.run(cmd, capture_output=True, text=True, timeout=25, check=False)
-                            if res.returncode == 0:
-                                exp_data = json.loads(res.stdout)
-                                exp_path = Path(exp_data.get("path", ""))
-                                if exp_path.exists():
-                                    src_file = exp_path
-                                    # 若匯出檔名與引用略有不同，建立副本確保兩邊皆可讀
-                                    if exp_path.name != img_name:
-                                        import shutil
-                                        shutil.copy2(exp_path, src_assets / img_name)
-                        except Exception as export_err:
-                            print(f"⚠️ 從 Heptabase 自癒匯出圖片 {img_name} 失敗: {export_err}")
-
-                if src_file.exists() and src_file.is_file():
-                    target_img = dst_assets / img_name
-                    if target_img.exists() and target_img.stat().st_size > 0 and target_img.stat().st_mtime >= src_file.stat().st_mtime:
-                        continue
-                    if src_file.stat().st_size < 300 * 1024:
-                        target_img.write_bytes(src_file.read_bytes())
-                    else:
-                        try:
-                            from PIL import Image
-                            im = Image.open(src_file)
-                            if max(im.size) > 1600:
-                                ratio = 1600 / max(im.size)
-                                im = im.resize((int(im.size[0] * ratio), int(im.size[1] * ratio)), Image.Resampling.LANCZOS)
-                            if src_file.suffix.lower() in ('.jpg', '.jpeg'):
-                                im.convert('RGB').save(target_img, format='JPEG', quality=82, optimize=True)
-                            else:
-                                q = im.convert('RGB').quantize(colors=256, method=Image.Quantize.MEDIANCUT)
-                                q.save(target_img, format='PNG', optimize=True)
-                        except Exception:
-                            target_img.write_bytes(src_file.read_bytes())
+        from image_sync_engine import ImageSyncEngine
+        image_engine = ImageSyncEngine(crm_dir=crm_dir, workspace_dir=workspace_dir)
+        image_stats = image_engine.sync_records_images(result.get("records", []))
+        if image_stats.get("synced", 0) > 0 or image_stats.get("healed", 0) > 0:
+            print(f"🖼️ 圖片同步完成：自癒 {image_stats.get('healed', 0)} 張，壓制同步 {image_stats.get('synced', 0)} 張")
     except Exception as img_err:
-        print(f"⚠️ 同步教學圖片至 static/teaching_assets 失敗: {img_err}")
+        print(f"⚠️ 委派 ImageSyncEngine 同步教學圖片失敗: {img_err}")
 
     # 5. 清理記憶體快取
     try:
@@ -632,11 +579,89 @@ def sync_teaching_records_to_crm(
         "apple_ceo_notes_count": apple_ceo_synced_count,
         "students_updated_count": len(students_updated),
         "students_updated": students_updated,
+        "first_lesson_students_created": first_lesson_students_created,
+        "first_lesson_students_created_count": len(first_lesson_students_created),
         "next_lessons_updated_count": len(next_lessons_updated),
         "next_lessons_updated": next_lessons_updated,
         "cloud_sync": cloud_sync_summary,
         "generated_at": result["generated_at"],
     }
+
+
+def ensure_first_lesson_students_from_calendar(
+    students: list[dict[str, Any]], crm_dir: Path | str = ""
+) -> list[dict[str, Any]]:
+    """依第一堂數位管理日曆事件建立最小 StudentCRM 個人資料。
+
+    事件標題可使用 `01.學員數位管理教學` 或
+    `學員第一堂數位管理教學`／`第一堂數位管理教學：學員`，解析結果必須為
+    `lesson_number == 1`；已有同名或別名學員時保留既有資料，不重複建立。
+    這個副作用只允許由教學同步流程呼叫，不由頁面 GET 觸發。
+    """
+    crm_path = Path(crm_dir) if crm_dir else Path(__file__).resolve().parent
+    cal_file = crm_path / "data" / "digital_management_calendar_events.json"
+    if not cal_file.exists():
+        cal_file = crm_path / "cache" / "digital_management_calendar_events.json"
+    if not cal_file.exists():
+        return []
+
+    try:
+        from digital_management_service import (
+            load_digital_management_calendar_events,
+            parse_digital_management_calendar_events,
+        )
+
+        events = parse_digital_management_calendar_events(
+            load_digital_management_calendar_events(str(cal_file))
+        )
+    except Exception:
+        return []
+
+    created: list[dict[str, Any]] = []
+    known_ids = {str(student.get("id") or "") for student in students if isinstance(student, dict)}
+    for event in events:
+        if event.get("lesson_number") != 1:
+            continue
+        student_name = str(event.get("student_name") or "").strip()
+        if not student_name or resolve_student(student_name, students)[0]:
+            continue
+
+        normalized_name = re.sub(r"\s+", "", student_name).lower()
+        student_id = str(
+            uuid.uuid5(uuid.NAMESPACE_URL, f"studentcrm:student:{normalized_name}")
+        )
+        if student_id in known_ids:
+            continue
+        first_date = str(event.get("date") or "").strip()
+        if not first_date:
+            continue
+
+        profile = {
+            "id": student_id,
+            "name": student_name,
+            "aliases": [],
+            "file": "",
+            "lessons_count": 1,
+            "latest_date": first_date,
+            "next_lesson": "",
+            "tags": ["數位管理教學"],
+            "first_lesson_date": first_date,
+            "current_cycle_lesson": 1,
+            "status": "active",
+            "completion_status": "has_remaining",
+            "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+            "public_token": f"{re.sub(r'[^a-z0-9]+', '-', student_name.lower()).strip('-') or 'student'}-{secrets.token_urlsafe(18)}",
+        }
+        students.append(profile)
+        known_ids.add(student_id)
+        created.append({
+            "id": student_id,
+            "name": student_name,
+            "first_lesson_date": first_date,
+            "source_event_id": event.get("id", ""),
+        })
+
+    return created
 
 
 def sync_student_next_lessons(students: list[dict[str, Any]], crm_dir: Path | str = "") -> list[dict[str, Any]]:
