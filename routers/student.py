@@ -114,11 +114,13 @@ async def open_file(request: Request, path: str):
         back_url = f"/my/{token}" if token else "/program/apple-ceo"
         return HTMLResponse(content=f"<h3>找不到此筆記或路徑無效 (404)</h3><p><a href='{back_url}'>返回專屬學習空間</a></p>", status_code=404)
 
-    return deps["templates"].TemplateResponse(request, "note.html", {
+    response = deps["templates"].TemplateResponse(request, "note.html", {
         "request": request,
         "token": token,
         **note.to_template_context()
     })
+    response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+    return response
 
 
 @router.get("/trigger_open", response_model=APIStatusResponse)

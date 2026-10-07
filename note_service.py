@@ -467,6 +467,14 @@ def get_architect_insight(path: str, content: str = "") -> dict:
     return {"level": level, "badge": badge, "class": cls, "label": label, "snippet": snippet}
 
 
+_NOTE_DETAIL_CACHE: dict[str, tuple[float, NoteDetail]] = {}
+
+
+def clear_note_detail_cache() -> None:
+    """清除筆記詳情快取。"""
+    _NOTE_DETAIL_CACHE.clear()
+
+
 def resolve_note_detail(
     path_or_filename: str,
     base_dir: str,
@@ -542,13 +550,28 @@ def resolve_note_detail(
         os.path.join(base_dir, path_or_filename.lstrip('/')),
         os.path.join(base_dir, "01.Docs", "teaching", filename),
     ]
+    matched_file_path = None
+    file_mtime = 0.0
     for p in resolved_paths:
         if p and os.path.exists(p) and os.path.isfile(p):
+            matched_file_path = p
             try:
-                content = Path(p).read_text(encoding="utf-8", errors="ignore")
-                break
+                file_mtime = os.path.getmtime(p)
             except OSError:
                 pass
+            break
+
+    cache_key = f"{path_or_filename}_{matched_file_path or 'cloud'}"
+    if matched_file_path and file_mtime > 0:
+        cached = _NOTE_DETAIL_CACHE.get(cache_key)
+        if cached and cached[0] == file_mtime:
+            return cached[1]
+
+    if matched_file_path:
+        try:
+            content = Path(matched_file_path).read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            pass
 
     if not content:
         if apple_match:
@@ -633,7 +656,7 @@ def resolve_note_detail(
             },
         ]
 
-    return NoteDetail(
+    detail = NoteDetail(
         filename=filename,
         note_title=note_title,
         note_date=note_date,
@@ -652,3 +675,6 @@ def resolve_note_detail(
         micro_cards=micro_cards,
         dod_tasks=dod_tasks,
     )
+    if matched_file_path and file_mtime > 0:
+        _NOTE_DETAIL_CACHE[cache_key] = (file_mtime, detail)
+    return detail

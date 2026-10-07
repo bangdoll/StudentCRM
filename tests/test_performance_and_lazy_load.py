@@ -67,3 +67,27 @@ def test_html_templates_contain_font_preconnect():
             content = tpl_path.read_text(encoding="utf-8")
             assert 'rel="preconnect" href="https://fonts.googleapis.com"' in content, f"{tpl_name} 缺少 fonts.googleapis.com preconnect"
             assert 'rel="preconnect" href="https://fonts.gstatic.com"' in content, f"{tpl_name} 缺少 fonts.gstatic.com preconnect"
+
+
+def test_note_service_detail_caching(tmp_path):
+    from note_service import resolve_note_detail, clear_note_detail_cache
+    clear_note_detail_cache()
+
+    note_file = tmp_path / "test_note.md"
+    note_file.write_text("# 課堂重點\n第一版內容", encoding="utf-8")
+
+    detail1 = resolve_note_detail(str(note_file), base_dir=str(tmp_path))
+    assert detail1 is not None
+    assert "第一版內容" in detail1.content_html
+
+    # 第 2 次解析命中快取
+    detail2 = resolve_note_detail(str(note_file), base_dir=str(tmp_path))
+    assert detail2 is not None
+    assert detail1 is detail2
+
+    # 檔案更新時自動失效
+    time.sleep(0.01)
+    note_file.write_text("# 課堂重點\n第二版更新內容", encoding="utf-8")
+    detail3 = resolve_note_detail(str(note_file), base_dir=str(tmp_path))
+    assert detail3 is not None
+    assert "第二版更新內容" in detail3.content_html

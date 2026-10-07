@@ -491,5 +491,28 @@
             });
         }
     </script>
+
+    <!-- ⚡ Instant Prefetch: 觸控或懸停即預先載入完整筆記，點開零延遲秒開 -->
+    <script>
+    (function initInstantPrefetch() {
+        const prefetched = new Set();
+        function prefetch(url) {
+            if (!url || prefetched.has(url)) return;
+            prefetched.add(url);
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = url;
+            document.head.appendChild(link);
+        }
+        document.addEventListener('mouseover', function(e) {
+            const a = e.target.closest('a[href^="/note"], a[href^="/open_file"]');
+            if (a && a.href) prefetch(a.href);
+        }, { passive: true });
+        document.addEventListener('touchstart', function(e) {
+            const a = e.target.closest('a[href^="/note"], a[href^="/open_file"]');
+            if (a && a.href) prefetch(a.href);
+        }, { passive: true });
+    })();
+    </script>
 </body>
 </html>
