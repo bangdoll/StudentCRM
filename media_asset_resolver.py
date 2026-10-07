@@ -206,7 +206,7 @@ class MediaAssetResolver:
         return re.sub(pattern, _repl, markdown_text)
 
     def inject_lazy_loading(self, html_content: str) -> str:
-        """【效能深模組】為 HTML 中的 <img> 標籤自動注入 loading="lazy" 與 decoding="async"。
+        """【效能深模組】為 HTML 中的 <img> 標籤自動注入 loading="lazy"、decoding="async" 與骨架屏淡入效果。
 
         若標籤中已顯式設定 loading 屬性則予以保留，避免破壞特殊需求（如 LCP 首圖 eager 標記）。
         """
@@ -217,7 +217,22 @@ class MediaAssetResolver:
             tag = match.group(0)
             if "loading=" in tag:
                 return tag
-            return re.sub(r"<img\s+", '<img loading="lazy" decoding="async" ', tag, count=1)
+
+            # 注入 loading="lazy", decoding="async" 與 onload="this.classList.add('img-loaded')"
+            modified = re.sub(
+                r"<img\s+",
+                '<img loading="lazy" decoding="async" onload="this.classList.add(\'img-loaded\')" ',
+                tag,
+                count=1,
+            )
+            # 附加骨架屏動畫與淡入樣式類別
+            if 'class="' in modified:
+                modified = re.sub(r'class="([^"]*)"', r'class="\1 img-has-shimmer img-lazy-fade"', modified, count=1)
+            elif "class='" in modified:
+                modified = re.sub(r"class='([^']*)'", r"class='\1 img-has-shimmer img-lazy-fade'", modified, count=1)
+            else:
+                modified = re.sub(r"<img\s+", '<img class="img-has-shimmer img-lazy-fade" ', modified, count=1)
+            return modified
 
         return re.sub(r"<img\b[^>]*>", _repl, html_content, flags=re.IGNORECASE)
 

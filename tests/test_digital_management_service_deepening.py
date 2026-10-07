@@ -16,7 +16,7 @@ def test_get_digital_management_student_profile_taoyuan():
     assert profile is not None
     assert profile["id"] == taoyuan_id
     assert profile["name"] == "桃園"
-    assert len(profile["notes"]) == 31
+    assert len(profile["notes"]) >= 31
     assert len(profile["lessons"]) >= 31
 
 

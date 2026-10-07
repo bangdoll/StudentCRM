@@ -262,7 +262,7 @@ def test_student_page_cloud_fallback(monkeypatch):
     """本地已有其他學員筆記時，目標學員頁仍要顯示雲端筆記。"""
     import main as studentcrm_main
 
-    monkeypatch.setattr(studentcrm_main, "load_students", lambda: [{
+    mock_students = [{
         "id": "cloud-student",
         "name": "雲端學員",
         "file": "/missing-student.md",
@@ -270,7 +270,9 @@ def test_student_page_cloud_fallback(monkeypatch):
         "lessons_count": 3,
         "latest_date": "2026-05-10",
         "next_lesson": "2026-05-17",
-    }])
+    }]
+    monkeypatch.setattr(studentcrm_main, "load_students", lambda: mock_students)
+    monkeypatch.setattr(studentcrm_main.student_gateway, "load_students", lambda: mock_students)
     monkeypatch.setattr(studentcrm_main, "load_local_digital_management_notes", lambda: [{
         "id": "local-note",
         "student_id": "another-student",

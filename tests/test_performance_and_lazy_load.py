@@ -13,10 +13,24 @@ def test_media_asset_resolver_injects_lazy_loading():
     assert 'loading="lazy"' in html_output
     assert 'decoding="async"' in html_output
     assert 'alt="板書"' in html_output
+    assert 'img-has-shimmer' in html_output
+    assert 'img-lazy-fade' in html_output
+    assert "onload=\"this.classList.add('img-loaded')\"" in html_output
     
     # 測試若原本已有 loading="eager"，不重複破壞
     html_custom = '<img src="/logo.svg" loading="eager">'
     assert resolver.inject_lazy_loading(html_custom) == html_custom
+
+
+def test_instant_prefetch_script_integrity():
+    js_path = Path("static/instant-prefetch.js")
+    assert js_path.exists()
+    content = js_path.read_text(encoding="utf-8")
+    assert "prefetchUrl" in content
+    assert "initLinkPrefetching" in content
+    assert "initImageEnhancements" in content
+    assert "touchstart" in content
+    assert "mouseover" in content
 
 
 def test_student_profile_assembler_timeline_caching(tmp_path):

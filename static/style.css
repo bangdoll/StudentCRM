@@ -2490,3 +2490,64 @@ th {
     }
 }
 
+/* ── 5. Instant Prefetch & Image Skeleton Shimmer (骨架屏與平滑漸顯) ── */
+@keyframes img-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.img-has-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(22, 27, 34, 0.8) 25%,
+        rgba(56, 139, 253, 0.15) 50%,
+        rgba(22, 27, 34, 0.8) 75%
+    );
+    background-size: 200% 100%;
+    animation: img-shimmer 1.8s infinite ease-in-out;
+    min-height: 120px;
+    border-radius: 12px;
+}
+
+.img-lazy-fade {
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.99);
+}
+
+.img-lazy-fade.img-loaded {
+    opacity: 1;
+    transform: scale(1);
+    animation: none !important;
+    background: transparent !important;
+}
+
+/* ── 6. Mobile Touch Optimization (行動裝置零延遲點擊與物理反饋) ── */
+html, body {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .student-card:active,
+    .teaching-note-card:active,
+    .round-student-card:active,
+    .search-btn:active,
+    .filter-pill:active,
+    .subnav-pill:active {
+        transform: scale(0.975);
+        opacity: 0.92;
+        transition: transform 0.1s ease, opacity 0.1s ease;
+    }
+
+    .btn-copy-card:active,
+    .copy-reminder-btn:active {
+        transform: scale(0.94);
+    }
+}
+
+

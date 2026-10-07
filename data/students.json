@@ -52,7 +52,7 @@
       "一般學員"
     ],
     "first_lesson_date": "2023-10-10",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
     "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
@@ -1008,7 +1008,7 @@
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
     "lessons_count": 1366,
-    "latest_date": "2026-10-01",
+    "latest_date": "2026-10-08",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"

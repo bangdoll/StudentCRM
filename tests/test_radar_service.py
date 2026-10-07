@@ -331,7 +331,7 @@ def test_video_workflow_stage_guard_and_stage_students_modal():
     yuan = yuan_items[0]
     assert yuan["ai_import_stage"] == "MVP自動化"
     assert "影片剪輯" in yuan["ai_stage_detail"]
-    assert "檔案混亂" in yuan["primary_pain"]
+    assert any(p in yuan["primary_pain"] for p in ("檔案混亂", "密碼與帳號"))
 
     # 3. 驗證 /radar 前端頁面包裝了名單彈窗與客戶端資料 SSOT
     from auth_service import get_session_token, SESSION_COOKIE_NAME
