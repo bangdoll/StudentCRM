@@ -45,17 +45,17 @@
       "Anna蕭-Zoom"
     ],
     "file": "/01.Docs/Students/Anna 蕭.md",
-    "lessons_count": 17,
-    "latest_date": "2026-09-28",
+    "lessons_count": 18,
+    "latest_date": "2026-10-08",
     "next_lesson": "2026-10-08 10:00",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-10-10",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "e8d71234-9abc-4def-a123-567890abcdef",
@@ -720,7 +720,7 @@
     "file": "/01.Docs/Students/Chami.md",
     "lessons_count": 45,
     "latest_date": "2026-07-27",
-    "next_lesson": "2026-10-08",
+    "next_lesson": "2026-10-22",
     "tags": [
       "一般學員"
     ],
@@ -1007,7 +1007,7 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1366,
+    "lessons_count": 1367,
     "latest_date": "2026-10-08",
     "next_lesson": "安排中",
     "tags": [
@@ -1015,10 +1015,10 @@
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
