@@ -1,5 +1,5 @@
-// StudentCRM Service Worker v1.3 - Local-First & Offline Resilience
-const CACHE_NAME = 'student-crm-v1.3';
+// StudentCRM Service Worker v1.4 - Local-First & Offline Resilience (Network-First for Documents)
+const CACHE_NAME = 'student-crm-v1.4';
 const PRECACHE_ASSETS = [
   '/static/style.css',
   '/static/site.webmanifest',
@@ -106,20 +106,21 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 4. Stale-While-Revalidate for navigation/HTML requests (dashboard, apple-ceo, notes, student hubs)
+  // 4. Network-First for navigation/HTML requests (dashboard, apple-ceo, notes, student hubs)
+  // 優先抓取最新線上版本，網路不可用時才回退本機離線快取
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        const fetchPromise = fetch(request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              const responseClone = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            // If network fails, return cached page
+      fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          // 網路失敗或離線時，回退快取
+          return caches.match(request).then((cachedResponse) => {
             if (cachedResponse) return cachedResponse;
             if (!url.pathname.startsWith('/my/') && !url.pathname.startsWith('/hub/') && !url.pathname.startsWith('/note')) {
               return caches.match('/');
@@ -129,13 +130,7 @@ self.addEventListener('fetch', (event) => {
               { headers: { 'Content-Type': 'text/html; charset=utf-8' } }
             );
           });
-
-        if (cachedResponse) {
-          event.waitUntil(fetchPromise);
-          return cachedResponse;
-        }
-        return fetchPromise;
-      })
+        })
     );
   }
 });
