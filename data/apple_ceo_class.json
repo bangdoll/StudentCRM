@@ -1447,8 +1447,8 @@
       "rounds": [
         {
           "label": "2026 秋季梯次 (進行中)",
-          "payment_status": "未收 (待補單)",
-          "payment_date": null,
+          "payment_status": "10/9 收到學費 $8000 (進行至第 2 堂)",
+          "payment_date": "2026-10-09",
           "sessions": [
             "2026-10-01",
             "2026-10-08",
@@ -1727,6 +1727,12 @@
       "student_name": "Roger老師",
       "amount": 8000,
       "note": "收到 Roger 老師學費 $8000"
+    },
+    {
+      "date": "2026-10-09",
+      "student_name": "Lucia",
+      "amount": 8000,
+      "note": "收到 Lucia 學費 $8000"
     }
   ],
   "legacy_note": "2026-10-08 依教練指示登記蘋果總裁班出席：Roger老師、Lucia、邦寧大哥、方醫師。場地費結餘 $2650；學費完整登記 9 筆各 $8000。",
