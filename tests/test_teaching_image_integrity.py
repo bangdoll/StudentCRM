@@ -75,3 +75,41 @@ def test_media_asset_resolver_transforms_correctly():
     transformed = resolver.transform_markdown_media(sample_md)
     expected = "![白板](/static/teaching_assets/90765B8E-A284-47E9-B2C9-FF8A6809048A-f9bce52f-3d22-4999-ba09-8ec042b4f845.png)"
     assert transformed == expected
+
+
+def test_deduplicate_markdown_images_helper():
+    """驗證 deduplicate_markdown_images 能自動消除重複圖片標籤與正文中的嵌套 Frontmatter。"""
+    from note_service import deduplicate_markdown_images
+
+    dirty_md = """
+![圖片](assets/sample_photo.png)
+
+---
+id: test-id-1234
+title: "測試重複"
+---
+
+![圖片](assets/sample_photo.png)
+
+正文內容...
+"""
+    cleaned = deduplicate_markdown_images(dirty_md)
+    assert cleaned.count("sample_photo.png") == 1, "重複圖片必須被消除至僅剩 1 張"
+    assert "id: test-id-1234" not in cleaned, "正文嵌套 Frontmatter 必須被清除"
+
+
+def test_resolve_note_detail_renders_no_duplicate_images():
+    """驗證透過 resolve_note_detail 渲染 Anna 筆記時，HTML 中的任一圖片皆不重複。"""
+    from note_service import resolve_note_detail
+
+    anna_path = str(DOCS_DIR / "20261012 19-3.Anna蕭數位管理教學.md")
+    note = resolve_note_detail(path_or_filename=anna_path, base_dir=str(WORKSPACE_DIR))
+    assert note is not None, "Anna 筆記應可被正確解析"
+
+    # 檢查 HTML 內容中圖片出現頻率
+    html = note.content_html
+    img_srcs = re.findall(r'<img[^>]+src=[\"\']([^\"\']+)[\"\']', html)
+    assert len(img_srcs) > 0, "應至少包含 1 張圖片"
+    # 確保所有圖片網址完全唯一
+    assert len(img_srcs) == len(set(img_srcs)), f"渲染出的 HTML 中發現重複圖片: {img_srcs}"
+

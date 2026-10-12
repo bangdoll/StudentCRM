@@ -118,6 +118,40 @@ def clean_markdown_frontmatter(content: str) -> str:
     return re.sub(r"^---[\s\S]*?---\s*", "", content)
 
 
+def deduplicate_markdown_images(markdown_text: str) -> str:
+    """【防呆與去重深模組】自動消除 Markdown 中因自動化腳本或多重編輯導致的重複圖片與重複 Frontmatter。
+    
+    規則：
+    1. 移除正文內部殘留的第二套 Frontmatter。
+    2. 若同一張圖片檔名（不分相對路徑或前綴）在整篇筆記中重複出現，只保留首次出現，自動消除後續重複標籤。
+    """
+    if not markdown_text:
+        return ""
+
+    # 1. 移除正文中夾帶的第二套 Frontmatter
+    cleaned = re.sub(r"\n---\s*\nid:\s*[^\n]+\n.*?\n---\s*\n", "\n\n", markdown_text, flags=re.DOTALL)
+
+    # 2. 圖片去重
+    seen_images: set[str] = set()
+    pattern = r"(!\[(?P<alt>.*?)\]\((?P<src>[^\)]+)\))"
+
+    def _repl(match: re.Match) -> str:
+        full_tag = match.group(1)
+        raw_src = match.group("src").strip()
+        # 移除 title 或角括號
+        raw_url = raw_src.split()[0].strip("<>")
+        img_filename = Path(raw_url).name
+        if not img_filename:
+            return full_tag
+
+        if img_filename in seen_images:
+            return ""  # 消除重複圖片標籤
+        seen_images.add(img_filename)
+        return full_tag
+
+    return re.sub(pattern, _repl, cleaned)
+
+
 def enhance_task_checkboxes(html: str) -> str:
     """將 Markdown 產出之 [ ] 和 [x] 清單項目轉換為原生直出、自帶樣式且可點擊打勾之 Checkbox。"""
     if not html:
@@ -625,6 +659,7 @@ def resolve_note_detail(
                     next_label = same_student_records[idx + 1].get("date") or "下一堂"
 
     clean_content = clean_markdown_frontmatter(content)
+    clean_content = deduplicate_markdown_images(clean_content)
     clean_content = get_media_resolver().transform_markdown_media(clean_content)
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
     html_content = enhance_task_checkboxes(html_content)
