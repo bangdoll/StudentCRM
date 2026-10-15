@@ -1007,18 +1007,18 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1367,
-    "latest_date": "2026-10-08",
+    "lessons_count": 1368,
+    "latest_date": "2026-10-15",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -1160,17 +1160,17 @@
       "陳海陸 20 4"
     ],
     "file": "/01.Docs/Students/chen_hai_lu.md",
-    "lessons_count": 27,
-    "latest_date": "2026-09-18",
-    "next_lesson": "2026-10-15",
+    "lessons_count": 28,
+    "latest_date": "2026-10-15",
+    "next_lesson": "2026-10-29",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2022-11-28",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "d13f51d4-ef60-49f9-b31c-1eaa48b5f7de",
