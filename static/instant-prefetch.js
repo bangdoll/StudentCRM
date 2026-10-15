@@ -85,9 +85,44 @@
                 img.addEventListener('load', function () {
                     img.classList.add('img-loaded');
                 }, { once: true });
+                
+                // 圖片載入失敗自癒重試與優雅降級
                 img.addEventListener('error', function () {
-                    img.classList.add('img-loaded'); // 即使失敗也移除骨架動畫
-                }, { once: true });
+                    var retryCount = parseInt(img.dataset.retryCount || '0', 10);
+                    if (retryCount < 2) {
+                        // 首次或二次失敗：可能 Vercel 正在部署中，延遲重試
+                        img.dataset.retryCount = (retryCount + 1).toString();
+                        setTimeout(function () {
+                            var originalSrc = img.dataset.originalSrc || img.src;
+                            img.dataset.originalSrc = originalSrc;
+                            var separator = originalSrc.indexOf('?') === -1 ? '?' : '&';
+                            img.src = originalSrc.split('?_retry=')[0] + separator + '_retry=' + Date.now();
+                        }, 2500);
+                    } else {
+                        // 重試多次仍未就緒：啟動優雅降級卡片，隱藏破碎圖標
+                        img.classList.add('img-loaded');
+                        img.style.display = 'none';
+                        if (!img.nextElementSibling || !img.nextElementSibling.classList.contains('img-fallback-card')) {
+                            var fallback = document.createElement('div');
+                            fallback.className = 'img-fallback-card';
+                            fallback.innerHTML = '<span class="img-fallback-icon">☁️</span>' +
+                                '<div class="img-fallback-info">' +
+                                    '<div class="img-fallback-title">雲端圖片同步中</div>' +
+                                    '<div class="img-fallback-desc">圖片素材正在同步至 CDN 節點，請稍候刷新</div>' +
+                                '</div>' +
+                                '<button type="button" class="img-fallback-btn">🔄 點擊重試</button>';
+                            fallback.querySelector('.img-fallback-btn').addEventListener('click', function (e) {
+                                e.preventDefault();
+                                fallback.remove();
+                                img.style.display = '';
+                                img.dataset.retryCount = '0';
+                                var sep = img.src.indexOf('?') === -1 ? '?' : '&';
+                                img.src = img.src.split('?_retry=')[0] + sep + '_retry=' + Date.now();
+                            });
+                            img.parentNode.insertBefore(fallback, img.nextSibling);
+                        }
+                    }
+                });
             }
         }
 
