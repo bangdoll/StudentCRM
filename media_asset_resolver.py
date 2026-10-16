@@ -51,7 +51,9 @@ class MediaAssetResolver:
             self._resolved_base_url = env_media_url
             return
 
-        use_supabase = os.getenv("STUDENTCRM_USE_SUPABASE_STORAGE", "").lower() in ("1", "true", "yes")
+        # 方案 A：若配置了 SUPABASE_URL 且未顯式停用，預設直連 Supabase Storage CDN
+        use_supabase_raw = os.getenv("STUDENTCRM_USE_SUPABASE_STORAGE", "true").strip().lower()
+        use_supabase = use_supabase_raw not in ("0", "false", "no", "off")
         supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
         if use_supabase and supabase_url:
             bucket_name = os.getenv("STUDENTCRM_STORAGE_BUCKET", "teaching_assets").strip()
