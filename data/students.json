@@ -130,7 +130,7 @@
     "file": "/01.Docs/Students/Charlotte.md",
     "lessons_count": 78,
     "latest_date": "2026-10-13",
-    "next_lesson": "2026-10-19",
+    "next_lesson": "2026-10-30",
     "tags": [
       "一般學員"
     ],
@@ -522,17 +522,17 @@
     "name": "張素幸",
     "aliases": [],
     "file": "/01.Docs/Students/zhang_su_xing.md",
-    "lessons_count": 19,
-    "latest_date": "2026-10-05",
-    "next_lesson": "2026-10-19",
+    "lessons_count": 20,
+    "latest_date": "2026-10-19",
+    "next_lesson": "2026-11-02",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2025-08-12",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "e101d0f5-8aa6-40b3-a4f3-1e3f02f3c98c",
