@@ -86,17 +86,17 @@
       "楊文祥"
     ],
     "file": "/01.Docs/Students/bill_yang.md",
-    "lessons_count": 6,
-    "latest_date": "2026-09-11",
+    "lessons_count": 7,
+    "latest_date": "2026-10-20",
     "next_lesson": "2026-10-20",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-12-03",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "63e43675-2491-4d5c-b149-40019be779ef",
@@ -660,7 +660,7 @@
     "file": "/01.Docs/Students/曾小米.md",
     "lessons_count": 14,
     "latest_date": "2026-08-25",
-    "next_lesson": "2026-10-20",
+    "next_lesson": "2026-11-03",
     "tags": [
       "一般學員"
     ],
@@ -1346,17 +1346,17 @@
     "name": "Liya",
     "aliases": [],
     "file": "",
-    "lessons_count": 1,
-    "latest_date": "2026-10-06",
+    "lessons_count": 2,
+    "latest_date": "2026-10-20",
     "next_lesson": "",
     "tags": [
       "數位管理教學"
     ],
     "first_lesson_date": "2026-10-06",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）",
     "public_token": "liya-QkXfoZUKIJqFmzfE-6UY1phQ"
   },
   {
