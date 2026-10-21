@@ -473,6 +473,20 @@ def test_cloud_prediction_ignores_stale_files_and_cache_and_reports_failure(web_
     assert client.get('/api/students/' + sid).status_code == 503
 
 
+def test_cloud_prediction_keeps_date_inference_without_reading_local_files(web_cloud):
+    from datetime import datetime, timedelta
+    client, remote, _ = web_cloud
+    sid = remote.students[0]['id']
+    latest = (datetime.now() - timedelta(days=21)).strftime('%Y-%m-%d')
+    remote.students[0]['latest_date'] = None
+    remote.rows = [{**remote.rows[0], 'date': latest, 'content': '課' * 1400,
+                    'raw': {'path': '/absent/' + latest.replace('-', '') + ' lesson.md'}}]
+    result = client.get('/api/students/' + sid)
+    assert result.status_code == 200
+    assert result.json()['features']['days_since_last_lesson'] == 21
+    assert result.json()['prediction']['status'] == '冰凍期 (需關心)'
+
+
 from search_contract_cases import LITERAL_SEARCH_CASES
 
 

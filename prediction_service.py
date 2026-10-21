@@ -13,14 +13,14 @@ def clear_features_cache():
     _FEATURES_CACHE.clear()
 
 
-def get_student_lesson_paths(student: dict, base_dir: str, student_notes: list = None) -> list[str]:
+def get_student_lesson_paths(student: dict, base_dir: str, student_notes: list = None, *, allow_local: bool = True) -> list[str]:
     """Get sorted lesson cache and teaching paths for a student."""
     if not student:
         return []
 
     paths = []
     file_path = os.path.join(base_dir, (student.get("file") or "").lstrip("/"))
-    if os.path.exists(file_path):
+    if allow_local and os.path.exists(file_path):
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 content = f.read()
@@ -64,7 +64,7 @@ def analyze_student_features(
             return dict(cached_features)
 
     now_dt = now or datetime.now()
-    paths = get_student_lesson_paths(student, base_dir, student_notes) if allow_local else []
+    paths = get_student_lesson_paths(student, base_dir, student_notes, allow_local=allow_local)
     features = {
         "days_since_last_lesson": -1,
         "average_word_count": 0,
@@ -94,7 +94,7 @@ def analyze_student_features(
         total_words = 0
         valid_lessons = 0
         for p in recent_paths:
-            if os.path.exists(p):
+            if allow_local and os.path.exists(p):
                 try:
                     with open(p, "r", encoding="utf-8", errors="ignore") as f:
                         content = f.read()
