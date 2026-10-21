@@ -24,6 +24,34 @@ CRM_ASSETS_DIR = CRM_DIR / "static" / "teaching_assets"
 IMAGE_MD_PATTERN = re.compile(r'!\[(?P<alt>.*?)\]\((?P<src>[^\)]+)\)')
 
 
+@pytest.fixture(autouse=True)
+def isolated_teaching_images(tmp_path, monkeypatch):
+    """Replay the two image shapes without publishing private lesson bodies."""
+    from PIL import Image
+    docs = tmp_path / "01.Docs/teaching"
+    assets = docs / "assets"
+    crm_assets = tmp_path / "StudentCRM/static/teaching_assets"
+    assets.mkdir(parents=True)
+    crm_assets.mkdir(parents=True)
+    names = (
+        "20261012 19-3.Anna蕭數位管理教學.md",
+        "20261012 22-6.大腳旅行社曹淑鈴Crystal數位管理教學.md",
+    )
+    for index, name in enumerate(names):
+        image = f"fixture-{index}.png"
+        for directory in (assets, crm_assets):
+            Image.new("RGB", (2, 2), (index * 100, 50, 200)).save(directory / image)
+        (docs / name).write_text(
+            f'---\nid: fixture-{index}\ndate: 2026-10-12\n---\n\n'
+            f'![測試圖](assets/{image})\n\n# 匿名回歸筆記\n可驗證的課堂內容。\n',
+            encoding="utf-8",
+        )
+    monkeypatch.setitem(globals(), "WORKSPACE_DIR", tmp_path)
+    monkeypatch.setitem(globals(), "DOCS_DIR", docs)
+    monkeypatch.setitem(globals(), "DOCS_ASSETS_DIR", assets)
+    monkeypatch.setitem(globals(), "CRM_ASSETS_DIR", crm_assets)
+
+
 def test_20261012_teaching_notes_images_exist():
     """驗證 2026-10-12 兩篇教學筆記引用的圖片實體檔案皆存在。"""
     notes = [
@@ -50,6 +78,16 @@ def test_20261012_teaching_notes_images_exist():
             crm_img = CRM_ASSETS_DIR / img_name
             assert crm_img.is_file(), f"圖片缺失於 StudentCRM 靜態目錄: {img_name} in {note.name}"
             assert crm_img.stat().st_size > 0, f"StudentCRM 靜態圖片大小為 0: {img_name}"
+
+
+def test_image_inventory_fails_when_either_copy_is_missing():
+    from asset_audit import audit_teaching_assets
+    required = ("20261012 19-3.Anna蕭數位管理教學.md", "20261012 22-6.大腳旅行社曹淑鈴Crystal數位管理教學.md")
+    audit = lambda: audit_teaching_assets(DOCS_DIR, CRM_ASSETS_DIR, minimum_notes=2, required_notes=required)
+    assert audit()["success"] is True
+    (DOCS_ASSETS_DIR / "fixture-0.png").unlink()
+    assert audit()["success"] is False
+    assert "missing or empty image: fixture-0.png" in audit()["issues"]
 
 
 def test_no_duplicate_frontmatter_in_teaching_notes():

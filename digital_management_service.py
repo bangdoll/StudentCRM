@@ -352,6 +352,10 @@ def load_cloud_digital_management_notes(
     cache_container: dict | None = None,
 ) -> list[dict]:
     import sys
+    main_mod = sys.modules.get("main")
+    gateway = data_gateway or (getattr(main_mod, "student_gateway", None) if main_mod else None)
+    if gateway is not None and gateway.backend == "supabase":
+        return list(gateway.iter_teaching_metadata())
     effective_cache = cache_container
     if effective_cache is None:
         main_mod = sys.modules.get("main")
@@ -616,7 +620,9 @@ def build_digital_management_profiles(
         else:
             lesson["matched_to_official_student"] = False
 
-    if local_notes_loader:
+    if data_gateway is not None and data_gateway.backend == "supabase":
+        local_notes = []
+    elif local_notes_loader:
         local_notes = local_notes_loader()
     else:
         local_notes = load_local_digital_management_notes(students_loader=students_loader)

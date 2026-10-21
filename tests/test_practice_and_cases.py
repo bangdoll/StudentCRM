@@ -81,13 +81,14 @@ def test_social_proof_deidentification_compliance():
         assert "09" not in raw_text or "09XX" in raw_text or "09-" in raw_text or "20" in raw_text
 
 
-def test_curriculum_handbook_exists_and_complete():
-    """驗證方案三《一人公司數位管理實戰手冊》課程大綱手冊完整性。"""
-    handbook = BASE_DIR / "01.Docs/products/One_Person_Company_Digital_Management_Handbook_Curriculum.md"
-    assert handbook.exists()
-    content = handbook.read_text(encoding="utf-8")
-    assert "一人公司的『四層數位齒輪』" in content
-    assert "30 個標準化實戰教學單元" in content
-    assert "90 天一人公司實踐節奏表" in content
-    assert "單元 01" in content
-    assert "單元 30" in content
+def test_curriculum_handbook_exists_and_complete(tmp_path):
+    """完整性閘門須檢查全部 30 單元；私人正式手冊以 asset_audit 另行盤點。"""
+    from asset_audit import audit_handbook
+    handbook = tmp_path / "handbook.md"
+    assert audit_handbook(handbook) == ["missing handbook"]
+    sections = "# 一人公司的『四層數位齒輪』\n# 30 個標準化實戰教學單元\n# 90 天一人公司實踐節奏表\n"
+    units = [f"## 單元 {index:02}：匿名教材 {index}\n" for index in range(1, 31)]
+    handbook.write_text(sections + "".join(units), encoding="utf-8")
+    assert audit_handbook(handbook) == []
+    handbook.write_text(sections + "".join(units[:14] + units[15:]), encoding="utf-8")
+    assert audit_handbook(handbook) == ["missing handbook section: 單元 15"]

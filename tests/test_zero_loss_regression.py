@@ -30,16 +30,26 @@ class ZeroLossRegressionTests(unittest.TestCase):
         cls.repo_root = cls.app_dir.parents[1]
 
     def test_01_ssot_markdown_integrity(self):
-        """[資產防線 1] 檢驗 01.Docs/teaching 之物理 Markdown 教案總量不可低於基準值 (1,220 篇)。"""
-        teaching_dir = self.repo_root / "01.Docs/teaching"
-        self.assertTrue(teaching_dir.exists(), "01.Docs/teaching 目錄必須存在")
+        """[資產防線 1] 實體盤點閘門在缺目錄、1,219 篇時失敗，1,220 篇才通過。
 
-        md_files = list(teaching_dir.glob("*.md"))
-        self.assertGreaterEqual(
-            len(md_files),
-            1220,
-            f"物理教學筆記數量出現異常減少！現存 {len(md_files)} 篇，預期不得低於 1,220 篇！",
-        )
+        CI verifies the gate, not the developer's private inventory. The same
+        public audit is run separately against the real workspace before release.
+        """
+        from asset_audit import audit_teaching_assets
+        with tempfile.TemporaryDirectory() as tmp:
+            teaching_dir = Path(tmp) / "teaching"
+            audit = lambda: audit_teaching_assets(teaching_dir, Path(tmp), required_notes=())
+            self.assertFalse(audit()["success"])
+            self.assertIn("missing teaching directory", audit()["issues"])
+            teaching_dir.mkdir()
+            for index in range(1219):
+                (teaching_dir / f"threshold-{index}.md").write_text("# Inventory gate fixture\n", encoding="utf-8")
+            self.assertFalse(audit()["success"])
+            self.assertEqual(audit()["note_count"], 1219)
+            (teaching_dir / "threshold-last.md").write_text("# Boundary fixture\n", encoding="utf-8")
+            self.assertTrue(audit()["success"])
+            self.assertEqual(audit()["note_count"], 1220)
+            self.assertEqual(audit()["minimum_notes"], 1220)
 
     def test_02_crm_teaching_records_monotonic_count(self):
         """[資產防線 2] 檢驗 data/teaching_records.json 總筆數單調不減 (>= 698 筆)。"""

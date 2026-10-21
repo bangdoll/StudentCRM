@@ -45,6 +45,15 @@ from outcome_service import (
 )
 
 
+def _is_cloud_uuid(value):
+    from uuid import UUID
+    try:
+        UUID(str(value))
+        return True
+    except ValueError:
+        return False
+
+
 router = APIRouter(tags=["coach"])
 
 
@@ -224,12 +233,13 @@ async def logout():
 
 
 @router.get("/search", response_class=HTMLResponse)
-async def search(request: Request, q: str = ""):
+async def search(request: Request, q: str = "", cursor: str | None = None):
     deps = get_coach_deps()
     query = q.strip()
     results = []
     matched_students = []
 
+    next_cursor = None
     if query:
         q_lower = query.lower()
         students = deps["load_students"]()
@@ -257,7 +267,12 @@ async def search(request: Request, q: str = ""):
                 matched_students.append(s)
 
         gateway = deps["student_gateway"]
-        teaching_records = gateway.load_all_teaching_records()
+        if gateway.backend == "supabase":
+            page = gateway.list_teaching_records(query=query, cursor=cursor, student_ids=[s["id"] for s in matched_students if _is_cloud_uuid(s["id"])])
+            teaching_records = page["items"]
+            next_cursor = page["next_cursor"]
+        else:
+            teaching_records = gateway.load_all_teaching_records()
 
         apple_ceo = deps["load_apple_ceo_program"]()
         apple_notes = apple_ceo.get("teaching_notes", []) if isinstance(apple_ceo, dict) else []
@@ -289,6 +304,7 @@ async def search(request: Request, q: str = ""):
             t_sid = rec.get("student_id") or raw_data.get("student_id") or ""
 
             candidates.append({
+                "cloud_matched": gateway.backend == "supabase",
                 "date": t_date,
                 "title": t_title,
                 "student_name": t_student,
@@ -321,7 +337,7 @@ async def search(request: Request, q: str = ""):
             date_str = item.get("date", "")
             path = item.get("path", "")
 
-            matched = False
+            matched = bool(item.get("cloud_matched"))
             if q_lower in student_name.lower():
                 matched = True
             elif q_lower in title.lower():
@@ -374,6 +390,7 @@ async def search(request: Request, q: str = ""):
         "results": results,
         "count": len(results),
         "matched_students": matched_students,
+        "next_cursor": next_cursor,
     })
 
 
@@ -465,7 +482,7 @@ async def bootstrap_outcome_api(payload: BootstrapOutcomeRequest):
     student = next((item for item in students if item.get("id") == payload.student_id), None)
     if not student:
         raise HTTPException(status_code=404, detail="找不到學員")
-    records = deps["student_gateway"].load_teaching_records(payload.student_id)
+    records = deps["student_gateway"].load_recent_teaching_records(payload.student_id, limit=1)
     if not records:
         raise HTTPException(status_code=400, detail="此學員尚無可建立閉環的教學筆記")
     note = sorted(records, key=lambda item: str(item.get("date") or ""), reverse=True)[0]

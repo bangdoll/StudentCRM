@@ -51,6 +51,8 @@ class DigitalManagementStudentItem(BaseModel):
     latest_lesson_date: Optional[str] = Field(default=None, description="最後上課日期")
     lessons: list[dict[str, Any]] = Field(default_factory=list, description="課表/出席紀錄")
     notes: list[dict[str, Any]] = Field(default_factory=list, description="教學筆記清單")
+    note_count: Optional[int] = None
+    notes_url: Optional[str] = None
     source_summary: list[str] = Field(default_factory=list, description="資料來源匯總")
 
 

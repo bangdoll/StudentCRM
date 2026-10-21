@@ -5,7 +5,31 @@ StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設�
 目前另有一條獨立的「教學成果閉環」試點：課堂筆記 → 核心判斷 → 最多 3 個下一步 → 學員回報 → 教練確認 → 內部案例草稿。此資料層不覆蓋原始 Markdown、`students.json` 或 `teaching_records.json`。
 
 * 🌐 **生產環境網址**：[https://student-crm-flax.vercel.app](https://student-crm-flax.vercel.app)
-* 🧪 **測試覆蓋率**：92/92 PASSED (100%)
+* 🧪 **驗證**：完整 `tests/`、Python 3.11／3.12 CI、真實 PostgREST 查詢契約及隔離 wheel 安裝；不以測試通過數宣稱程式碼覆蓋率。
+
+## PR #1：雲端教學紀錄讀取與回歸保護
+
+列表採欄位投影與 keyset 分頁（預設 50、上限 100），不下載歷史正文；保留 UUID、中文完整路徑與檔名舊連結。單篇閱讀、近期分析與成效雷達各自只讀必要正文，全文搜尋回傳 metadata，雲端失敗明確回 503。
+
+本輪修正 4 項審查問題：
+
+- 學員預測另取最近三篇正文計算字數，忽略本地舊檔與舊預測快取，避免將完整筆記誤判成 0 字；缺少末次上課欄位時仍保留從筆記路徑推導日期，列表維持縮欄。
+- 搜尋使用完整跳脫的大小寫不敏感字面比對，保留 `*`、`%`、`_`、反斜線及正規表示式符號。CI 以真正的 PostgreSQL／PostgREST 驗證，測試替身不再自行把星號還原成另一套語意。
+- 日曆產生、尚未對應 UUID 的 `digital-*` 學員保留總覽與詳情，不拿虛擬 ID 查詢 UUID 欄位，也不提供失效的筆記 API 連結。
+- wheel 收錄 PWA manifest；在 checkout 外的新環境驗證 manifest GET／HEAD、內容及其圖示連結。
+
+在 repo 根目錄、隔離 Python 環境中驗證：
+
+```sh
+python -m pip install -e '.[dev]'
+python -m pytest tests/ -v --junitxml=full-suite.xml
+python scripts/check_test_report.py full-suite.xml
+python -m build
+# 需要本機 Docker；僅建立並清理匿名測試容器，不能指向正式 Supabase。
+bash scripts/run_postgrest_contract.sh
+```
+
+原始私人教案的存在與圖片完整性，需另外執行唯讀 `asset_audit`；匿名 fixture 與 CI 綠燈不能代替真實資產驗收。詳見 [讀取契約](docs/cloud-teaching-reads.md) 與 [完整 CI 說明](docs/full-ci.md)。PR 分支仍關閉自動部署；提交 PR 不代表批准合併、部署或變更帳務。
 
 ---
 
@@ -38,7 +62,7 @@ StudentCRM 是一個專為「數位教練」與「企業 AI 導入顧問」設�
 
 ## 🛠️ 技術架構 (Tech Stack)
 
-* **後端框架**：Python 3.9+, FastAPI, Uvicorn, Jinja2
+* **後端框架**：Python 3.11+, FastAPI, Uvicorn, Jinja2
 * **前端介面**：HTML5, 原生 Vanilla CSS (深色模式體系), Inter / Noto Sans TC
 * **部署環境**：Vercel Serverless (Production), 本地 macOS Cocoa App
 * **資料層 (SSOT)**：

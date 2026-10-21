@@ -226,7 +226,11 @@ def build_full_effectiveness_radar(
 ) -> dict[str, Any]:
     """全局建構並聚合學員成效雷達總帳與統計指針。"""
     students = gateway.load_students()
-    records_list = gateway.load_all_teaching_records()
+    records_list = gateway.load_radar_teaching_records([
+        s["id"] for s in students
+        if s.get("id") and s.get("status") not in ("memorial", "paused")
+        and calculate_days_since(s.get("latest_date") or s.get("last_lesson_date"), ref_date=ref_date) < 365
+    ]) if gateway.backend == "supabase" else gateway.load_all_teaching_records()
 
     # 讀取現有 radar 快取以保留教練歷史跟進狀態
     cached_radar = gateway.get_effectiveness_radar_data()

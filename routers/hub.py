@@ -35,6 +35,7 @@ def get_hub_deps():
         "coach_magic_link": coach_magic_link,
         "BASE_DIR": main.BASE_DIR,
         "APP_DIR": main.APP_DIR,
+        "student_gateway": main.student_gateway,
     }
 
 
@@ -113,20 +114,28 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
         )
         return response
 
-    student_notes = deps["get_student_teaching_notes"](student)
-    for note in student_notes:
-        content = note.get("content") or ""
-        if not content:
+    gateway = deps["student_gateway"]
+    next_cursor = None
+    if gateway.backend == "supabase":
+        page = gateway.list_teaching_records(student["id"], cursor=request.query_params.get("cursor"))
+        student_notes, next_cursor = page["items"], page["next_cursor"]
+        # Latest card only; historical cards remain available in each note reader.
+        recent = gateway.load_recent_teaching_records(student["id"], limit=1)
+        latest = recent[0] if recent else None
+        for note in student_notes:
+            note["micro_cards"] = extract_micro_action_cards(latest["content"], latest.get("title") or "") if latest and note["id"] == latest["id"] else None
+    else:
+        student_notes = deps["get_student_teaching_notes"](student)
+        for note in student_notes:
+            content = note.get("content") or ""
             path = note.get("path") or ""
-            if path and os.path.exists(path):
+            if not content and path and os.path.isfile(path):
                 try:
                     with open(path, "r", encoding="utf-8", errors="ignore") as f:
                         content = f.read()
                 except OSError:
                     pass
-        if not content:
-            content = note.get("preview") or ""
-        note["micro_cards"] = extract_micro_action_cards(content, note.get("title") or "")
+            note["micro_cards"] = extract_micro_action_cards(content or note.get("preview") or "", note.get("title") or "")
 
     cnt = student.get("lessons_count") or len(student_notes)
     cycle = student.get("current_cycle_lesson")
@@ -137,6 +146,7 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
         "request": request,
         "student": student,
         "student_notes": student_notes,
+        "next_cursor": next_cursor,
         "cycle_lesson": cycle,
         "token": lookup_key,
     })

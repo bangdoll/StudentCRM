@@ -285,9 +285,9 @@ def test_radar_excludes_memorial_and_paused_students(monkeypatch):
     assert radar["summary"]["total_tracked"] == 1
 
 
-def test_ai_import_stage_contract_and_radar_page():
+def test_ai_import_stage_contract_and_radar_page(test_workspace):
     """驗證全體學員 AI 導入四階段契約對齊，且 /radar 頁面正確載入四大法定標籤。"""
-    gateway = StudentDataGateway(base_dir=".")
+    gateway = StudentDataGateway(base_dir=str(test_workspace))
     radar = build_full_effectiveness_radar(gateway)
     items = radar.get("items", [])
     assert len(items) > 0
@@ -314,7 +314,7 @@ def test_ai_import_stage_contract_and_radar_page():
     assert "⚡ AI 導入四階段成熟度分佈" in resp.text
 
 
-def test_video_workflow_stage_guard_and_stage_students_modal():
+def test_video_workflow_stage_guard_and_stage_students_modal(test_workspace):
     """驗證影音剪輯專案工作流學員（如元老師）不被誤判至第四階段，且雷達頁面具備點擊展開名單之互動能力。"""
     # 1. 即使累積 24 堂課，只要筆記內容為 Filmora 與剪接流程建立，最高錨定於 MVP自動化
     video_notes = "今天元老師練習 Filmora 軌道剪輯、時間軸縮放、B-roll 與音訊混音，建立影片製作 SOP"
@@ -323,7 +323,7 @@ def test_video_workflow_stage_guard_and_stage_students_modal():
     assert "影片剪輯" in detail or "專案" in detail
 
     # 2. 驗證真實雷達資料中，元偉琴精準落入 MVP自動化
-    gateway = StudentDataGateway(base_dir=".")
+    gateway = StudentDataGateway(base_dir=str(test_workspace))
     radar = build_full_effectiveness_radar(gateway)
     items = radar.get("items", [])
     yuan_items = [it for it in items if "元偉琴" in it.get("name", "")]

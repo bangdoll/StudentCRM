@@ -13,7 +13,10 @@ from urllib.request import Request, urlopen
 logger = logging.getLogger(__name__)
 
 
-class DataGatewayError(RuntimeError):
+from teaching_reads import TeachingReads, TeachingReadError
+
+
+class DataGatewayError(TeachingReadError):
     pass
 
 
@@ -58,7 +61,7 @@ from apple_ceo_service import (
 )
 
 
-class StudentDataGateway:
+class StudentDataGateway(TeachingReads):
     """StudentCRM 雙引擎資料讀取閘道。
 
     預設維持本地 JSON；只有設定 STUDENTCRM_DATA_BACKEND=supabase 時才讀雲端。
@@ -66,6 +69,7 @@ class StudentDataGateway:
     """
 
     def __init__(self, base_dir: str) -> None:
+        base_dir = os.path.abspath(base_dir)
         self.base_dir = base_dir
 
         # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
@@ -85,8 +89,8 @@ class StudentDataGateway:
             self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
         elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
             self.app_dir = os.path.join(self.repo_root, "StudentCRM")
-        elif os.path.isdir(base_dir) and os.path.basename(os.path.abspath(base_dir)) == "StudentCRM":
-            self.app_dir = os.path.abspath(base_dir)
+        elif os.path.isdir(os.path.join(base_dir, "data")) or os.path.basename(base_dir) == "StudentCRM":
+            self.app_dir = base_dir
         else:
             self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
 
@@ -331,52 +335,6 @@ class StudentDataGateway:
                 return local_payload
             return self._empty_apple_ceo_program()
 
-    def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
-        if not student_id:
-            return []
-
-        if self.backend == "supabase":
-            encoded_student_id = quote(student_id, safe="")
-            try:
-                res = self._load_supabase_table(
-                    "teaching_records",
-                    query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
-                )
-                if isinstance(res, list):
-                    return res
-                if isinstance(res, dict) and "records" in res:
-                    return [r for r in res["records"] if isinstance(r, dict) and r.get("student_id") == student_id]
-            except DataGatewayError:
-                pass
-
-        all_records = self.load_all_teaching_records()
-        return [r for r in all_records if isinstance(r, dict) and r.get("student_id") == student_id]
-
-    def load_all_teaching_records(self) -> list[dict[str, Any]]:
-        if self.backend == "supabase":
-            try:
-                res = self._load_supabase_table(
-                    "teaching_records",
-                    query="select=*&order=date.desc",
-                )
-                if isinstance(res, list):
-                    return res
-                if isinstance(res, dict) and "records" in res:
-                    return res["records"]
-            except DataGatewayError:
-                pass
-
-        if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
-            try:
-                data = self._read_json(self.teaching_records_file)
-                if isinstance(data, list):
-                    return data
-                if isinstance(data, dict) and "records" in data:
-                    return data["records"]
-            except Exception:
-                pass
-        return []
-
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
             return self._read_json(self.status_file)
@@ -547,7 +505,10 @@ class StudentDataGateway:
         except TimeoutError as exc:
             raise DataGatewayError("Supabase 連線逾時") from exc
 
-        data = json.loads(payload)
+        try:
+            data = json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise DataGatewayError("Supabase 回傳無效 JSON") from exc
         if not isinstance(data, list):
             raise DataGatewayError("Supabase 回傳格式不是列表")
         return data
