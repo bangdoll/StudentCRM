@@ -24,7 +24,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from data_gateway import StudentDataGateway
-from teaching_reads import TeachingReadError, TeachingQueryError
+from teaching_reads import TeachingReadError, TeachingQueryError, uuid_text
 
 # ── 環境路徑與基礎設定 ────────────────────────────────────────────────────────
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -200,18 +200,30 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
 
 def get_digital_management_student_profile(student_id: str, include_heptabase: bool = True, cursor: str | None = None) -> dict | None:
     import main as current_module
+    gateway = getattr(current_module, "student_gateway", student_gateway)
+    cloud = gateway.backend == "supabase"
+    cloud_student_id = None
+    if cloud:
+        try:
+            cloud_student_id = uuid_text(student_id)
+        except TeachingQueryError:
+            pass  # Calendar-only profiles retain their digital-* identity.
+    if cloud:
+        cloud_notes_loader = lambda: list(gateway.iter_teaching_metadata(cloud_student_id)) if cloud_student_id else []
+    else:
+        cloud_notes_loader = lambda: current_module.load_cloud_digital_management_notes()
     profile = _dm_svc.get_digital_management_student_profile(
         student_id=student_id,
         include_heptabase=include_heptabase,
         students_loader=lambda: current_module.load_students(),
-        data_gateway=getattr(current_module, "student_gateway", student_gateway),
+        data_gateway=gateway,
         calendar_events_loader=lambda: current_module.load_digital_management_calendar_events(),
         local_notes_loader=lambda: current_module.load_local_digital_management_notes(),
-        cloud_notes_loader=(lambda: list(student_gateway.iter_teaching_metadata(student_id))) if student_gateway.backend == "supabase" else (lambda: current_module.load_cloud_digital_management_notes()),
+        cloud_notes_loader=cloud_notes_loader,
     )
 
-    if profile and student_gateway.backend == "supabase":
-        page = student_gateway.list_teaching_records(student_id, cursor=cursor)
+    if profile and cloud_student_id:
+        page = gateway.list_teaching_records(cloud_student_id, cursor=cursor)
         all_note_ids = {note.get("id") for note in profile["notes"]}
         page_ids = {note["id"] for note in page["items"]}
         profile["notes"] = page["items"]
@@ -221,6 +233,8 @@ def get_digital_management_student_profile(student_id: str, include_heptabase: b
             if item.get("id") not in all_note_ids or item.get("id") in page_ids
         ]
         profile["next_cursor"] = page["next_cursor"]
+    elif profile and cloud:
+        profile["next_cursor"] = None
     return profile
 
 

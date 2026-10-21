@@ -43,5 +43,5 @@ include-package-data = false
 
 [tool.setuptools.package-data]
 data = ["*.json"]
-static = ["*.css", "*.js", "*.svg", "*.png", "*.ico", "teaching_assets/*.png", "teaching_assets/*.jpg", "teaching_assets/*.jpeg", "teaching_assets/*.webp"]
+static = ["*.css", "*.js", "*.svg", "*.png", "*.ico", "*.webmanifest", "teaching_assets/*.png", "teaching_assets/*.jpg", "teaching_assets/*.jpeg", "teaching_assets/*.webp"]
 templates = ["*.html"]

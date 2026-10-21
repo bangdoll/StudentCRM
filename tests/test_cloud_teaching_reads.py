@@ -1,5 +1,6 @@
 """Cloud contracts: no local student files, HTTP boundary only."""
 import json
+import re
 import uuid
 from urllib.parse import parse_qs, urlsplit
 from unittest.mock import patch
@@ -91,8 +92,25 @@ def matches(row, expr):
     if op == 'in': return str(current) in arg.strip('()').split(',')
     if arg.startswith('"'): arg = json.loads(arg)
     if op == 'ilike':
-        needle = arg[1:-1].replace('\\%', '%').replace('\\_', '_').replace('\\*', '*').replace('\\\\', '\\')
-        return needle.lower() in str(current or '').lower()
+        # PostgREST maps every '*' to '%' before PostgreSQL interprets LIKE.
+        # Keep SQL's escaped %, _ and backslash behavior instead of turning
+        # the entire predicate into a Python substring assertion.
+        pattern, escaped = '', False
+        for char in arg.replace('*', '%'):
+            if escaped:
+                pattern += re.escape(char)
+                escaped = False
+            elif char == '\\':
+                escaped = True
+            elif char == '%':
+                pattern += '.*'
+            elif char == '_':
+                pattern += '.'
+            else:
+                pattern += re.escape(char)
+        return current is not None and re.fullmatch(pattern, str(current), re.I | re.S) is not None
+    if op == 'imatch':
+        return current is not None and re.search(arg, str(current), re.I) is not None
     if op == 'eq': return str(current) == arg
     if op == 'neq': return str(current) != arg
     if current is None: return False
@@ -412,3 +430,92 @@ def test_local_api_metadata_cursor_without_persisted_ids(cloud,tmp_path):
     second = cloud.list_teaching_records(limit=50,cursor=first['next_cursor'])
     assert len(first['items']) == 50 and len(second['items']) == 10
     assert cloud.load_teaching_record_detail(first['items'][0]['id'])['content'] == 'offline body'
+
+
+def test_cloud_prediction_uses_recent_bodies_without_local_files(web_cloud):
+    from datetime import datetime, timedelta
+    from prediction_service import clear_features_cache
+    client, remote, gateway = web_cloud
+    sid = remote.students[0]['id']
+    latest = (datetime.now() - timedelta(days=21)).strftime('%Y-%m-%d')
+    remote.students[0]['latest_date'] = latest
+    remote.rows = [dict(remote.rows[index], student_id=sid, date=latest, content='課' * 1400) for index in range(3)]
+    clear_features_cache()
+    result = client.get('/api/students/' + sid, headers={'X-Test-Auth': '1'})
+    assert result.status_code == 200
+    assert result.json()['features']['average_word_count'] == 1400
+    assert result.json()['features']['lessons_reviewed'] == 3
+    assert result.json()['prediction']['status'] == '冰凍期 (需關心)'
+    page = client.get('/student/' + sid, headers={'X-Test-Auth': '1'})
+    assert page.status_code == 200 and '1400 字' in page.text and '冰凍期' in page.text
+    bodies = [params for table, params in remote.calls if table == 'teaching_records' and 'content' in params['select'].split(',')]
+    assert bodies and all(params.get('student_id') == 'eq.' + sid and int(params['limit']) <= 3 for params in bodies)
+
+
+def test_cloud_prediction_ignores_stale_files_and_cache_and_reports_failure(web_cloud, tmp_path):
+    from datetime import datetime, timedelta
+    client, remote, _ = web_cloud
+    sid = remote.students[0]['id']
+    remote.students[0]['latest_date'] = (datetime.now() - timedelta(days=21)).strftime('%Y-%m-%d')
+    stale = tmp_path / 'stale.md'
+    stale.write_text('stale local body ' * 1000)
+    remote.rows = [{**remote.rows[0], 'content': '課' * 1400,
+                    'raw': {'path': str(stale), 'filename': stale.name}}]
+    first = client.get('/api/students/' + sid).json()
+    assert first['features']['average_word_count'] == 1400
+    remote.rows[0]['content'] = '課' * 80
+    second = client.get('/api/students/' + sid).json()
+    assert second['features']['average_word_count'] == 80
+    assert second['prediction']['status'] == '高流失風險'
+    remote.rows.clear()
+    assert client.get('/api/students/' + sid).json()['features']['lessons_reviewed'] == 0
+    remote.error = 402
+    assert client.get('/api/students/' + sid).status_code == 503
+
+
+from search_contract_cases import LITERAL_SEARCH_CASES
+
+
+@pytest.mark.parametrize('query,body', LITERAL_SEARCH_CASES)
+def test_literal_search_distinguishes_symbols_and_returns_metadata(web_cloud, query, body):
+    client, remote, _ = web_cloud
+    sid = remote.students[0]['id']
+    remote.rows = [
+        {'id': str(uuid.UUID(int=index + 1)), 'student_id': sid,
+         'title': f'SymbolResult-{index:02}', 'date': '2026-10-20', 'content': value,
+         'raw': {'path': f'/symbol/{index}.md', 'filename': f'{index}.md', 'preview': 'preview'}}
+        for index, (_, value) in enumerate(LITERAL_SEARCH_CASES)
+    ]
+    expected_index = LITERAL_SEARCH_CASES.index((query, body))
+    expected_id = str(uuid.UUID(int=expected_index + 1))
+    response = client.get('/api/teaching-records', params={'q': query})
+    assert response.status_code == 200
+    assert [row['id'] for row in response.json()['items']] == [expected_id]
+    assert all('content' not in row and 'raw' not in row for row in response.json()['items'])
+    page = client.get('/search', params={'q': query})
+    assert page.status_code == 200 and f'SymbolResult-{expected_index:02}' in page.text
+    assert all(f'SymbolResult-{index:02}' not in page.text for index in range(len(LITERAL_SEARCH_CASES)) if index != expected_index)
+
+
+def test_calendar_only_student_keeps_overview_and_detail_links(web_cloud, monkeypatch):
+    import main
+    client, remote, _ = web_cloud
+    monkeypatch.setattr(main, 'load_digital_management_calendar_events', lambda: [{
+        'id': 'calendar-only-event', 'title': '01.CalendarOnly數位管理教學',
+        'date': '2026-10-20', 'start': '2026-10-20T14:00:00+08:00',
+    }])
+    overview = client.get('/api/digital-management/students')
+    assert overview.status_code == 200
+    entry = next(row for row in overview.json()['students'] if row['name'] == 'CalendarOnly')
+    assert entry['id'] == 'digital-calendaronly'
+    remote.calls.clear()
+    detail = client.get('/api/digital-management/students/' + entry['id'])
+    assert detail.status_code == 200
+    profile = detail.json()['student']
+    assert profile['id'] == entry['id'] and profile['name'] == 'CalendarOnly'
+    assert profile['lessons'][0]['date'] == '2026-10-20'
+    assert profile['notes'] == [] and profile['next_cursor'] is None
+    page = client.get('/digital-management/student/' + entry['id'])
+    assert page.status_code == 200 and 'CalendarOnly' in page.text
+    assert entry['note_count'] == 0 and entry['notes_url'] is None
+    assert not any(table == 'teaching_records' for table, _ in remote.calls)

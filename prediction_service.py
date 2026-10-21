@@ -46,6 +46,7 @@ def analyze_student_features(
     student_notes: list = None,
     use_cache: bool = True,
     now: datetime = None,
+    allow_local: bool = True,
 ) -> dict:
     """Extract features from student's historical data for AI prediction."""
     if not student:
@@ -63,7 +64,7 @@ def analyze_student_features(
             return dict(cached_features)
 
     now_dt = now or datetime.now()
-    paths = get_student_lesson_paths(student, base_dir, student_notes)
+    paths = get_student_lesson_paths(student, base_dir, student_notes) if allow_local else []
     features = {
         "days_since_last_lesson": -1,
         "average_word_count": 0,

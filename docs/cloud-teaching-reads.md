@@ -13,7 +13,9 @@
 - `/note?path=…` 與 `/open_file?path=…` 保留 UUID、中文原始路徑、檔名連結；先查原路徑，再查檔名，歧義拒絕。前後篇僅讀同一學員的兩筆 metadata。學員 token 限制到其學員／已授權班級；新 API 不開放匿名或學員任意查詢。
 - 雲端閱讀器不再讀取本地筆記來覆蓋正文，避免舊快照掩蓋錯誤；桌面 local 模式保留既有檔案閱讀行為。雲端正文只取 content；只有該欄空白時才讀同筆 raw.content，避免同時傳輸兩份正文。
 - 全文搜尋在資料庫篩選 title/student_name/content/raw.content/raw.preview，再回傳 metadata。保留姓名別名及班級搜尋；中文、英文大小寫與特殊字元依字面子字串搜尋，沒有改成英文斷詞。結果使用既有短摘要，不額外下載全文來產生片段。
+- 字面搜尋使用 PostgREST `imatch`，將 PostgreSQL ARE 的全部特殊符號跳脫後做未加錨點的比對；避免 ILIKE 對星號的額外轉換。真實 PostgreSQL／PostgREST 的 18 組符號、raw-only 正文與平台 max_rows=1 分頁契約為完整 CI 必跑步驟。
 - 雷達先以 metadata 選每位有效學員最近三篇，再批次讀取其正文；保留原分析與人工 followup。Bootstrap 僅取最新一篇。Hub 顯示最新篇微行動卡，歷史篇完整卡片仍在單篇閱讀器，避免為展開列表下載全部正文。
+- 學員頁及 API 的狀態預測另讀最近三篇正文，不把 metadata 當作空正文；雲端分析不採用本地舊檔或舊預測快取。日曆虛擬 `digital-*` 學員沒有 UUID 對應時只顯示其日曆資料，不查 teaching_records。
 - 動態個人頁／搜尋／雷達不再因 hover 預載；靜態資產原功能保留。
 
 ## 更新、失敗與一致性
@@ -32,7 +34,7 @@ Keyset 解決同日排序與新資料插入的 offset 位移，但不是資料�
 PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note_service.py tests/test_performance_and_lazy_load.py -q
 ```
 
-新增 27 個雲端測試使用合成學員／筆記與 HTTP 邊界的 PostgREST 模擬器，驗證欄位、UUID 型別、篩選與筆數上限；不 mock gateway、路由或搜尋／雷達演算法。教學資料和快取檔皆不存在，沒有正式憑證，無須讀取實際學員資料。
+雲端測試使用合成學員／筆記與 HTTP 邊界的 PostgREST 模擬器，驗證欄位、UUID 型別、篩選與筆數上限；不 mock gateway、路由或搜尋／雷達演算法。雲端資料來源檔不存在，沒有正式憑證，無須讀取實際學員資料。另有專門放入舊本地檔案的負例，確認雲端分析會忽略它。
 
 範圍包含：1,201 筆完整翻頁、空／同日／NULL 日期、max_rows=1/7、scope cursor、舊路徑、raw-only 正文、正文詞搜尋、特殊字元、班級舊連結、跨學員隔離、API 門禁、正文更新／刪除／重新歸屬、無效 JSON／402／403／500，以及正文極大時列表仍小於 100 KiB。
 

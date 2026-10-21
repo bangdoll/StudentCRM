@@ -9,6 +9,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 from urllib.parse import urlencode
 from uuid import UUID, uuid5, NAMESPACE_URL
 
@@ -101,10 +102,12 @@ class TeachingReads:
             if after:
                 predicates.append(older_than(*after))
             if query:
-                # Literal substring matching; SQL wildcard characters are escaped.
-                term = query.replace('\\', '\\\\').replace('%', '\\%').replace('_', '\\_').replace('*', '\\*')
-                pattern = literal('%' + term + '%')
-                matches = [key + '.ilike.' + pattern for key in ('title', 'student_name', 'content', 'raw->>content', 'raw->>preview')]
+                # PostgREST rewrites '*' even when escaped in ILIKE. Use an
+                # unanchored, case-insensitive regex with every ARE metacharacter
+                # escaped, preserving literal substring semantics without an RPC.
+                term = re.sub(r'([\\.^$|?*+(){}\[\]])', r'\\\1', query)
+                pattern = literal(term)
+                matches = [key + '.imatch.' + pattern for key in ('title', 'student_name', 'content', 'raw->>content', 'raw->>preview')]
                 if student_ids:
                     matches.append('student_id.in.(' + ','.join(uuid_text(sid) for sid in student_ids) + ')')
                 predicates.append('or(' + ','.join(matches) + ')')

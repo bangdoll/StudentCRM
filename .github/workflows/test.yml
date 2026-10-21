@@ -42,6 +42,9 @@ jobs:
           python -m pytest tests/ -v --junitxml=full-suite.xml
           python scripts/check_test_report.py full-suite.xml
 
+      - name: Real PostgREST search and capped pagination contracts
+        run: bash scripts/run_postgrest_contract.sh
+
       - name: Build source distribution and wheel
         run: python -m build
 

@@ -41,6 +41,20 @@ def main():
             for asset in ("style.css", "icon-192.png"):
                 response = client.get(f"/static/{asset}")
                 assert response.status_code == 200 and response.content
+            manifest = client.get("/site.webmanifest")
+            assert manifest.status_code == 200, f"Manifest status: {manifest.status_code}"
+            assert manifest.headers["content-type"].startswith("application/manifest+json")
+            document = manifest.json()
+            assert document["display"] == "standalone" and document["start_url"] == "/"
+            assert document["icons"]
+            head = client.head("/site.webmanifest")
+            assert head.status_code == 200 and not head.content
+            assert head.headers["content-length"] == str(len(manifest.content))
+            for icon in document["icons"]:
+                assert icon["src"].startswith("/static/")
+                image = client.get(icon["src"])
+                assert image.status_code == 200 and image.content
+                assert image.headers["content-type"].startswith("image/")
             params = {"path": "20260813 1359.蘋果總裁班.md"}
             assert client.get("/note", params=params).status_code == 403
             from auth_service import SESSION_COOKIE_NAME, get_session_token
@@ -48,7 +62,7 @@ def main():
             response = client.get("/note", params=params)
             assert response.status_code == 200
             assert "1359.蘋果總裁班" in response.text
-        print(f"Installed studentcrm {importlib.metadata.version('studentcrm')}: imports, HTML, static assets, bundled data and legacy note link passed")
+        print(f"Installed studentcrm {importlib.metadata.version('studentcrm')}: imports, HTML, static assets, PWA manifest GET/HEAD/icons, bundled data and legacy note link passed")
 
 
 if __name__ == "__main__":

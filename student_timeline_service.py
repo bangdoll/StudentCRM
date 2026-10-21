@@ -334,5 +334,11 @@ def analyze_student_features(
             "average_word_count": 0,
             "lessons_reviewed": 0,
         }
-    student_notes = get_student_teaching_notes(student, base_dir=effective_base)
-    return service_analyze_student_features(student, effective_base, student_notes, use_cache=use_cache)
+    import sys
+    gateway = getattr(sys.modules.get("main"), "student_gateway", None)
+    cloud = gateway is not None and gateway.backend == "supabase"
+    student_notes = gateway.load_recent_teaching_records(student["id"]) if cloud else get_student_teaching_notes(student, base_dir=effective_base)
+    return service_analyze_student_features(
+        student, effective_base, student_notes,
+        use_cache=False if cloud else use_cache, allow_local=not cloud,
+    )

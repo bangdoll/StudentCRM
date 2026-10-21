@@ -2,6 +2,14 @@
 
 PR #1 修正後，原 `CI Test Pipeline` 在 Python 3.11、3.12 執行完整 `tests/`，不設定 ignore、skip、xfail 或縮小測試集合。JUnit 檢查額外要求 tests > 0、skipped = failures = errors = 0。
 
+## 最後審查的 4 項回歸
+
+四項均先重現失敗再修正：預測 API 0 字取代 1,400 字、星號找到百分號紀錄、日曆虛擬學員詳情 400，以及 wheel 缺 manifest。新增斷言檢查真正 features／prediction、內容更新／刪除／402 不被舊快取或本地檔案遮蔽、18 組字面搜尋、日曆總覽→API／HTML 詳情、安裝後 manifest GET／HEAD 及圖示。
+
+搜尋的真實伺服器契約是完整 CI 的必跑步驟，不靠可選 pytest skip。`bash scripts/run_postgrest_contract.sh` 會建立匿名 PostgreSQL 17／PostgREST 14 測試容器，測完自動清理。查詢經過真正 PostgreSQL 的 regex、raw JSON、NULL 日期、ID 排序及 max_rows=1；HTTP 邊界只轉接 Supabase `/rest/v1/` 前綴，未模擬篩選結果。測試端點限制為 loopback，不能指向正式 Supabase。容器測試沒有變更正式服務、方案或帳務。
+
+本機若沒有啟動 Docker，仍可跑完整 pytest 與 wheel；真正伺服器契約需由 Docker 或 GitHub CI 完成，不能把模擬器通過宣稱成真正資料庫通過。
+
 ## 已釐清的原因
 
 | 原問題 | 修正與驗證 |

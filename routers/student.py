@@ -13,6 +13,7 @@ from prediction_service import predict_student_status
 from student_service import generate_student_renewal_reminder, generate_preclass_briefing, get_public_student_slug
 from note_service import resolve_note_detail
 from media_asset_resolver import get_media_resolver
+from teaching_reads import uuid_text, TeachingQueryError
 
 from schemas import (
     APIStatusResponse,
@@ -262,6 +263,11 @@ async def api_digital_management_students():
         student["note_count"] = len(student.get("notes", []))
         student["notes"] = student.get("notes", [])[:50]
         student["notes_url"] = "/api/teaching-records?student_id=" + student["id"]
+        if deps["student_gateway"].backend == "supabase":
+            try:
+                uuid_text(student["id"])
+            except TeachingQueryError:
+                student["notes_url"] = None
     return {
         "status": "ok",
         "count": len(payload.get("students", [])),
