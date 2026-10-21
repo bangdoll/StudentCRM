@@ -185,7 +185,7 @@
             <main class="timeline-content">
                 <section class="teaching-notes-section" style="margin-bottom: 36px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
-                        <h2 style="margin: 0; font-size: 1.4rem;">📚 教學筆記 ({{ student_notes|length }} 篇)</h2>
+                        <h2 style="margin: 0; font-size: 1.4rem;">📚 教學筆記（本頁 {{ student_notes|length }} 篇）</h2>
                         {% if student_notes %}
                         <span class="tag" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color); font-weight: 600;">最新上課：{{ student_notes[0].date or '未記錄' }}</span>
                         {% endif %}
@@ -276,5 +276,6 @@
 
     <!-- ⚡ Instant Prefetch & Image Shimmer Engine -->
     <script src="{{ url_for('static', path='/instant-prefetch.js') }}" defer></script>
+{% include "teaching_pagination.html" %}
 </body>
 </html>

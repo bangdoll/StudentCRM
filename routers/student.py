@@ -66,7 +66,7 @@ async def read_student(request: Request, student_id: str):
         data_gateway=deps["student_gateway"],
         base_dir=deps["BASE_DIR"],
     )
-    context = assembler.assemble_student_view_context(student_id)
+    context = assembler.assemble_student_view_context(student_id, cursor=request.query_params.get("cursor"))
     if not context:
         return HTMLResponse(content="Student not found", status_code=404)
 
@@ -81,18 +81,36 @@ async def read_student(request: Request, student_id: str):
 async def open_file(request: Request, path: str):
     """【單篇教學筆記閱讀器】安全解析教案內容與課堂 3 張微行動卡。"""
     deps = get_student_deps()
-    apple_program = deps["load_apple_ceo_program"]()
-    apple_notes = apple_program.get("teaching_notes", [])
-    records = deps["load_cloud_digital_management_notes"]()
+    gateway = deps["student_gateway"]
     students = deps["load_students"]()
-
-    note = resolve_note_detail(
-        path_or_filename=path,
-        base_dir=deps["BASE_DIR"],
-        apple_notes=apple_notes,
-        cloud_records=records,
-        students=students,
-    )
+    if gateway.backend == "supabase":
+        from auth_service import is_authenticated_admin, ADMIN_PASSKEYS, is_authorized_apple_ceo_student
+        from student_service import resolve_student_access_id, is_valid_student_access_key
+        access = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
+        admin = is_authenticated_admin(request) or any(
+            (request.query_params.get(key) or "").strip().lower() in ADMIN_PASSKEYS
+            for key in ("key", "passkey", "token")
+        )
+        st = gateway.get_student_profile(resolve_student_access_id(access, students)) if access else None
+        if not admin and (not st or not is_valid_student_access_key(access, st)):
+            raise HTTPException(status_code=403, detail="請使用有效的學員專屬連結")
+        record = gateway.load_teaching_record_detail(path, student_id=None if admin else st["id"])
+        records = [record, *gateway.teaching_neighbors(record)] if record else []
+        apple_notes = []
+        if not record and (admin or is_authorized_apple_ceo_student(access, st)):
+            apple_notes = deps["load_apple_ceo_program"]().get("teaching_notes", [])
+        note = resolve_note_detail(
+            path_or_filename=record["path"] if record else path,
+            base_dir=deps["BASE_DIR"], apple_notes=apple_notes, cloud_records=records,
+            students=students, allow_local=False,
+        )
+    else:
+        apple_notes = deps["load_apple_ceo_program"]().get("teaching_notes", [])
+        records = deps["load_cloud_digital_management_notes"]()
+        note = resolve_note_detail(
+            path_or_filename=path, base_dir=deps["BASE_DIR"], apple_notes=apple_notes,
+            cloud_records=records, students=students,
+        )
 
     query_token = request.query_params.get("token") or ""
     cookie_token = request.cookies.get("last_student_token") or ""
@@ -119,7 +137,7 @@ async def open_file(request: Request, path: str):
         "token": token,
         **note.to_template_context()
     })
-    response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+    response.headers["Cache-Control"] = "private, no-store"
     return response
 
 
@@ -168,7 +186,7 @@ async def read_digital_management_student(request: Request, student_id: str):
     import html as html_lib
     student = None
     if deps.get("get_digital_management_student_profile"):
-        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
+        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True, cursor=request.query_params.get("cursor"))
     if not student:
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
@@ -196,6 +214,15 @@ async def read_digital_management_student(request: Request, student_id: str):
         "calendar_cache": deps.get("calendar_cache", ""),
         "heptabase_backup_root": deps.get("heptabase_backup_root", ""),
     })
+
+
+@router.get("/api/teaching-records")
+async def api_teaching_records(student_id: str | None = None, cursor: str | None = None, limit: int = 50, q: str = ""):
+    try:
+        page = get_student_deps()["student_gateway"].list_teaching_records(student_id, cursor=cursor, limit=limit, query=q)
+        return JSONResponse(page, headers={"Cache-Control": "private, no-store"})
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
 
 
 @router.get("/api/students")
@@ -231,6 +258,10 @@ async def api_student(student_id: str):
 async def api_digital_management_students():
     deps = get_student_deps()
     payload = deps["build_digital_management_profiles"](include_heptabase=False)
+    for student in payload.get("students", []):
+        student["note_count"] = len(student.get("notes", []))
+        student["notes"] = student.get("notes", [])[:50]
+        student["notes_url"] = "/api/teaching-records?student_id=" + student["id"]
     return {
         "status": "ok",
         "count": len(payload.get("students", [])),
@@ -239,11 +270,11 @@ async def api_digital_management_students():
 
 
 @router.get("/api/digital-management/students/{student_id}", response_model=DigitalManagementDetailResponse)
-async def api_digital_management_student(student_id: str):
+async def api_digital_management_student(student_id: str, cursor: str | None = None):
     deps = get_student_deps()
     student = None
     if deps.get("get_digital_management_student_profile"):
-        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
+        student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True, cursor=cursor)
     if not student:
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)

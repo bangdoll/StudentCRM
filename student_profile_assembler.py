@@ -83,7 +83,7 @@ class StudentProfileAssembler:
             import main
             self.badges_injector = main.inject_badges
 
-    def assemble_student_view_context(self, student_id: str) -> dict[str, Any] | None:
+    def assemble_student_view_context(self, student_id: str, cursor: str | None = None) -> dict[str, Any] | None:
         """【單一法定入口】組裝單一學員主頁所需的完整渲染 Context。"""
         self._resolve_deps()
 
@@ -112,7 +112,12 @@ class StudentProfileAssembler:
             )
 
         # 2. 教學筆記與公開 Token
-        student_notes = self.teaching_notes_loader(student) if self.teaching_notes_loader else []
+        cloud_page = None
+        if getattr(self.gateway, "backend", "local") == "supabase":
+            cloud_page = self.gateway.list_teaching_records(student_id, cursor=cursor)
+            student_notes = cloud_page["items"]
+        else:
+            student_notes = self.teaching_notes_loader(student) if self.teaching_notes_loader else []
         
         from student_service import get_public_student_slug
         hub_token = get_public_student_slug(student_id, students) or student_id
@@ -143,7 +148,7 @@ class StudentProfileAssembler:
         # 5. 時間軸 HTML 渲染 (Markdown 轉譯或雲端紀錄渲染)
         timeline_html = ""
         if not file_path or not os.path.isfile(file_path):
-            teaching_records = self.gateway.load_teaching_records(student_id)
+            teaching_records = student_notes if cloud_page is not None else self.gateway.load_teaching_records(student_id)
             if self.timeline_renderer:
                 timeline_html = self.timeline_renderer(student, teaching_records)
         else:
@@ -179,6 +184,7 @@ class StudentProfileAssembler:
             "student": student,
             "student_notes": student_notes,
             "timeline_html": timeline_html,
+            "next_cursor": cloud_page["next_cursor"] if cloud_page else None,
             "student_id": student_id,
             "hub_token": hub_token,
             "renewal_message": renewal_message,

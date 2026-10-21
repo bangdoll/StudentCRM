@@ -19,11 +19,12 @@ import os
 import time
 from fastapi import FastAPI, Request
 from pydantic import BaseModel, Field
-from fastapi.responses import HTMLResponse, FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from data_gateway import StudentDataGateway
+from teaching_reads import TeachingReadError, TeachingQueryError
 
 # ── 環境路徑與基礎設定 ────────────────────────────────────────────────────────
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -80,6 +81,17 @@ class FallbackStaticFiles(StaticFiles):
 
 # ── 建立 FastAPI 實例與模板掛載 ──────────────────────────────────────────────
 app = FastAPI(title="StudentCRM", version="2.5.0")
+
+
+@app.exception_handler(TeachingReadError)
+async def teaching_unavailable(request, exc):
+    return JSONResponse({"detail": "教學紀錄暫時無法讀取，請稍後重試"}, status_code=503, headers={"Cache-Control": "private, no-store"})
+
+
+@app.exception_handler(TeachingQueryError)
+async def invalid_teaching_request(request, exc):
+    return JSONResponse({"detail": "查詢參數無效"}, status_code=400)
+
 
 TEACHING_ASSETS_DIR = os.path.join(TEACHING_DIR, "assets")
 crm_teaching_assets = os.path.join(STATIC_DIR, "teaching_assets")
@@ -186,17 +198,30 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
     )
 
 
-def get_digital_management_student_profile(student_id: str, include_heptabase: bool = True) -> dict | None:
+def get_digital_management_student_profile(student_id: str, include_heptabase: bool = True, cursor: str | None = None) -> dict | None:
     import main as current_module
-    return _dm_svc.get_digital_management_student_profile(
+    profile = _dm_svc.get_digital_management_student_profile(
         student_id=student_id,
         include_heptabase=include_heptabase,
         students_loader=lambda: current_module.load_students(),
         data_gateway=getattr(current_module, "student_gateway", student_gateway),
         calendar_events_loader=lambda: current_module.load_digital_management_calendar_events(),
         local_notes_loader=lambda: current_module.load_local_digital_management_notes(),
-        cloud_notes_loader=lambda: current_module.load_cloud_digital_management_notes(),
+        cloud_notes_loader=(lambda: list(student_gateway.iter_teaching_metadata(student_id))) if student_gateway.backend == "supabase" else (lambda: current_module.load_cloud_digital_management_notes()),
     )
+
+    if profile and student_gateway.backend == "supabase":
+        page = student_gateway.list_teaching_records(student_id, cursor=cursor)
+        all_note_ids = {note.get("id") for note in profile["notes"]}
+        page_ids = {note["id"] for note in page["items"]}
+        profile["notes"] = page["items"]
+        profile["lessons"] = [
+            {k: v for k, v in item.items() if k != "content"}
+            for item in profile["lessons"]
+            if item.get("id") not in all_note_ids or item.get("id") in page_ids
+        ]
+        profile["next_cursor"] = page["next_cursor"]
+    return profile
 
 
 # ── 學員時間軸與前綴評估服務委派 (student_timeline_service) ────────────────────
@@ -216,6 +241,8 @@ from student_timeline_service import (
 
 
 def get_student_teaching_notes(student: dict) -> list[dict]:
+    if student_gateway.backend == "supabase" and "總裁班" not in student.get("name", ""):
+        return student_gateway.list_teaching_records(student.get("id"))["items"]
     return _service_get_student_teaching_notes(
         student,
         base_dir=BASE_DIR,

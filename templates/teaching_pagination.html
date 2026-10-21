@@ -1,0 +1,6 @@
+{% if next_cursor %}
+<nav aria-label="教學紀錄分頁" style="margin:24px;text-align:center">
+  <a href="{{ request.url.include_query_params(cursor=next_cursor) }}">較早的紀錄 →</a>
+  <span> · </span><a href="{{ request.url.remove_query_params('cursor') }}">回最新紀錄</a>
+</nav>
+{% endif %}
