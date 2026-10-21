@@ -69,6 +69,7 @@ class StudentDataGateway(TeachingReads):
     """
 
     def __init__(self, base_dir: str) -> None:
+        base_dir = os.path.abspath(base_dir)
         self.base_dir = base_dir
 
         # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
@@ -88,8 +89,8 @@ class StudentDataGateway(TeachingReads):
             self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
         elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
             self.app_dir = os.path.join(self.repo_root, "StudentCRM")
-        elif os.path.isdir(base_dir) and os.path.basename(os.path.abspath(base_dir)) == "StudentCRM":
-            self.app_dir = os.path.abspath(base_dir)
+        elif os.path.isdir(os.path.join(base_dir, "data")) or os.path.basename(base_dir) == "StudentCRM":
+            self.app_dir = base_dir
         else:
             self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
 

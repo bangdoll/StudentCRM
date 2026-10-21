@@ -38,7 +38,7 @@ PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note
 
 這是雲端契約與 ASGI 路由測試，不是已部署正式 Supabase/Vercel 的端到端驗收；沒有聲稱已恢復正式服務或實測計費 Egress 節省 99%。
 
-擴大測試的基準：對 main `21021a9` 與修正後各跑 `tests/ --ignore=tests/test_merge_students.py`。原版 174 通過、10 失敗；修正擴大比對 200 通過、相同 10 失敗（當時新增 26 項，後續再補 nullable title，新增測試共 27 項）。最後核心回歸 59 項通過（包含 27 項雲端契約及 1 項離線分頁相容測試）。失敗涉及缺少外部教案／圖片／手冊、既有資料假設及同步測試未提供假憑證。完整 collection 另被 repo 外 `merge_students` 模組缺失阻擋。本 PR 不刪除、不略過這些舊測試，既有 CI 保持可見；新增獨立 cloud contract CI，於 Python 3.11/3.12 執行。
+初次診斷快照：main `21021a9` 與當時修正版曾排除無法匯入的外部 `merge_students` 以比較失敗集合，分別 174／200 項通過、相同 10 項失敗；這只是定位用的局部結果，不能當完整驗收。後續已修正套件探索、外部腳本依賴、資料路徑、測試隔離與假憑證；原有 CI 現在執行全部 `tests/` 並檢查零 skip。私人實體教案盤點和可攜功能回歸明確分開，原門檻保留，詳見 [完整 CI 說明](full-ci.md)。
 
 ## PR 與發布邊界
 

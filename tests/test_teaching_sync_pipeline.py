@@ -42,7 +42,9 @@ def test_pipeline_detects_orphans_in_diff(crm_dir):
     assert stale_ids == [synthetic_orphan_id]
 
 
-def test_pipeline_dry_run_mode(crm_dir):
+def test_pipeline_dry_run_mode(crm_dir, monkeypatch):
+    monkeypatch.setenv("SUPABASE_URL", "https://example.invalid")
+    monkeypatch.setenv("SUPABASE_SERVICE_ROLE_KEY", "test-only-key")
     pipeline = TeachingSyncPipeline(crm_dir)
     with patch.object(pipeline, "_query_remote_student_records", return_value=[{"id": "mock-orphan-1"}]):
         res = pipeline.sync_student("36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95", dry_run=True)

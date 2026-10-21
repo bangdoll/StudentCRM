@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "studentcrm"
 version = "0.2.0"
@@ -17,6 +21,27 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "build>=1.2.0",
     "httpx>=0.28.0",
     "pytest>=9.0.0",
 ]
+
+# The server retains its legacy top-level imports (uvicorn main:app).
+# Explicit discovery prevents NativeApp, tests and runtime caches from becoming
+# accidental packages. Resource namespaces keep assets beside main.py in wheels.
+[tool.setuptools]
+py-modules = [
+    "apple_ceo_service", "auth_service", "data_gateway",
+    "digital_management_service", "fallback_views", "hub_service",
+    "image_sync_engine", "main", "media_asset_resolver", "note_service", "asset_audit", "merge_students",
+    "outcome_service", "prediction_service", "radar_service", "schedule_service",
+    "student_profile_assembler", "student_service", "student_timeline_service",
+    "teaching_reads", "teaching_sync", "teaching_sync_pipeline",
+]
+packages = ["routers", "schemas", "data", "static", "templates"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+data = ["*.json"]
+static = ["*.css", "*.js", "*.svg", "*.png", "*.ico", "teaching_assets/*.png", "teaching_assets/*.jpg", "teaching_assets/*.jpeg", "teaching_assets/*.webp"]
+templates = ["*.html"]

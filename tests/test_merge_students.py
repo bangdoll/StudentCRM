@@ -4,9 +4,6 @@ import pytest
 from pathlib import Path
 import sys
 
-SCRIPTS_DIR = Path(__file__).resolve().parents[3] / "scripts"
-sys.path.insert(0, str(SCRIPTS_DIR))
-
 from merge_students import (
     scan_duplicate_candidates,
     find_student,
@@ -81,4 +78,23 @@ def test_annie_aliases_and_brainwave_distinct_protection():
 
     # 5. 驗證 merge 執行時會被防護清單攔截
     assert merge_two_students("腦波Annie", "Annie", dry_run=True) is False
+
+
+def test_merge_planning_is_explicit_and_never_writes():
+    students = [{"id": "a", "name": "範例"}, {"id": "b", "name": "範例舊檔"}]
+    before = json.dumps(students, ensure_ascii=False)
+    assert merge_two_students("a", "b", students=students) == {"target_id": "a", "source_id": "b", "dry_run": True}
+    assert json.dumps(students, ensure_ascii=False) == before
+    with pytest.raises(ValueError, match="僅提供 dry-run"):
+        merge_two_students("a", "b", students=students, dry_run=False)
+
+
+def test_ambiguous_partial_name_requires_an_id():
+    with pytest.raises(ValueError, match="身分不明確"):
+        find_student("範例", [{"id": "a", "name": "範例甲"}, {"id": "b", "name": "範例乙"}])
+
+
+def test_protected_pair_is_also_rejected_when_identified_by_id():
+    students = [{"id": "a", "name": "Annie"}, {"id": "b", "name": "腦波Annie"}]
+    assert merge_two_students("a", "b", students=students) is False
 
