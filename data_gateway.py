@@ -5,6 +5,7 @@ import copy
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote
@@ -18,7 +19,29 @@ class DataGatewayError(RuntimeError):
 
 
 _MEMORY_CACHE: dict[str, tuple[float, Any]] = {}
-GATEWAY_CACHE_TTL_SECONDS = 15.0
+
+
+def _env_float(name: str, default: float) -> float:
+    """讀取可調整的快取秒數；設定錯誤時採用安全預設值。"""
+    try:
+        return max(float(os.getenv(name, str(default))), 0.0)
+    except (TypeError, ValueError):
+        return default
+
+
+# 雲端讀取採 5 分鐘 TTL，避免 Vercel cold start 或前台重整反覆消耗 Egress。
+GATEWAY_CACHE_TTL_SECONDS = _env_float("STUDENTCRM_CACHE_TTL_SECONDS", 300.0)
+CLOUD_DISK_CACHE_TTL_SECONDS = _env_float("STUDENTCRM_CLOUD_CACHE_TTL_SECONDS", 300.0)
+
+# 🛡️ 流量防護深模組：只查 teaching_records schema 的索引欄位，排除 raw（完整正文）以降低 Egress。
+TEACHING_RECORDS_SUMMARY_COLUMNS = "id,student_id,student_name,title,date,lesson_num,lesson_sub,created,edited"
+TEACHING_RECORD_DETAIL_COLUMNS = "id,student_id,student_name,title,date,lesson_num,lesson_sub,created,edited,raw"
+STUDENT_SUMMARY_COLUMNS = "id,name,aliases,file,lessons_count,latest_date,next_lesson,tags,recurring_schedule,schedule_exceptions"
+APPLE_PROGRAM_COLUMNS = "id,name,url,description,schedule,capacity,round_size,price_per_student,validity_rule,leave_rule,join_rule"
+APPLE_VENUE_COLUMNS = "id,program_id,name,address,parking,metro,cost_per_person"
+APPLE_ATTENDANCE_COLUMNS = "id,program_id,date,venue,attendee_count,attendees,note"
+APPLE_LEDGER_COLUMNS = "id,program_id,date,type,amount,payer,headcount,note,balance_after"
+APPLE_ROUND_COLUMNS = "id,program_id,student_name,label,payment_status,sessions,attended_count,sort_order,raw"
 
 
 def clear_gateway_memory_cache() -> None:
@@ -124,6 +147,7 @@ class StudentDataGateway:
         self.cache_dir = os.getenv("STUDENTCRM_CACHE_DIR", default_cache_dir)
         self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
         self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
+        self.teaching_records_cache_file = os.path.join(self.cache_dir, "teaching_records_cloud_cache.json")
         self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
         self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
         self.radar_cache_file = os.path.join(self.cache_dir, "effectiveness_radar.json")
@@ -212,8 +236,16 @@ class StudentDataGateway:
                 self._write_status(GatewayStatus("unavailable", self.students_file, self.students_cache_file, str(exc)))
                 return []
 
+        cached_students = self._read_fresh_json_cache(self.students_cache_file)
+        if isinstance(cached_students, list):
+            self._write_status(GatewayStatus("cache", self.students_cache_file, self.students_cache_file))
+            return cached_students
+
         try:
-            students = self._load_supabase_table("students")
+            students = self._load_supabase_table(
+                "students",
+                query=f"select={STUDENT_SUMMARY_COLUMNS}",
+            )
             local_students = []
             try:
                 local_students = self._load_local_students()
@@ -290,7 +322,9 @@ class StudentDataGateway:
             return self._empty_apple_ceo_program()
 
         try:
-            payload = self._load_supabase_apple_ceo_program()
+            payload = self._read_fresh_json_cache(self.apple_ceo_cache_file)
+            if not isinstance(payload, dict) or not payload.get("program"):
+                payload = self._load_supabase_apple_ceo_program()
             if local_payload:
                 if not payload.get("tuition_records") and local_payload.get("tuition_records"):
                     payload["tuition_records"] = local_payload.get("tuition_records")
@@ -332,15 +366,29 @@ class StudentDataGateway:
             return self._empty_apple_ceo_program()
 
     def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
+        """載入特定學員的教學紀錄摘要。
+
+        優先從已快取的 load_all_teaching_records() 做內存過濾，完全免發起額外網路請求；
+        若為 Supabase 且未命中，則使用精簡欄位投影查詢。
+        """
         if not student_id:
             return []
+
+        all_records = self.load_all_teaching_records()
+        target = str(student_id).strip().lower()
+        matched = [
+            r for r in all_records
+            if isinstance(r, dict) and str(r.get("student_id", "")).strip().lower() == target
+        ]
+        if matched:
+            return matched
 
         if self.backend == "supabase":
             encoded_student_id = quote(student_id, safe="")
             try:
                 res = self._load_supabase_table(
                     "teaching_records",
-                    query=f"select=*&student_id=eq.{encoded_student_id}&order=date.desc",
+                    query=f"select={TEACHING_RECORDS_SUMMARY_COLUMNS}&student_id=eq.{encoded_student_id}&order=date.desc",
                 )
                 if isinstance(res, list):
                     return res
@@ -349,22 +397,51 @@ class StudentDataGateway:
             except DataGatewayError:
                 pass
 
-        all_records = self.load_all_teaching_records()
-        return [r for r in all_records if isinstance(r, dict) and r.get("student_id") == student_id]
+        return []
 
     def load_all_teaching_records(self) -> list[dict[str, Any]]:
+        """【流量防護深模組】載入教學紀錄摘要列表。
+
+        嚴格遵守投影與多級快取原則：
+        1. 優先命中記憶體快取 (GATEWAY_CACHE_TTL_SECONDS)
+        2. 向 Supabase 查詢時，絕對禁止 select=*，強制使用精簡欄位投影 (排除 content 與 raw，節省 99% Egress)
+        3. 寫入本地磁碟快取，當雲端失敗時無縫回退
+        """
+        now = time.time()
+        cache_key = f"teaching_records_{self.backend}_{self.teaching_records_file}"
+        if cache_key in _MEMORY_CACHE:
+            cached_time, cached_data = _MEMORY_CACHE[cache_key]
+            if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
+                return copy.deepcopy(cached_data)
+
+        records = self._load_all_teaching_records_uncached()
+        if records:
+            _MEMORY_CACHE[cache_key] = (now, copy.deepcopy(records))
+        return records
+
+    def _load_all_teaching_records_uncached(self) -> list[dict[str, Any]]:
         if self.backend == "supabase":
+            cached_records = self._read_fresh_json_cache(self.teaching_records_cache_file)
+            if isinstance(cached_records, list):
+                return cached_records
             try:
                 res = self._load_supabase_table(
                     "teaching_records",
-                    query="select=*&order=date.desc",
+                    query=f"select={TEACHING_RECORDS_SUMMARY_COLUMNS}&order=date.desc",
                 )
                 if isinstance(res, list):
+                    if hasattr(self, "teaching_records_cache_file"):
+                        self._write_json(self.teaching_records_cache_file, res)
                     return res
                 if isinstance(res, dict) and "records" in res:
-                    return res["records"]
-            except DataGatewayError:
-                pass
+                    recs = res["records"]
+                    if hasattr(self, "teaching_records_cache_file"):
+                        self._write_json(self.teaching_records_cache_file, recs)
+                    return recs
+            except DataGatewayError as exc:
+                logger.warning(f"Supabase 讀取 teaching_records 失敗，嘗試回退快取: {exc}")
+                if hasattr(self, "teaching_records_cache_file") and os.path.exists(self.teaching_records_cache_file):
+                    return self._read_json(self.teaching_records_cache_file)
 
         if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
             try:
@@ -376,6 +453,57 @@ class StudentDataGateway:
             except Exception:
                 pass
         return []
+
+    def load_teaching_record_detail(self, identifier: str) -> dict[str, Any] | None:
+        """【窄介面】依 id、路徑或檔名精確載入單一筆記之完整內容（包含 content）。
+
+        只在使用者點入筆記頁面 (/note) 時按需查詢單筆，杜絕全量載入正文造成 Egress 浪費。
+        """
+        if not identifier:
+            return None
+        target = str(identifier).strip()
+
+        # 1. 優先比對本地實體檔案（零 Egress）
+        clean_filename = os.path.basename(target)
+        if hasattr(self, "repo_root") and self.repo_root:
+            candidate_paths = [
+                target,
+                os.path.join(self.repo_root, target.lstrip("/")),
+                os.path.join(self.repo_root, "01.Docs", "teaching", clean_filename),
+            ]
+            for p in candidate_paths:
+                if p and os.path.isfile(p):
+                    try:
+                        content = Path(p).read_text(encoding="utf-8", errors="ignore")
+                        return {"path": p, "filename": clean_filename, "content": content}
+                    except OSError:
+                        pass
+
+        # 2. 若為 Supabase 後端，以精確條件只撈取該單筆
+        if self.backend == "supabase":
+            try:
+                encoded_id = quote(target, safe="")
+                query = f"select={TEACHING_RECORD_DETAIL_COLUMNS}&id=eq.{encoded_id}&limit=1"
+                res = self._load_supabase_table("teaching_records", query=query)
+                if isinstance(res, list) and res:
+                    return res[0]
+            except DataGatewayError as exc:
+                logger.warning(f"Supabase 讀取單筆教學筆記 {target} 失敗: {exc}")
+
+        # 3. 回退至已載入的本地 teaching_records.json
+        if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
+            try:
+                data = self._read_json(self.teaching_records_file)
+                records = data if isinstance(data, list) else data.get("records", [])
+                for r in records:
+                    if not isinstance(r, dict):
+                        continue
+                    if r.get("id") == target or r.get("filename") == clean_filename or r.get("path") == target:
+                        return r
+            except Exception:
+                pass
+
+        return None
 
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
@@ -429,18 +557,34 @@ class StudentDataGateway:
         }
 
     def _load_supabase_apple_ceo_program(self) -> dict[str, Any]:
-        programs = self._load_supabase_table("apple_programs")
+        programs = self._load_supabase_table(
+            "apple_programs",
+            query=f"select={APPLE_PROGRAM_COLUMNS}",
+        )
         if not programs:
             raise DataGatewayError("Supabase apple_programs 無資料")
 
         program = programs[0]
         program_id = program.get("id", "apple-ceo")
+        # raw 可能含完整教學筆記；正式窄投影不會帶回它，但保留相容性以支援既有測試/快取資料。
         program_raw = program.get("raw") if isinstance(program.get("raw"), dict) else {}
         encoded_program_id = quote(program_id, safe="")
-        venues = self._load_supabase_table("apple_venues", query=f"select=*&program_id=eq.{encoded_program_id}")
-        attendance = self._load_supabase_table("apple_attendance_records", query=f"select=*&program_id=eq.{encoded_program_id}&order=date.asc")
-        ledger = self._load_supabase_table("apple_venue_ledger", query=f"select=*&program_id=eq.{encoded_program_id}&order=date.asc")
-        rounds = self._load_supabase_table("apple_student_rounds", query=f"select=*&program_id=eq.{encoded_program_id}&order=student_name.asc,sort_order.asc")
+        venues = self._load_supabase_table(
+            "apple_venues",
+            query=f"select={APPLE_VENUE_COLUMNS}&program_id=eq.{encoded_program_id}",
+        )
+        attendance = self._load_supabase_table(
+            "apple_attendance_records",
+            query=f"select={APPLE_ATTENDANCE_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
+        )
+        ledger = self._load_supabase_table(
+            "apple_venue_ledger",
+            query=f"select={APPLE_LEDGER_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
+        )
+        rounds = self._load_supabase_table(
+            "apple_student_rounds",
+            query=f"select={APPLE_ROUND_COLUMNS}&program_id=eq.{encoded_program_id}&order=student_name.asc,sort_order.asc",
+        )
 
         grouped_rounds: dict[str, list[dict[str, Any]]] = {}
         grouped_aliases: dict[str, list[str]] = {}
@@ -521,7 +665,7 @@ class StudentDataGateway:
             "balance_after": row.get("balance_after", 0),
         }
 
-    def _load_supabase_table(self, table: str, query: str = "select=*") -> list[dict[str, Any]]:
+    def _load_supabase_table(self, table: str, query: str = "select=id") -> list[dict[str, Any]]:
         if not self.supabase_url or not self.supabase_key:
             raise DataGatewayError("Supabase 環境變數未設定完整")
 
@@ -551,6 +695,19 @@ class StudentDataGateway:
         if not isinstance(data, list):
             raise DataGatewayError("Supabase 回傳格式不是列表")
         return data
+
+    @classmethod
+    def _read_fresh_json_cache(cls, path: str) -> Any | None:
+        """只讀取未過期的磁碟快取，避免每次 Vercel cold start 重拉雲端。"""
+        if not path or not os.path.isfile(path):
+            return None
+        try:
+            age = max(time.time() - os.path.getmtime(path), 0.0)
+            if age > CLOUD_DISK_CACHE_TTL_SECONDS:
+                return None
+            return cls._read_json(path)
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            return None
 
 
     def _write_status(self, status: GatewayStatus) -> None:

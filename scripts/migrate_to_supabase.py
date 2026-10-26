@@ -151,7 +151,8 @@ def supabase_upsert(url: str, key: str, table: str, rows: list[dict[str, Any]], 
         "apikey": key,
         "Authorization": f"Bearer {key}",
         "Content-Type": "application/json",
-        "Prefer": "resolution=merge-duplicates",
+        # 寫入不需要把 upsert 後的完整 raw 回傳，避免額外 Egress。
+        "Prefer": "resolution=merge-duplicates,return=minimal",
     }
     for batch in chunked(rows, 100):
         response = requests.post(endpoint, headers=headers, json=batch, timeout=30)
@@ -240,6 +241,28 @@ def supabase_replace_apple_payload(url: str, key: str, apple_payload: dict[str, 
     for table in delete_order:
         query = "id=eq.apple-ceo" if table == "apple_programs" else "program_id=eq.apple-ceo"
         supabase_delete(url, key, table, query)
+
+    for table in upsert_order:
+        rows = apple_payload.get(table, [])
+        if rows:
+            supabase_upsert(url, key, table, rows, dry_run=False)
+
+
+def supabase_upsert_apple_payload(url: str, key: str, apple_payload: dict[str, list[dict[str, Any]]], dry_run: bool) -> None:
+    """只增量 upsert 蘋果班資料，保留雲端既有資料，不執行 DELETE。"""
+    upsert_order = [
+        "apple_programs",
+        "apple_venues",
+        "apple_attendance_records",
+        "apple_venue_ledger",
+        "apple_student_rounds",
+    ]
+
+    if dry_run:
+        print("[DRY-RUN] 只增量 upsert 蘋果總裁班，不刪除 Supabase 既有資料")
+        for table in upsert_order:
+            print(f"[DRY-RUN] 會 upsert {len(apple_payload.get(table, []))} 筆至 {table}")
+        return
 
     for table in upsert_order:
         rows = apple_payload.get(table, [])
@@ -399,9 +422,16 @@ def build_apple_ceo_payload(root: Path) -> dict[str, list[dict[str, Any]]]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="StudentCRM Supabase 遷移工具")
     parser.add_argument("--apply", action="store_true", help="實際寫入 Supabase；預設只乾跑")
-    parser.add_argument("--apple-only", action="store_true", help="只同步蘋果總裁班資料，並清除 Supabase 舊班務資料後重建")
+    parser.add_argument("--apple-only", action="store_true", help="只同步蘋果總裁班資料；預設採安全增量 upsert")
+    parser.add_argument("--apple-incremental", action="store_true", help="相容旗標：蘋果總裁班只做增量 upsert，不刪除 Supabase 既有資料")
+    parser.add_argument("--apple-replace", action="store_true", help="高風險模式：清除蘋果班舊資料後重建，僅在明確需要時使用")
     parser.add_argument("--replace-teaching", action="store_true", help="清除 Supabase teaching_records 後用本地 teaching cache 重建")
     args = parser.parse_args()
+
+    if (args.apple_incremental or args.apple_replace) and not args.apple_only:
+        parser.error("--apple-incremental/--apple-replace 必須搭配 --apple-only")
+    if args.apple_incremental and args.apple_replace:
+        parser.error("--apple-incremental 與 --apple-replace 不可同時使用")
 
     root = repo_root()
     app_dir = Path(__file__).resolve().parents[1]
@@ -430,7 +460,10 @@ def main() -> int:
         if args.replace_teaching and teaching_records:
             supabase_replace_teaching_records("", "", teaching_records, dry_run=True)
         if args.apple_only:
-            supabase_replace_apple_payload("", "", apple_payload, dry_run=True)
+            if args.apple_replace:
+                supabase_replace_apple_payload("", "", apple_payload, dry_run=True)
+            else:
+                supabase_upsert_apple_payload("", "", apple_payload, dry_run=True)
         print("乾跑完成；確認 schema 後加上 --apply 才會寫入 Supabase。")
         return 0
 
@@ -438,20 +471,34 @@ def main() -> int:
         print("錯誤：缺少 SUPABASE_URL 或 SUPABASE_SERVICE_ROLE_KEY", file=sys.stderr)
         return 2
 
-    if args.apple_only:
-        supabase_replace_apple_payload(url, key, apple_payload, dry_run=False)
-        print("Supabase 蘋果總裁班同步完成")
-        return 0
+    try:
+        if args.apple_only:
+            if args.apple_replace:
+                supabase_replace_apple_payload(url, key, apple_payload, dry_run=False)
+            else:
+                supabase_upsert_apple_payload(url, key, apple_payload, dry_run=False)
+            print("Supabase 蘋果總裁班同步完成")
+            return 0
 
-    supabase_sync_students(url, key, students_data, dry_run=False)
-    if teaching_records:
-        if args.replace_teaching:
-            supabase_replace_teaching_records(url, key, teaching_records, dry_run=False)
-        else:
-            supabase_upsert(url, key, "teaching_records", teaching_records, dry_run=False)
-    for table, rows in apple_payload.items():
-        if rows:
-            supabase_upsert(url, key, table, rows, dry_run=False)
+        supabase_sync_students(url, key, students_data, dry_run=False)
+        if teaching_records:
+            if args.replace_teaching:
+                supabase_replace_teaching_records(url, key, teaching_records, dry_run=False)
+            else:
+                supabase_upsert(url, key, "teaching_records", teaching_records, dry_run=False)
+        for table, rows in apple_payload.items():
+            if rows:
+                supabase_upsert(url, key, table, rows, dry_run=False)
+    except requests.HTTPError as exc:
+        response = getattr(exc, "response", None)
+        if response is not None and response.status_code == 402:
+            print(
+                "[BLOCKED] Supabase 402：專案因組織 Egress 超額而被限制。"
+                "本地資料未刪除；請等配額週期重置或核准升級方案後，再執行增量同步。",
+                file=sys.stderr,
+            )
+            return 3
+        raise
     print("Supabase 遷移完成")
     return 0
 
