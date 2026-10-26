@@ -51,9 +51,10 @@ class MediaAssetResolver:
             self._resolved_base_url = env_media_url
             return
 
-        # 方案 A：若配置了 SUPABASE_URL 且未顯式停用，預設直連 Supabase Storage CDN
-        use_supabase_raw = os.getenv("STUDENTCRM_USE_SUPABASE_STORAGE", "true").strip().lower()
-        use_supabase = use_supabase_raw not in ("0", "false", "no", "off")
+        # 🛡️ 關鍵防護：預設採用高可用之本地/Vercel 靜態資產路由 (/static/teaching_assets)
+        # 徹底避免 Supabase 組織遭遇 Egress 限制 (402 Payment Required) 時引發全站圖片破圖
+        use_supabase_raw = os.getenv("STUDENTCRM_USE_SUPABASE_STORAGE", "false").strip().lower()
+        use_supabase = use_supabase_raw in ("1", "true", "yes", "on")
         supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
         if use_supabase and supabase_url:
             bucket_name = os.getenv("STUDENTCRM_STORAGE_BUCKET", "teaching_assets").strip()
@@ -208,33 +209,50 @@ class MediaAssetResolver:
         return re.sub(pattern, _repl, markdown_text)
 
     def inject_lazy_loading(self, html_content: str) -> str:
-        """【效能深模組】為 HTML 中的 <img> 標籤自動注入 loading="lazy"、decoding="async" 與骨架屏淡入效果。
+        """【效能與自癒深模組】為 HTML 中的 <img> 標籤自動注入 loading="lazy"、decoding="async" 與 onerror 本地自癒回退機制。
 
-        若標籤中已顯式設定 loading 屬性則予以保留，避免破壞特殊需求（如 LCP 首圖 eager 標記）。
+        若標籤中已顯式設定 loading 屬性則予以保留，避免破壞特殊需求。
         """
         if not html_content or "<img" not in html_content:
             return html_content
 
         def _repl(match: re.Match) -> str:
             tag = match.group(0)
-            if "loading=" in tag:
-                return tag
 
-            # 注入 loading="lazy", decoding="async" 與 onload="this.classList.add('img-loaded')"
-            modified = re.sub(
-                r"<img\s+",
-                '<img loading="lazy" decoding="async" onload="this.classList.add(\'img-loaded\')" ',
-                tag,
-                count=1,
+            # 提取檔名以利自癒回退
+            src_m = re.search(r'src=["\']([^"\']+)["\']', tag)
+            filename = ""
+            if src_m:
+                filename = self.sanitize_filename(src_m.group(1))
+
+            fallback_handler = (
+                'onerror="if(!this.dataset.fallback){this.dataset.fallback=\'1\';'
+                'this.src=\'/static/teaching_assets/\' + (this.dataset.filename || this.src.split(\'/\').pop().split(\'?\')[0]);'
+                '}else{this.style.opacity=\'0.3\';}"'
             )
+
+            # 注入自癒 fallback 與 data-filename
+            if 'onerror=' not in tag:
+                tag = re.sub(r'<img\s+', f'<img {fallback_handler} ', tag, count=1)
+            if filename and 'data-filename=' not in tag:
+                tag = re.sub(r'<img\s+', f'<img data-filename="{filename}" ', tag, count=1)
+
+            if "loading=" not in tag:
+                tag = re.sub(
+                    r"<img\s+",
+                    '<img loading="lazy" decoding="async" onload="this.classList.add(\'img-loaded\')" ',
+                    tag,
+                    count=1,
+                )
+
             # 附加骨架屏動畫與淡入樣式類別
-            if 'class="' in modified:
-                modified = re.sub(r'class="([^"]*)"', r'class="\1 img-has-shimmer img-lazy-fade"', modified, count=1)
-            elif "class='" in modified:
-                modified = re.sub(r"class='([^']*)'", r"class='\1 img-has-shimmer img-lazy-fade'", modified, count=1)
+            if 'class="' in tag:
+                tag = re.sub(r'class="([^"]*)"', r'class="\1 img-has-shimmer img-lazy-fade"', tag, count=1)
+            elif "class='" in tag:
+                tag = re.sub(r"class='([^']*)'", r"class='\1 img-has-shimmer img-lazy-fade'", tag, count=1)
             else:
-                modified = re.sub(r"<img\s+", '<img class="img-has-shimmer img-lazy-fade" ', modified, count=1)
-            return modified
+                tag = re.sub(r"<img\s+", '<img class="img-has-shimmer img-lazy-fade" ', tag, count=1)
+            return tag
 
         return re.sub(r"<img\b[^>]*>", _repl, html_content, flags=re.IGNORECASE)
 
