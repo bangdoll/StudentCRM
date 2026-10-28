@@ -161,7 +161,14 @@ class Postgrest:
 
 @pytest.fixture
 def web_cloud(cloud, monkeypatch, tmp_path):
-    import main
+    # Import-time app defaults must remain local after this fixture restores its
+    # patches, even when cloud tests are the first tests to import the app.
+    with monkeypatch.context() as defaults:
+        defaults.setenv('STUDENTCRM_DATA_BACKEND', 'local')
+        defaults.setenv('SUPABASE_URL', '')
+        defaults.setenv('SUPABASE_ANON_KEY', '')
+        defaults.setenv('SUPABASE_SERVICE_ROLE_KEY', '')
+        import main
     import media_asset_resolver
     monkeypatch.setattr(media_asset_resolver, "_DEFAULT_RESOLVER", None)
     from data_gateway import clear_gateway_memory_cache
