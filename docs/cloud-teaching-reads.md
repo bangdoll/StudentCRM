@@ -66,3 +66,7 @@ PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note
 - 正文去除空白後仍有文字才視為可用；只以此判斷是否回退，不裁掉實際輸出的原文空白。NULL、空字串、空格／換行／tab、全形空白均受保護；完整正文不重複讀 raw.content。
 - 離線回歸走真正的 ASGI 閱讀路由與 HTTP 資料邊界，正式認證流程以 `X-Test-Auth` 啟用；只有匿名合成資料，socket 防護禁止外連。真實 PostgREST 的 max_rows=1 契約另驗證班級範圍、空白正文、非成員隔離及檔名歧義。
 - 此修正不新增／改變 Supabase schema、RLS、金鑰或正式設定；不合併、部署、寫入正式資料或啟用排程。
+
+## 部署前整合最新 main（2026-10-28）
+
+整合 main `5feb87a` 的既有資料同步、靜態資源快取與 local 閱讀器按需 loader。雲端入口仍先執行學員／班級 scope 查詢，不把未限定的 loader 注入雲端閱讀器；local loader 與穩定 ID 前後篇保留，排序仍支援 NULL／同日日期。保留 eager loading 屬性的同時保留圖片 fallback。資料與靜態素材和最新 main 相同，沒有另行更動正式資料。整合後完整離線回歸 294 項、零略過；發布另需最新 CI 與部署後唯讀驗收。

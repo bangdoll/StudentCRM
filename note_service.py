@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 import markdown
@@ -516,6 +517,7 @@ def resolve_note_detail(
     cloud_records: list[dict] | None = None,
     students: list[dict] | None = None,
     allow_local: bool = True,
+    record_detail_loader: Callable[[str], dict | None] | None = None,
 ) -> NoteDetail | None:
     """核心深模組解析器：
 
@@ -560,25 +562,6 @@ def resolve_note_detail(
         or r.get("id") == path_or_filename
     ), None)
 
-    if apple_match:
-        is_apple_ceo = True
-        note_title = apple_match.get("title", filename.replace(".md", ""))
-        note_date = apple_match.get("date", "")
-        lesson_label = "蘋果總裁班"
-        content = apple_match.get("content") or ""
-        student_name = "蘋果總裁班"
-    elif record_match:
-        note_title = record_match.get("title", "").lstrip("#")
-        note_date = record_match.get("date", "")
-        if record_match.get("lesson_number"):
-            lesson_label = f"第 {record_match.get('lesson_number')}"
-            if record_match.get("lesson_sub"):
-                lesson_label += f"-{record_match.get('lesson_sub')}"
-            lesson_label += " 堂"
-        content = record_match.get("content") or ""
-        sid = record_match.get("student_id", "")
-        student_name = record_match.get("student_name", "")
-
     # 3. 本地實體檔案優先覆蓋即時內容
     resolved_paths = [
         path_or_filename,
@@ -601,6 +584,38 @@ def resolve_note_detail(
         cached = _NOTE_DETAIL_CACHE.get(cache_key)
         if cached and cached[0] == file_mtime:
             return cached[1]
+
+    # 清單不帶正文；本地檔案不存在時，才按穩定 id 讀取被點開的單篇。
+    if record_match and not apple_match and not matched_file_path and record_detail_loader:
+        identifier = record_match.get("id") or path_or_filename
+        detail = record_detail_loader(identifier)
+        if detail:
+            raw = detail.get("raw") if isinstance(detail.get("raw"), dict) else {}
+            record_match = {
+                **record_match,
+                **raw,
+                **{key: value for key, value in detail.items() if value is not None and value != ""},
+            }
+            record_match["lesson_number"] = record_match.get("lesson_number") or record_match.get("lesson_num")
+
+    if apple_match:
+        is_apple_ceo = True
+        note_title = apple_match.get("title", filename.replace(".md", ""))
+        note_date = apple_match.get("date", "")
+        lesson_label = "蘋果總裁班"
+        content = apple_match.get("content") or ""
+        student_name = "蘋果總裁班"
+    elif record_match:
+        note_title = record_match.get("title", "").lstrip("#")
+        note_date = record_match.get("date", "")
+        if record_match.get("lesson_number"):
+            lesson_label = f"第 {record_match.get('lesson_number')}"
+            if record_match.get("lesson_sub"):
+                lesson_label += f"-{record_match.get('lesson_sub')}"
+            lesson_label += " 堂"
+        content = record_match.get("content") or ""
+        sid = record_match.get("student_id", "")
+        student_name = record_match.get("student_name", "")
 
     if matched_file_path:
         try:
@@ -648,10 +663,11 @@ def resolve_note_detail(
         same_student_records = [r for r in cloud_records if r.get("student_id") == sid or (student_name and r.get("student_name") == student_name)]
         if same_student_records:
             same_student_records.sort(key=lambda x: (x.get("date") is not None, str(x.get("date") or ""), str(x.get("id") or "")))
-            paths = [r.get("path") or r.get("filename") for r in same_student_records]
-            cur_key = record_match.get("path") or record_match.get("filename")
-            if cur_key in paths:
-                idx = paths.index(cur_key)
+            paths = [r.get("path") or r.get("filename") or r.get("id") for r in same_student_records]
+            identities = [r.get("id") or path for r, path in zip(same_student_records, paths)]
+            cur_key = record_match.get("id") or record_match.get("path") or record_match.get("filename")
+            if cur_key in identities:
+                idx = identities.index(cur_key)
                 if idx > 0:
                     prev_path = paths[idx - 1]
                     prev_label = same_student_records[idx - 1].get("date") or "上一堂"

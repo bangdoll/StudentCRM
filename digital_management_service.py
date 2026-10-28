@@ -12,6 +12,7 @@ import glob
 import hashlib
 import subprocess
 import time
+import copy
 from datetime import datetime
 from urllib.parse import quote
 
@@ -57,6 +58,15 @@ HEPTABASE_BACKUP_ROOT = os.getenv(
 # 內部快取容器
 _LOCAL_NOTES_CACHE = {"timestamp": 0.0, "notes": []}
 _CLOUD_NOTES_CACHE = {"timestamp": 0.0, "notes": []}
+_PROFILES_CACHE = {"timestamp": 0.0, "payload": None, "include_heptabase": False}
+
+
+def clear_digital_management_profiles_cache() -> None:
+    """清空數位管理學員資料聚合快取。"""
+    _PROFILES_CACHE["timestamp"] = 0.0
+    _PROFILES_CACHE["payload"] = None
+    _PROFILES_CACHE["include_heptabase"] = False
+
 
 
 def normalize_digital_name(value: str) -> str:
@@ -424,6 +434,9 @@ def load_cloud_digital_management_notes(
             "matched_to_official_student": bool(row.get("student_id")),
         })
     result = [note for note in notes if note.get("student_id")]
+    if effective_cache is not None:
+        effective_cache["timestamp"] = now
+        effective_cache["notes"] = result
     _CLOUD_NOTES_CACHE["timestamp"] = now
     _CLOUD_NOTES_CACHE["notes"] = result
     return result
@@ -604,6 +617,18 @@ def build_digital_management_profiles(
     local_notes_loader=None,
     cloud_notes_loader=None,
 ) -> dict:
+    now_ts = time.time()
+    can_use_cache = (
+        students_loader is None
+        and data_gateway is None
+        and calendar_events_loader is None
+        and local_notes_loader is None
+        and cloud_notes_loader is None
+    )
+    if can_use_cache and _PROFILES_CACHE["payload"] is not None:
+        if (now_ts - _PROFILES_CACHE["timestamp"] < 30.0) and (_PROFILES_CACHE["include_heptabase"] == include_heptabase):
+            return copy.deepcopy(_PROFILES_CACHE["payload"])
+
     if students_loader:
         official_students = students_loader()
     else:
@@ -745,7 +770,7 @@ def build_digital_management_profiles(
     )
     for profile in sorted_profiles:
         profile.pop("next_lesson_dt", None)
-    return {
+    result = {
         "students": sorted_profiles,
         "calendar_event_count": len(calendar_lessons),
         "local_note_count": len(local_notes),
@@ -753,6 +778,11 @@ def build_digital_management_profiles(
         "calendar_cache": DIGITAL_MANAGEMENT_CALENDAR_CACHE,
         "heptabase_backup_root": HEPTABASE_BACKUP_ROOT,
     }
+    if can_use_cache:
+        _PROFILES_CACHE["timestamp"] = now_ts
+        _PROFILES_CACHE["payload"] = copy.deepcopy(result)
+        _PROFILES_CACHE["include_heptabase"] = include_heptabase
+    return result
 
 
 def get_digital_management_student_profile(

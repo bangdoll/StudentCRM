@@ -115,6 +115,7 @@ async def open_file(request: Request, path: str):
         note = resolve_note_detail(
             path_or_filename=path, base_dir=deps["BASE_DIR"], apple_notes=apple_notes,
             cloud_records=records, students=students,
+            record_detail_loader=getattr(gateway, "load_teaching_record_detail", None),
         )
 
     query_token = request.query_params.get("token") or ""
@@ -192,7 +193,8 @@ async def read_digital_management_student(request: Request, student_id: str):
     student = None
     if deps.get("get_digital_management_student_profile"):
         student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True, cursor=request.query_params.get("cursor"))
-    if not student:
+    else:
+
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:
@@ -285,7 +287,8 @@ async def api_digital_management_student(student_id: str, cursor: str | None = N
     student = None
     if deps.get("get_digital_management_student_profile"):
         student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True, cursor=cursor)
-    if not student:
+    else:
+
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:

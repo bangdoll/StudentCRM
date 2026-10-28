@@ -109,3 +109,47 @@ def test_note_service_detail_caching(tmp_path):
     detail3 = resolve_note_detail(str(note_file), base_dir=str(tmp_path))
     assert detail3 is not None
     assert "第二版更新內容" in detail3.content_html
+
+
+def test_static_files_cache_control_headers():
+    from fastapi.testclient import TestClient
+    from main import app
+    client = TestClient(app)
+    resp = client.get("/static/instant-prefetch.js")
+    assert resp.status_code == 200
+    cache_control = resp.headers.get("Cache-Control", "")
+    assert "public" in cache_control
+    assert "max-age=" in cache_control
+
+
+def test_cloud_digital_management_notes_effective_cache_writeback():
+    from digital_management_service import load_cloud_digital_management_notes
+    mock_gateway = type("MockGateway", (), {
+        "backend": "local",
+        "load_all_teaching_records": lambda self: [
+            {"student_id": "test_sid", "student_name": "測試", "date": "2026-10-28", "title": "測試"}
+        ]
+    })()
+    custom_cache = {"timestamp": 0.0, "notes": []}
+    notes = load_cloud_digital_management_notes(data_gateway=mock_gateway, cache_container=custom_cache)
+    assert len(notes) == 1
+    # 驗證傳入的 custom_cache 有被正確更新寫回
+    assert custom_cache["notes"] == notes
+    assert custom_cache["timestamp"] > 0
+
+
+def test_digital_management_profiles_caching():
+    from digital_management_service import (
+        build_digital_management_profiles,
+        clear_digital_management_profiles_cache,
+    )
+    clear_digital_management_profiles_cache()
+
+    p1 = build_digital_management_profiles(include_heptabase=False)
+    assert "students" in p1
+
+    # 第 2 次調用應直接命中短效記憶體快取
+    p2 = build_digital_management_profiles(include_heptabase=False)
+    assert p1 == p2
+
+
