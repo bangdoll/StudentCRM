@@ -8,8 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 在匯入 main 之前，為測試環境覆寫根目錄 (可支援隔離的測試資料)
 # 若希望不破壞正式資料，可將其指向 /tmp/mock_dir
-os.environ["OPEN_CLAW_BASE_DIR"] = "/Users/aios/Projects/00.AI-Notes_Local"
-os.environ["STUDENTCRM_DATA_BACKEND"] = "local"
+# The shared conftest supplies an isolated workspace before application imports.
 
 try:
     from main import app, get_note_quality, student_id_from_path, analyze_student_features, parse_digital_management_title

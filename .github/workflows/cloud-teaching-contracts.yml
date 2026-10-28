@@ -1,0 +1,26 @@
+name: Cloud teaching contracts
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  cloud:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.11', '3.12']
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -r requirements.txt pytest httpx
+      - name: Test without local student data or production credentials
+        env:
+          SUPABASE_URL: ''
+          SUPABASE_ANON_KEY: ''
+          SUPABASE_SERVICE_ROLE_KEY: ''
+          PYTHONPATH: .
+        run: python -m pytest tests/test_cloud_teaching_reads.py tests/test_note_service.py tests/test_performance_and_lazy_load.py tests/test_data_gateway.py tests/test_student_profile_assembler.py tests/test_student_data_gateway_deepening.py tests/test_auth_and_cache.py -q

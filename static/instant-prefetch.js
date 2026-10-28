@@ -23,6 +23,8 @@
             const parsed = new URL(url, window.location.origin);
             // 僅預載同源、非檔案下載、非登出或外部連結
             if (parsed.origin !== window.location.origin) return;
+            // Personal and computed documents load only after navigation.
+            if (/^\/(note|open_file|radar|search|my|hub|student|digital-management)(\/|$)/.test(parsed.pathname)) return;
             if (parsed.pathname === window.location.pathname && parsed.search === window.location.search) return;
             if (parsed.pathname.startsWith('/logout') || parsed.pathname.startsWith('/api/')) return;
             if (parsed.pathname.match(/\.(pdf|zip|mp4|png|jpg|jpeg|gif)$/i)) return;

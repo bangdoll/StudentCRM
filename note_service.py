@@ -516,6 +516,7 @@ def resolve_note_detail(
     apple_notes: list[dict] | None = None,
     cloud_records: list[dict] | None = None,
     students: list[dict] | None = None,
+    allow_local: bool = True,
     record_detail_loader: Callable[[str], dict | None] | None = None,
 ) -> NoteDetail | None:
     """核心深模組解析器：
@@ -569,7 +570,7 @@ def resolve_note_detail(
     ]
     matched_file_path = None
     file_mtime = 0.0
-    for p in resolved_paths:
+    for p in resolved_paths if allow_local else []:
         if p and os.path.exists(p) and os.path.isfile(p):
             matched_file_path = p
             try:
@@ -661,7 +662,7 @@ def resolve_note_detail(
         # 如果是同一個學員的課堂紀錄，依日期排序串接上一堂與下一堂
         same_student_records = [r for r in cloud_records if r.get("student_id") == sid or (student_name and r.get("student_name") == student_name)]
         if same_student_records:
-            same_student_records.sort(key=lambda x: x.get("date", ""))
+            same_student_records.sort(key=lambda x: (x.get("date") is not None, str(x.get("date") or ""), str(x.get("id") or "")))
             paths = [r.get("path") or r.get("filename") or r.get("id") for r in same_student_records]
             identities = [r.get("id") or path for r, path in zip(same_student_records, paths)]
             cur_key = record_match.get("id") or record_match.get("path") or record_match.get("filename")

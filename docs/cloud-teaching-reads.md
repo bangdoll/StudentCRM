@@ -1,0 +1,72 @@
+# 教學紀錄雲端讀取契約
+
+## 問題與結果
+
+舊搜尋、筆記閱讀器、學員頁及雷達共用全欄位歷史下載。這次拆為有上限的 metadata 列表、精準單篇、伺服器端全文篩選及雷達最近三篇批次讀取。未採用本機未提交的欄位投影草稿；其 cycle/lesson/path/filename/preview/topics 並非 teaching_records 頂層欄位。
+
+- `TeachingReads` 由既有 `StudentDataGateway` 提供；所有雲端讀取沿用現有 HTTP 邊界與憑證，不新增公開資料庫權限或 schema。
+- `GET /api/teaching-records?student_id=…&cursor=…&limit=50&q=…` 沿用教練門禁，回傳 `items,next_cursor,has_more`。預設 50，最大 100；沒有正文或完整 raw。
+- 列表先在 PostgREST 篩選，按 `date DESC NULLS LAST,id DESC` 穩定排序，再取頁。cursor 綁定學生和查詢；空日期與 NULL 有確定順序。以小型 ID probe 處理平台 max_rows 小於請求頁數，不能因平台截斷而漏掉後續頁。
+- path/filename/preview 從 raw 子欄位投影，不把整份 raw 搬出資料庫。preview 回應最多 280 字。日期欄位目前仍為 text，採資料庫文字排序；不在本 PR 修改歷史日期。
+- `/my`、`/student`、數位管理個人頁及搜尋提供較早紀錄連結。數位管理 API 保留總統計，筆記清單有上限，提供完整索引端點。頁面數字不冒充全部紀錄數。
+- 數位管理總覽、課程統計及雷達會分頁掃描 metadata，以維持全量統計完整性；這是小欄位索引掃描，不是下載歷史正文。
+- `/note?path=…` 與 `/open_file?path=…` 保留 UUID、中文原始路徑、檔名連結；先查原路徑，再查檔名，歧義拒絕。前後篇僅讀同一學員的兩筆 metadata。學員 token 限制到其學員／已授權班級；新 API 不開放匿名或學員任意查詢。
+- 雲端閱讀器不再讀取本地筆記來覆蓋正文，避免舊快照掩蓋錯誤；桌面 local 模式保留既有檔案閱讀行為。雲端正文只取 content；只有該欄空白時才讀同筆 raw.content，避免同時傳輸兩份正文。
+- 全文搜尋在資料庫篩選 title/student_name/content/raw.content/raw.preview，再回傳 metadata。保留姓名別名及班級搜尋；中文、英文大小寫與特殊字元依字面子字串搜尋，沒有改成英文斷詞。結果使用既有短摘要，不額外下載全文來產生片段。
+- 字面搜尋使用 PostgREST `imatch`，將 PostgreSQL ARE 的全部特殊符號跳脫後做未加錨點的比對；避免 ILIKE 對星號的額外轉換。真實 PostgreSQL／PostgREST 的 18 組符號、raw-only 正文與平台 max_rows=1 分頁契約為完整 CI 必跑步驟。
+- 雷達先以 metadata 選每位有效學員最近三篇，再批次讀取其正文；保留原分析與人工 followup。Bootstrap 僅取最新一篇。Hub 顯示最新篇微行動卡，歷史篇完整卡片仍在單篇閱讀器，避免為展開列表下載全部正文。
+- 學員頁及 API 的狀態預測另讀最近三篇正文，不把 metadata 當作空正文；雲端分析不採用本地舊檔或舊預測快取。日曆虛擬 `digital-*` 學員沒有 UUID 對應時只顯示其日曆資料，不查 teaching_records。
+- 動態個人頁／搜尋／雷達不再因 hover 預載；靜態資產原功能保留。
+
+## 更新、失敗與一致性
+
+不新增持久雲端正文／索引快取；每個 HTTP 請求重新讀取，筆記及新列表 API 使用 `private,no-store`。不依賴沒有更新觸發器的 updated_at，新增、修改、刪除、重新歸屬於下一次讀取可見。班務 apple_programs 既有 30 秒快取不在本 PR 重構範圍。
+
+402/403/5xx、逾時或無效 JSON 明確回 503，不自動重試、不擴大成全表、不以本地舊資料冒充成功。沒有新資料表、RPC、migration 或額外付費快取服務。
+
+Keyset 解決同日排序與新資料插入的 offset 位移，但不是資料庫快照：在翻頁中修改既有紀錄日期，應回最新紀錄重新整理。統計 metadata 與後續正文亦非同一交易；並行刪除會略過已不存在的紀錄。
+
+## 驗證
+
+執行：
+
+```sh
+PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note_service.py tests/test_performance_and_lazy_load.py -q
+```
+
+雲端測試使用合成學員／筆記與 HTTP 邊界的 PostgREST 模擬器，驗證欄位、UUID 型別、篩選與筆數上限；不 mock gateway、路由或搜尋／雷達演算法。雲端資料來源檔不存在，沒有正式憑證，無須讀取實際學員資料。另有專門放入舊本地檔案的負例，確認雲端分析會忽略它。
+
+範圍包含：1,201 筆完整翻頁、空／同日／NULL 日期、max_rows=1/7、scope cursor、舊路徑、raw-only 正文、正文詞搜尋、特殊字元、班級舊連結、跨學員隔離、API 門禁、正文更新／刪除／重新歸屬、無效 JSON／402／403／500，以及正文極大時列表仍小於 100 KiB。
+
+這是雲端契約與 ASGI 路由測試，不是已部署正式 Supabase/Vercel 的端到端驗收；沒有聲稱已恢復正式服務或實測計費 Egress 節省 99%。
+
+初次診斷快照：main `21021a9` 與當時修正版曾排除無法匯入的外部 `merge_students` 以比較失敗集合，分別 174／200 項通過、相同 10 項失敗；這只是定位用的局部結果，不能當完整驗收。後續已修正套件探索、外部腳本依賴、資料路徑、測試隔離與假憑證；原有 CI 現在執行全部 `tests/` 並檢查零 skip。私人實體教案盤點和可攜功能回歸明確分開，原門檻保留，詳見 [完整 CI 說明](full-ci.md)。
+
+## PR 與發布邊界
+
+`vercel.json` 只對 `codex/studentcrm-paged-cloud-reads` 關閉 Git 自動部署，以便依使用者指示提交 PR 而不產生 preview deployment。其他分支未指定，維持 Vercel 預設行為。開 PR 不代表批准合併或部署。
+
+未合併、未部署、未升級或變更帳務／正式流量設定。正式測試與實際用量比較需等使用者另行授權；現有額度限制不會因 PR 自動解除。
+
+
+## 2026-10-28 筆記 404 驗收整合
+
+正式舊版的精簡清單沒有 path，Hub 固定使用空 path，產生 404；只改連結仍不足以驗證正文。此 PR 已透過 teaching_reads 正規化穩定 ID、按需單篇正文及 legacy raw.content 讀取處理雲端主流程，保留原有學員隔離與 503 失敗語意。這次整合再補上 Hub 對只有 ID 的 metadata 入口防護，以及本地備份筆記缺路徑時的個人頁閱讀 URL。
+
+新增回歸從實際渲染的 Hub 連結開啟閱讀器，驗證 raw-only 完整正文、缺路徑 metadata、單筆流量上限與其他學員不可讀，避免只看到 HTTP 200 就宣稱恢復。沿用既有後端，不把正式舊版的簡化讀取器覆蓋到此分支。
+
+同步 main 時，data_gateway 的舊版全表／快取方法與此 PR 的 keyset reader 衝突，保留後者；流量測試改在現行 query 介面驗證分頁上限、無整包 raw／正文與新資料可見性。main 的圖片 fallback 行為保留，eager 圖片測試確認 loading 與 src 不被破壞，不再要求新增屬性後的 HTML 位元組完全相同。
+
+本機完整 254 項、零略過；CI 另須驗證 Python 3.11／3.12、真實 PostgREST 與隔離 wheel。合成 fixture 不能證明正式筆記完整；此次不合併 PR 到 main、不部署、不改正式資料或啟用排程。
+
+## 2026-10-28 兩項 P2 修正契約
+
+- 學員 token 先經既有驗證，再沿用 `is_authorized_apple_ceo_student` 的伺服器端成員判斷；僅把唯一確認的蘋果總裁班學員 ID 加入本人範圍。班級以既有固定 ID 或精確班級名稱識別；多筆身分歧義時不擴權。名稱包含總裁班、班級標籤或其他成員身分，不會把該成員的私人 ID 加入範圍。
+- 單篇使用同一個 `student_id in (…)` 限定查詢及檔名歧義 probe，避免逐一查詢先命中的筆記造成跨範圍歧義。舊正文回退進一步限於該筆實際 student_id；前後篇只取同一歸屬的 metadata。
+- 正文去除空白後仍有文字才視為可用；只以此判斷是否回退，不裁掉實際輸出的原文空白。NULL、空字串、空格／換行／tab、全形空白均受保護；完整正文不重複讀 raw.content。
+- 離線回歸走真正的 ASGI 閱讀路由與 HTTP 資料邊界，正式認證流程以 `X-Test-Auth` 啟用；只有匿名合成資料，socket 防護禁止外連。真實 PostgREST 的 max_rows=1 契約另驗證班級範圍、空白正文、非成員隔離及檔名歧義。
+- 此修正不新增／改變 Supabase schema、RLS、金鑰或正式設定；不合併、部署、寫入正式資料或啟用排程。
+
+## 部署前整合最新 main（2026-10-28）
+
+整合 main `5feb87a` 的既有資料同步、靜態資源快取與 local 閱讀器按需 loader。雲端入口仍先執行學員／班級 scope 查詢，不把未限定的 loader 注入雲端閱讀器；local loader 與穩定 ID 前後篇保留，排序仍支援 NULL／同日日期。保留 eager loading 屬性的同時保留圖片 fallback。資料與靜態素材和最新 main 相同，沒有另行更動正式資料。整合後完整離線回歸 294 項、零略過；發布另需最新 CI 與部署後唯讀驗收。

@@ -385,7 +385,7 @@
                     <div class="note-top">
                         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
                             <span class="digital-lesson-number" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color); padding: 3px 10px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;">
-                                {{ note.lesson or '實戰課' }}
+                                {{ note.lesson or note.lesson_number or '實戰課' }}
                             </span>
                             <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;">
                                 📅 {{ note.date or '課堂紀錄' }}
@@ -494,5 +494,6 @@
 
     <!-- ⚡ Instant Prefetch & Image Shimmer Engine -->
     <script src="{{ url_for('static', path='/instant-prefetch.js') }}" defer></script>
+{% include "teaching_pagination.html" %}
 </body>
 </html>

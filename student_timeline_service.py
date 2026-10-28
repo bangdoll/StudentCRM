@@ -166,7 +166,7 @@ def render_cloud_student_timeline(student: dict, teaching_records: list[dict]) -
     rows = []
     for record in teaching_records[:20]:
         raw = record.get("raw") if isinstance(record.get("raw"), dict) else {}
-        focus = raw.get("focus") or raw.get("transcript") or ""
+        focus = raw.get("focus") or raw.get("transcript") or record.get("preview") or ""
         rows.append(
             "<tr>"
             f"<td>{html_lib.escape(str(record.get('date') or '未記錄'))}</td>"
@@ -236,6 +236,10 @@ def get_student_teaching_notes(
     cloud_notes_loader: Callable | None = None,
 ) -> list[dict]:
     """取得特定學員的所有教學筆記（委託 hub_service 深模組進行多來源去重合併）。"""
+    import sys
+    gateway = getattr(sys.modules.get("main"), "student_gateway", None)
+    if gateway is not None and gateway.backend == "supabase":
+        return gateway.list_teaching_records(student.get("id"))["items"]
     from digital_management_service import (
         load_local_digital_management_notes,
         load_cloud_digital_management_notes,
@@ -330,5 +334,11 @@ def analyze_student_features(
             "average_word_count": 0,
             "lessons_reviewed": 0,
         }
-    student_notes = get_student_teaching_notes(student, base_dir=effective_base)
-    return service_analyze_student_features(student, effective_base, student_notes, use_cache=use_cache)
+    import sys
+    gateway = getattr(sys.modules.get("main"), "student_gateway", None)
+    cloud = gateway is not None and gateway.backend == "supabase"
+    student_notes = gateway.load_recent_teaching_records(student["id"]) if cloud else get_student_teaching_notes(student, base_dir=effective_base)
+    return service_analyze_student_features(
+        student, effective_base, student_notes,
+        use_cache=False if cloud else use_cache, allow_local=not cloud,
+    )

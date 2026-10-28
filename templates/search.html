@@ -104,7 +104,7 @@
         {% endif %}
 
         <div class="result-count">
-            關鍵字 <strong>「{{ q }}」</strong> 共找到 <strong>{{ count }}</strong> 筆課程記錄
+            關鍵字 <strong>「{{ q }}」</strong> 本頁顯示 <strong>{{ count }}</strong> 筆課程記錄
         </div>
 
         {% if results %}
@@ -139,5 +139,6 @@
         });
     }
     </script>
+{% include "teaching_pagination.html" %}
 </body>
 </html>

@@ -1,6 +1,6 @@
 import json
-import shutil
 import pytest
+from datetime import date, timedelta
 from pathlib import Path
 from teaching_sync import ensure_first_lesson_students_from_calendar, sync_teaching_records_to_crm
 from digital_management_service import parse_digital_management_title
@@ -8,31 +8,37 @@ from digital_management_service import parse_digital_management_title
 
 def test_sync_teaching_records_to_crm_basic(tmp_path):
     # 同步流程會寫入多份 CRM 檔案；使用工作區副本，避免測試污染正式資料。
-    source_crm_dir = Path(__file__).resolve().parents[1]
-    source_workspace_dir = source_crm_dir.parents[1]
     isolated_workspace = tmp_path / "workspace"
     isolated_crm_dir = isolated_workspace / "07.Projects" / "StudentCRM"
     isolated_data_dir = isolated_crm_dir / "data"
     isolated_teaching_dir = isolated_workspace / "01.Docs" / "teaching"
 
     isolated_data_dir.mkdir(parents=True)
-    shutil.copytree(
-        source_workspace_dir / "01.Docs" / "teaching",
-        isolated_teaching_dir,
-        ignore=shutil.ignore_patterns("assets", "*.png", "*.jpg", "*.jpeg", "*.docx", "*.m4a"),
-    )
-    shutil.copy2(source_crm_dir / "data" / "students.json", isolated_data_dir / "students.json")
-    shutil.copy2(source_crm_dir / "data" / "apple_ceo_class.json", isolated_data_dir / "apple_ceo_class.json")
-    shutil.copy2(
-        source_crm_dir / "data" / "digital_management_calendar_events.json",
-        isolated_data_dir / "digital_management_calendar_events.json",
-    )
-    baseline_students = json.loads((isolated_data_dir / "students.json").read_text(encoding="utf-8"))
-    baseline_students = [
-        student
-        for student in baseline_students
-        if student.get("id") != "806fac9e-6139-54e0-a774-75f87fc0202e"
-    ]
+    isolated_teaching_dir.mkdir(parents=True)
+    # A complete, deterministic bulk import: 62 individual students x 10 lessons,
+    # 80 class lessons, and a new calendar student. Every input must survive.
+    baseline_students = []
+    expected_files = set()
+    for index in range(62):
+        name = f"測試學員{chr(65 + index // 26)}{chr(65 + index % 26)}"
+        baseline_students.append({"id": f"student-{index}", "name": name, "first_lesson_date": "2026-01-01"})
+        for lesson in range(1, 11):
+            filename = f"202601{lesson:02} {lesson:02}.{name}數位管理教學.md"
+            expected_files.add(filename)
+            (isolated_teaching_dir / filename).write_text(f"# {name}\n第 {lesson} 堂回歸教材，唯一識別 {index}:{lesson}。", encoding="utf-8")
+    baseline_students.append({"id": "apple-ceo", "name": "蘋果總裁班", "first_lesson_date": "2026-01-01"})
+    for index in range(80):
+        date_text = (date(2026, 1, 1) + timedelta(days=index)).strftime("%Y%m%d")
+        filename = f"{date_text} {index + 1:02}.蘋果總裁班.md"
+        expected_files.add(filename)
+        (isolated_teaching_dir / filename).write_text(f"# 蘋果總裁班\n第 {index + 1} 堂回歸教材。", encoding="utf-8")
+    filename = "20261006 01.Liya數位管理教學.md"
+    expected_files.add(filename)
+    (isolated_teaching_dir / filename).write_text("# Liya\n第一堂回歸教材。", encoding="utf-8")
+    (isolated_data_dir / "apple_ceo_class.json").write_text(json.dumps({"program": {"id": "apple-ceo"}, "teaching_notes": []}), encoding="utf-8")
+    (isolated_data_dir / "digital_management_calendar_events.json").write_text(json.dumps([
+        {"id": "first-liya", "title": "01.Liya數位管理教學", "date": "2026-10-06", "start": "2026-10-06T14:00:00+08:00"}
+    ]), encoding="utf-8")
     (isolated_data_dir / "students.json").write_text(
         json.dumps(baseline_students, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
@@ -42,6 +48,8 @@ def test_sync_teaching_records_to_crm_basic(tmp_path):
     assert res["total_records"] >= 698
     assert res["total_students"] >= 60
     assert res["apple_ceo_notes_count"] >= 80
+    assert res["total_records"] == 701
+    assert res["total_students"] == 64
     assert any(
         item["id"] == "806fac9e-6139-54e0-a774-75f87fc0202e"
         for item in res["first_lesson_students_created"]
@@ -58,6 +66,9 @@ def test_sync_teaching_records_to_crm_basic(tmp_path):
     assert "records" in data
     assert len(data["records"]) == res["total_records"]
     assert "by_student" in data
+    assert {record["filename"] for record in data["records"]} == expected_files
+    assert json.loads(cache_file.read_text(encoding="utf-8")) == data
+    assert all(record["content"] for record in data["records"])
 
 
 def test_first_lesson_calendar_creates_student_once(tmp_path):

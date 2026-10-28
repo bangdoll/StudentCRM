@@ -14,7 +14,10 @@ from urllib.request import Request, urlopen
 logger = logging.getLogger(__name__)
 
 
-class DataGatewayError(RuntimeError):
+from teaching_reads import TeachingReads, TeachingReadError
+
+
+class DataGatewayError(TeachingReadError):
     pass
 
 
@@ -81,7 +84,7 @@ from apple_ceo_service import (
 )
 
 
-class StudentDataGateway:
+class StudentDataGateway(TeachingReads):
     """StudentCRM 雙引擎資料讀取閘道。
 
     預設維持本地 JSON；只有設定 STUDENTCRM_DATA_BACKEND=supabase 時才讀雲端。
@@ -89,6 +92,7 @@ class StudentDataGateway:
     """
 
     def __init__(self, base_dir: str) -> None:
+        base_dir = os.path.abspath(base_dir)
         self.base_dir = base_dir
 
         # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
@@ -108,8 +112,8 @@ class StudentDataGateway:
             self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
         elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
             self.app_dir = os.path.join(self.repo_root, "StudentCRM")
-        elif os.path.isdir(base_dir) and os.path.basename(os.path.abspath(base_dir)) == "StudentCRM":
-            self.app_dir = os.path.abspath(base_dir)
+        elif os.path.isdir(os.path.join(base_dir, "data")) or os.path.basename(base_dir) == "StudentCRM":
+            self.app_dir = base_dir
         else:
             self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
 
@@ -365,145 +369,6 @@ class StudentDataGateway:
                 return local_payload
             return self._empty_apple_ceo_program()
 
-    def load_teaching_records(self, student_id: str) -> list[dict[str, Any]]:
-        """載入特定學員的教學紀錄摘要。
-
-        優先從已快取的 load_all_teaching_records() 做內存過濾，完全免發起額外網路請求；
-        若為 Supabase 且未命中，則使用精簡欄位投影查詢。
-        """
-        if not student_id:
-            return []
-
-        all_records = self.load_all_teaching_records()
-        target = str(student_id).strip().lower()
-        matched = [
-            r for r in all_records
-            if isinstance(r, dict) and str(r.get("student_id", "")).strip().lower() == target
-        ]
-        if matched:
-            return matched
-
-        if self.backend == "supabase":
-            encoded_student_id = quote(student_id, safe="")
-            try:
-                res = self._load_supabase_table(
-                    "teaching_records",
-                    query=f"select={TEACHING_RECORDS_SUMMARY_COLUMNS}&student_id=eq.{encoded_student_id}&order=date.desc",
-                )
-                if isinstance(res, list):
-                    return res
-                if isinstance(res, dict) and "records" in res:
-                    return [r for r in res["records"] if isinstance(r, dict) and r.get("student_id") == student_id]
-            except DataGatewayError:
-                pass
-
-        return []
-
-    def load_all_teaching_records(self) -> list[dict[str, Any]]:
-        """【流量防護深模組】載入教學紀錄摘要列表。
-
-        嚴格遵守投影與多級快取原則：
-        1. 優先命中記憶體快取 (GATEWAY_CACHE_TTL_SECONDS)
-        2. 向 Supabase 查詢時，絕對禁止 select=*，強制使用精簡欄位投影 (排除 content 與 raw，節省 99% Egress)
-        3. 寫入本地磁碟快取，當雲端失敗時無縫回退
-        """
-        now = time.time()
-        cache_key = f"teaching_records_{self.backend}_{self.teaching_records_file}"
-        if cache_key in _MEMORY_CACHE:
-            cached_time, cached_data = _MEMORY_CACHE[cache_key]
-            if now - cached_time < GATEWAY_CACHE_TTL_SECONDS:
-                return copy.deepcopy(cached_data)
-
-        records = self._load_all_teaching_records_uncached()
-        if records:
-            _MEMORY_CACHE[cache_key] = (now, copy.deepcopy(records))
-        return records
-
-    def _load_all_teaching_records_uncached(self) -> list[dict[str, Any]]:
-        if self.backend == "supabase":
-            cached_records = self._read_fresh_json_cache(self.teaching_records_cache_file)
-            if isinstance(cached_records, list):
-                return cached_records
-            try:
-                res = self._load_supabase_table(
-                    "teaching_records",
-                    query=f"select={TEACHING_RECORDS_SUMMARY_COLUMNS}&order=date.desc",
-                )
-                if isinstance(res, list):
-                    if hasattr(self, "teaching_records_cache_file"):
-                        self._write_json(self.teaching_records_cache_file, res)
-                    return res
-                if isinstance(res, dict) and "records" in res:
-                    recs = res["records"]
-                    if hasattr(self, "teaching_records_cache_file"):
-                        self._write_json(self.teaching_records_cache_file, recs)
-                    return recs
-            except DataGatewayError as exc:
-                logger.warning(f"Supabase 讀取 teaching_records 失敗，嘗試回退快取: {exc}")
-                if hasattr(self, "teaching_records_cache_file") and os.path.exists(self.teaching_records_cache_file):
-                    return self._read_json(self.teaching_records_cache_file)
-
-        if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
-            try:
-                data = self._read_json(self.teaching_records_file)
-                if isinstance(data, list):
-                    return data
-                if isinstance(data, dict) and "records" in data:
-                    return data["records"]
-            except Exception:
-                pass
-        return []
-
-    def load_teaching_record_detail(self, identifier: str) -> dict[str, Any] | None:
-        """【窄介面】依 id、路徑或檔名精確載入單一筆記之完整內容（包含 content）。
-
-        只在使用者點入筆記頁面 (/note) 時按需查詢單筆，杜絕全量載入正文造成 Egress 浪費。
-        """
-        if not identifier:
-            return None
-        target = str(identifier).strip()
-
-        # 1. 優先比對本地實體檔案（零 Egress）
-        clean_filename = os.path.basename(target)
-        if hasattr(self, "repo_root") and self.repo_root:
-            candidate_paths = [
-                target,
-                os.path.join(self.repo_root, target.lstrip("/")),
-                os.path.join(self.repo_root, "01.Docs", "teaching", clean_filename),
-            ]
-            for p in candidate_paths:
-                if p and os.path.isfile(p):
-                    try:
-                        content = Path(p).read_text(encoding="utf-8", errors="ignore")
-                        return {"path": p, "filename": clean_filename, "content": content}
-                    except OSError:
-                        pass
-
-        # 2. 若為 Supabase 後端，以精確條件只撈取該單筆
-        if self.backend == "supabase":
-            try:
-                encoded_id = quote(target, safe="")
-                query = f"select={TEACHING_RECORD_DETAIL_COLUMNS}&id=eq.{encoded_id}&limit=1"
-                res = self._load_supabase_table("teaching_records", query=query)
-                if isinstance(res, list) and res:
-                    return res[0]
-            except DataGatewayError as exc:
-                logger.warning(f"Supabase 讀取單筆教學筆記 {target} 失敗: {exc}")
-
-        # 3. 回退至已載入的本地 teaching_records.json
-        if hasattr(self, "teaching_records_file") and os.path.exists(self.teaching_records_file):
-            try:
-                data = self._read_json(self.teaching_records_file)
-                records = data if isinstance(data, list) else data.get("records", [])
-                for r in records:
-                    if not isinstance(r, dict):
-                        continue
-                    if r.get("id") == target or r.get("filename") == clean_filename or r.get("path") == target:
-                        return r
-            except Exception:
-                pass
-
-        return None
 
     def status(self) -> dict[str, Any]:
         if os.path.exists(self.status_file):
@@ -691,7 +556,10 @@ class StudentDataGateway:
         except TimeoutError as exc:
             raise DataGatewayError("Supabase 連線逾時") from exc
 
-        data = json.loads(payload)
+        try:
+            data = json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise DataGatewayError("Supabase 回傳無效 JSON") from exc
         if not isinstance(data, list):
             raise DataGatewayError("Supabase 回傳格式不是列表")
         return data

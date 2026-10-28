@@ -146,6 +146,25 @@ def is_authorized_apple_ceo_student(token_param: str, st: dict[str, Any]) -> boo
     return False
 
 
+def authorized_teaching_student_ids(
+    access_key: str, student: dict[str, Any], students: list[dict[str, Any]],
+) -> tuple[str, ...]:
+    """Scope for an already validated student token; class membership is server-owned.
+
+    Only the canonical class record may extend the scope. Other members' tags,
+    aliases or names containing 總裁班 never grant access to their private notes.
+    An ambiguous class identity fails closed, retaining only personal access.
+    """
+    scope = {student['id']}
+    if is_authorized_apple_ceo_student(access_key, student):
+        class_ids = {s['id'] for s in students if s.get('id') and (
+            s['id'] == 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' or s.get('name') == '蘋果總裁班'
+        )}
+        if len(class_ids) == 1:
+            scope.update(class_ids)
+    return tuple(sorted(scope))
+
+
 async def handle_coach_auth_middleware(
     request: Request,
     call_next: Callable,

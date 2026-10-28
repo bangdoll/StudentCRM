@@ -1,0 +1,4 @@
+include requirements.txt
+recursive-include tests *.py
+recursive-include scripts *.py *.sh
+recursive-include docs *.md

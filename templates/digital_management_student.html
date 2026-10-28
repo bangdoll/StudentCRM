@@ -121,5 +121,7 @@
         </section>
         {% endif %}
     </main>
+{% set next_cursor = student.next_cursor %}
+{% include "teaching_pagination.html" %}
 </body>
 </html>
