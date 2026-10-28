@@ -49,9 +49,20 @@ GRANT USAGE ON SCHEMA public TO contract_reader;
 GRANT SELECT ON teaching_records TO contract_reader;
 INSERT INTO teaching_records (id, student_id, student_name, title, date, content, raw)
 SELECT id, student_id, student_name, title, date, content, raw
-FROM jsonb_to_recordset($contract$''' + json.dumps(rows(), ensure_ascii=False) + '''$contract$::jsonb)
+FROM jsonb_to_recordset($contract$''' + json.dumps(rows() + scope_body_rows(), ensure_ascii=False) + '''$contract$::jsonb)
   AS fixture(id uuid, student_id uuid, student_name text, title text, date text, content text, raw jsonb);
 '''
+
+
+def scope_body_rows():
+    return [
+        {'id': str(UUID(int=8001)), 'student_id': str(UUID(int=9997)), 'student_name': 'Contract Class',
+         'title': 'Blank class body', 'date': '2026-10-21', 'content': ' \n\t',
+         'raw': {'path': '/class/blank.md', 'filename': '0.md', 'content': 'CLASS_LEGACY_BODY'}},
+        {'id': str(UUID(int=8002)), 'student_id': str(UUID(int=9996)), 'student_name': 'Other Student',
+         'title': 'Private note', 'date': '2026-10-21', 'content': 'PRIVATE_OTHER_BODY',
+         'raw': {'path': '/other/private.md', 'filename': 'private.md'}},
+    ]
 
 
 def token():
@@ -97,7 +108,22 @@ def main():
                     break
             assert len(ids) == len(set(ids)) == len(LITERAL_SEARCH_CASES)
             assert set(ids) == {row['id'] for row in rows()}
+            # The server cap is 1: combined personal/class scope and legacy-body
+            # reads must remain precise, including duplicate filename rejection.
+            from teaching_reads import TeachingReadError
+            scope = (SID, str(UUID(int=9997)))
+            detail = gateway.load_teaching_record_detail(str(UUID(int=8001)), student_ids=scope)
+            assert detail['content'] == 'CLASS_LEGACY_BODY'
+            assert gateway.load_teaching_record_detail('/class/blank.md', student_ids=scope)['id'] == detail['id']
+            assert gateway.load_teaching_record_detail(str(UUID(int=8002)), student_ids=scope) is None
+            try:
+                gateway.load_teaching_record_detail('0.md', student_ids=scope)
+            except TeachingReadError:
+                pass
+            else:
+                raise AssertionError('Ambiguous personal/class filename was accepted')
         print(f'Real PostgREST: {len(LITERAL_SEARCH_CASES)} literal/legacy-body searches and capped alias pagination passed')
+        print('Real PostgREST: scoped class detail, whitespace fallback, isolation and capped ambiguity passed')
 
 
 if __name__ == '__main__':

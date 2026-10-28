@@ -44,6 +44,10 @@ def older_than(date, rid):
     return 'or(date.lt.' + literal(date) + ',and(date.eq.' + literal(date) + ',id.lt.' + rid + '),date.is.null)'
 
 
+def has_body(value):
+    return isinstance(value, str) and bool(value.strip())
+
+
 def normalize(row, body=False):
     raw = row.get('raw') if isinstance(row.get('raw'), dict) else {}
     keys = ('id', 'student_id', 'student_name', 'title', 'date', 'lesson_num', 'lesson_sub', 'source', 'updated_at', 'path', 'filename', 'preview')
@@ -56,7 +60,9 @@ def normalize(row, body=False):
     result['lesson_number'] = result['lesson_num']
     result['url'] = '/note?' + urlencode({'path': result['id'] or result['path']})
     if body:
-        result['content'] = row.get('content') or row.get('legacy_content') or raw.get('content') or ''
+        result['content'] = next((value for value in (
+            row.get('content'), row.get('legacy_content'), raw.get('content')
+        ) if has_body(value)), '')
     return result
 
 
@@ -159,7 +165,9 @@ class TeachingReads:
             return [r for r in self._teaching_local() if r.get('student_id') == student_id]
         return list(self.iter_teaching_metadata(student_id)) if student_id else []
 
-    def load_teaching_record_detail(self, identifier, *, student_id=None):
+    def load_teaching_record_detail(self, identifier, *, student_id=None, student_ids=()):
+        if student_id and student_ids:
+            raise TeachingQueryError('單篇筆記不可同時使用兩種學員範圍')
         if not identifier:
             return None
         target = str(identifier).strip()
@@ -171,6 +179,8 @@ class TeachingReads:
             params = {'select': DETAIL, 'limit': '2'}
             if student_id:
                 params['student_id'] = 'eq.' + uuid_text(student_id)
+            elif student_ids:
+                params['student_id'] = 'in.(' + ','.join(sorted({uuid_text(sid) for sid in student_ids})) + ')'
             if rid:
                 params['id'] = 'eq.' + rid
                 rows = self._teaching_query(params)
@@ -186,14 +196,16 @@ class TeachingReads:
                     if self._teaching_query(probe):
                         raise TeachingReadError('筆記名稱重複，請使用原始完整連結')
         else:
-            rows = [r for r in self._teaching_local() if (not student_id or r.get('student_id') == student_id)
+            scope = set(student_ids) | ({student_id} if student_id else set())
+            rows = [r for r in self._teaching_local() if (not scope or r.get('student_id') in scope)
                     and (normalize(r)['id'] == target or r.get('path') == target)]
             if not rows:
-                rows = [r for r in self._teaching_local() if (not student_id or r.get('student_id') == student_id)
+                rows = [r for r in self._teaching_local() if (not scope or r.get('student_id') in scope)
                         and r.get('filename') == os.path.basename(target)]
         if len(rows) > 1:
             raise TeachingReadError('筆記名稱重複，請使用原始完整連結')
-        return self._teaching_bodies(rows, student_id=student_id)[0] if rows else None
+        body_scope = rows[0]['student_id'] if rows and student_ids else student_id
+        return self._teaching_bodies(rows, student_id=body_scope)[0] if rows else None
 
     def teaching_neighbors(self, record):
         """Only the two neighboring metadata rows, ordered within one student."""
@@ -269,6 +281,6 @@ class TeachingReads:
     def _teaching_bodies(self, rows, student_id=None):
         if self.backend != "supabase":
             return [normalize(row, body=True) for row in rows]
-        missing = [uuid_text(r["id"]) for r in rows if not r.get("content")]
+        missing = [uuid_text(r["id"]) for r in rows if not has_body(r.get("content"))]
         legacy = {r["id"]: r.get("legacy_content") or "" for r in self._teaching_by_ids(missing, "id,legacy_content:raw->>content", student_id=student_id)}
         return [normalize({**row, "legacy_content": legacy.get(row["id"], "")}, body=True) for row in rows]

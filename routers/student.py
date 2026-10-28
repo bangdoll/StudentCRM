@@ -85,7 +85,7 @@ async def open_file(request: Request, path: str):
     gateway = deps["student_gateway"]
     students = deps["load_students"]()
     if gateway.backend == "supabase":
-        from auth_service import is_authenticated_admin, ADMIN_PASSKEYS, is_authorized_apple_ceo_student
+        from auth_service import is_authenticated_admin, ADMIN_PASSKEYS, is_authorized_apple_ceo_student, authorized_teaching_student_ids
         from student_service import resolve_student_access_id, is_valid_student_access_key
         access = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
         admin = is_authenticated_admin(request) or any(
@@ -95,7 +95,11 @@ async def open_file(request: Request, path: str):
         st = gateway.get_student_profile(resolve_student_access_id(access, students)) if access else None
         if not admin and (not st or not is_valid_student_access_key(access, st)):
             raise HTTPException(status_code=403, detail="請使用有效的學員專屬連結")
-        record = gateway.load_teaching_record_detail(path, student_id=None if admin else st["id"])
+        if admin:
+            record = gateway.load_teaching_record_detail(path)
+        else:
+            scope = authorized_teaching_student_ids(access, st, students)
+            record = gateway.load_teaching_record_detail(path, student_ids=scope)
         records = [record, *gateway.teaching_neighbors(record)] if record else []
         apple_notes = []
         if not record and (admin or is_authorized_apple_ceo_student(access, st)):

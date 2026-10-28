@@ -586,3 +586,117 @@ def test_local_snapshot_without_file_path_has_a_profile_reading_url(tmp_path):
     notes = load_cloud_digital_management_notes(data_gateway=gateway, cache_container={})
     assert parse_qs(urlsplit(notes[0]['url']).query)['path'] == [rid]
     assert notes[0]['content'] == 'LOCAL_SNAPSHOT_BODY'
+
+
+@pytest.fixture
+def class_cloud(web_cloud):
+    client, remote, gateway = web_cloud
+    class_id = str(uuid.UUID(int=9997))
+    remote.students[0]['tags'] = ['總裁班']
+    remote.students.append({'id': class_id, 'name': '蘋果總裁班', 'public_token': 'fixture-class'})
+    # Another authorized member is still a private student, not a class scope.
+    remote.students[1]['tags'] = ['總裁班']
+    remote.students.append({'id': str(uuid.UUID(int=9996)), 'name': 'Fixture Outsider', 'public_token': 'fixture-outsider'})
+    remote.rows.extend([
+        {'id': str(uuid.UUID(int=8001)), 'student_id': class_id, 'student_name': '蘋果總裁班',
+         'title': 'Class lesson', 'date': '2026-10-20', 'content': 'CANONICAL_CLASS_BODY',
+         'raw': {'path': '/class-canonical.md', 'filename': 'class-canonical.md'}},
+        {'id': str(uuid.UUID(int=8002)), 'student_id': class_id, 'student_name': '蘋果總裁班',
+         'title': 'Class neighbor', 'date': '2026-10-21', 'content': 'NEIGHBOR_BODY_NOT_REQUESTED',
+         'raw': {'path': '/class-next.md', 'filename': 'class-next.md'}},
+    ])
+    client.cookies.clear()
+    return client, remote, gateway, class_id
+
+
+@pytest.mark.parametrize('route', ['/note', '/open_file'])
+@pytest.mark.parametrize('identifier', [str(uuid.UUID(int=8001)), '/class-canonical.md', 'class-canonical.md'])
+@pytest.mark.parametrize('cookie', [False, True])
+def test_member_reads_class_note_without_other_student_access(class_cloud, route, identifier, cookie):
+    client, remote, _, class_id = class_cloud
+    params = {'path': identifier}
+    if cookie:
+        client.cookies.set('last_student_token', 'fixture-a')
+    else:
+        params['token'] = 'fixture-a'
+    response = client.get(route, params=params, headers={'X-Test-Auth': '1'})
+    assert response.status_code == 200 and 'CANONICAL_CLASS_BODY' in response.text
+    assert response.headers['cache-control'] == 'private, no-store'
+    assert 'NEIGHBOR_BODY_NOT_REQUESTED' not in response.text
+    reads = [p for t, p in remote.calls if t == 'teaching_records']
+    allowed = {str(uuid.UUID(int=9999)), class_id}
+    assert reads and all(int(p['limit']) <= 2 for p in reads)
+    assert all(p.get('student_id') == 'eq.' + class_id or
+               p.get('student_id') == 'in.(' + ','.join(sorted(allowed)) + ')' for p in reads)
+    # The other student's tag must never make that student's private notes readable.
+    denied = client.get(route, params={'path': str(uuid.UUID(int=62)), **({} if cookie else {'token': 'fixture-a'})},
+                        headers={'X-Test-Auth': '1'})
+    assert denied.status_code == 404 and '正文唯一詞62' not in denied.text
+
+
+def test_class_scope_rejects_outsider_and_class_token_cannot_read_member(class_cloud):
+    client, _, _, _ = class_cloud
+    for token, identifier in [('fixture-outsider', str(uuid.UUID(int=8001))),
+                              ('fixture-class', str(uuid.UUID(int=61)))]:
+        response = client.get('/note', params={'path': identifier, 'token': token}, headers={'X-Test-Auth': '1'})
+        assert response.status_code == 404
+
+
+def test_member_legacy_filename_ambiguity_between_own_and_class_fails_closed(class_cloud):
+    client, remote, _, _ = class_cloud
+    remote.rows[-2]['raw']['filename'] = remote.rows[60]['raw']['filename']
+    result = client.get('/note', params={'path': remote.rows[60]['raw']['filename'], 'token': 'fixture-a'},
+                        headers={'X-Test-Auth': '1'})
+    assert result.status_code == 503
+
+
+@pytest.mark.parametrize('content', [None, '', '  \n\t', '\u3000'])
+@pytest.mark.parametrize('route', ['/note', '/open_file'])
+def test_blank_cloud_body_reads_only_same_record_legacy_body(web_cloud, content, route):
+    client, remote, gateway = web_cloud
+    row = remote.rows[-1]
+    row['content'] = content
+    row['raw']['content'] = 'ACTUAL_LEGACY_BODY'
+    response = client.get(route, params={'path': row['id']})
+    assert response.status_code == 200 and 'ACTUAL_LEGACY_BODY' in response.text
+    assert gateway.load_recent_teaching_records(row['student_id'], limit=1)[0]['content'] == 'ACTUAL_LEGACY_BODY'
+    legacy = [p for t, p in remote.calls if t == 'teaching_records' and 'legacy_content' in p['select']]
+    assert legacy and all(p['id'] == 'in.(' + row['id'] + ')' and p['limit'] == '1' for p in legacy)
+    assert all('raw' not in p['select'].split(',') for t, p in remote.calls if t == 'teaching_records')
+
+
+def test_whitespace_normalization_preserves_real_body_and_falls_back():
+    from teaching_reads import normalize
+    original = '  # Keep formatting\n\nBody\n'
+    assert normalize({'content': original, 'legacy_content': 'STALE'}, body=True)['content'] == original
+    assert normalize({'content': ' \n', 'legacy_content': '\t', 'raw': {'content': original}}, body=True)['content'] == original
+
+
+def test_class_raw_body_stays_scoped(class_cloud):
+    client, remote, _, class_id = class_cloud
+    remote.rows[-2]['content'] = ' \n'
+    remote.rows[-2]['raw']['content'] = 'CLASS_LEGACY_BODY'
+    params = {'path': remote.rows[-2]['id'], 'token': 'fixture-a'}
+    response = client.get('/note', params=params, headers={'X-Test-Auth': '1'})
+    assert response.status_code == 200 and 'CLASS_LEGACY_BODY' in response.text
+    legacy = [p for t, p in remote.calls if t == 'teaching_records' and 'legacy_content' in p['select']]
+    assert legacy and all(p['student_id'] == 'eq.' + class_id for p in legacy)
+
+
+def test_ambiguous_class_identity_fails_closed(class_cloud):
+    client, remote, _, _ = class_cloud
+    remote.students.append({'id': str(uuid.UUID(int=9995)), 'name': '蘋果總裁班', 'public_token': 'other-class'})
+    denied = client.get('/note', params={'path': str(uuid.UUID(int=8001)), 'token': 'fixture-a'},
+                        headers={'X-Test-Auth': '1'})
+    assert denied.status_code == 404
+    own = client.get('/note', params={'path': str(uuid.UUID(int=61)), 'token': 'fixture-a'},
+                     headers={'X-Test-Auth': '1'})
+    assert own.status_code == 200 and '正文唯一詞61' in own.text
+
+
+def test_authorized_member_does_not_inherit_other_class_or_member_ids():
+    from auth_service import authorized_teaching_student_ids
+    member = {'id': str(uuid.UUID(int=9999)), 'name': 'Fixture Member', 'tags': ['總裁班']}
+    classmates = [member, {'id': str(uuid.UUID(int=9998)), 'name': '總裁班成員', 'tags': ['總裁班']},
+                  {'id': str(uuid.UUID(int=9996)), 'name': '其他總裁班'}]
+    assert authorized_teaching_student_ids('fixture-a', member, classmates) == (member['id'],)

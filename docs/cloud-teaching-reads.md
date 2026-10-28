@@ -58,3 +58,11 @@ PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note
 同步 main 時，data_gateway 的舊版全表／快取方法與此 PR 的 keyset reader 衝突，保留後者；流量測試改在現行 query 介面驗證分頁上限、無整包 raw／正文與新資料可見性。main 的圖片 fallback 行為保留，eager 圖片測試確認 loading 與 src 不被破壞，不再要求新增屬性後的 HTML 位元組完全相同。
 
 本機完整 254 項、零略過；CI 另須驗證 Python 3.11／3.12、真實 PostgREST 與隔離 wheel。合成 fixture 不能證明正式筆記完整；此次不合併 PR 到 main、不部署、不改正式資料或啟用排程。
+
+## 2026-10-28 兩項 P2 修正契約
+
+- 學員 token 先經既有驗證，再沿用 `is_authorized_apple_ceo_student` 的伺服器端成員判斷；僅把唯一確認的蘋果總裁班學員 ID 加入本人範圍。班級以既有固定 ID 或精確班級名稱識別；多筆身分歧義時不擴權。名稱包含總裁班、班級標籤或其他成員身分，不會把該成員的私人 ID 加入範圍。
+- 單篇使用同一個 `student_id in (…)` 限定查詢及檔名歧義 probe，避免逐一查詢先命中的筆記造成跨範圍歧義。舊正文回退進一步限於該筆實際 student_id；前後篇只取同一歸屬的 metadata。
+- 正文去除空白後仍有文字才視為可用；只以此判斷是否回退，不裁掉實際輸出的原文空白。NULL、空字串、空格／換行／tab、全形空白均受保護；完整正文不重複讀 raw.content。
+- 離線回歸走真正的 ASGI 閱讀路由與 HTTP 資料邊界，正式認證流程以 `X-Test-Auth` 啟用；只有匿名合成資料，socket 防護禁止外連。真實 PostgREST 的 max_rows=1 契約另驗證班級範圍、空白正文、非成員隔離及檔名歧義。
+- 此修正不新增／改變 Supabase schema、RLS、金鑰或正式設定；不合併、部署、寫入正式資料或啟用排程。

@@ -31,6 +31,8 @@ bash scripts/run_postgrest_contract.sh
 
 原始私人教案的存在與圖片完整性，需另外執行唯讀 `asset_audit`；匿名 fixture 與 CI 綠燈不能代替真實資產驗收。詳見 [讀取契約](docs/cloud-teaching-reads.md) 與 [完整 CI 說明](docs/full-ci.md)。PR 分支仍關閉自動部署；提交 PR 不代表批准合併、部署或變更帳務。
 
+2026-10-28 最後審查另補上班級權限及空白正文回歸：合法班級成員的閱讀範圍僅增加唯一確認的蘋果總裁班 ID，其他成員私人筆記仍不可讀；`content` 只有空白字元時讀同筆舊正文。測試涵蓋兩個閱讀路由、個人連結／Cookie、UUID／原始路徑／檔名、歧義拒絕與正文格式保留；完整 CI 也在 max_rows=1 的真實 PostgREST 驗證範圍及回退行為。
+
 ---
 
 ## ✨ 核心特色 (Features)
