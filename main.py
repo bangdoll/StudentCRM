@@ -302,7 +302,7 @@ def analyze_student_features(student_id: str, use_cache: bool = True, target_stu
         student_id=student_id,
         use_cache=use_cache,
         target_student=target_student,
-        students=load_students(),
+        students=None if target_student is not None else load_students(),
         base_dir=BASE_DIR,
     )
 
@@ -354,13 +354,6 @@ async def health_check():
 @app.get("/api/sync/status")
 async def api_sync_status():
     return student_gateway.status()
-
-
-class AttendancePreviewRequest(BaseModel):
-    date: str = Field(..., pattern=r"^\d{4}-\d{2}-\d{2}$")
-    venue: str = "玫瑰客廳"
-    attendees: list[str] = []
-    note: str = ""
 
 
 # ── 後備降級頁面渲染委派 (fallback_views) ────────────────────────────────────

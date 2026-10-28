@@ -2,10 +2,8 @@
 教練後台、通行門禁、儀表板與全域搜尋領域路由器。
 """
 
-import os
 import logging
 from urllib.parse import unquote
-from datetime import datetime
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 
@@ -17,14 +15,6 @@ from auth_service import (
     ADMIN_USER_COOKIE_NAME,
     render_magic_link_page,
 )
-from schedule_service import (
-    get_document_exceptions,
-    get_next_occurrence,
-    get_next_lesson_sort_key,
-)
-from student_service import get_global_renewal_radar
-from apple_ceo_service import summarize_apple_ceo_program, extract_session_date
-from prediction_service import predict_student_status
 from radar_service import build_full_effectiveness_radar
 from schemas.radar import FollowupUpdateRequest
 from note_service import extract_micro_action_cards
@@ -43,15 +33,6 @@ from outcome_service import (
     list_outcomes,
     verify_outcome,
 )
-
-
-def _is_cloud_uuid(value):
-    from uuid import UUID
-    try:
-        UUID(str(value))
-        return True
-    except ValueError:
-        return False
 
 
 router = APIRouter(tags=["coach"])
@@ -77,64 +58,34 @@ def get_coach_deps():
 async def read_root(request: Request):
     """【教練行動看板首頁】展示 64 位學員進度、續約預警雷達與總裁班摘要。"""
     deps = get_coach_deps()
-    students = deps["load_students"]()
-    base_dir = deps["BASE_DIR"]
+    from dashboard_service import build_home_context
 
-    for s in students:
-        if 'recurring_schedule' in s and not s.get('next_lesson'):
-            student_file = os.path.join(base_dir, s['file'].lstrip('/')) if s.get('file') else ""
-            doc_exceptions = get_document_exceptions(student_file)
-            json_exceptions = s.get('schedule_exceptions', [])
-            all_exceptions = list(set(json_exceptions + doc_exceptions))
-
-            s['next_lesson'] = get_next_occurrence(
-                s['recurring_schedule'],
-                all_exceptions
-            )
-
-    for s in students:
-        file_path = os.path.join(base_dir, s['file'].lstrip('/')) if s.get('file') else ""
-        file_meta = deps["get_student_metadata"](file_path) if file_path and os.path.exists(file_path) else {}
-        cloud_meta = deps["build_cloud_student_meta"](s)
-        s['meta'] = {**cloud_meta, **file_meta}
-        if not s['meta'].get('first_lesson_date') or s['meta']['first_lesson_date'] in ("未記錄", "TBD"):
-            s['meta']['first_lesson_date'] = s.get('first_lesson_date') or "未記錄"
-        if not s['meta'].get('last_lesson_date') or s['meta']['last_lesson_date'] in ("未記錄", "TBD"):
-            s['meta']['last_lesson_date'] = s.get('latest_date') or "未記錄"
-        if not s['meta'].get('lessons_count') or s['meta']['lessons_count'] == 0:
-            s['meta']['lessons_count'] = s.get('lessons_count') or 0
-        s['features'] = deps["analyze_student_features"](s['id'], target_student=s)
-        s['prediction'] = predict_student_status(s['features'], s.get('next_lesson'))
-
-    sorted_students = sorted(students, key=get_next_lesson_sort_key)
-    apple_program = deps["load_apple_ceo_program"]()
-    apple_summary = summarize_apple_ceo_program(apple_program)
-    renewal_radar = get_global_renewal_radar(sorted_students)
-
-    # 載入成效雷達數據，供首頁戰情儀表板展示
-    gateway = deps["student_gateway"]
-    effectiveness_radar = gateway.get_effectiveness_radar_data()
-    if not effectiveness_radar.get("items"):
-        try:
-            effectiveness_radar = build_full_effectiveness_radar(gateway)
-        except Exception as exc:
-            logger.warning(f"首頁建構完整成效雷達失敗，使用預設快取: {exc}")
+    context = build_home_context(
+        students_loader=deps.get("load_students"),
+        apple_program_loader=deps.get("load_apple_ceo_program"),
+        data_gateway=deps.get("student_gateway"),
+        metadata_loader=deps.get("get_student_metadata"),
+        cloud_meta_builder=deps.get("build_cloud_student_meta"),
+        features_analyzer=deps.get("analyze_student_features"),
+        base_dir=deps.get("BASE_DIR", ""),
+    )
 
     admin_user_cookie = request.cookies.get(ADMIN_USER_COOKIE_NAME, "")
     admin_user = unquote(admin_user_cookie) if admin_user_cookie else "管理員"
 
     if deps["use_fallback_pages"]("index.html"):
-        return deps["render_dashboard_fallback"](sorted_students, apple_summary, deps["student_gateway"].status())
+        return deps["render_dashboard_fallback"](
+            context["students"],
+            context["apple_summary"],
+            deps["student_gateway"].status(),
+        )
 
     return deps["templates"].TemplateResponse(request, "index.html", {
         "request": request,
         "admin_user": admin_user,
-        "students": sorted_students,
-        "apple_program": apple_program["program"],
-        "apple_summary": apple_summary,
-        "renewal_radar": renewal_radar,
-        "effectiveness_radar": effectiveness_radar,
+        **context,
     })
+
 
 
 @router.api_route("/dashboard", methods=["GET", "HEAD"], response_class=HTMLResponse)

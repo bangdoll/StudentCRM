@@ -153,3 +153,35 @@ def test_digital_management_profiles_caching():
     assert p1 == p2
 
 
+def test_analyze_student_features_skips_note_loading_on_cache_hit(monkeypatch):
+    import student_timeline_service
+    from prediction_service import clear_features_cache
+
+    clear_features_cache()
+    notes_call_count = {"count": 0}
+
+    def fake_get_notes(student, base_dir=""):
+        notes_call_count["count"] += 1
+        return []
+
+    monkeypatch.setattr(student_timeline_service, "get_student_teaching_notes", fake_get_notes)
+    sample_student = {"id": "test-cache-student-id", "name": "快取測試學員", "latest_date": "2026-10-20"}
+
+    f1 = student_timeline_service.analyze_student_features(
+        student_id="test-cache-student-id",
+        use_cache=True,
+        target_student=sample_student,
+    )
+    assert notes_call_count["count"] == 1
+
+    # 第二次調用應直接命中 _FEATURES_CACHE，不再呼叫 get_student_teaching_notes
+    f2 = student_timeline_service.analyze_student_features(
+        student_id="test-cache-student-id",
+        use_cache=True,
+        target_student=sample_student,
+    )
+    assert notes_call_count["count"] == 1
+    assert f1 == f2
+
+
+

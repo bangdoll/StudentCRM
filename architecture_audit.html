@@ -23,7 +23,7 @@
           <div>
             <span class="text-xs font-mono uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">Matt Pocock Codebase Design</span>
             <h1 class="text-3xl font-bold font-serif text-slate-900 mt-2">StudentCRM 架構審查與深模組審計報告</h1>
-            <p class="text-sm text-slate-500 mt-1">審計時間：2026-10-07 ｜ 程式庫範圍：07.Projects/StudentCRM (8,109 行代碼)</p>
+            <p class="text-sm text-slate-500 mt-1">審計更新：2026-10-28 ｜ 程式庫範圍：07.Projects/StudentCRM (304 項自動化測試 100% 通過)</p>
           </div>
           <div class="hidden sm:flex items-center gap-3 text-xs font-mono bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-800 inline-block"></span> Deep Module</span>
@@ -175,13 +175,13 @@
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h3 class="text-xl font-bold text-slate-900">3. 建立 StudentProfileAssembler：收斂視圖模型聚合邏輯</h3>
             <div class="flex items-center gap-2">
-              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-amber-100 text-amber-800 border border-amber-300">Worth Exploring</span>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Completed · Verified</span>
               <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">view-model aggregator</span>
             </div>
           </div>
 
           <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
-            檔案路徑: routers/student.py (322行) · student_timeline_service.py · digital_management_service.py
+            檔案路徑: student_profile_assembler.py · routers/student.py (290行) · student_timeline_service.py
           </div>
 
           <div class="space-y-3 text-sm">
@@ -192,6 +192,34 @@
               <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
                 <li><strong>Locality</strong>：視圖組裝規則不洩漏於 HTTP 控制層。</li>
                 <li><strong>Leverage</strong>：Web 介面與未來 NativeApp / 桌面客戶端可共享相同視圖聚合器。</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 4 -->
+        <article id="candidate-4" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">4. 提取 SearchService 與 DashboardService：徹底淨化教練路由層</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Completed · Verified</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">deep service extraction</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: search_service.py (273行) · dashboard_service.py (235行) · routers/coach.py (283行) · apple_ceo_service.py
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong><code>routers/coach.py</code> 原先內嵌超過 270 行全文搜尋消歧義、首頁排程推算與儀表板流失預警迴圈；<code>student_timeline_service.analyze_student_features</code> 亦存在快取命中前提前載入筆記之 N+1 隱藏開銷。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>拆出 <code>SearchService</code>、<code>build_dashboard_context</code>、<code>build_home_context</code> 與 <code>build_apple_ceo_view_context</code> 深模組，並將特徵分析改為快取命中短路（Lazy Note Loader）。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>Zero N+1 on Cache Hit</strong>：特徵快取命中時完全跳過筆記檔案與雲端 I/O。</li>
+                <li><strong>Thin Controllers</strong>：<code>/</code>、<code>/dashboard</code>、<code>/search</code> 與 <code>/program/apple-ceo</code> 皆收斂為純粹委派。</li>
+                <li><strong>Unified Cache Invalidation</strong>：<code>clear_gateway_memory_cache()</code> 統一連動清除首頁與儀表板短效快取。</li>
               </ul>
             </div>
           </div>

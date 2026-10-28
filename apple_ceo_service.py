@@ -600,3 +600,39 @@ def summarize_apple_ceo_program(program_data: dict, today: date | None = None) -
         "total_tuition_label": f"${total_tuition:,}",
         "tuition_count": tuition_count,
     }
+
+
+def build_apple_ceo_view_context(
+    program_data: dict[str, Any],
+    students: list[dict[str, Any]],
+    token: str = "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
+    is_student_view: bool = False,
+    summary: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """【深模組聚合入口】統一組裝 program_apple_ceo.html 模板所需之視圖模型與學員名稱映射。"""
+    effective_summary = summary if summary is not None else summarize_apple_ceo_program(program_data)
+    name_to_student: dict[str, dict[str, Any]] = {}
+    for s in students or []:
+        s_name = s.get("name", "")
+        if s_name:
+            name_to_student[s_name] = s
+        for alias in s.get("aliases", []):
+            if alias:
+                name_to_student[alias] = s
+
+    return {
+        "program": program_data.get("program", {}),
+        "venue": program_data.get("venue", {}),
+        "active_participants": program_data.get("active_participants", []),
+        "attendance_records": program_data.get("attendance_records", []),
+        "venue_ledger": program_data.get("venue_ledger", []),
+        "student_rounds": program_data.get("student_rounds", []),
+        "tuition_records": program_data.get("tuition_records", []),
+        "teaching_notes": program_data.get("teaching_notes", []),
+        "summary": effective_summary,
+        "legacy_note": program_data.get("legacy_note", ""),
+        "name_to_student": name_to_student,
+        "token": token,
+        "is_student_view": is_student_view,
+    }
+

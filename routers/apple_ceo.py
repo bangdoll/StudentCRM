@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 from apple_ceo_service import (
     summarize_apple_ceo_program,
     preview_apple_ceo_attendance,
+    build_apple_ceo_view_context,
 )
 
 router = APIRouter(tags=["apple_ceo"])
@@ -103,28 +104,15 @@ async def read_apple_ceo_program(request: Request):
         return deps["render_fallback_page"]("蘋果總裁班", body)
 
     students = deps["load_students"]()
-    name_to_student = {}
-    for s in students:
-        s_name = s.get("name", "")
-        if s_name:
-            name_to_student[s_name] = s
-        for alias in s.get("aliases", []):
-            if alias:
-                name_to_student[alias] = s
+    view_ctx = build_apple_ceo_view_context(
+        program_data=program_data,
+        students=students,
+        token=token,
+        is_student_view=False,
+        summary=summary,
+    )
 
     return deps["templates"].TemplateResponse(request, "program_apple_ceo.html", {
         "request": request,
-        "program": program_data["program"],
-        "venue": program_data["venue"],
-        "active_participants": program_data.get("active_participants", []),
-        "attendance_records": program_data.get("attendance_records", []),
-        "venue_ledger": program_data.get("venue_ledger", []),
-        "student_rounds": program_data.get("student_rounds", []),
-        "tuition_records": program_data.get("tuition_records", []),
-        "teaching_notes": teaching_notes,
-        "summary": summary,
-        "legacy_note": program_data.get("legacy_note", ""),
-        "name_to_student": name_to_student,
-        "token": token,
-        "is_student_view": False,
+        **view_ctx,
     })

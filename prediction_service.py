@@ -47,6 +47,7 @@ def analyze_student_features(
     use_cache: bool = True,
     now: datetime = None,
     allow_local: bool = True,
+    student_notes_loader=None,
 ) -> dict:
     """Extract features from student's historical data for AI prediction."""
     if not student:
@@ -62,6 +63,9 @@ def analyze_student_features(
         cached_ts, cached_features = _FEATURES_CACHE[student_id]
         if now_ts - cached_ts < _FEATURES_CACHE_TTL:
             return dict(cached_features)
+
+    if student_notes is None and callable(student_notes_loader):
+        student_notes = student_notes_loader()
 
     now_dt = now or datetime.now()
     paths = get_student_lesson_paths(student, base_dir, student_notes, allow_local=allow_local)

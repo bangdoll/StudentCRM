@@ -50,6 +50,12 @@ APPLE_ROUND_COLUMNS = "id,program_id,student_name,label,payment_status,sessions,
 def clear_gateway_memory_cache() -> None:
     """清除記憶體快取。"""
     _MEMORY_CACHE.clear()
+    try:
+        from dashboard_service import clear_dashboard_cache
+        clear_dashboard_cache()
+    except Exception:
+        pass
+
 
 
 def _clone_student_dict(s: dict[str, Any]) -> dict[str, Any]:

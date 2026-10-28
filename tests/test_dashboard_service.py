@@ -106,3 +106,90 @@ def test_dashboard_service_caching():
     assert call_counter["count"] == 1
     assert ctx1 == ctx2
 
+
+def test_build_home_context_enriches_and_caches():
+    from dashboard_service import build_home_context, clear_dashboard_cache
+
+    clear_dashboard_cache()
+    call_counter = {"count": 0}
+
+    def mock_students_loader():
+        call_counter["count"] += 1
+        return [
+            {
+                "id": "s1",
+                "name": "測試首頁學員",
+                "first_lesson_date": "2026-09-01",
+                "latest_date": "2026-10-20",
+                "lessons_count": 5,
+                "next_lesson": "2026-11-01",
+            }
+        ]
+
+    class DummyGateway:
+        def get_effectiveness_radar_data(self):
+            return {"items": [{"student_id": "s1"}], "summary": {}}
+
+    ctx1 = build_home_context(
+        students_loader=mock_students_loader,
+        apple_program_loader=lambda: {"program": {"name": "蘋果總裁班"}},
+        data_gateway=DummyGateway(),
+        metadata_loader=lambda p: {},
+        cloud_meta_builder=lambda s: {"first_lesson_date": "未記錄", "last_lesson_date": "未記錄", "lessons_count": 0},
+        features_analyzer=lambda sid, target_student=None: {"days_since_last_lesson": 5},
+        status_predictor=lambda f, n: {"status": "穩定留存", "risk_level": "low"},
+    )
+    assert call_counter["count"] == 1
+    assert len(ctx1["students"]) == 1
+    assert ctx1["students"][0]["meta"]["first_lesson_date"] == "2026-09-01"
+    assert ctx1["students"][0]["meta"]["last_lesson_date"] == "2026-10-20"
+    assert ctx1["students"][0]["meta"]["lessons_count"] == 5
+    assert ctx1["apple_program"]["name"] == "蘋果總裁班"
+    assert "renewal_radar" in ctx1
+    assert "effectiveness_radar" in ctx1
+
+    # 第二次呼叫應命中快取
+    ctx2 = build_home_context(
+        students_loader=mock_students_loader,
+        apple_program_loader=lambda: {"program": {"name": "蘋果總裁班"}},
+        data_gateway=DummyGateway(),
+        metadata_loader=lambda p: {},
+        cloud_meta_builder=lambda s: {},
+        features_analyzer=lambda sid, target_student=None: {},
+        status_predictor=lambda f, n: {"status": "穩定留存"},
+    )
+    assert call_counter["count"] == 1
+    assert ctx1 == ctx2
+
+
+def test_build_apple_ceo_view_context():
+    from apple_ceo_service import build_apple_ceo_view_context
+
+    program_data = {
+        "program": {"name": "蘋果總裁班"},
+        "venue": {"name": "玫瑰客廳"},
+        "active_participants": ["Roger老師"],
+        "attendance_records": [],
+        "venue_ledger": [],
+        "student_rounds": [],
+        "tuition_records": [],
+        "teaching_notes": [{"title": "測試筆記"}],
+        "legacy_note": "備註",
+    }
+    students = [
+        {"id": "roger-1", "name": "Roger 黃凱亮", "aliases": ["Roger老師"]},
+    ]
+    ctx = build_apple_ceo_view_context(
+        program_data=program_data,
+        students=students,
+        token="apple-ceo",
+        is_student_view=True,
+    )
+    assert ctx["program"]["name"] == "蘋果總裁班"
+    assert ctx["token"] == "apple-ceo"
+    assert ctx["is_student_view"] is True
+    assert "Roger老師" in ctx["name_to_student"]
+    assert ctx["name_to_student"]["Roger老師"]["id"] == "roger-1"
+    assert "summary" in ctx
+
+

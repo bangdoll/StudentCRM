@@ -11,7 +11,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from auth_service import ADMIN_PASSKEYS
 from hub_service import generate_student_manifest_data, get_random_practice_card
 from note_service import extract_micro_action_cards
-from apple_ceo_service import summarize_apple_ceo_program
+from apple_ceo_service import build_apple_ceo_view_context
 from student_service import is_valid_student_access_key, resolve_student_access_id
 from outcome_service import OutcomeStoreError, StudentActionSubmission, submit_student_action
 
@@ -77,31 +77,15 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
     )
     if is_apple_ceo:
         program_data = deps["load_apple_ceo_program"]()
-        summary = summarize_apple_ceo_program(program_data)
-        teaching_notes = program_data.get("teaching_notes", [])
-        name_to_student = {}
-        for s in students:
-            s_name = s.get("name", "")
-            if s_name:
-                name_to_student[s_name] = s
-            for alias in s.get("aliases", []):
-                if alias:
-                    name_to_student[alias] = s
+        view_ctx = build_apple_ceo_view_context(
+            program_data=program_data,
+            students=students,
+            token=lookup_key,
+            is_student_view=True,
+        )
         response = deps["templates"].TemplateResponse(request, "program_apple_ceo.html", {
             "request": request,
-            "program": program_data["program"],
-            "venue": program_data["venue"],
-            "active_participants": program_data.get("active_participants", []),
-            "attendance_records": program_data.get("attendance_records", []),
-            "venue_ledger": program_data.get("venue_ledger", []),
-            "student_rounds": program_data.get("student_rounds", []),
-            "tuition_records": program_data.get("tuition_records", []),
-            "teaching_notes": teaching_notes,
-            "summary": summary,
-            "legacy_note": program_data.get("legacy_note", ""),
-            "name_to_student": name_to_student,
-            "token": lookup_key,
-            "is_student_view": True,
+            **view_ctx,
         })
         response.set_cookie(
             key="last_student_token",
