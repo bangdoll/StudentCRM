@@ -92,6 +92,7 @@ async def open_file(request: Request, path: str):
         apple_notes=apple_notes,
         cloud_records=records,
         students=students,
+        record_detail_loader=getattr(deps.get("student_gateway"), "load_teaching_record_detail", None),
     )
 
     query_token = request.query_params.get("token") or ""

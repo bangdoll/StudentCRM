@@ -218,6 +218,8 @@ class MediaAssetResolver:
 
         def _repl(match: re.Match) -> str:
             tag = match.group(0)
+            if "loading=" in tag:
+                return tag
 
             # 提取檔名以利自癒回退
             src_m = re.search(r'src=["\']([^"\']+)["\']', tag)
