@@ -140,76 +140,27 @@ async def read_root(request: Request):
 @router.api_route("/dashboard", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def read_dashboard(request: Request):
     deps = get_coach_deps()
-    students = deps["load_students"]()
-    base_dir = deps["BASE_DIR"]
+    from dashboard_service import build_dashboard_context
 
-    for student in students:
-        student_file = os.path.join(base_dir, student.get('file', '').lstrip('/'))
-        student['meta'] = deps["get_student_metadata"](student_file)
-        student['features'] = deps["analyze_student_features"](student['id'])
-        student['prediction'] = predict_student_status(student['features'], student.get('next_lesson'))
-
-    apple_program = deps["load_apple_ceo_program"]()
-    apple_summary = summarize_apple_ceo_program(apple_program)
-    today = datetime.now().date()
-
-    def parse_next_lesson(value: str):
-        date_text = extract_session_date(value or "")
-        if not date_text:
-            return None
-        try:
-            return datetime.strptime(date_text, "%Y-%m-%d").date()
-        except ValueError:
-            return None
-
-    upcoming_students = []
-    unscheduled_students = []
-    risk_students = []
-    freezing_students = []
-    stable_students = []
-
-    for student in students:
-        next_date = parse_next_lesson(student.get('next_lesson'))
-        if next_date:
-            days = (next_date - today).days
-            student['next_lesson_days'] = days
-            if 0 <= days <= 14:
-                upcoming_students.append(student)
-        else:
-            student['next_lesson_days'] = None
-            unscheduled_students.append(student)
-
-        status = student['prediction']['status']
-        if '高流失' in status:
-            risk_students.append(student)
-        elif '冰凍期' in status:
-            freezing_students.append(student)
-        elif '穩定留存' in status:
-            stable_students.append(student)
-
-    students.sort(key=lambda item: (
-        item.get('next_lesson_days') is None,
-        item.get('next_lesson_days') if item.get('next_lesson_days') is not None else 9999,
-        item.get('name', ''),
-    ))
-
-    sync_status = deps["student_gateway"].status()
+    context = build_dashboard_context(
+        students_loader=deps.get("load_students"),
+        apple_program_loader=deps.get("load_apple_ceo_program"),
+        sync_status_loader=lambda: deps["student_gateway"].status(),
+        metadata_loader=deps.get("get_student_metadata"),
+        features_analyzer=deps.get("analyze_student_features"),
+        base_dir=deps.get("BASE_DIR", ""),
+    )
 
     if deps["use_fallback_pages"]("dashboard.html"):
-        return deps["render_dashboard_fallback"](students, apple_summary, sync_status)
+        return deps["render_dashboard_fallback"](
+            context["students"],
+            context["apple_summary"],
+            context["sync_status"],
+        )
 
     return deps["templates"].TemplateResponse(request, "dashboard.html", {
         "request": request,
-        "students": students,
-        "student_count": len(students),
-        "upcoming_students": upcoming_students,
-        "unscheduled_students": unscheduled_students,
-        "risk_students": risk_students,
-        "freezing_students": freezing_students,
-        "stable_students": stable_students,
-        "apple_program": apple_program["program"],
-        "apple_summary": apple_summary,
-        "sync_status": sync_status,
+        **context,
     })
 
 
@@ -235,162 +186,20 @@ async def logout():
 @router.get("/search", response_class=HTMLResponse)
 async def search(request: Request, q: str = "", cursor: str | None = None):
     deps = get_coach_deps()
-    query = q.strip()
-    results = []
-    matched_students = []
+    from search_service import execute_search
 
-    next_cursor = None
-    if query:
-        q_lower = query.lower()
-        students = deps["load_students"]()
-        name_to_sid: dict[str, str] = {}
-
-        for s in students:
-            sid = s.get("id", "")
-            sname = s.get("name", "")
-            if sname:
-                name_to_sid[sname.lower()] = sid
-            for alias in s.get("aliases", []):
-                if alias:
-                    name_to_sid[str(alias).lower()] = sid
-
-            # 比對學員姓名、別名、標籤
-            student_matched = False
-            if q_lower in sname.lower():
-                student_matched = True
-            elif any(q_lower in str(alias).lower() for alias in s.get("aliases", [])):
-                student_matched = True
-            elif any(q_lower in str(tag).lower() for tag in s.get("tags", [])):
-                student_matched = True
-
-            if student_matched:
-                matched_students.append(s)
-
-        gateway = deps["student_gateway"]
-        if gateway.backend == "supabase":
-            page = gateway.list_teaching_records(query=query, cursor=cursor, student_ids=[s["id"] for s in matched_students if _is_cloud_uuid(s["id"])])
-            teaching_records = page["items"]
-            next_cursor = page["next_cursor"]
-        else:
-            teaching_records = gateway.load_all_teaching_records()
-
-        apple_ceo = deps["load_apple_ceo_program"]()
-        apple_notes = apple_ceo.get("teaching_notes", []) if isinstance(apple_ceo, dict) else []
-
-        candidates: list[dict] = []
-
-        # 1. 一對一教學筆記（相容 local JSON 與 Supabase raw 封裝）
-        for rec in teaching_records:
-            raw_data = rec.get("raw")
-            if isinstance(raw_data, str):
-                try:
-                    import json
-                    raw_data = json.loads(raw_data)
-                except Exception:
-                    raw_data = {}
-            elif not isinstance(raw_data, dict):
-                raw_data = {}
-
-            t_title = rec.get("title") or raw_data.get("title") or ""
-            t_student = rec.get("student_name") or raw_data.get("student_name") or ""
-            t_path = rec.get("path") or raw_data.get("path") or rec.get("filename") or raw_data.get("filename") or ""
-            if not t_path and t_title:
-                t_clean = t_title.lstrip("#").strip()
-                t_path = t_clean if t_clean.endswith(".md") else f"{t_clean}.md"
-
-            t_date = rec.get("date") or raw_data.get("date") or ""
-            t_preview = rec.get("preview") or raw_data.get("preview") or ""
-            t_content = rec.get("content") or raw_data.get("content") or ""
-            t_sid = rec.get("student_id") or raw_data.get("student_id") or ""
-
-            candidates.append({
-                "cloud_matched": gateway.backend == "supabase",
-                "date": t_date,
-                "title": t_title,
-                "student_name": t_student,
-                "student_id": t_sid,
-                "path": t_path,
-                "preview": t_preview,
-                "content": t_content,
-            })
-
-        # 2. 蘋果總裁班教學筆記
-        for an in apple_notes:
-            an_title = an.get("full_title") or an.get("title") or an.get("filename", "")
-            an_path = an.get("path") or an.get("filename") or an_title
-            candidates.append({
-                "date": an.get("date", ""),
-                "title": an_title,
-                "student_name": "蘋果總裁班",
-                "student_id": "",
-                "path": an_path,
-                "preview": an.get("preview", ""),
-                "content": an.get("content", ""),
-            })
-
-        seen_keys = set()
-        for item in candidates:
-            title = str(item.get("title", "")).lstrip("#").strip()
-            student_name = str(item.get("student_name", "")).strip()
-            content = item.get("content", "")
-            preview_raw = item.get("preview", "")
-            date_str = item.get("date", "")
-            path = item.get("path", "")
-
-            matched = bool(item.get("cloud_matched"))
-            if q_lower in student_name.lower():
-                matched = True
-            elif q_lower in title.lower():
-                matched = True
-            elif q_lower in preview_raw.lower():
-                matched = True
-            elif content and q_lower in content.lower():
-                matched = True
-
-            if not matched:
-                continue
-
-            dedup_key = (date_str, title, student_name, path)
-            if dedup_key in seen_keys:
-                continue
-            seen_keys.add(dedup_key)
-
-            display_preview = ""
-            if content:
-                for line in content.splitlines():
-                    cleaned = line.strip().lstrip("#-*\t ")
-                    if q_lower in cleaned.lower():
-                        display_preview = cleaned[:180]
-                        break
-            if not display_preview:
-                display_preview = preview_raw[:180] if preview_raw else (content[:180] if content else "")
-
-            # 確定 student_id
-            sid = item.get("student_id")
-            # 蕭秉慧不等於 Anna 蕭，精準校正
-            if not sid or (student_name in ("Amanda 蕭秉慧", "蕭秉慧", "Amanda") and sid == "bdc7faee-6ffe-451e-8134-c923fc906238"):
-                sid = name_to_sid.get(student_name.lower(), "")
-            if not sid:
-                sid = name_to_sid.get(student_name.lower(), "")
-
-            results.append({
-                "date": date_str,
-                "title": title,
-                "student_name": student_name,
-                "student_id": sid,
-                "path": path,
-                "preview": display_preview,
-            })
-
-        results.sort(key=lambda r: r.get("date") or "", reverse=True)
+    search_result = execute_search(
+        query=q,
+        cursor=cursor,
+        data_gateway=deps.get("student_gateway"),
+        students_loader=deps.get("load_students"),
+        teaching_records_loader=lambda: deps["student_gateway"].load_all_teaching_records(),
+        apple_notes_loader=lambda: deps["load_apple_ceo_program"]().get("teaching_notes", []) if isinstance(deps["load_apple_ceo_program"](), dict) else [],
+    )
 
     return deps["templates"].TemplateResponse(request, "search.html", {
         "request": request,
-        "q": query,
-        "results": results,
-        "count": len(results),
-        "matched_students": matched_students,
-        "next_cursor": next_cursor,
+        **search_result.to_template_context(),
     })
 
 
