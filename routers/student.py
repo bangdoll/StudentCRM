@@ -170,7 +170,7 @@ async def read_digital_management_student(request: Request, student_id: str):
     student = None
     if deps.get("get_digital_management_student_profile"):
         student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
-    if not student:
+    else:
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:
@@ -245,7 +245,7 @@ async def api_digital_management_student(student_id: str):
     student = None
     if deps.get("get_digital_management_student_profile"):
         student = deps["get_digital_management_student_profile"](student_id, include_heptabase=True)
-    if not student:
+    else:
         payload = deps["build_digital_management_profiles"](include_heptabase=True)
         student = next((item for item in payload.get("students", []) if item.get("id") == student_id), None)
     if not student:

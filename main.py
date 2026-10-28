@@ -64,15 +64,37 @@ if not os.path.exists(APPLE_CEO_FILE):
 
 student_gateway = StudentDataGateway(BASE_DIR)
 
-class FallbackStaticFiles(StaticFiles):
+class CachedStaticFiles(StaticFiles):
+    """具備 HTTP 快取標頭 (Cache-Control) 的靜態檔案伺服器。
+    
+    為靜態資源自動加入長效快取標頭，大幅減輕伺服器負荷與提升載入效能。
+    """
+    def __init__(self, *args, cache_control: str = "public, max-age=86400, stale-while-revalidate=604800", **kwargs):
+        super().__init__(*args, **kwargs)
+        self.cache_control = cache_control
+
+    def file_response(
+        self,
+        full_path,
+        stat_result,
+        scope,
+        status_code: int = 200,
+    ):
+        response = super().file_response(full_path, stat_result, scope, status_code=status_code)
+        if "cache-control" not in response.headers:
+            response.headers["Cache-Control"] = self.cache_control
+        return response
+
+
+class FallbackStaticFiles(CachedStaticFiles):
     """具備多目錄安全回退機制的靜態檔案伺服器。
     
     依序在多個備選目錄中查找檔案，解決 01.Docs/teaching/assets 與 static/teaching_assets 
     在不同環境或同步間隔時的圖片遺失或 404 問題。
     """
     def __init__(self, *directories: str, **kwargs):
-        valid_dirs = [d for d in directories if d and os.path.isdir(d)]
-        primary = valid_dirs[0] if valid_dirs else (directories[0] if directories else ".")
+        valid_dirs = [os.path.abspath(d) for d in directories if d and os.path.isdir(d)]
+        primary = valid_dirs[0] if valid_dirs else (os.path.abspath(directories[0]) if directories else ".")
         super().__init__(directory=primary, check_dir=False, **kwargs)
         if valid_dirs:
             self.all_directories = valid_dirs
@@ -90,7 +112,7 @@ app.mount(
     FallbackStaticFiles(crm_teaching_assets, TEACHING_ASSETS_DIR),
     name="teaching_assets_static",
 )
-app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+app.mount("/static", CachedStaticFiles(directory=STATIC_DIR), name="static")
 app.mount(
     "/assets",
     FallbackStaticFiles(TEACHING_ASSETS_DIR, crm_teaching_assets),
