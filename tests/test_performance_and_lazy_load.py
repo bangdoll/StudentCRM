@@ -19,7 +19,11 @@ def test_media_asset_resolver_injects_lazy_loading():
     
     # 測試若原本已有 loading="eager"，不重複破壞
     html_custom = '<img src="/logo.svg" loading="eager">'
-    assert resolver.inject_lazy_loading(html_custom) == html_custom
+    eager_output = resolver.inject_lazy_loading(html_custom)
+    assert eager_output.count('loading="eager"') == 1
+    assert 'loading="lazy"' not in eager_output
+    assert 'src="/logo.svg"' in eager_output
+    assert 'onerror=' in eager_output  # main retains the image recovery enhancement.
 
 
 def test_instant_prefetch_script_integrity():

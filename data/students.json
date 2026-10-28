@@ -68,7 +68,7 @@
     "file": "/01.Docs/Students/Annie.md",
     "lessons_count": 83,
     "latest_date": "2026-09-14",
-    "next_lesson": "2026-10-24",
+    "next_lesson": "2026-11-14",
     "tags": [
       "一般學員"
     ],
@@ -86,17 +86,17 @@
       "楊文祥"
     ],
     "file": "/01.Docs/Students/bill_yang.md",
-    "lessons_count": 6,
-    "latest_date": "2026-09-11",
-    "next_lesson": "2026-10-20",
+    "lessons_count": 7,
+    "latest_date": "2026-10-20",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-12-03",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "63e43675-2491-4d5c-b149-40019be779ef",
@@ -145,17 +145,17 @@
     "name": "Julie 陳怡君",
     "aliases": [],
     "file": "/01.Docs/Students/julie_chen.md",
-    "lessons_count": 64,
-    "latest_date": "2026-08-10",
-    "next_lesson": "2026-10-26",
+    "lessons_count": 65,
+    "latest_date": "2026-10-26",
+    "next_lesson": "2026-11-16",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-09-03",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 3,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 64 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
   },
   {
     "id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
@@ -660,7 +660,7 @@
     "file": "/01.Docs/Students/曾小米.md",
     "lessons_count": 14,
     "latest_date": "2026-08-25",
-    "next_lesson": "2026-10-20",
+    "next_lesson": "2026-11-03",
     "tags": [
       "一般學員"
     ],
@@ -718,17 +718,17 @@
       "查米 315"
     ],
     "file": "/01.Docs/Students/Chami.md",
-    "lessons_count": 45,
-    "latest_date": "2026-07-27",
-    "next_lesson": "2026-10-22",
+    "lessons_count": 46,
+    "latest_date": "2026-10-22",
+    "next_lesson": "2026-11-05",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-03-10",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
@@ -886,7 +886,7 @@
     "file": "/01.Docs/Students/yi_yao_ge.md",
     "lessons_count": 1,
     "latest_date": "2026-04-24",
-    "next_lesson": "2026-10-23",
+    "next_lesson": "2027-01-15",
     "tags": [
       "一般學員"
     ],
@@ -1007,18 +1007,18 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1368,
-    "latest_date": "2026-10-15",
+    "lessons_count": 1369,
+    "latest_date": "2026-10-22",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 8 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
@@ -1200,7 +1200,7 @@
     "file": "/01.Docs/Students/qing_mei_jie.md",
     "lessons_count": 108,
     "latest_date": "2026-05-15",
-    "next_lesson": "2026-10-23",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -1346,17 +1346,17 @@
     "name": "Liya",
     "aliases": [],
     "file": "",
-    "lessons_count": 1,
-    "latest_date": "2026-10-06",
+    "lessons_count": 2,
+    "latest_date": "2026-10-20",
     "next_lesson": "",
     "tags": [
       "數位管理教學"
     ],
     "first_lesson_date": "2026-10-06",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）",
     "public_token": "liya-QkXfoZUKIJqFmzfE-6UY1phQ"
   },
   {

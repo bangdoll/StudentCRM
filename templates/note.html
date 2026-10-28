@@ -814,7 +814,19 @@
                     label.classList.toggle('completed', box.checked);
                 }
             }
-        });
+        // 🛡️ 全域圖片自癒容錯：當雲端 CDN 遇到 402/404/斷網，自動無縫切換至本地高可用靜態庫
+        document.addEventListener('error', function(e) {
+            if (e.target && e.target.tagName === 'IMG') {
+                const img = e.target;
+                if (!img.dataset.fallback) {
+                    img.dataset.fallback = '1';
+                    const filename = img.dataset.filename || img.src.split('/').pop().split('?')[0];
+                    if (filename) {
+                        img.src = '/static/teaching_assets/' + filename;
+                    }
+                }
+            }
+        }, true);
     });
     </script>
     <!-- ⚡ Instant Prefetch & Image Shimmer Engine -->

@@ -47,3 +47,14 @@ PYTHONPATH=. python -m pytest tests/test_cloud_teaching_reads.py tests/test_note
 `vercel.json` 只對 `codex/studentcrm-paged-cloud-reads` 關閉 Git 自動部署，以便依使用者指示提交 PR 而不產生 preview deployment。其他分支未指定，維持 Vercel 預設行為。開 PR 不代表批准合併或部署。
 
 未合併、未部署、未升級或變更帳務／正式流量設定。正式測試與實際用量比較需等使用者另行授權；現有額度限制不會因 PR 自動解除。
+
+
+## 2026-10-28 筆記 404 驗收整合
+
+正式舊版的精簡清單沒有 path，Hub 固定使用空 path，產生 404；只改連結仍不足以驗證正文。此 PR 已透過 teaching_reads 正規化穩定 ID、按需單篇正文及 legacy raw.content 讀取處理雲端主流程，保留原有學員隔離與 503 失敗語意。這次整合再補上 Hub 對只有 ID 的 metadata 入口防護，以及本地備份筆記缺路徑時的個人頁閱讀 URL。
+
+新增回歸從實際渲染的 Hub 連結開啟閱讀器，驗證 raw-only 完整正文、缺路徑 metadata、單筆流量上限與其他學員不可讀，避免只看到 HTTP 200 就宣稱恢復。沿用既有後端，不把正式舊版的簡化讀取器覆蓋到此分支。
+
+同步 main 時，data_gateway 的舊版全表／快取方法與此 PR 的 keyset reader 衝突，保留後者；流量測試改在現行 query 介面驗證分頁上限、無整包 raw／正文與新資料可見性。main 的圖片 fallback 行為保留，eager 圖片測試確認 loading 與 src 不被破壞，不再要求新增屬性後的 HTML 位元組完全相同。
+
+本機完整 254 項、零略過；CI 另須驗證 Python 3.11／3.12、真實 PostgREST 與隔離 wheel。合成 fixture 不能證明正式筆記完整；此次不合併 PR 到 main、不部署、不改正式資料或啟用排程。

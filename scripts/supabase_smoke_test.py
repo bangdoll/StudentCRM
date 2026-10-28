@@ -27,6 +27,18 @@ REQUIRED_APPLE_PROGRAM_KEYS = {
     "price_per_student",
 }
 
+SUPABASE_STUDENT_COLUMNS = (
+    "id,name,aliases,file,lessons_count,latest_date,next_lesson,tags,"
+    "recurring_schedule,schedule_exceptions"
+)
+SUPABASE_TABLE_COLUMNS = {
+    "apple_programs": "id,name,round_size,price_per_student",
+    "apple_venues": "id,program_id,name,address,cost_per_person",
+    "apple_venue_ledger": "id,program_id,date,type,amount,balance_after",
+    "apple_student_rounds": "id,program_id,student_name,label,sessions,attended_count,sort_order",
+    "apple_attendance_records": "id,program_id,date,venue,attendee_count,attendees,note",
+}
+
 
 def repo_root() -> Path:
     current = Path(__file__).resolve().parent
@@ -108,7 +120,7 @@ def check_supabase() -> int:
         raise AssertionError("缺少 SUPABASE_URL 與 SUPABASE_ANON_KEY")
 
     rows = fetch_json(
-        f"{url}/rest/v1/students?select=*",
+        f"{url}/rest/v1/students?select={SUPABASE_STUDENT_COLUMNS}",
         headers={
             "apikey": key,
             "Authorization": f"Bearer {key}",
@@ -122,8 +134,9 @@ def check_supabase() -> int:
 
 
 def fetch_supabase_table(url: str, key: str, table: str):
+    columns = SUPABASE_TABLE_COLUMNS.get(table, "id")
     return fetch_json(
-        f"{url}/rest/v1/{table}?select=*",
+        f"{url}/rest/v1/{table}?select={columns}",
         headers={
             "apikey": key,
             "Authorization": f"Bearer {key}",

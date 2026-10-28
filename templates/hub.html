@@ -392,16 +392,16 @@
                             </span>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                            <a href="/note?path={{ note.path|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600;">
+                            <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600;">
                                 🏆 本週打卡清單
                             </a>
-                            <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px;">
+                            <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px;">
                                 完整筆記 ➔
                             </a>
                         </div>
                     </div>
 
-                    <a href="/note?path={{ note.path|urlencode }}&token={{ token }}" class="note-title-link">
+                    <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}" class="note-title-link">
                         {{ note.title or note.filename }}
                     </a>
 

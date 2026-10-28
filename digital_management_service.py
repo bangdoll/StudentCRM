@@ -13,6 +13,7 @@ import hashlib
 import subprocess
 import time
 from datetime import datetime
+from urllib.parse import quote
 
 from teaching_sync import (
     resolve_student,
@@ -396,8 +397,12 @@ def load_cloud_digital_management_notes(
         path = row.get("path") or raw.get("path", "")
         date_text = row.get("date", "") or raw.get("date", "")
         title = row.get("title", "") or raw.get("title", "")
+        note_id = row.get("id", "") or row.get("card_id", "")
+        note_url = row.get("url", "") or raw.get("url", "")
+        if not note_url and (path or note_id):
+            note_url = f"/note?path={quote(path or note_id, safe='')}"
         notes.append({
-            "id": row.get("id", "") or row.get("card_id", ""),
+            "id": note_id,
             "student_id": row.get("student_id", ""),
             "student_name": row.get("student_name", ""),
             "date": date_text,
@@ -410,7 +415,7 @@ def load_cloud_digital_management_notes(
             "lesson_sub": row.get("lesson_sub") or raw.get("lesson_sub"),
             "location": "",
             "description": "",
-            "url": row.get("url", "") or raw.get("url", ""),
+            "url": note_url,
             "path": path,
             "preview": preview,
             "content": content_text,

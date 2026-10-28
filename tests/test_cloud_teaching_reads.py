@@ -533,3 +533,56 @@ def test_calendar_only_student_keeps_overview_and_detail_links(web_cloud, monkey
     assert page.status_code == 200 and 'CalendarOnly' in page.text
     assert entry['note_count'] == 0 and entry['notes_url'] is None
     assert not any(table == 'teaching_records' for table, _ in remote.calls)
+
+
+# 2026-10-28: replay the actual Hub-link -> note-body acceptance boundary.
+@pytest.mark.parametrize('id_only_metadata', [False, True])
+def test_hub_generated_link_reads_raw_body_without_file_path(web_cloud, monkeypatch, id_only_metadata):
+    from html.parser import HTMLParser
+    client, remote, gateway = web_cloud
+    sid = str(uuid.UUID(int=9999))
+    rid = str(uuid.UUID(int=101))
+    remote.rows = [{'id': rid, 'student_id': sid, 'student_name': 'Fixture A',
+                    'date': '2026-10-28', 'title': 'Synthetic cloud-only lesson',
+                    'raw': {'content': 'CLOUD_ONLY_COMPLETE_BODY 這是單篇正文。'}}]
+    if id_only_metadata:
+        original = gateway.list_teaching_records
+        def without_file_path(*args, **kwargs):
+            page = original(*args, **kwargs)
+            for item in page['items']:
+                item['path'] = ''
+            return page
+        monkeypatch.setattr(gateway, 'list_teaching_records', without_file_path)
+    client.cookies.clear()
+    page = client.get('/my/fixture-a')
+    assert page.status_code == 200
+    class Links(HTMLParser):
+        def __init__(self): super().__init__(); self.items = []
+        def handle_starttag(self, tag, attrs):
+            href = dict(attrs).get('href', '')
+            if tag == 'a' and href.startswith('/note?'): self.items.append(href)
+    links = Links(); links.feed(page.text)
+    assert links.items
+    assert all(parse_qs(urlsplit(href).query).get('path') == [rid] for href in links.items)
+    note = client.get(links.items[0])
+    assert note.status_code == 200
+    assert 'CLOUD_ONLY_COMPLETE_BODY' in note.text
+    assert not any(p['select'] == '*' or 'raw' in p['select'].split(',') for t,p in remote.calls if t == 'teaching_records')
+    body_calls = [p for t,p in remote.calls if t == 'teaching_records' and
+                  ('content' in p['select'].split(',') or 'legacy_content:raw->>content' in p['select'])]
+    assert body_calls and all(int(p['limit']) <= 2 for p in body_calls)
+    # The same canonical link must retain student isolation.
+    denied = client.get('/note', params={'path':rid, 'token':'fixture-b'})
+    assert denied.status_code == 404
+
+
+def test_local_snapshot_without_file_path_has_a_profile_reading_url(tmp_path):
+    from types import SimpleNamespace
+    from digital_management_service import load_cloud_digital_management_notes
+    rid = str(uuid.UUID(int=101))
+    gateway = SimpleNamespace(backend='local', load_all_teaching_records=lambda: [
+        {'id': rid, 'student_id': str(uuid.UUID(int=9999)), 'title': 'Synthetic note',
+         'raw': {'content': 'LOCAL_SNAPSHOT_BODY'}}])
+    notes = load_cloud_digital_management_notes(data_gateway=gateway, cache_container={})
+    assert parse_qs(urlsplit(notes[0]['url']).query)['path'] == [rid]
+    assert notes[0]['content'] == 'LOCAL_SNAPSHOT_BODY'
