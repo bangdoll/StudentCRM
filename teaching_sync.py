@@ -198,7 +198,7 @@ def candidate_name_from_title(title: str) -> str:
 def parse_teaching_file(path: str | Path) -> dict[str, Any] | None:
     file_path = Path(path)
     title = file_path.stem
-    if "我的工作是數位教練" in title or "eDM" in title:
+    if "我的工作是數位教練" in title or "eDM" in title or title.startswith("Pre_Class_Card"):
         return None
     is_digital_management = DIGITAL_MANAGEMENT_LABEL in title
     is_lesson_file = bool(re.match(r"Lesson[_\s-]*20\d{6}[_\s-]+", title, re.IGNORECASE))
@@ -426,7 +426,11 @@ def sync_teaching_records_to_crm(
             with open(apple_ceo_file, "r", encoding="utf-8") as f:
                 apple_ceo_data = json.load(f)
 
-            current_notes = apple_ceo_data.get("teaching_notes", [])
+            current_notes = [
+                n for n in apple_ceo_data.get("teaching_notes", [])
+                if not str(n.get("filename") or n.get("title") or "").startswith("Pre_Class_Card")
+            ]
+            apple_ceo_data["teaching_notes"] = current_notes
             existing_note_keys = {
                 (n.get("date"), n.get("filename") or n.get("title")): idx
                 for idx, n in enumerate(current_notes)

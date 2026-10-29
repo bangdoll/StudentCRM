@@ -84,7 +84,7 @@ def load_apple_ceo_teaching_notes(
     notes: list[dict] = []
     for file_path in files:
         stem = Path(file_path).stem
-        if "我的工作是數位教練" in stem or "eDM" in stem:
+        if "我的工作是數位教練" in stem or "eDM" in stem or stem.startswith("Pre_Class_Card"):
             continue
         
         # 解析日期
