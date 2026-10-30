@@ -128,17 +128,17 @@
       "陳姐 Charlotte"
     ],
     "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 78,
-    "latest_date": "2026-10-13",
-    "next_lesson": "2026-10-30",
+    "lessons_count": 79,
+    "latest_date": "2026-10-30",
+    "next_lesson": "2026-11-12",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
@@ -198,17 +198,17 @@
     "name": "Lucia 徐露華",
     "aliases": [],
     "file": "/01.Docs/Students/lucia.md",
-    "lessons_count": 42,
-    "latest_date": "2026-10-16",
-    "next_lesson": "2026-10-30",
+    "lessons_count": 43,
+    "latest_date": "2026-10-30",
+    "next_lesson": "2026-11-06",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-05-30",
-    "current_cycle_lesson": 4,
+    "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）",
+    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）",
     "cycle_size": 30
   },
   {
