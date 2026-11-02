@@ -311,17 +311,17 @@
     "name": "元偉琴",
     "aliases": [],
     "file": "/01.Docs/Students/元偉琴.md",
-    "lessons_count": 24,
-    "latest_date": "2026-09-22",
+    "lessons_count": 25,
+    "latest_date": "2026-11-02",
     "next_lesson": "2026-11-22",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-08-23",
-    "current_cycle_lesson": 8,
+    "current_cycle_lesson": 1,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 8 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
   },
   {
     "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
@@ -524,7 +524,7 @@
     "file": "/01.Docs/Students/zhang_su_xing.md",
     "lessons_count": 20,
     "latest_date": "2026-10-19",
-    "next_lesson": "2026-11-02",
+    "next_lesson": "2026-11-24",
     "tags": [
       "一般學員"
     ],
