@@ -321,7 +321,8 @@
     "current_cycle_lesson": 1,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）",
+    "public_token": "yuan-wei-qin-wWpJ0vlCNlWwLbSz3M3EQnGb"
   },
   {
     "id": "6e3b718a-3f8e-46dc-ad79-53d4ef41c74e",
