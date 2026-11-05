@@ -26,6 +26,9 @@ dev = [
     "pytest>=9.0.0",
 ]
 
+[tool.vercel]
+entrypoint = "main:app"
+
 # The server retains its legacy top-level imports (uvicorn main:app).
 # Explicit discovery prevents NativeApp, tests and runtime caches from becoming
 # accidental packages. Resource namespaces keep assets beside main.py in wheels.

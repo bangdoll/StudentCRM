@@ -74,17 +74,20 @@ async def read_root(request: Request):
     admin_user = unquote(admin_user_cookie) if admin_user_cookie else "管理員"
 
     if deps["use_fallback_pages"]("index.html"):
-        return deps["render_dashboard_fallback"](
+        response = deps["render_dashboard_fallback"](
             context["students"],
             context["apple_summary"],
             deps["student_gateway"].status(),
         )
+    else:
+        response = deps["templates"].TemplateResponse(request, "index.html", {
+            "request": request,
+            "admin_user": admin_user,
+            **context,
+        })
 
-    return deps["templates"].TemplateResponse(request, "index.html", {
-        "request": request,
-        "admin_user": admin_user,
-        **context,
-    })
+    response.headers["Cache-Control"] = "private, max-age=60, stale-while-revalidate=300"
+    return response
 
 
 

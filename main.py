@@ -297,13 +297,19 @@ def student_id_from_path(path: str) -> str:
     return _service_student_id_from_path(path, students=load_students())
 
 
-def analyze_student_features(student_id: str, use_cache: bool = True, target_student: dict | None = None) -> dict:
+def analyze_student_features(
+    student_id: str,
+    use_cache: bool = True,
+    target_student: dict | None = None,
+    student_notes: list | None = None,
+) -> dict:
     return _service_analyze_student_features(
         student_id=student_id,
         use_cache=use_cache,
         target_student=target_student,
         students=None if target_student is not None else load_students(),
         base_dir=BASE_DIR,
+        student_notes=student_notes,
     )
 
 

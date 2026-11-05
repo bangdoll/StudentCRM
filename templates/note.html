@@ -288,6 +288,10 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
         }
+        .dod-item-card:active {
+            transform: scale(0.985);
+            transition: transform 0.08s ease;
+        }
         .dod-item-card.completed {
             border-color: rgba(63, 185, 80, 0.6);
             background: rgba(63, 185, 80, 0.1);
@@ -416,6 +420,10 @@
             background: rgba(88, 166, 255, 0.08) !important;
             transform: translateY(-1px);
         }
+        .task-checkbox-label:active {
+            transform: scale(0.99) !important;
+            transition: transform 0.08s ease !important;
+        }
         .task-checkbox-label.completed {
             border-color: rgba(63, 185, 80, 0.45) !important;
             background: rgba(63, 185, 80, 0.08) !important;
@@ -528,24 +536,29 @@
 
             {% if dod_tasks %}
             <!-- 🏆 本週分級通關打卡看板 (Top DoD Action Board) -->
+            {% set dod_total_count = dod_tasks|length %}
+            {% set dod_completed_count = dod_tasks|selectattr('checked')|list|length %}
+            {% set dod_initial_pct = ((dod_completed_count * 100 / dod_total_count)|round(0)|int) if dod_total_count else 0 %}
             <div class="dod-section-wrapper" id="topDoDSection" style="margin-bottom: 32px;">
                 <div class="dod-header-row">
                     <h3 class="dod-title">
                         <span>🏆 本週分級通關打卡清單（Definition of Done）</span>
                     </h3>
-                    <span class="dod-progress-badge" id="dodTopBadge">0 / {{ dod_tasks|length }} 完成 (0%)</span>
+                    <span class="dod-progress-badge" id="dodTopBadge">{{ dod_completed_count }} / {{ dod_total_count }} 完成 ({{ dod_initial_pct }}%)</span>
                 </div>
                 <div class="dod-progress-bar-bg">
-                    <div class="dod-progress-bar-fill" id="dodTopBarFill"></div>
+                    <div class="dod-progress-bar-fill" id="dodTopBarFill" style="width: {{ dod_initial_pct }}%;"></div>
                 </div>
                 <div class="dod-items-list" id="topDoDList">
                     {% for task in dod_tasks %}
                     <div class="dod-item-card {% if '銅牌' in task.tier %}tier-bronze{% elif '銀牌' in task.tier %}tier-silver{% elif '金牌' in task.tier %}tier-gold{% endif %} {% if task.checked %}completed{% endif %}" 
-                         data-task-idx="{{ loop.index0 }}" 
+                         data-task-idx="{{ loop.index0 }}"
+                         data-task-id="{{ task.id }}"
                          role="checkbox" 
                          aria-checked="{% if task.checked %}true{% else %}false{% endif %}" 
                          tabindex="0" 
-                         onclick="toggleTopDoDCard(this)">
+                         onclick="toggleTopDoDCard(this)"
+                         onkeydown="handleTopDoDKeydown(event, this)">
                         <div class="dod-custom-checkbox"></div>
                         <div class="dod-item-body">
                             <span class="dod-tier-tag">{{ task.tier }}</span>
@@ -686,6 +699,7 @@
                 badgeEl.classList.add('all-done');
                 badgeEl.textContent = `🎉 全數通關！(${total}/${total})`;
                 if (userTriggered) {
+                    playCelebrationChime();
                     showToast();
                     fireConfetti();
                 }
@@ -694,23 +708,135 @@
             }
         }
 
+        function storageKey(card) {
+            return NOTE_KEY + '_top_' + (card.getAttribute('data-task-id') || card.getAttribute('data-task-idx'));
+        }
+
+        function legacyStorageKey(card) {
+            return NOTE_KEY + '_top_' + card.getAttribute('data-task-idx');
+        }
+
+        function readStorage(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function writeStorage(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (error) {
+                // 私密瀏覽或瀏覽器停用儲存空間時，至少保留本次頁面互動。
+            }
+        }
+
+        // 🎵 實體擬物觸覺反饋與機械開關音效 (Tangible Skeuomorphism Audio & Haptic)
+        let tactileAudioCtx = null;
+        function playTactileFeedback(isCheck) {
+            try {
+                if (navigator.vibrate) {
+                    navigator.vibrate(isCheck ? 18 : 10);
+                }
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtxClass) return;
+                if (!tactileAudioCtx) tactileAudioCtx = new AudioCtxClass();
+                if (tactileAudioCtx.state === 'suspended') {
+                    tactileAudioCtx.resume();
+                }
+                const now = tactileAudioCtx.currentTime;
+                // 1. 高頻金屬彈片喀噠聲 (Cassette / Switch mechanical click)
+                const osc = tactileAudioCtx.createOscillator();
+                const gain = tactileAudioCtx.createGain();
+                const filter = tactileAudioCtx.createBiquadFilter();
+
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(isCheck ? 2400 : 1800, now);
+                filter.Q.setValueAtTime(3, now);
+
+                osc.type = isCheck ? 'triangle' : 'sine';
+                osc.frequency.setValueAtTime(isCheck ? 1200 : 800, now);
+                osc.frequency.exponentialRampToValueAtTime(isCheck ? 200 : 150, now + 0.035);
+
+                gain.gain.setValueAtTime(0.22, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(tactileAudioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.035);
+
+                // 2. 勾選成功追加輕微實體印章低頻段落 (Tactile Latch Thump)
+                if (isCheck) {
+                    const subOsc = tactileAudioCtx.createOscillator();
+                    const subGain = tactileAudioCtx.createGain();
+                    subOsc.type = 'sine';
+                    subOsc.frequency.setValueAtTime(140, now);
+                    subOsc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
+
+                    subGain.gain.setValueAtTime(0.28, now);
+                    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+                    subOsc.connect(subGain);
+                    subGain.connect(tactileAudioCtx.destination);
+                    subOsc.start(now);
+                    subOsc.stop(now + 0.05);
+                }
+            } catch (e) {
+                // 安全降級，不干擾主流程
+            }
+        }
+
+        function playCelebrationChime() {
+            try {
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtxClass) return;
+                if (!tactileAudioCtx) tactileAudioCtx = new AudioCtxClass();
+                if (tactileAudioCtx.state === 'suspended') tactileAudioCtx.resume();
+                const now = tactileAudioCtx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                notes.forEach((freq, idx) => {
+                    const osc = tactileAudioCtx.createOscillator();
+                    const gain = tactileAudioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                    gain.gain.setValueAtTime(0.16, now + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(tactileAudioCtx.destination);
+                    osc.start(now + idx * 0.08);
+                    osc.stop(now + idx * 0.08 + 0.35);
+                });
+            } catch (e) {}
+        }
+        window.playTactileFeedback = playTactileFeedback;
+
         window.toggleTopDoDCard = function(card) {
             const isNowCompleted = !card.classList.contains('completed');
             card.classList.toggle('completed', isNowCompleted);
             card.setAttribute('aria-checked', isNowCompleted ? 'true' : 'false');
-            const idx = card.getAttribute('data-task-idx');
-            if (idx !== null) {
-                localStorage.setItem(NOTE_KEY + '_top_' + idx, isNowCompleted ? '1' : '0');
-            }
+            writeStorage(storageKey(card), isNowCompleted ? '1' : '0');
+            playTactileFeedback(isNowCompleted);
             updateTopDoDProgress(true);
+        };
+
+        window.handleTopDoDKeydown = function(event, card) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                window.toggleTopDoDCard(card);
+            }
         };
 
         // 頁面載入時自動還原頂部卡片勾選狀態
         document.addEventListener('DOMContentLoaded', function() {
             if (topList) {
                 const cards = Array.from(topList.querySelectorAll('.dod-item-card'));
-                cards.forEach((card, idx) => {
-                    const saved = localStorage.getItem(NOTE_KEY + '_top_' + idx);
+                cards.forEach((card) => {
+                    // 先讀穩定任務 ID；若是舊版使用者，回讀原本的索引鍵以保留進度。
+                    const saved = readStorage(storageKey(card)) ?? readStorage(legacyStorageKey(card));
                     if (saved !== null) {
                         const isDone = saved === '1';
                         card.classList.toggle('completed', isDone);
@@ -787,11 +913,14 @@
         window.fireDoDConfetti = fireConfetti;
     })();
 
-    // 正文直出 Checkbox 切換函數 (即時更新樣式與 LocalStorage 保存)
+    // 正文直出 Checkbox 切換函數 (即時更新樣式、觸覺音效與 LocalStorage 保存)
     window.toggleTaskCheck = function(input) {
         const label = input.closest('.task-checkbox-label');
         if (label) {
             label.classList.toggle('completed', input.checked);
+        }
+        if (window.playTactileFeedback) {
+            window.playTactileFeedback(input.checked);
         }
         const NOTE_KEY = 'task_box_' + ({{ filename | tojson }} || window.location.pathname);
         const allBoxes = Array.from(document.querySelectorAll('.interactive-task-checkbox'));
@@ -814,6 +943,7 @@
                     label.classList.toggle('completed', box.checked);
                 }
             }
+        });
         // 🛡️ 全域圖片自癒容錯：當雲端 CDN 遇到 402/404/斷網，自動無縫切換至本地高可用靜態庫
         document.addEventListener('error', function(e) {
             if (e.target && e.target.tagName === 'IMG') {

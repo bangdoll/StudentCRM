@@ -64,18 +64,26 @@ def analyze_student_features(
         if now_ts - cached_ts < _FEATURES_CACHE_TTL:
             return dict(cached_features)
 
-    if student_notes is None and callable(student_notes_loader):
-        student_notes = student_notes_loader()
-
     now_dt = now or datetime.now()
-    paths = get_student_lesson_paths(student, base_dir, student_notes, allow_local=allow_local)
+    raw_status = student.get("status", "active")
     features = {
         "days_since_last_lesson": -1,
         "average_word_count": 0,
         "lessons_reviewed": 0,
-        "status": student.get("status", "active"),
+        "status": raw_status,
     }
 
+    # 1. Align with student metadata (SSOT of latest attendance date)
+    latest_str = student.get("latest_date") or student.get("last_lesson_date")
+    if latest_str and latest_str != "未記錄":
+        try:
+            ld = datetime.strptime(latest_str, "%Y-%m-%d")
+            features["days_since_last_lesson"] = max(0, (now_dt - ld).days)
+        except ValueError:
+            pass
+
+    # 2. Check local files or pre-loaded notes for lesson paths
+    paths = get_student_lesson_paths(student, base_dir, student_notes, allow_local=allow_local)
     if paths:
         # Parse the latest lesson date
         latest_path = paths[-1]
@@ -83,7 +91,9 @@ def analyze_student_features(
         if date_str:
             try:
                 latest_date = datetime.strptime(date_str, "%Y-%m-%d")
-                features["days_since_last_lesson"] = max(0, (now_dt - latest_date).days)
+                parsed_days = max(0, (now_dt - latest_date).days)
+                if features["days_since_last_lesson"] == -1 or parsed_days < features["days_since_last_lesson"]:
+                    features["days_since_last_lesson"] = parsed_days
             except ValueError:
                 pass
         else:
@@ -91,7 +101,9 @@ def analyze_student_features(
             if m:
                 y, mo, d = map(int, m.groups())
                 latest_date = datetime(y, mo, d)
-                features["days_since_last_lesson"] = max(0, (now_dt - latest_date).days)
+                parsed_days = max(0, (now_dt - latest_date).days)
+                if features["days_since_last_lesson"] == -1 or parsed_days < features["days_since_last_lesson"]:
+                    features["days_since_last_lesson"] = parsed_days
 
         # Parse average word count from the last 3 lessons
         recent_paths = paths[-3:]
@@ -111,29 +123,56 @@ def analyze_student_features(
             features["average_word_count"] = total_words // valid_lessons
             features["lessons_reviewed"] = valid_lessons
 
-    # Align with student metadata (SSOT of latest attendance date)
-    latest_str = student.get("latest_date") or student.get("last_lesson_date")
-    if latest_str and latest_str != "未記錄":
-        try:
-            ld = datetime.strptime(latest_str, "%Y-%m-%d")
-            meta_days = max(0, (now_dt - ld).days)
-            if features["days_since_last_lesson"] == -1 or meta_days < features["days_since_last_lesson"]:
-                features["days_since_last_lesson"] = meta_days
-        except ValueError:
-            pass
+    # 3. Lazy-load notes only when word count or lesson date is actually needed for AI risk prediction
+    # (i.e. not memorial/graduated/paused, and within the 14-365 days risk evaluation window or unknown date)
+    needs_notes = (
+        raw_status not in ("memorial", "graduated", "paused")
+        and (features["days_since_last_lesson"] == -1 or (14 < features["days_since_last_lesson"] < 365))
+    )
+    if student_notes is None and callable(student_notes_loader) and needs_notes:
+        student_notes = student_notes_loader()
 
-    # Fallback word count from notes
-    if features["average_word_count"] == 0 and student_notes:
-        total_words = 0
-        valid_notes = 0
-        for n in student_notes[:3]:
-            c = n.get("content") or ""
-            if c:
-                total_words += len(c)
-                valid_notes += 1
-        if valid_notes > 0:
-            features["average_word_count"] = total_words // valid_notes
-            features["lessons_reviewed"] = valid_notes
+    # 4. Fallback date and word count from notes
+    if student_notes:
+        if features["days_since_last_lesson"] == -1:
+            note_paths = get_student_lesson_paths(student, base_dir, student_notes, allow_local=allow_local)
+            if note_paths:
+                latest_p = note_paths[-1]
+                ds = parse_date_from_title(os.path.basename(latest_p))
+                if ds:
+                    try:
+                        ld = datetime.strptime(ds, "%Y-%m-%d")
+                        features["days_since_last_lesson"] = max(0, (now_dt - ld).days)
+                    except ValueError:
+                        pass
+                else:
+                    m = re.search(r"Lesson_(\d{4})(\d{2})(\d{2})_", latest_p)
+                    if m:
+                        y, mo, d = map(int, m.groups())
+                        features["days_since_last_lesson"] = max(0, (now_dt - datetime(y, mo, d)).days)
+            if features["days_since_last_lesson"] == -1:
+                for n in student_notes:
+                    nd = n.get("date")
+                    if nd and isinstance(nd, str):
+                        try:
+                            ld = datetime.strptime(nd[:10], "%Y-%m-%d")
+                            parsed_days = max(0, (now_dt - ld).days)
+                            if features["days_since_last_lesson"] == -1 or parsed_days < features["days_since_last_lesson"]:
+                                features["days_since_last_lesson"] = parsed_days
+                        except ValueError:
+                            pass
+
+        if features["average_word_count"] == 0:
+            total_words = 0
+            valid_notes = 0
+            for n in student_notes[:3]:
+                c = n.get("content") or ""
+                if c:
+                    total_words += len(c)
+                    valid_notes += 1
+            if valid_notes > 0:
+                features["average_word_count"] = total_words // valid_notes
+                features["lessons_reviewed"] = valid_notes
 
     if student_id:
         _FEATURES_CACHE[student_id] = (now_ts, dict(features))

@@ -317,6 +317,7 @@ def analyze_student_features(
     target_student: dict | None = None,
     students: list[dict] | None = None,
     base_dir: str = "",
+    student_notes: list | None = None,
 ) -> dict:
     """Extract features from student's historical data for AI prediction."""
     effective_base = base_dir or BASE_DIR
@@ -345,6 +346,7 @@ def analyze_student_features(
     return service_analyze_student_features(
         student,
         effective_base,
+        student_notes=student_notes,
         use_cache=False if cloud else use_cache,
         allow_local=not cloud,
         student_notes_loader=notes_loader,

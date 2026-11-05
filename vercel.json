@@ -1,1 +1,31 @@
-{"$schema":"https://openapi.vercel.sh/vercel.json","git":{"deploymentEnabled":{"codex/studentcrm-paged-cloud-reads":false}}}
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "git": {
+    "deploymentEnabled": {
+      "codex/studentcrm-paged-cloud-reads": false
+    }
+  },
+  "builds": [
+    {
+      "src": "main.py",
+      "use": "@vercel/python",
+      "config": {
+        "excludeFiles": "{.git/**,.venv/**,.vercel/**,build/**,cache/**,data/backups/**,NativeApp/**,StudentCRM.app/**,chrome_profile/**,docs/**,tests/**,web-articles/**,**/*.bak,**/*.old,**/*.WIP}"
+      }
+    },
+    {
+      "src": "static/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/main.py"
+    }
+  ]
+}

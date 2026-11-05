@@ -1,5 +1,6 @@
 .DS_Store
-.git/
+.git
+.git/**
 .pytest_cache/
 .venv/
 __pycache__/
@@ -8,8 +9,13 @@ __pycache__/
 
 NativeApp/
 StudentCRM.app/
+build/
 cache/*
 !cache/digital_management_calendar_events.json
+cache/backups/
+data/backups/
+data/backups/**
+cache/backups/**
 chrome_profile/
 docs/
 tests/

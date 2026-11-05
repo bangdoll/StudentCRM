@@ -184,4 +184,63 @@ def test_analyze_student_features_skips_note_loading_on_cache_hit(monkeypatch):
     assert f1 == f2
 
 
+def test_analyze_student_features_skips_notes_loader_for_active_and_special_status(monkeypatch):
+    """驗證近期穩定學員 (<=14天) 與結訓/休學學員，完全不觸發 notes loader 網路請求。"""
+    import student_timeline_service
+    from prediction_service import clear_features_cache
+    from datetime import datetime
+
+    clear_features_cache()
+    notes_call_count = {"count": 0}
+
+    def fake_get_notes(student, base_dir=""):
+        notes_call_count["count"] += 1
+        return []
+
+    monkeypatch.setattr(student_timeline_service, "get_student_teaching_notes", fake_get_notes)
+
+    # 1. 最近上課在 3 天前的穩定學員
+    today_str = datetime.now().strftime("%Y-%m-%d")
+    active_student = {"id": "test-active-1", "name": "穩定學員", "latest_date": today_str, "status": "active"}
+    f_active = student_timeline_service.analyze_student_features(
+        student_id="test-active-1",
+        use_cache=False,
+        target_student=active_student,
+    )
+    assert notes_call_count["count"] == 0
+    assert f_active["days_since_last_lesson"] == 0
+
+    # 2. 結訓學員
+    grad_student = {"id": "test-grad-1", "name": "結訓學員", "latest_date": "2025-01-01", "status": "graduated"}
+    f_grad = student_timeline_service.analyze_student_features(
+        student_id="test-grad-1",
+        use_cache=False,
+        target_student=grad_student,
+    )
+    assert notes_call_count["count"] == 0
+
+    # 3. 休學學員
+    paused_student = {"id": "test-pause-1", "name": "休學學員", "latest_date": "2025-01-01", "status": "paused"}
+    f_pause = student_timeline_service.analyze_student_features(
+        student_id="test-pause-1",
+        use_cache=False,
+        target_student=paused_student,
+    )
+    assert notes_call_count["count"] == 0
+
+
+def test_home_page_cache_control_headers():
+    """驗證首頁行動看板具備 HTTP 快取標頭以實現秒開體驗。"""
+    from fastapi.testclient import TestClient
+    from main import app
+    client = TestClient(app)
+    resp = client.get("/?key=tsai-8f92b7c4-a13e-49b8-9e51-68d1a4c9520b")
+    assert resp.status_code == 200
+    cache_control = resp.headers.get("Cache-Control", "")
+    assert "private" in cache_control
+    assert "max-age=" in cache_control
+    assert "stale-while-revalidate=" in cache_control
+
+
+
 

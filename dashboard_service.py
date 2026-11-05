@@ -38,6 +38,9 @@ _HOME_CACHE: dict[str, Any] = {
     "payload": None,
 }
 
+_DASHBOARD_CACHE_TTL = 300.0  # 5 分鐘快取
+_HOME_CACHE_TTL = 300.0       # 5 分鐘快取
+
 
 def clear_dashboard_cache() -> None:
     """清空儀表板與首頁聚合資料快取。"""
@@ -51,12 +54,16 @@ def _call_features_analyzer(
     features_analyzer: Callable[..., dict[str, Any]],
     student_id: str,
     student: dict[str, Any],
+    student_notes: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """優先傳入 target_student 避免 N+1 重複查詢，並向下相容單參數測試替身。"""
+    """優先傳入 target_student 與預載筆記避免 N+1 重複查詢，並向下相容單參數測試替身。"""
     try:
-        return features_analyzer(student_id, target_student=student)
+        return features_analyzer(student_id, target_student=student, student_notes=student_notes)
     except TypeError:
-        return features_analyzer(student_id)
+        try:
+            return features_analyzer(student_id, target_student=student)
+        except TypeError:
+            return features_analyzer(student_id)
 
 
 
@@ -78,11 +85,12 @@ def build_dashboard_context(
     features_analyzer: Callable[[str], dict[str, Any]] | None = None,
     status_predictor: Callable[[dict[str, Any], str | None], Any] | None = None,
     base_dir: str = "",
+    data_gateway: Any | None = None,
 ) -> dict[str, Any]:
     """【單一法定入口】建構教練儀表板所需之完整視圖上下文。"""
     now_ts = time.time()
-    # 支援短效記憶體快取（15 秒）
-    if _DASHBOARD_CACHE["payload"] is not None and (now_ts - _DASHBOARD_CACHE["timestamp"] < 15.0):
+    # 支援短效記憶體快取（5 分鐘）
+    if _DASHBOARD_CACHE["payload"] is not None and (now_ts - _DASHBOARD_CACHE["timestamp"] < _DASHBOARD_CACHE_TTL):
         return copy.deepcopy(_DASHBOARD_CACHE["payload"])
 
     # 依賴解析與懶載入
@@ -106,15 +114,51 @@ def build_dashboard_context(
     if not base_dir:
         import main
         base_dir = getattr(main, "BASE_DIR", "")
+    if data_gateway is None:
+        import main
+        data_gateway = getattr(main, "student_gateway", None)
 
     raw_students = students_loader()
     # 深拷貝避免就地修改外部快取
     students = copy.deepcopy(raw_students) if isinstance(raw_students, list) else []
 
+    # 批次預載高流失風險學員最近紀錄，消除 N+1 查詢
+    notes_by_student: dict[str, list[dict[str, Any]]] = {}
+    if data_gateway is not None and getattr(data_gateway, "backend", "") == "supabase":
+        today_date = datetime.now().date()
+        needed_sids = []
+        for s in students:
+            st = s.get("status")
+            if st in ("memorial", "graduated", "paused"):
+                continue
+            ld_str = s.get("latest_date") or s.get("last_lesson_date")
+            if ld_str and ld_str != "未記錄":
+                try:
+                    ld = datetime.strptime(ld_str, "%Y-%m-%d").date()
+                    days = (today_date - ld).days
+                    if 14 < days < 365:
+                        needed_sids.append(s["id"])
+                except Exception:
+                    pass
+        if needed_sids:
+            try:
+                batched_records = data_gateway.load_radar_teaching_records(needed_sids)
+                for rec in batched_records:
+                    sid = rec.get("student_id")
+                    if sid:
+                        notes_by_student.setdefault(sid, []).append(rec)
+            except Exception as e:
+                logger.warning(f"儀表板批次預載教學紀錄異常: {e}")
+
     for student in students:
         student_file = os.path.join(base_dir, student.get("file", "").lstrip("/"))
         student["meta"] = metadata_loader(student_file)
-        student["features"] = _call_features_analyzer(features_analyzer, student.get("id", ""), student)
+        student["features"] = _call_features_analyzer(
+            features_analyzer,
+            student.get("id", ""),
+            student,
+            notes_by_student.get(student.get("id", "")),
+        )
         student["prediction"] = status_predictor(student["features"], student.get("next_lesson"))
 
     apple_program = apple_program_loader()
@@ -185,7 +229,7 @@ def build_home_context(
 ) -> dict[str, Any]:
     """【單一法定入口】建構教練首頁行動看板 (index.html) 所需之完整視圖上下文。"""
     now_ts = time.time()
-    if _HOME_CACHE["payload"] is not None and (now_ts - _HOME_CACHE["timestamp"] < 15.0):
+    if _HOME_CACHE["payload"] is not None and (now_ts - _HOME_CACHE["timestamp"] < _HOME_CACHE_TTL):
         return copy.deepcopy(_HOME_CACHE["payload"])
 
     if students_loader is None:
@@ -215,6 +259,34 @@ def build_home_context(
     raw_students = students_loader()
     students = copy.deepcopy(raw_students) if isinstance(raw_students, list) else []
 
+    # 批次預載高流失風險學員最近紀錄，消除 96 次 N+1 網路查詢
+    notes_by_student: dict[str, list[dict[str, Any]]] = {}
+    if data_gateway is not None and getattr(data_gateway, "backend", "") == "supabase":
+        today_date = datetime.now().date()
+        needed_sids = []
+        for s in students:
+            st = s.get("status")
+            if st in ("memorial", "graduated", "paused"):
+                continue
+            ld_str = s.get("latest_date") or s.get("last_lesson_date")
+            if ld_str and ld_str != "未記錄":
+                try:
+                    ld = datetime.strptime(ld_str, "%Y-%m-%d").date()
+                    days = (today_date - ld).days
+                    if 14 < days < 365:
+                        needed_sids.append(s["id"])
+                except Exception:
+                    pass
+        if needed_sids:
+            try:
+                batched_records = data_gateway.load_radar_teaching_records(needed_sids)
+                for rec in batched_records:
+                    sid = rec.get("student_id")
+                    if sid:
+                        notes_by_student.setdefault(sid, []).append(rec)
+            except Exception as e:
+                logger.warning(f"首頁批次預載教學紀錄異常: {e}")
+
     for s in students:
         if "recurring_schedule" in s and not s.get("next_lesson"):
             student_file = os.path.join(base_dir, s["file"].lstrip("/")) if s.get("file") else ""
@@ -234,7 +306,12 @@ def build_home_context(
         if not s["meta"].get("lessons_count") or s["meta"]["lessons_count"] == 0:
             s["meta"]["lessons_count"] = s.get("lessons_count") or 0
 
-        s["features"] = _call_features_analyzer(features_analyzer, s.get("id", ""), s)
+        s["features"] = _call_features_analyzer(
+            features_analyzer,
+            s.get("id", ""),
+            s,
+            notes_by_student.get(s.get("id", "")),
+        )
         s["prediction"] = status_predictor(s["features"], s.get("next_lesson"))
 
     sorted_students = sorted(students, key=get_next_lesson_sort_key)
