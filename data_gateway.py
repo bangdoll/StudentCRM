@@ -39,7 +39,7 @@ CLOUD_DISK_CACHE_TTL_SECONDS = _env_float("STUDENTCRM_CLOUD_CACHE_TTL_SECONDS", 
 # 🛡️ 流量防護深模組：只查 teaching_records schema 的索引欄位，排除 raw（完整正文）以降低 Egress。
 TEACHING_RECORDS_SUMMARY_COLUMNS = "id,student_id,student_name,title,date,lesson_num,lesson_sub,created,edited"
 TEACHING_RECORD_DETAIL_COLUMNS = "id,student_id,student_name,title,date,lesson_num,lesson_sub,created,edited,raw"
-STUDENT_SUMMARY_COLUMNS = "id,name,aliases,file,lessons_count,latest_date,next_lesson,tags,recurring_schedule,schedule_exceptions"
+STUDENT_SUMMARY_COLUMNS = "id,name,aliases,file,lessons_count,latest_date,next_lesson,tags,recurring_schedule,schedule_exceptions,raw"
 APPLE_PROGRAM_COLUMNS = "id,name,url,description,schedule,capacity,round_size,price_per_student,validity_rule,leave_rule,join_rule"
 APPLE_VENUE_COLUMNS = "id,program_id,name,address,parking,metro,cost_per_person"
 APPLE_ATTENDANCE_COLUMNS = "id,program_id,date,venue,attendee_count,attendees,note"
