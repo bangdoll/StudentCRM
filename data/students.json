@@ -719,17 +719,17 @@
       "查米 315"
     ],
     "file": "/01.Docs/Students/Chami.md",
-    "lessons_count": 46,
-    "latest_date": "2026-10-22",
-    "next_lesson": "2026-11-05",
+    "lessons_count": 47,
+    "latest_date": "2026-11-05",
+    "next_lesson": "2026-11-19",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2019-03-10",
-    "current_cycle_lesson": 6,
+    "current_cycle_lesson": 7,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
   },
   {
     "id": "36e24a4e-b1b0-4c03-9a6f-dd5d3f52cd95",
@@ -1008,18 +1008,18 @@
       "蘋果總裁班"
     ],
     "file": "/01.Docs/Students/Apple_CEO_Class.md",
-    "lessons_count": 1370,
-    "latest_date": "2026-10-29",
+    "lessons_count": 1371,
+    "latest_date": "2026-11-05",
     "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-01-04",
     "recurring_schedule": "weekly:3:14:00",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
   },
   {
     "id": "12f8adbd-fee0-474d-af3e-fbcf3bddf8fd",
