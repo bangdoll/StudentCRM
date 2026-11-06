@@ -497,7 +497,7 @@ def sync_teaching_records_to_crm(
 
         if max_lesson is not None and max_lesson >= s.get("lessons_count", 0):
             s["lessons_count"] = max_lesson
-            cycle_size = s.get("cycle_size", 8)
+            cycle_size = s.get("cycle_size") or 8
             
             # 若最新一堂課有明確的 lesson_sub (例如 23-8 中的 8)，優先以該輪堂數為準
             latest_sub = None
@@ -519,7 +519,11 @@ def sync_teaching_records_to_crm(
                 s["completion_note"] = f"課程已上完（滿 {cycle_size} 堂結訓）"
             else:
                 s["completion_status"] = "has_remaining"
-                s["completion_note"] = f"尚有剩餘課程未上完（目前已上 {s.get('current_cycle_lesson')} 堂）"
+                if cycle_size != 8:
+                    rem = cycle_size - s.get("current_cycle_lesson", 0)
+                    s["completion_note"] = f"{cycle_size} 堂課專案進行中（目前已上 {s.get('current_cycle_lesson')} 堂，剩餘 {rem} 堂）"
+                else:
+                    s["completion_note"] = f"尚有剩餘課程未上完（目前已上 {s.get('current_cycle_lesson')} 堂）"
             changed = True
 
         if changed:

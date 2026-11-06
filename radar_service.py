@@ -145,9 +145,11 @@ def evaluate_retention_signal(
     days_since_last: int,
     task_stale: bool,
     cycle_lesson: int,
+    cycle_size: int = 8,
 ) -> tuple[str, str, str]:
     """評估學員留存與續約訊號代碼、文字與前端徽章樣式。"""
-    if cycle_lesson >= 7:
+    threshold = 7 if cycle_size == 8 else max(cycle_size - 1, 1)
+    if cycle_lesson >= threshold:
         return "upgrade_ready", "待續約 / 升級評估 🚀", "badge-primary"
     if days_since_last > 30:
         return "at_risk", "高流失風險 🔴", "badge-danger"
@@ -266,9 +268,10 @@ def build_full_effectiveness_radar(
         sid = s.get("id") or ""
         name = s.get("name") or "未命名學員"
         cnt = s.get("lessons_count", 0)
+        cycle_sz = s.get("cycle_size") or 8
         cycle = s.get("current_cycle_lesson")
         if cycle is None:
-            cycle = ((cnt % 8) or 8) if cnt > 0 else 1
+            cycle = ((cnt % cycle_sz) or cycle_sz) if cnt > 0 else 1
 
         latest_d = s.get("latest_date") or s.get("last_lesson_date") or ""
         days_since = calculate_days_since(latest_d, ref_date=ref_date)
@@ -311,6 +314,7 @@ def build_full_effectiveness_radar(
             days_since_last=days_since,
             task_stale=task_is_stale,
             cycle_lesson=cycle,
+            cycle_size=cycle_sz,
         )
 
         # 累加指標

@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import markdown
 
+from apple_ceo_service import normalize_apple_ceo_notes
 from media_asset_resolver import get_media_resolver
 
 
@@ -35,6 +36,9 @@ class NoteDetail:
     next_label: str
     word_count: int
     read_minutes: int
+    image_count: int = 0
+    missing_images: list[str] = field(default_factory=list)
+    image_status: str = "none"
     micro_cards: dict = field(default_factory=dict)
     dod_tasks: list[dict] = field(default_factory=list)
 
@@ -56,6 +60,9 @@ class NoteDetail:
             "next_label": self.next_label,
             "word_count": self.word_count,
             "read_minutes": self.read_minutes,
+            "image_count": self.image_count,
+            "missing_images": self.missing_images,
+            "image_status": self.image_status,
             "micro_cards": self.micro_cards,
             "dod_tasks": self.dod_tasks,
         }
@@ -473,6 +480,35 @@ def get_note_quality(path: str, content: str = "") -> tuple[str, str, str]:
         return "📄", "badge-placeholder", "佔位文件"
 
 
+def inspect_note_media(content: str, html_content: str, base_dir: str) -> tuple[int, list[str], str]:
+    """檢查筆記圖片引用是否有可用的本地備援資產。
+
+    這裡只檢查本地可讀檔案，不把「已成功轉成 URL」誤報成「圖片已可用」。
+    雲端資料若缺少本地備份，會明確顯示待補資產，交給前端 fallback 或同步流程處理。
+    """
+    resolver = get_media_resolver()
+    references = resolver.extract_image_references(content)
+    app_dir = Path(__file__).resolve().parent
+    candidate_roots = [
+        Path(base_dir) / "01.Docs" / "teaching" / "assets",
+        Path(base_dir) / "07.Projects" / "StudentCRM" / "static" / "teaching_assets",
+        app_dir / "static" / "teaching_assets",
+    ]
+    missing = [
+        name
+        for name in references
+        if not any((root / name).is_file() and (root / name).stat().st_size > 0 for root in candidate_roots)
+    ]
+    image_count = len(re.findall(r"<img\b", html_content or "", flags=re.IGNORECASE))
+    if image_count == 0:
+        status = "none"
+    elif missing:
+        status = "warning"
+    else:
+        status = "ok"
+    return image_count, missing, status
+
+
 def get_architect_insight(path: str, content: str = "") -> dict:
     """分析筆記之思維層級（架構思維 vs 工具思維）與結構診斷摘要。"""
     if not content:
@@ -540,14 +576,16 @@ def resolve_note_detail(
     sid = ""
     student_name = ""
 
-    apple_notes = apple_notes or []
+    apple_notes = normalize_apple_ceo_notes(apple_notes)
     cloud_records = cloud_records or []
     students = students or []
 
     # 1. 比對「蘋果總裁班」教學筆記 (82 篇)
     apple_match = next((
         n for n in apple_notes
-        if n.get("path") == path_or_filename
+        if n.get("url_key") == path_or_filename
+        or n.get("id") == path_or_filename
+        or n.get("path") == path_or_filename
         or n.get("filename") == filename
         or os.path.basename(n.get("path", "")) == filename
         or (path_or_filename and path_or_filename.endswith(n.get("filename", "---")))
@@ -649,21 +687,24 @@ def resolve_note_detail(
     if is_apple_ceo and apple_notes:
         # 依日期由舊到新排序，確保 idx - 1 恆為上一篇（歷史課堂），idx + 1 恆為下一篇（後續課堂）
         sorted_notes = sorted(apple_notes, key=lambda x: x.get("date", ""))
-        note_filenames = [n.get("filename") for n in sorted_notes]
-        if filename in note_filenames:
-            idx = note_filenames.index(filename)
-            if idx > 0:
-                prev_path = sorted_notes[idx - 1].get("path")
-                prev_label = sorted_notes[idx - 1].get("date") or "上一篇"
-            if idx < len(sorted_notes) - 1:
-                next_path = sorted_notes[idx + 1].get("path")
-                next_label = sorted_notes[idx + 1].get("date") or "下一篇"
+        idx = next((i for i, item in enumerate(sorted_notes) if item is apple_match), None)
+        if idx is not None:
+            # 新式 UUID 入口使用 UUID 導航；舊中文路徑仍保留相容性，避免歷史連結失效。
+            use_public_key = path_or_filename == apple_match.get("url_key")
+            previous = sorted_notes[idx - 1] if idx > 0 else None
+            following = sorted_notes[idx + 1] if idx < len(sorted_notes) - 1 else None
+            if previous:
+                prev_path = previous.get("url_key") if use_public_key else previous.get("path")
+                prev_label = previous.get("date") or "上一篇"
+            if following:
+                next_path = following.get("url_key") if use_public_key else following.get("path")
+                next_label = following.get("date") or "下一篇"
     elif record_match:
         # 如果是同一個學員的課堂紀錄，依日期排序串接上一堂與下一堂
         same_student_records = [r for r in cloud_records if r.get("student_id") == sid or (student_name and r.get("student_name") == student_name)]
         if same_student_records:
             same_student_records.sort(key=lambda x: (x.get("date") is not None, str(x.get("date") or ""), str(x.get("id") or "")))
-            paths = [r.get("path") or r.get("filename") or r.get("id") for r in same_student_records]
+            paths = [r.get("id") or r.get("path") or r.get("filename") for r in same_student_records]
             identities = [r.get("id") or path for r, path in zip(same_student_records, paths)]
             cur_key = record_match.get("id") or record_match.get("path") or record_match.get("filename")
             if cur_key in identities:
@@ -681,6 +722,7 @@ def resolve_note_detail(
     html_content = markdown.markdown(clean_content, extensions=["tables", "fenced_code", "nl2br"])
     html_content = enhance_task_checkboxes(html_content)
     html_content = get_media_resolver().inject_lazy_loading(html_content)
+    image_count, missing_images, image_status = inspect_note_media(clean_content, html_content, base_dir)
     word_count = len(content)
     read_minutes = max(1, round(word_count / 500))
     micro_cards = extract_micro_action_cards(clean_content, note_title)
@@ -724,6 +766,9 @@ def resolve_note_detail(
         next_label=next_label,
         word_count=word_count,
         read_minutes=read_minutes,
+        image_count=image_count,
+        missing_images=missing_images,
+        image_status=image_status,
         micro_cards=micro_cards,
         dod_tasks=dod_tasks,
     )

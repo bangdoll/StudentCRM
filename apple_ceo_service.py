@@ -2,12 +2,57 @@ from __future__ import annotations
 
 import calendar
 import glob
+import hashlib
 import json
 import os
 import re
 from datetime import date, datetime
 from pathlib import Path
 from typing import Any
+from uuid import NAMESPACE_URL, UUID, uuid5
+
+
+APPLE_CEO_ACCESS_TOKEN = "adf9958b-a23d-4e9b-a4a2-156b5329b0ed"
+
+
+def extract_apple_note_id(note: dict[str, Any]) -> str:
+    """取得課堂筆記的穩定 ASCII 識別碼，避免將中文檔名暴露在網址中。"""
+    explicit_id = str(note.get("id") or "").strip()
+    try:
+        return str(UUID(explicit_id))
+    except (ValueError, AttributeError):
+        pass
+
+    content = str(note.get("content") or "")
+    frontmatter_match = re.search(
+        r"(?m)^id:\s*[\"']?([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})[\"']?\s*$",
+        content,
+    )
+    if frontmatter_match:
+        return str(UUID(frontmatter_match.group(1)))
+
+    identity_source = (
+        note.get("path")
+        or note.get("filename")
+        or note.get("full_title")
+        or note.get("title")
+        or "apple-ceo-note"
+    )
+    return str(uuid5(NAMESPACE_URL, f"studentcrm:apple-ceo-note:{identity_source}"))
+
+
+def normalize_apple_ceo_notes(notes: list[dict] | None) -> list[dict]:
+    """補齊總裁班筆記的 ASCII URL key；不改寫原始資料或中文顯示名稱。"""
+    normalized: list[dict] = []
+    for note in notes or []:
+        if not isinstance(note, dict):
+            continue
+        item = dict(note)
+        note_id = extract_apple_note_id(item)
+        item["id"] = note_id
+        item["url_key"] = note_id
+        normalized.append(item)
+    return normalized
 
 
 def add_months(base_date: date, months: int) -> date:
@@ -26,6 +71,48 @@ def extract_session_date(value: str) -> str:
 
 def normalize_attendee_name(value: str) -> str:
     return re.sub(r"\s+", "", value or "").strip()
+
+
+def _normalize_attendees(attendees: list[str]) -> tuple[list[str], list[str]]:
+    """正規化並去除同一堂課重複輸入的學員姓名。"""
+    normalized: list[str] = []
+    duplicates: list[str] = []
+    seen: set[str] = set()
+    for raw_name in attendees or []:
+        name = str(raw_name or "").strip()
+        if not name:
+            continue
+        key = normalize_attendee_name(name)
+        if key in seen:
+            duplicates.append(name)
+            continue
+        seen.add(key)
+        normalized.append(name)
+    return normalized, duplicates
+
+
+def attendance_preview_fingerprint(
+    program_data: dict,
+    date: str,
+    venue: str,
+    attendees: list[str],
+    note: str = "",
+) -> str:
+    """產生與目前資料狀態綁定的預覽指紋，防止確認時套用過期差異。"""
+    normalized_attendees, _ = _normalize_attendees(attendees)
+    state = {
+        "attendance_records": program_data.get("attendance_records", []),
+        "venue_ledger": program_data.get("venue_ledger", []),
+        "student_rounds": program_data.get("student_rounds", []),
+        "request": {
+            "date": date,
+            "venue": venue,
+            "attendees": normalized_attendees,
+            "note": note,
+        },
+    }
+    encoded = json.dumps(state, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
 
 
 CANONICAL_APPLE_STUDENT_ORDER: list[str] = [
@@ -151,15 +238,22 @@ def preview_apple_ceo_attendance(
     note: str = "",
 ) -> dict:
     """預覽單次點名對學員梯次與剩餘堂數的影響（純運算，不修改原始資料）。"""
-    normalized_attendees = [name.strip() for name in attendees if name and name.strip()]
+    normalized_attendees, duplicate_attendees = _normalize_attendees(attendees)
     student_rounds = program_data.get("student_rounds", [])
     name_to_group = {
         normalize_attendee_name(group.get("student_name", "")): group
         for group in student_rounds
     }
 
-    warnings = []
+    warnings = [f"同一堂課重複輸入，已合併：{name}" for name in duplicate_attendees]
     affected_rounds = []
+
+    existing_records = [
+        record for record in program_data.get("attendance_records", [])
+        if extract_session_date(record.get("date", "")) == date
+    ]
+    if existing_records:
+        warnings.append(f"{date} 已有上課紀錄，請改用補單或修正流程，避免重複記帳。")
 
     for attendee in normalized_attendees:
         normalized_attendee = normalize_attendee_name(attendee)
@@ -250,6 +344,7 @@ def preview_apple_ceo_attendance(
         })
 
     proposed_record = {
+        "id": f"apple-ceo-attendance-{date}",
         "date": date,
         "venue": venue,
         "attendee_count": len(normalized_attendees),
@@ -257,15 +352,120 @@ def preview_apple_ceo_attendance(
         "note": note,
     }
 
+    venue_config = program_data.get("venue", {}) if isinstance(program_data.get("venue", {}), dict) else {}
+    primary_venue = venue_config.get("name") or "玫瑰客廳"
+    cost_per_person = int(venue_config.get("cost_per_person") or 150)
+    primary_venue_match = normalize_attendee_name(venue) == normalize_attendee_name(primary_venue)
+    latest_ledger = (program_data.get("venue_ledger") or [{}])[-1]
+    balance_before = int(latest_ledger.get("balance_after") or 0)
+    venue_amount = -(cost_per_person * len(normalized_attendees)) if primary_venue_match else 0
+    venue_fee = {
+        "venue": venue,
+        "primary_venue": primary_venue,
+        "charged_to_primary_balance": primary_venue_match,
+        "cost_per_person": cost_per_person,
+        "headcount": len(normalized_attendees),
+        "amount": venue_amount,
+        "balance_before": balance_before,
+        "balance_after": balance_before + venue_amount,
+        "type": "支出" if primary_venue_match else "另付",
+    }
+    preview_token = attendance_preview_fingerprint(program_data, date, venue, normalized_attendees, note)
+
     return {
         "proposed_record": proposed_record,
         "affected_rounds": affected_rounds,
         "warnings": warnings,
+        "venue_fee": venue_fee,
+        "preview_token": preview_token,
         "summary": {
             "attendee_count": len(normalized_attendees),
             "matched_count": len(affected_rounds),
             "warning_count": len(warnings),
+            "duplicate_count": len(existing_records),
         },
+    }
+
+
+def apply_apple_ceo_attendance(
+    program_data: dict,
+    date: str,
+    venue: str,
+    attendees: list[str],
+    note: str = "",
+    preview_token: str = "",
+) -> dict:
+    """套用單堂出席與場地費，並回傳可讀的寫入收據；不接受過期或有警告的預覽。"""
+    preview = preview_apple_ceo_attendance(program_data, date, venue, attendees, note)
+    if preview_token and preview_token != preview["preview_token"]:
+        raise ValueError("預覽已過期，請重新產生最新差異後再確認寫入。")
+
+    normalized_attendees = preview["proposed_record"]["attendees"]
+    existing_records = [
+        record for record in program_data.get("attendance_records", [])
+        if extract_session_date(record.get("date", "")) == date
+    ]
+    if existing_records:
+        existing = existing_records[0]
+        same_attendance = (
+            existing.get("venue") == venue
+            and [normalize_attendee_name(name) for name in existing.get("attendees", [])]
+            == [normalize_attendee_name(name) for name in normalized_attendees]
+        )
+        if same_attendance:
+            return {
+                "status": "idempotent",
+                "message": "同一堂課已存在相同紀錄，未重複寫入。",
+                "attendance_record": existing,
+                "venue_ledger": next(
+                    (item for item in program_data.get("venue_ledger", []) if item.get("date") == date),
+                    None,
+                ),
+                "preview": preview,
+            }
+        raise ValueError(f"{date} 已有不同出席紀錄，為避免覆蓋既有資料，請走人工修正流程。")
+
+    if preview["warnings"]:
+        raise ValueError("；".join(preview["warnings"]))
+
+    primary_venue = preview["venue_fee"]["primary_venue"]
+    record_note = note or f"{date} 蘋果總裁班"
+    attendance_record = {
+        **preview["proposed_record"],
+        "note": record_note,
+    }
+    program_data.setdefault("attendance_records", []).append(attendance_record)
+    program_data["attendance_records"].sort(key=lambda item: item.get("date", ""))
+
+    fee = preview["venue_fee"]
+    if fee["charged_to_primary_balance"]:
+        ledger_note = f"{primary_venue} {fee['cost_per_person']}*{fee['headcount']}"
+        ledger_amount = fee["amount"]
+    else:
+        ledger_note = f"{venue}場地費另付，不扣抵{primary_venue}儲值"
+        ledger_amount = 0
+    if note:
+        ledger_note = f"{ledger_note}；{note}"
+    venue_ledger = {
+        "id": f"apple-ceo-ledger-{date}-expense-{abs(ledger_amount)}",
+        "date": date,
+        "type": fee["type"],
+        "amount": ledger_amount,
+        "payer": "",
+        "headcount": fee["headcount"],
+        "note": ledger_note,
+        "balance_after": fee["balance_after"],
+    }
+    program_data.setdefault("venue_ledger", []).append(venue_ledger)
+    program_data["venue_ledger"].sort(key=lambda item: item.get("date", ""))
+
+    sync_attendance_to_student_rounds(program_data)
+    return {
+        "status": "applied",
+        "message": "出席、場地費與學員堂數已完成寫入。",
+        "attendance_record": attendance_record,
+        "venue_ledger": venue_ledger,
+        "preview": preview,
     }
 
 
@@ -620,6 +820,8 @@ def build_apple_ceo_view_context(
             if alias:
                 name_to_student[alias] = s
 
+    teaching_notes = normalize_apple_ceo_notes(program_data.get("teaching_notes", []))
+
     return {
         "program": program_data.get("program", {}),
         "venue": program_data.get("venue", {}),
@@ -628,11 +830,13 @@ def build_apple_ceo_view_context(
         "venue_ledger": program_data.get("venue_ledger", []),
         "student_rounds": program_data.get("student_rounds", []),
         "tuition_records": program_data.get("tuition_records", []),
-        "teaching_notes": program_data.get("teaching_notes", []),
+        "teaching_notes": teaching_notes,
         "summary": effective_summary,
         "legacy_note": program_data.get("legacy_note", ""),
         "name_to_student": name_to_student,
         "token": token,
+        # 課堂筆記屬於班級空間，不能沿用可能來自其他學員頁面的 token。
+        "apple_note_token": APPLE_CEO_ACCESS_TOKEN,
         "is_student_view": is_student_view,
     }
 

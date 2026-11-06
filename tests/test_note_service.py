@@ -44,6 +44,49 @@ class TestNoteServiceUtils:
 
 
 class TestNoteDetailResolver:
+    def test_resolve_apple_ceo_note_by_ascii_id_and_navigate_by_ascii_ids(self):
+        previous_id = "11111111-1111-4111-8111-111111111111"
+        current_id = "22222222-2222-4222-8222-222222222222"
+        following_id = "33333333-3333-4333-8333-333333333333"
+        apple_notes = [
+            {
+                "date": "2026-11-05",
+                "title": "1371.蘋果總裁班",
+                "filename": "20261105 1371.蘋果總裁班.md",
+                "path": "/01.Docs/teaching/20261105 1371.蘋果總裁班.md",
+                "content": f"---\nid: {current_id}\n---\n# 1371.蘋果總裁班\n最新課堂內容",
+            },
+            {
+                "date": "2026-10-29",
+                "title": "1370.蘋果總裁班",
+                "filename": "20261029 1370.蘋果總裁班.md",
+                "path": "/01.Docs/teaching/20261029 1370.蘋果總裁班.md",
+                "id": previous_id,
+                "content": "# 1370.蘋果總裁班\n上一篇",
+            },
+            {
+                "date": "2026-11-12",
+                "title": "1372.蘋果總裁班",
+                "filename": "20261112 1372.蘋果總裁班.md",
+                "path": "/01.Docs/teaching/20261112 1372.蘋果總裁班.md",
+                "id": following_id,
+                "content": "# 1372.蘋果總裁班\n下一篇",
+            },
+        ]
+
+        note = resolve_note_detail(
+            path_or_filename=current_id,
+            base_dir="/tmp/test",
+            apple_notes=apple_notes,
+            cloud_records=[],
+        )
+
+        assert note is not None
+        assert note.note_title == "1371.蘋果總裁班"
+        assert note.prev_path == previous_id
+        assert note.next_path == following_id
+        assert all(ord(char) < 128 for char in note.prev_path + note.next_path)
+
     def test_resolve_apple_ceo_note(self):
         apple_notes = [
             {
@@ -132,6 +175,20 @@ class TestNoteDetailResolver:
         image_html = "/static/teaching_assets/chen-consultant-14.png"
         assert image_html in note.content_html
         assert note.content_html.index(image_html) < note.content_html.index("正文內容")
+
+    def test_resolve_note_reports_image_integrity(self, tmp_path):
+        assets = tmp_path / "01.Docs" / "teaching" / "assets"
+        assets.mkdir(parents=True)
+        (assets / "lesson.png").write_bytes(b"png-bytes")
+        note_path = tmp_path / "01.Docs" / "teaching" / "lesson.md"
+        note_path.write_text("---\nid: note-image\n---\n\n![課堂圖](assets/lesson.png)\n", encoding="utf-8")
+
+        note = resolve_note_detail(str(note_path), base_dir=str(tmp_path))
+
+        assert note is not None
+        assert note.image_count == 1
+        assert note.missing_images == []
+        assert note.image_status == "ok"
 
     def test_resolve_non_existent_note_returns_none(self):
         note = resolve_note_detail(

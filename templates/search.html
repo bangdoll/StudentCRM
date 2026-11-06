@@ -118,7 +118,7 @@
                     <span class="result-student">{{ r.student_name }}</span>
                     {% endif %}
                 </div>
-                <a href="/note?path={{ r.path|urlencode }}" class="result-title">{{ r.title }}</a>
+                <a href="/note?path={{ (r.id or r.path)|urlencode }}" class="result-title">{{ r.title }}</a>
                 {% if r.preview %}
                 <div class="result-preview">{{ r.preview }}</div>
                 {% endif %}

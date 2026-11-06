@@ -148,7 +148,7 @@ def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
         return ""
 
     total_lessons = student.get("lessons_count", 0)
-    cycle_size = student.get("cycle_size", 8)
+    cycle_size = student.get("cycle_size") or 8
     cycle_lesson = student.get("current_cycle_lesson")
     if cycle_lesson is None:
         cycle_lesson = (total_lessons % cycle_size) or (cycle_size if total_lessons > 0 else 0)
@@ -191,7 +191,7 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
             continue
 
         # 優先以 Google 日曆標題精準解析之當期堂數為主，未登錄時 fallback 至 cnt % cycle_size
-        cycle_size = s.get("cycle_size", 8)
+        cycle_size = s.get("cycle_size") or 8
         cycle_lesson = s.get("current_cycle_lesson")
         if cycle_lesson is None:
             cycle_lesson = (cnt % cycle_size) or (cycle_size if cnt > 0 else 0)
@@ -241,8 +241,9 @@ def generate_preclass_briefing(student: dict[str, Any], teaching_notes: list[dic
     name = student.get("name", "學員")
     cnt = student.get("lessons_count", 0)
     cycle = student.get("current_cycle_lesson")
+    cycle_sz = student.get("cycle_size") or 8
     if cycle is None:
-        cycle = ((cnt % 8) or 8) if cnt > 0 else 1
+        cycle = ((cnt % cycle_sz) or cycle_sz) if cnt > 0 else 1
 
     # 1. 技能庫詞典
     SKILL_KEYWORDS = [

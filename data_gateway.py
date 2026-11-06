@@ -570,6 +570,141 @@ class StudentDataGateway(TeachingReads):
             raise DataGatewayError("Supabase 回傳格式不是列表")
         return data
 
+    def _upsert_supabase_table(self, table: str, rows: list[dict[str, Any]]) -> None:
+        """以最小欄位增量 upsert；不執行 DELETE，避免前台寫入造成歷史資料消失。"""
+        if not self.supabase_url or not self.supabase_write_key:
+            raise DataGatewayError("Supabase 寫入環境變數未設定完整")
+        if not rows:
+            return
+
+        endpoint = f"{self.supabase_url}/rest/v1/{quote(table, safe='')}"
+        payload = json.dumps(rows, ensure_ascii=False).encode("utf-8")
+        request = Request(
+            endpoint,
+            data=payload,
+            headers={
+                "apikey": self.supabase_write_key,
+                "Authorization": f"Bearer {self.supabase_write_key}",
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates,return=minimal",
+            },
+            method="POST",
+        )
+        try:
+            with urlopen(request, timeout=15) as response:
+                response.read()
+        except HTTPError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入 HTTP {exc.code}") from exc
+        except URLError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入連線失敗：{exc.reason}") from exc
+        except TimeoutError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入逾時") from exc
+
+    @staticmethod
+    def _build_apple_ceo_incremental_rows(payload: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+        """將完整領域物件投影為前台單堂寫入所需的三張 Supabase 表格。"""
+        program_id = payload.get("program", {}).get("id") or "apple-ceo"
+        attendance_rows = []
+        for index, record in enumerate(payload.get("attendance_records", [])):
+            record_id = record.get("id") or f"{program_id}-attendance-{record.get('date', '')}-{index}"
+            attendance_rows.append({
+                "id": record_id,
+                "program_id": program_id,
+                "date": record.get("date", ""),
+                "venue": record.get("venue", ""),
+                "attendee_count": record.get("attendee_count", 0),
+                "attendees": record.get("attendees", []),
+                "note": record.get("note", ""),
+            })
+
+        ledger_rows = []
+        for index, record in enumerate(payload.get("venue_ledger", [])):
+            record_id = record.get("id") or f"{program_id}-ledger-{record.get('date', '')}-{index}"
+            ledger_rows.append({
+                "id": record_id,
+                "program_id": program_id,
+                "date": record.get("date", ""),
+                "type": record.get("type", ""),
+                "amount": record.get("amount", 0),
+                "payer": record.get("payer", ""),
+                "headcount": record.get("headcount"),
+                "note": record.get("note", ""),
+                "balance_after": record.get("balance_after", 0),
+            })
+
+        round_rows = []
+        for group in payload.get("student_rounds", []):
+            student_name = group.get("student_name", "")
+            aliases = group.get("aliases", []) if isinstance(group.get("aliases"), list) else []
+            for index, round_item in enumerate(group.get("rounds", [])):
+                sessions = list(round_item.get("sessions", []))
+                round_rows.append({
+                    "id": f"{program_id}-round-{student_name}-{index}",
+                    "program_id": program_id,
+                    "student_name": student_name,
+                    "label": round_item.get("label", ""),
+                    "payment_status": round_item.get("payment_status", ""),
+                    "sessions": sessions,
+                    "attended_count": len([session for session in sessions if session]),
+                    "sort_order": index,
+                    "raw": {**round_item, "aliases": aliases},
+                })
+        return {
+            "apple_attendance_records": attendance_rows,
+            "apple_venue_ledger": ledger_rows,
+            "apple_student_rounds": round_rows,
+        }
+
+    def persist_apple_ceo_session(self, payload: dict[str, Any]) -> dict[str, Any]:
+        """儲存單堂班務；本地雙鏡像或 Supabase 增量寫入後，立即做窄讀回驗證。"""
+        if self.backend != "supabase":
+            self.save_apple_ceo_program(payload)
+            return {
+                "backend": "local",
+                "readback": {
+                    "local_data": True,
+                    "mirror": os.path.exists(os.path.join(self.repo_root, "OpenClaw/Data/apple_ceo_class.json")),
+                },
+            }
+
+        rows_by_table = self._build_apple_ceo_incremental_rows(payload)
+        for table, rows in rows_by_table.items():
+            self._upsert_supabase_table(table, rows)
+
+        program_id = payload.get("program", {}).get("id") or "apple-ceo"
+        latest_attendance = (payload.get("attendance_records") or [{}])[-1]
+        latest_ledger = (payload.get("venue_ledger") or [{}])[-1]
+        attendance_id = latest_attendance.get("id", "")
+        ledger_id = latest_ledger.get("id", "")
+        encoded_program_id = quote(program_id, safe="")
+        attendance_rows = self._load_supabase_table(
+            "apple_attendance_records",
+            query=f"select={APPLE_ATTENDANCE_COLUMNS}&id=eq.{quote(attendance_id, safe='')}",
+        )
+        ledger_rows = self._load_supabase_table(
+            "apple_venue_ledger",
+            query=f"select={APPLE_LEDGER_COLUMNS}&id=eq.{quote(ledger_id, safe='')}",
+        )
+        round_rows = self._load_supabase_table(
+            "apple_student_rounds",
+            query=f"select={APPLE_ROUND_COLUMNS}&program_id=eq.{encoded_program_id}",
+        )
+        if not attendance_rows or not ledger_rows:
+            raise DataGatewayError("Supabase 寫入後讀回不到本次出席或場地流水")
+
+        self._write_json(self.apple_ceo_cache_file, payload)
+        clear_gateway_memory_cache()
+        expected_round_ids = {row["id"] for row in rows_by_table["apple_student_rounds"]}
+        actual_round_ids = {row.get("id") for row in round_rows}
+        return {
+            "backend": "supabase",
+            "readback": {
+                "attendance": attendance_rows[0],
+                "venue_ledger": ledger_rows[0],
+                "student_rounds_complete": expected_round_ids.issubset(actual_round_ids),
+            },
+        }
+
     @classmethod
     def _read_fresh_json_cache(cls, path: str) -> Any | None:
         """只讀取未過期的磁碟快取，避免每次 Vercel cold start 重拉雲端。"""

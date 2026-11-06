@@ -52,6 +52,13 @@ def test_read_student_hub_endpoint_valid_student():
     assert "專屬學員修煉空間" in response.text
 
 
+def test_read_student_hub_puts_latest_micro_action_before_note_archive():
+    response = client.get("/my/78fd9e3f-6a0c-4f92-bd10-2834903478fa")
+    assert response.status_code == 200
+    assert 'data-testid="today-micro-action"' in response.text
+    assert response.text.index('data-testid="today-micro-action"') < response.text.index("歷次課堂實戰筆記")
+
+
 def test_read_student_hub_alias_endpoint():
     response = client.get("/hub/78fd9e3f-6a0c-4f92-bd10-2834903478fa")
     assert response.status_code == 200

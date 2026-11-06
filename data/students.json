@@ -207,12 +207,13 @@
     "tags": [
       "一般學員"
     ],
-    "first_lesson_date": "2024-05-30",
+    "first_lesson_date": "2024-06-07",
     "current_cycle_lesson": 5,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）",
-    "cycle_size": 30
+    "completion_note": "30 堂課專案進行中（目前已上 5 堂，剩餘 25 堂）",
+    "cycle_size": 30,
+    "last_lesson_date": "2026-10-30"
   },
   {
     "id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
@@ -835,15 +836,17 @@
     "file": "/01.Docs/Students/王敏賢.md",
     "lessons_count": 22,
     "latest_date": "2026-04-27",
-    "next_lesson": "安排中",
+    "next_lesson": "2027-01-22",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-04-17",
     "current_cycle_lesson": 14,
     "status": "active",
-    "completion_status": "completed",
-    "completion_note": "課程已上完（滿 8 堂結訓）"
+    "completion_status": "has_remaining",
+    "completion_note": "30 堂課專案進行中（目前已上 14 堂，剩餘 16 堂）",
+    "cycle_size": 30,
+    "last_lesson_date": "2026-04-27"
   },
   {
     "id": "7bc1e89d-002f-4eed-aed2-3603cd4d143e",

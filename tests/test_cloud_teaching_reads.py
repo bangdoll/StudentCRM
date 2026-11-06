@@ -221,7 +221,9 @@ def test_cloud_note_old_link_body_and_neighbors(web_cloud):
     response = client.get('/note', params={'path':'/01.Docs/teaching/中文 61.md'})
     assert response.status_code == 200
     assert '正文唯一詞61' in response.text
-    assert '中文%2063' in response.text or '中文 63' in response.text or '中文+63' in response.text
+    # 舊中文入口仍可讀，但新產生的鄰頁連結必須改用 ASCII UUID。
+    assert str(uuid.UUID(int=63)) in response.text
+    assert '中文%2063' not in response.text
     assert response.headers['cache-control'] == 'private, no-store'
     response = client.get('/open_file', params={'path':'中文 61.md'})
     assert response.status_code == 200 and '正文唯一詞61' in response.text
@@ -385,8 +387,9 @@ def test_same_date_neighbors_are_deterministic_and_scoped(web_cloud):
     client, remote, _ = web_cloud
     response = client.get('/note',params={'path':str(uuid.UUID(int=61))})
     assert response.status_code == 200
-    assert '中文%2063' in response.text or '中文 63' in response.text or '中文+63' in response.text
-    assert '中文%2059' in response.text or '中文 59' in response.text or '中文+59' in response.text
+    assert str(uuid.UUID(int=63)) in response.text
+    assert str(uuid.UUID(int=59)) in response.text
+    assert '中文%2063' not in response.text and '中文%2059' not in response.text
     assert '正文唯一詞60' not in response.text and '正文唯一詞62' not in response.text
 
 

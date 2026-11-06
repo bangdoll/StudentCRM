@@ -4,15 +4,17 @@
 """
 
 from datetime import datetime
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from apple_ceo_service import (
     summarize_apple_ceo_program,
     preview_apple_ceo_attendance,
+    apply_apple_ceo_attendance,
     build_apple_ceo_view_context,
 )
+from data_gateway import DataGatewayError
 
 router = APIRouter(tags=["apple_ceo"])
 
@@ -22,6 +24,11 @@ class AttendancePreviewRequest(BaseModel):
     venue: str = "玫瑰客廳"
     attendees: list[str] = []
     note: str = ""
+
+
+class AttendanceApplyRequest(AttendancePreviewRequest):
+    preview_token: str = Field(..., min_length=64, max_length=64)
+    confirm: bool = Field(..., description="必須由教練明確確認寫入")
 
 
 def get_apple_deps():
@@ -70,6 +77,42 @@ async def api_preview_apple_ceo_attendance(payload: AttendancePreviewRequest):
         "will_write": False,
         **preview,
     }
+
+
+@router.post("/api/program/apple-ceo/apply/attendance")
+async def api_apply_apple_ceo_attendance(payload: AttendanceApplyRequest):
+    """確認後一次寫入出席、場地流水與各學員堂數，並回傳讀回收據。"""
+    if not payload.confirm:
+        raise HTTPException(status_code=400, detail="尚未確認寫入；請勾選確認後再送出。")
+
+    deps = get_apple_deps()
+    program_data = deps["load_apple_ceo_program"]()
+    try:
+        result = apply_apple_ceo_attendance(
+            program_data=program_data,
+            date=payload.date,
+            venue=payload.venue,
+            attendees=payload.attendees,
+            note=payload.note,
+            preview_token=payload.preview_token,
+        )
+        if result["status"] == "applied":
+            persistence = deps["student_gateway"].persist_apple_ceo_session(program_data)
+        else:
+            persistence = {"backend": deps["student_gateway"].backend, "readback": {"idempotent": True}}
+        return {
+            "status": result["status"],
+            "receipt": {
+                "attendance": result["attendance_record"],
+                "venue_ledger": result.get("venue_ledger"),
+                "persistence": persistence,
+            },
+            "message": result["message"],
+        }
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
+    except DataGatewayError as exc:
+        raise HTTPException(status_code=503, detail="資料寫入或讀回失敗，未宣告完成。") from exc
 
 
 @router.api_route("/program/apple-ceo", methods=["GET", "HEAD"], response_class=HTMLResponse)

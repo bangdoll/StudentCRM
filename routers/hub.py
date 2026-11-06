@@ -100,12 +100,16 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
 
     gateway = deps["student_gateway"]
     next_cursor = None
+    today_note = None
     if gateway.backend == "supabase":
         page = gateway.list_teaching_records(student["id"], cursor=request.query_params.get("cursor"))
         student_notes, next_cursor = page["items"], page["next_cursor"]
         # Latest card only; historical cards remain available in each note reader.
         recent = gateway.load_recent_teaching_records(student["id"], limit=1)
         latest = recent[0] if recent else None
+        today_note = latest
+        if latest:
+            latest["micro_cards"] = extract_micro_action_cards(latest.get("content") or latest.get("preview") or "", latest.get("title") or "")
         for note in student_notes:
             note["micro_cards"] = extract_micro_action_cards(latest["content"], latest.get("title") or "") if latest and note["id"] == latest["id"] else None
     else:
@@ -120,11 +124,13 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
                 except OSError:
                     pass
             note["micro_cards"] = extract_micro_action_cards(content or note.get("preview") or "", note.get("title") or "")
+        today_note = student_notes[0] if student_notes else None
 
     cnt = student.get("lessons_count") or len(student_notes)
     cycle = student.get("current_cycle_lesson")
+    cycle_sz = student.get("cycle_size") or 8
     if cycle is None:
-        cycle = ((cnt % 8) or 8) if cnt > 0 else 1
+        cycle = ((cnt % cycle_sz) or cycle_sz) if cnt > 0 else 1
 
     response = deps["templates"].TemplateResponse(request, "hub.html", {
         "request": request,
@@ -133,6 +139,8 @@ async def read_student_hub(request: Request, token: Optional[str] = None, studen
         "next_cursor": next_cursor,
         "cycle_lesson": cycle,
         "token": lookup_key,
+        "today_note": today_note,
+        "today_micro_cards": (today_note or {}).get("micro_cards") or {},
     })
     response.set_cookie(
         key="last_student_token",

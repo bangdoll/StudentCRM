@@ -104,13 +104,13 @@
                             <span class="meta-info">{{ note.word_count }} 字</span>
                         </div>
                         <h3 class="teaching-note-title">
-                            <a href="/note?path={{ note.path|urlencode }}&token={{ token or 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' }}">{{ note.title }}</a>
+                            <a href="/note?path={{ note.url_key|urlencode }}&token={{ apple_note_token }}">{{ note.title }}</a>
                         </h3>
                         <p class="teaching-note-preview">{{ note.preview }}</p>
                     </div>
                     <div class="teaching-note-footer">
-                        <a href="/note?path={{ note.path|urlencode }}&token={{ token or 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' }}" class="note-read-link">閱讀筆記全文 ➔</a>
-                        <button type="button" class="btn-copy-card" data-title="{{ note.title }}" data-date="{{ note.date }}" data-preview="{{ note.preview|e }}" data-url="/note?path={{ note.path|urlencode }}&token={{ token or 'adf9958b-a23d-4e9b-a4a2-156b5329b0ed' }}" title="一鍵複製本堂實戰重點小卡">
+                        <a href="/note?path={{ note.url_key|urlencode }}&token={{ apple_note_token }}" class="note-read-link">閱讀筆記全文 ➔</a>
+                        <button type="button" class="btn-copy-card" data-title="{{ note.title }}" data-date="{{ note.date }}" data-preview="{{ note.preview|e }}" data-url="/note?path={{ note.url_key|urlencode }}&token={{ apple_note_token }}" title="一鍵複製本堂實戰重點小卡">
                             <span>📋 複製小卡</span>
                         </button>
                     </div>
@@ -650,7 +650,9 @@
         const previewDate = document.getElementById('attendancePreviewDate');
 
         if (previewDate && !previewDate.value) {
-            previewDate.value = new Date().toISOString().slice(0, 10);
+            const now = new Date();
+            const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+            previewDate.value = localDate.toISOString().slice(0, 10);
         }
 
         function escapeHTML(value) {
@@ -673,6 +675,11 @@
             const summary = payload.summary || {};
             const warnings = payload.warnings || [];
             const rounds = payload.affected_rounds || [];
+            const fee = payload.venue_fee || {};
+            const feeAmount = Number(fee.amount || 0);
+            const feeLabel = fee.charged_to_primary_balance
+                ? `扣除玫瑰客廳場地費 $${Math.abs(feeAmount).toLocaleString()}，餘額 $${Number(fee.balance_after || 0).toLocaleString()}`
+                : `${escapeHTML(fee.venue || '其他場地')} 另付，不扣玫瑰客廳儲值餘額`;
             const warningHTML = warnings.length
                 ? `<div class="attendance-preview-warning">${warnings.map(escapeHTML).join('<br>')}</div>`
                 : '';
@@ -702,13 +709,50 @@
             previewResult.innerHTML = `
                 <div class="attendance-preview-summary">
                     <span class="tag">命中 ${escapeHTML(summary.matched_count ?? 0)} 位</span>
-                    <span class="tag">未命中 ${escapeHTML(summary.unmatched_count ?? 0)} 位</span>
+                    <span class="tag">輸入 ${escapeHTML(summary.attendee_count ?? 0)} 位</span>
+                    <span class="tag">${feeLabel}</span>
                     <span class="tag tag-danger">需人工確認</span>
                     <span class="tag">不寫入資料</span>
                 </div>
                 ${warningHTML}
                 <div class="attendance-preview-rounds">${roundsHTML}</div>
+                <div class="attendance-preview-actions" style="margin-top: 16px;">
+                    <button type="button" id="applyAttendanceButton" class="attendance-preview-button" ${warnings.length ? 'disabled' : ''} data-preview-token="${escapeHTML(payload.preview_token || '')}">
+                        ${warnings.length ? '先處理預覽警告' : '確認寫入本堂課'}
+                    </button>
+                </div>
             `;
+
+            const applyButton = document.getElementById('applyAttendanceButton');
+            if (applyButton && !warnings.length) {
+                applyButton.addEventListener('click', async () => {
+                    if (!window.confirm('確認寫入出席、場地費與學員堂數？')) return;
+                    applyButton.disabled = true;
+                    applyButton.textContent = '正在寫入並讀回驗證...';
+                    try {
+                        const response = await fetch('/api/program/apple-ceo/apply/attendance', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                date: document.getElementById('attendancePreviewDate').value,
+                                venue: document.getElementById('attendancePreviewVenue').value,
+                                attendees: splitAttendees(document.getElementById('attendancePreviewAttendees').value),
+                                note: document.getElementById('attendancePreviewNote').value,
+                                preview_token: applyButton.dataset.previewToken,
+                                confirm: true,
+                            }),
+                        });
+                        const result = await response.json();
+                        if (!response.ok) throw new Error(result.detail || '寫入失敗，系統未宣告完成');
+                        previewResult.innerHTML = `<div class="attendance-preview-summary"><span class="tag tag-success">${escapeHTML(result.message || '寫入完成')}</span><span class="tag">已完成讀回驗證</span></div>`;
+                        window.setTimeout(() => window.location.reload(), 700);
+                    } catch (error) {
+                        applyButton.disabled = false;
+                        applyButton.textContent = '確認寫入本堂課';
+                        previewResult.insertAdjacentHTML('afterbegin', `<div class="attendance-preview-warning">${escapeHTML(error.message)}</div>`);
+                    }
+                });
+            }
         }
 
         if (previewForm) {

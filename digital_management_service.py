@@ -410,7 +410,7 @@ def load_cloud_digital_management_notes(
         note_id = row.get("id", "") or row.get("card_id", "")
         note_url = row.get("url", "") or raw.get("url", "")
         if not note_url and (path or note_id):
-            note_url = f"/note?path={quote(path or note_id, safe='')}"
+            note_url = f"/note?path={quote(note_id or path, safe='')}"
         notes.append({
             "id": note_id,
             "student_id": row.get("student_id", ""),

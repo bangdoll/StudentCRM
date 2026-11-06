@@ -573,6 +573,16 @@
             </div>
             {% endif %}
 
+            <div class="note-media-status" data-testid="note-media-status" style="margin: 0 0 24px; padding: 12px 14px; border-radius: 10px; border: 1px solid {% if image_status == 'warning' %}rgba(210, 153, 34, 0.55){% else %}rgba(88, 166, 255, 0.35){% endif %}; background: {% if image_status == 'warning' %}rgba(210, 153, 34, 0.08){% else %}rgba(88, 166, 255, 0.06){% endif %}; color: var(--text-secondary); font-size: 0.84rem; line-height: 1.55;">
+                {% if image_status == 'ok' %}
+                    ✅ 圖片資產已就緒：本堂筆記可讀取 {{ image_count }} 張圖片。
+                {% elif image_status == 'warning' %}
+                    ⚠️ 圖片資產待補：偵測到 {{ image_count }} 張圖片，{{ missing_images|length }} 張尚未找到本地備份；頁面會嘗試自動回退。
+                {% else %}
+                    ℹ️ 本堂筆記未偵測到圖片資產。
+                {% endif %}
+            </div>
+
             <div class="markdown-body">
                 {{ content_html | safe }}
             </div>
@@ -648,7 +658,7 @@
             <!-- Prev / Next navigation -->
             <div class="lesson-nav">
                 {% if prev_path %}
-                <a href="/note?path={{ prev_path }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn prev">
+                <a href="/note?path={{ prev_path|urlencode }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn prev">
                     <span class="nav-dir">← {% if is_apple_ceo %}上一篇{% else %}上一堂{% endif %}</span>
                     <span class="nav-date">{{ prev_label }}</span>
                 </a>
@@ -663,7 +673,7 @@
                 {% endif %}
 
                 {% if next_path %}
-                <a href="/note?path={{ next_path }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn next">
+                <a href="/note?path={{ next_path|urlencode }}{% if token %}&token={{ token }}{% endif %}" class="nav-btn next">
                     <span class="nav-dir">{% if is_apple_ceo %}下一篇{% else %}下一堂{% endif %} →</span>
                     <span class="nav-date">{{ next_label }}</span>
                 </a>

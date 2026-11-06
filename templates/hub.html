@@ -263,7 +263,7 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-lbl">🎯 本期修煉進度</div>
-                    <div class="stat-val">{{ cycle_lesson }}/8 <span style="font-size: 0.9rem; font-weight: normal; color: var(--text-secondary);">堂</span></div>
+                    <div class="stat-val">{{ cycle_lesson }}/{{ student.cycle_size or 8 }} <span style="font-size: 0.9rem; font-weight: normal; color: var(--text-secondary);">堂</span></div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-lbl">🌱 啟程日期</div>
@@ -285,6 +285,26 @@
                 </div>
             </div>
         </header>
+
+        {% if today_micro_cards %}
+        <!-- ⚡ 最新課堂微行動：學生首頁第一優先入口 -->
+        <section class="today-action-section" data-testid="today-micro-action" style="margin-bottom: 20px;">
+            <div style="background: linear-gradient(135deg, rgba(56, 139, 253, 0.18), rgba(22, 27, 34, 0.96)); border: 1px solid rgba(88, 166, 255, 0.55); border-radius: 18px; padding: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.28);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap;">
+                    <div>
+                        <div style="color: #79c0ff; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;">Today · 最新課堂行動</div>
+                        <h2 style="margin: 6px 0 4px; color: #f0f6fc; font-size: 1.35rem;">⚡ 今日 3 分鐘微行動</h2>
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 0.88rem;">來自 {{ today_note.title or today_note.filename }}{% if today_note.date %} · {{ today_note.date }}{% endif %}</p>
+                    </div>
+                    <a href="/note?path={{ (today_note.id or today_note.path)|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 7px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600; white-space: nowrap;">🏆 查看本週打卡</a>
+                </div>
+                <div style="margin-top: 18px; background: rgba(13, 17, 23, 0.72); border-left: 4px solid #58a6ff; border-radius: 10px; padding: 14px 16px; color: #e6edf3; line-height: 1.65;">
+                    {{ today_micro_cards.micro_habit or today_micro_cards.key_action or today_micro_cards.weekly_win }}
+                </div>
+                <div style="margin-top: 12px; color: #8b949e; font-size: 0.82rem;">先完成這一個動作，再回到完整筆記驗收成果。</div>
+            </div>
+        </section>
+        {% endif %}
 
         <!-- 🎲 今日實戰微行動抽籤卡 (Plan 1) -->
         <section class="daily-practice-section" style="margin-bottom: 28px;">
@@ -323,7 +343,7 @@
                     <span>🌳</span> 數位管理八堂修煉技能樹 (Skill Tree)
                 </h2>
                 <span class="tag" style="background: rgba(88, 166, 255, 0.15); color: var(--accent-color);">
-                    當前階段：第 {{ cycle_lesson }}/8 堂
+                    當前階段：第 {{ cycle_lesson }}/{{ student.cycle_size or 8 }} 堂
                 </span>
             </div>
 
@@ -392,16 +412,16 @@
                             </span>
                         </div>
                         <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-                            <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600;">
+                            <a href="/note?path={{ (note.id or note.path)|urlencode }}&token={{ token }}#topDoDSection" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px; background: rgba(35, 134, 54, 0.25); border: 1px solid rgba(63, 185, 80, 0.5); color: #7ee787; font-weight: 600;">
                                 🏆 本週打卡清單
                             </a>
-                            <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px;">
+                            <a href="/note?path={{ (note.id or note.path)|urlencode }}&token={{ token }}" class="btn-open" style="font-size: 0.82rem; padding: 5px 12px;">
                                 完整筆記 ➔
                             </a>
                         </div>
                     </div>
 
-                    <a href="/note?path={{ (note.path or note.id)|urlencode }}&token={{ token }}" class="note-title-link">
+                    <a href="/note?path={{ (note.id or note.path)|urlencode }}&token={{ token }}" class="note-title-link">
                         {{ note.title or note.filename }}
                     </a>
 
