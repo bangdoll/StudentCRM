@@ -100,3 +100,62 @@ def test_renewal_radar_with_30_lesson_cycle():
     sig_29, _, _ = evaluate_retention_signal(days_since_last=5, task_stale=False, cycle_lesson=29, cycle_size=30)
     assert sig_29 == "upgrade_ready"
 
+
+def test_renewal_radar_with_4_lesson_cycle():
+    from radar_service import evaluate_retention_signal
+
+    # 益堯哥：4 堂微循環專案，目前第 1 堂，不應觸發續約通知
+    yi_yao = {
+        "id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
+        "name": "益堯哥",
+        "lessons_count": 1,
+        "cycle_size": 4,
+        "current_cycle_lesson": 1,
+        "latest_date": "2026-04-24",
+    }
+    # 假想即將滿堂的 4 堂學員（第 3 堂）
+    student_near_4 = {
+        "id": "mock-4-warning",
+        "name": "四堂學員臨近",
+        "lessons_count": 3,
+        "cycle_size": 4,
+        "current_cycle_lesson": 3,
+        "latest_date": "2026-11-01",
+    }
+    # 假想滿 4 堂結業學員（第 4 堂）
+    student_full_4 = {
+        "id": "mock-4-full",
+        "name": "四堂學員滿額",
+        "lessons_count": 4,
+        "cycle_size": 4,
+        "current_cycle_lesson": 4,
+        "latest_date": "2026-11-02",
+    }
+
+    radar = get_global_renewal_radar([yi_yao, student_near_4, student_full_4])
+    radar_names = [r["name"] for r in radar]
+
+    # 益堯哥目前僅第 1 堂，不應觸發續約通知
+    assert "益堯哥" not in radar_names
+
+    # 臨近與滿額 4 堂者應正確觸發
+    assert "四堂學員臨近" in radar_names
+    assert "四堂學員滿額" in radar_names
+
+    # 檢查文案
+    msg_near = generate_student_renewal_reminder(student_near_4)
+    assert "3/4 堂" in msg_near
+    msg_full = generate_student_renewal_reminder(student_full_4)
+    assert "滿 4 堂" in msg_full
+
+    # 檢查 radar_service 的 evaluate_retention_signal
+    # 4 堂課中第 1 堂，若最近上課天數小於 14，留存訊號為 stable
+    sig, text, badge = evaluate_retention_signal(days_since_last=5, task_stale=False, cycle_lesson=1, cycle_size=4)
+    assert sig == "stable"
+    assert sig != "upgrade_ready"
+
+    # 若到了第 3 堂（cycle_size - 1），應判定為 upgrade_ready
+    sig_3, _, _ = evaluate_retention_signal(days_since_last=5, task_stale=False, cycle_lesson=3, cycle_size=4)
+    assert sig_3 == "upgrade_ready"
+
+
