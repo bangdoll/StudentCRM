@@ -113,6 +113,16 @@ def test_renewal_radar_with_4_lesson_cycle():
         "current_cycle_lesson": 1,
         "latest_date": "2026-04-24",
     }
+    # 彭老師：4 堂專案，目前第 39 堂，本輪第 4/4 堂（滿 4 堂結訓），應觸發續約通知
+    peng = {
+        "id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
+        "name": "彭老師",
+        "lessons_count": 39,
+        "cycle_size": 4,
+        "current_cycle_lesson": 4,
+        "latest_date": "2026-10-02",
+        "next_lesson": "2026-12-11",
+    }
     # 假想即將滿堂的 4 堂學員（第 3 堂）
     student_near_4 = {
         "id": "mock-4-warning",
@@ -132,17 +142,24 @@ def test_renewal_radar_with_4_lesson_cycle():
         "latest_date": "2026-11-02",
     }
 
-    radar = get_global_renewal_radar([yi_yao, student_near_4, student_full_4])
+    radar = get_global_renewal_radar([yi_yao, peng, student_near_4, student_full_4])
     radar_names = [r["name"] for r in radar]
 
     # 益堯哥目前僅第 1 堂，不應觸發續約通知
     assert "益堯哥" not in radar_names
 
-    # 臨近與滿額 4 堂者應正確觸發
+    # 彭老師（滿 4/4 堂）、臨近與滿額 4 堂者應正確觸發
+    assert "彭老師" in radar_names
     assert "四堂學員臨近" in radar_names
     assert "四堂學員滿額" in radar_names
 
     # 檢查文案
+    msg_peng = generate_student_renewal_reminder(peng)
+    assert "彭老師" in msg_peng
+    assert "滿 4 堂" in msg_peng
+    assert "第 10 輪" in msg_peng
+    assert "第 11 期・4 堂" in msg_peng
+
     msg_near = generate_student_renewal_reminder(student_near_4)
     assert "3/4 堂" in msg_near
     msg_full = generate_student_renewal_reminder(student_full_4)
