@@ -203,7 +203,7 @@
     "file": "/01.Docs/Students/lucia.md",
     "lessons_count": 43,
     "latest_date": "2026-10-30",
-    "next_lesson": "2026-11-06",
+    "next_lesson": "2026-11-27",
     "tags": [
       "一般學員"
     ],
@@ -1112,17 +1112,17 @@
       "郭姐"
     ],
     "file": "/01.Docs/Students/郭姐.md",
-    "lessons_count": 7,
-    "latest_date": "2026-05-04",
+    "lessons_count": 8,
+    "latest_date": "2026-11-06",
     "next_lesson": "2026-11-06",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2022-07-23",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "553599e9-053b-4270-b43f-44687278d256",
