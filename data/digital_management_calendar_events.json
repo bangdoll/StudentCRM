@@ -2002,6 +2002,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "8p9vr29o5727gn1620ltfn2ljs",
+    "date": "2019-09-30",
+    "title": "胡大姐整理照片",
+    "description": "",
+    "location": "",
+    "start": "2019-09-30T12:00:00+08:00",
+    "end": "2019-09-30T14:00:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
+  },
+  {
     "id": "0nc4o2g0ras7l8f63odd0cip1o",
     "date": "2019-10-02",
     "title": "03-1.謝宛鈴電腦教學",
@@ -2101,6 +2112,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "_892j2e1p65144b9i6923gb9k6p33gba165236b9n6p1jica56ksj8dpn8o",
+    "date": "2019-10-31",
+    "title": "賴怡之，Office安裝",
+    "description": "",
+    "location": "台北市建國北路二段238號",
+    "start": "2019-10-31T10:00:00+08:00",
+    "end": "2019-10-31T10:30:00+08:00",
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
+  },
+  {
     "id": "md80r3km5ei2vno20n78tm168g_20191031T060000Z",
     "date": "2019-10-31",
     "title": "02.蘋果總裁班",
@@ -2154,6 +2176,17 @@
     "end": "2019-11-15T17:00:00+08:00",
     "student_id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
     "student_name": "青玫姐"
+  },
+  {
+    "id": "25p0lulpr4g9j8d68g1liri41o",
+    "date": "2019-11-18",
+    "title": "胡大姐@捷運淡水站",
+    "description": "",
+    "location": "捷運淡水站, 251台灣新北市淡水區新北市淡水區中正路1號",
+    "start": "2019-11-18T12:00:00+08:00",
+    "end": "2019-11-18T13:00:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "md80r3km5ei2vno20n78tm168g_20191121T060000Z",
@@ -2387,6 +2420,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "ametol64h5p3r1nned326ahnh4",
+    "date": "2020-02-07",
+    "title": "胡大姐@她家(延後)",
+    "description": "",
+    "location": "",
+    "start": "2020-02-07T14:00:00+08:00",
+    "end": "2020-02-07T16:00:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
+  },
+  {
     "id": "md80r3km5ei2vno20n78tm168g_20200213T060000Z",
     "date": "2020-02-13",
     "title": "蘋果總裁班-停課",
@@ -2451,6 +2495,17 @@
     "end": "2020-02-27T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "ku7fbqhjs2fi26sc25okchbucg",
+    "date": "2020-03-04",
+    "title": "胡大姐出書的協助",
+    "description": "",
+    "location": "",
+    "start": "2020-03-04T17:30:00+08:00",
+    "end": "2020-03-04T18:30:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "md80r3km5ei2vno20n78tm168g_20200305T060000Z",
@@ -2651,6 +2706,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "dh7j12ngcbdqtspacjq8gijnnk",
+    "date": "2020-04-10",
+    "title": "08.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-04-10T09:00:00+08:00",
+    "end": "2020-04-10T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "98m5rhs9tkl8v81me2olb164sc",
     "date": "2020-04-13",
     "title": "06.黃霈琝、黃奕溱蘋果家教",
@@ -2662,6 +2728,28 @@
     "student_name": "黃奕溱"
   },
   {
+    "id": "74k25e6tthq9kevs3r77iabn38",
+    "date": "2020-04-15",
+    "title": "09-1.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-04-15T09:00:00+08:00",
+    "end": "2020-04-15T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
+    "id": "9l8gr9j3o1v1qnqq1ttu415jds",
+    "date": "2020-04-16",
+    "title": "把胡大姐的照片+彌月蛋糕拿給她",
+    "description": "",
+    "location": "",
+    "start": "2020-04-16T11:00:00+08:00",
+    "end": "2020-04-16T12:00:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
+  },
+  {
     "id": "md80r3km5ei2vno20n78tm168g_20200416T060000Z",
     "date": "2020-04-16",
     "title": "蘋果總裁班",
@@ -2671,6 +2759,17 @@
     "end": "2020-04-16T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "252bm9pvqtep1ojk3dvcr737nk",
+    "date": "2020-04-17",
+    "title": "10-2.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-04-17T09:00:00+08:00",
+    "end": "2020-04-17T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "8ssge6i9cfo65585ru125ad2hg",
@@ -2693,6 +2792,17 @@
     "end": "2020-04-23T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "u2nhh68g6gu6se88tuf7d9fqc0",
+    "date": "2020-04-24",
+    "title": "11-3.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-04-24T09:00:00+08:00",
+    "end": "2020-04-24T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "540ii5qafs442i84mlj1g644vs",
@@ -2728,6 +2838,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "kdsbt5v26dk2hejd5v5ej4kdgg",
+    "date": "2020-05-01",
+    "title": "12-4.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-05-01T09:00:00+08:00",
+    "end": "2020-05-01T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "md80r3km5ei2vno20n78tm168g_20200507T060000Z",
     "date": "2020-05-07",
     "title": "蘋果總裁班",
@@ -2737,6 +2858,28 @@
     "end": "2020-05-07T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "dhas2rr5aabjqiojmhrr03h96c",
+    "date": "2020-05-08",
+    "title": "13-5.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-05-08T09:00:00+08:00",
+    "end": "2020-05-08T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
+    "id": "ro59kmf87svf2m2j9mpjfuf1gs",
+    "date": "2020-05-13",
+    "title": "胡大姐，解決出書問題",
+    "description": "",
+    "location": "摩斯漢堡MOSBURGER 石牌店, 112台灣台北市北投區石牌路一段174號",
+    "start": "2020-05-13T10:00:00+08:00",
+    "end": "2020-05-13T11:00:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "3jcflqlrr4mv3nms91a17rnko0",
@@ -2759,6 +2902,17 @@
     "end": "2020-05-14T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "4ulal4gp425n9uj5fgj2tf88a8",
+    "date": "2020-05-15",
+    "title": "14-6.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-05-15T09:00:00+08:00",
+    "end": "2020-05-15T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "9g4p8mqnu7hfsb4d0kbb96kch4",
@@ -2803,6 +2957,17 @@
     "end": "2020-05-21T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "df360jcd9bf3a1asf5ppvrmpqg",
+    "date": "2020-05-22",
+    "title": "15-7.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-05-22T09:00:00+08:00",
+    "end": "2020-05-22T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "f2svoa40emp6q6ed903n8ho7jc",
@@ -2860,6 +3025,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "jjpglm07mi173s9oshnre59g38",
+    "date": "2020-06-05",
+    "title": "16-8.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-06-05T09:00:00+08:00",
+    "end": "2020-06-05T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "kena4dr54dukpl219c9cfiofb8",
     "date": "2020-06-08",
     "title": "79-1.青玫姐蘋果家教@19F",
@@ -2911,8 +3087,8 @@
     "location": "",
     "start": "2020-06-21T09:00:00+08:00",
     "end": "2020-06-21T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "md80r3km5ei2vno20n78tm168g_20200625T060000Z",
@@ -3034,6 +3210,17 @@
     "end": "2020-08-06T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "gmv9ssnld0k10ahhivpqmel3gk",
+    "date": "2020-08-13",
+    "title": "處理胡大姐的Evernote續約問題@石牌摩斯漢堡",
+    "description": "",
+    "location": "",
+    "start": "2020-08-13T11:30:00+08:00",
+    "end": "2020-08-13T12:30:00+08:00",
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "h87o0rqvqkum8830br5rb2up7q_20200813T053000Z",
@@ -3531,6 +3718,17 @@
     "student_name": "彭老師"
   },
   {
+    "id": "pmpbs5mtre244rn0r5s1bdkqj0",
+    "date": "2020-11-16",
+    "title": "17-1.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-11-16T09:00:00+08:00",
+    "end": "2020-11-16T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "vcldokh7i76p79j8n16e7dr45k",
     "date": "2020-11-17",
     "title": "03.敏穎Bonnie蘋果家教",
@@ -3586,6 +3784,28 @@
     "student_name": "Kelly Woo"
   },
   {
+    "id": "fg6hjtumgjq14fi3af8u81eav0",
+    "date": "2020-11-20",
+    "title": "18-2.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-11-20T14:00:00+08:00",
+    "end": "2020-11-20T17:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
+    "id": "iejd4i7df98b1rsduakdg857l4",
+    "date": "2020-11-23",
+    "title": "19-3.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-11-23T09:00:00+08:00",
+    "end": "2020-11-23T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "1l95dc40oq0o0ble2bbvtp4j04",
     "date": "2020-11-24",
     "title": "03.繽紛設計Evernote教學",
@@ -3639,6 +3859,17 @@
     "end": "2020-11-28T12:00:00+08:00",
     "student_id": "",
     "student_name": ""
+  },
+  {
+    "id": "odg5tjef9gt9c8qj57h87krl3s",
+    "date": "2020-11-30",
+    "title": "20-4.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-11-30T13:00:00+08:00",
+    "end": "2020-11-30T16:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "qne4nm536jtitvdshvbfk21l2c",
@@ -3707,6 +3938,17 @@
     "student_name": "青玫姐"
   },
   {
+    "id": "1d1hdh5bv5jr907uvhfkiffpm8",
+    "date": "2020-12-14",
+    "title": "21-1.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-12-14T09:00:00+08:00",
+    "end": "2020-12-14T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "f5ds884ve9th9o5a86qtas37g4",
     "date": "2020-12-16",
     "title": "05-1.敏穎Bonnie蘋果家教",
@@ -3749,6 +3991,17 @@
     "end": "2020-12-20T10:00:00+08:00",
     "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
     "student_name": "Kelly Woo"
+  },
+  {
+    "id": "dlvii07au8n0m3cf6mfkho4a4s",
+    "date": "2020-12-22",
+    "title": "22-2.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2020-12-22T09:00:00+08:00",
+    "end": "2020-12-22T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "k1db5thsv449nb722703kml54s",
@@ -3815,6 +4068,17 @@
     "end": "2021-01-02T11:00:00+08:00",
     "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
     "student_name": "Kelly Woo"
+  },
+  {
+    "id": "stg7i2jafpe0gstt0652pulam8",
+    "date": "2021-01-04",
+    "title": "23-3.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2021-01-04T09:00:00+08:00",
+    "end": "2021-01-04T13:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "58phmkbmnlmoue54n4atnl0tdg",
@@ -4011,8 +4275,19 @@
     "location": "布拉格咖啡館, 112台灣台北市北投區裕民二路2號2樓",
     "start": "2021-01-31T15:00:00+08:00",
     "end": "2021-01-31T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "4d8eddf5-edbb-59be-9e88-c3ea9dc30331",
+    "student_name": "葉菁菁"
+  },
+  {
+    "id": "qiojoj5au3senakjsghi31fpsg",
+    "date": "2021-02-01",
+    "title": "24-4.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2021-02-01T09:00:00+08:00",
+    "end": "2021-02-01T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "69323qv0rt9r74lf9seo6bqc20",
@@ -4066,8 +4341,8 @@
     "location": "布拉格咖啡館, 112台灣台北市北投區裕民二路2號2樓",
     "start": "2021-02-07T10:30:00+08:00",
     "end": "2021-02-07T12:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "4d8eddf5-edbb-59be-9e88-c3ea9dc30331",
+    "student_name": "葉菁菁"
   },
   {
     "id": "hm4cfs7vhecso0eecun433dgn4",
@@ -4286,8 +4561,8 @@
     "location": "",
     "start": "2021-03-08T09:00:00+08:00",
     "end": "2021-03-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "0jcmp09ig02oika2116tndbr14",
@@ -4356,6 +4631,17 @@
     "student_name": "Annie"
   },
   {
+    "id": "4psqme6qnoi511uis65fjo9fc0",
+    "date": "2021-03-15",
+    "title": "25-5.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2021-03-15T09:00:00+08:00",
+    "end": "2021-03-15T12:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "doiou0tgbbqd30elle7mn6ngu8",
     "date": "2021-03-16",
     "title": "02.子奕-數位管理教學@桃捷 新莊副都心站 2號出口",
@@ -4363,8 +4649,8 @@
     "location": "新北市新莊區立信三街77號1樓",
     "start": "2021-03-16T09:50:00+08:00",
     "end": "2021-03-16T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "t6mcr88kd9mm4obr8g86mampfk",
@@ -4411,6 +4697,17 @@
     "student_name": "Kelly Woo"
   },
   {
+    "id": "4prho3dh3buc9r0n1j2t356itg",
+    "date": "2021-03-19",
+    "title": "26-6.Polly蘋果家教",
+    "description": "",
+    "location": "台北市北投區天母西路136號12樓",
+    "start": "2021-03-19T14:00:00+08:00",
+    "end": "2021-03-19T17:00:00+08:00",
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
+  },
+  {
     "id": "ahf9s2is3jofhalmhpenudm338",
     "date": "2021-03-22",
     "title": "全明廣告網站教學",
@@ -4429,8 +4726,8 @@
     "location": "新北市新莊區立信三街77號1樓",
     "start": "2021-03-23T09:50:00+08:00",
     "end": "2021-03-23T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "qrqfu7o7taqh0kkugfalf39p3g",
@@ -4462,8 +4759,8 @@
     "location": "捷運新莊站1號出入口, 242台灣新北市新莊區中正路138號",
     "start": "2021-03-30T09:50:00+08:00",
     "end": "2021-03-30T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "rm43rjrltirs98rfa7n29asfu8",
@@ -4616,8 +4913,8 @@
     "location": "台北市南京東路五段169號14F之2",
     "start": "2021-04-10T10:00:00+08:00",
     "end": "2021-04-10T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0d7bb70b-e3fb-5219-a7cd-564c3b016604",
+    "student_name": "林文雄"
   },
   {
     "id": "76bc5e1j4f7tvu8mn0boalkdbk",
@@ -4638,8 +4935,8 @@
     "location": "捷運新莊站1號出入口, 242台灣新北市新莊區中正路138號",
     "start": "2021-04-13T09:50:00+08:00",
     "end": "2021-04-13T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "f1snab13ofda1hljm338u01epk",
@@ -4675,6 +4972,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "6omf7dh7jg78as52afj54mkff4",
+    "date": "2021-04-16",
+    "title": "彭彭一對一@公司",
+    "description": "",
+    "location": "台北市中正區忠孝東路一段76號12樓",
+    "start": "2021-04-16T10:00:00+08:00",
+    "end": "2021-04-16T11:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
+  },
+  {
     "id": "ipvtba7rf0v4rp4akosrdl13sg",
     "date": "2021-04-16",
     "title": "02.林文雄數位管理教學",
@@ -4682,8 +4990,8 @@
     "location": "台北市松山區南京東路五段89號14樓",
     "start": "2021-04-16T14:00:00+08:00",
     "end": "2021-04-16T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0d7bb70b-e3fb-5219-a7cd-564c3b016604",
+    "student_name": "林文雄"
   },
   {
     "id": "a9ok12g1i6oh13afdaavng4724",
@@ -4693,8 +5001,8 @@
     "location": "捷運新莊站1號出入口, 242台灣新北市新莊區中正路138號",
     "start": "2021-04-19T09:50:00+08:00",
     "end": "2021-04-19T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "h573beap3qpl3htso9dau66v94",
@@ -4704,8 +5012,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-04-22T10:00:00+08:00",
     "end": "2021-04-22T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210422T060000Z",
@@ -4748,8 +5056,8 @@
     "location": "捷運新莊站1號出入口, 242台灣新北市新莊區中正路138號",
     "start": "2021-04-27T09:50:00+08:00",
     "end": "2021-04-27T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "0c43bc72-59ba-5674-90ed-d7066cf59c37",
+    "student_name": "子奕"
   },
   {
     "id": "50vqjqrn7s7sq0vu2meeti0bn8",
@@ -4781,8 +5089,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-04-29T10:00:00+08:00",
     "end": "2021-04-29T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210429T060000Z",
@@ -4869,8 +5177,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-05-10T14:00:00+08:00",
     "end": "2021-05-10T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "475cig2iolgu5ri6b8ues24o5g",
@@ -4968,8 +5276,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-05-18T10:30:00+08:00",
     "end": "2021-05-18T12:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "ba9vdvrr76u299md46f7uq8p5k",
@@ -5067,8 +5375,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-05-27T10:00:00+08:00",
     "end": "2021-05-27T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210527T060000Z",
@@ -5089,8 +5397,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-05-28T15:00:00+08:00",
     "end": "2021-05-28T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "1brmh6lkev2hvsa648fou3m3s8",
@@ -5100,8 +5408,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-05-31T14:00:00+08:00",
     "end": "2021-05-31T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210603T060000Z",
@@ -5122,8 +5430,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-06-04T14:00:00+08:00",
     "end": "2021-06-04T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "rk4vr3b4mcbjd2jvmssl0kv1ik",
@@ -5144,8 +5452,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-06-07T14:00:00+08:00",
     "end": "2021-06-07T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "c03q50mqlk1fm5agcoe9rqhao4",
@@ -5155,8 +5463,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-06-08T14:00:00+08:00",
     "end": "2021-06-08T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "3ga95dpkkvs74tomv2nkrb7n4o",
@@ -5254,8 +5562,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-06-21T10:00:00+08:00",
     "end": "2021-06-21T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "rhbr03oaju17ckuf5f7o09q3mo",
@@ -5265,8 +5573,8 @@
     "location": "忠孝東路五段179號, 110台灣台北市信義區忠孝東路五段179號",
     "start": "2021-06-21T14:00:00+08:00",
     "end": "2021-06-21T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "79af0372-ebd0-50e0-9813-b28435660679",
+    "student_name": "鍾天竣"
   },
   {
     "id": "pp0su1q6em1rok2iuibjf19dpc",
@@ -5276,8 +5584,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-06-22T10:00:00+08:00",
     "end": "2021-06-22T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "5knq60rtif3d3n25kp8ouvlrgk",
@@ -5320,8 +5628,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-06-28T10:00:00+08:00",
     "end": "2021-06-28T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "0u5pm7l6ik45hr5dmmqkb3iico",
@@ -5397,8 +5705,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-07-07T14:30:00+08:00",
     "end": "2021-07-07T16:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "eh8jfg60ub582qu2h8s1j4nq41_20210708T060000Z",
@@ -5421,6 +5729,17 @@
     "end": "2021-07-09T10:30:00+08:00",
     "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
     "student_name": "Kelly Woo"
+  },
+  {
+    "id": "t5aq92log3299j351r7re0a5rc",
+    "date": "2021-07-12",
+    "title": "和岳陵姐約在Apple Stote",
+    "description": "",
+    "location": "Apple 信義 A13, 11051台灣台北市信義區松壽路13 號",
+    "start": "2021-07-12T14:00:00+08:00",
+    "end": "2021-07-12T15:00:00+08:00",
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "pngfu46hs9i3m72f9jjl8po8us",
@@ -5463,8 +5782,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-07-17T16:00:00+08:00",
     "end": "2021-07-17T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "hv1s42s4la851tunkbaq5rhihs",
@@ -5496,8 +5815,8 @@
     "location": "台北市中山區明水路397巷19弄10號1樓",
     "start": "2021-07-21T14:00:00+08:00",
     "end": "2021-07-21T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d5a2900-050d-5030-bea7-91720b49f45d",
+    "student_name": "黃毓婕"
   },
   {
     "id": "e79dsg3m61egs0h9mmp8006ksk",
@@ -5551,8 +5870,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-07-24T16:00:00+08:00",
     "end": "2021-07-24T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "029a9cci0blksg7gi75uha67hg",
@@ -5562,8 +5881,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2021-07-27T10:00:00+08:00",
     "end": "2021-07-27T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "fpo7f4hb1e7fefcuqiaq7ssdn0",
@@ -5617,8 +5936,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-07-31T16:00:00+08:00",
     "end": "2021-07-31T19:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "5pkmtb9rqjihkdu62bscae1n44",
@@ -5650,8 +5969,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-08-07T16:00:00+08:00",
     "end": "2021-08-07T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210810T060000Z",
@@ -5694,8 +6013,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-08-14T16:00:00+08:00",
     "end": "2021-08-14T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "g4peepnrsqunn8c2s7qvd7sqhg",
@@ -5707,6 +6026,17 @@
     "end": "2021-08-15T09:00:00+08:00",
     "student_id": "e8d71234-9abc-4def-a123-567890abcdef",
     "student_name": "Annie"
+  },
+  {
+    "id": "pdej8qm060dimngajvns16tdl8",
+    "date": "2021-08-16",
+    "title": "賴怡之軟體安裝",
+    "description": "",
+    "location": "內湖區民權東路六段206巷128號3樓",
+    "start": "2021-08-16T15:00:00+08:00",
+    "end": "2021-08-16T16:00:00+08:00",
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210817T060000Z",
@@ -5738,8 +6068,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-08-20T09:30:00+08:00",
     "end": "2021-08-20T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "gn64epddpindejeu5l964u258o",
@@ -5760,8 +6090,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-08-21T16:00:00+08:00",
     "end": "2021-08-21T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "itu9rqkvd4c62ve3ui5mckrb6g",
@@ -5782,8 +6112,8 @@
     "location": "台北市內湖區民權東路六段206巷128號3樓",
     "start": "2021-08-24T10:00:00+08:00",
     "end": "2021-08-24T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210824T060000Z",
@@ -5804,8 +6134,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-08-27T10:00:00+08:00",
     "end": "2021-08-27T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "6si3ekaque7jgbdq2l12ct6prs",
@@ -5815,8 +6145,8 @@
     "location": "台北市內湖區民權東路六段206巷128號3樓",
     "start": "2021-08-31T09:30:00+08:00",
     "end": "2021-08-31T11:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210831T060000Z",
@@ -5848,8 +6178,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-09-03T10:00:00+08:00",
     "end": "2021-09-03T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "ansr1evog42ic9t1ueme7butts",
@@ -5859,8 +6189,8 @@
     "location": "台北市內湖區民權東路六段206巷128號3樓",
     "start": "2021-09-03T13:00:00+08:00",
     "end": "2021-09-03T15:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
   },
   {
     "id": "b6knfg7u3veh6s6h92i8stfs58",
@@ -5903,8 +6233,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-09-10T10:00:00+08:00",
     "end": "2021-09-10T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "_84rk6dhl712k6ba48534ab9k8h2j2b9p6134ab9j6t1k6gq26d0j2e9h74",
@@ -5925,8 +6255,8 @@
     "location": "台北市重慶南路一段10號10樓",
     "start": "2021-09-13T10:00:00+08:00",
     "end": "2021-09-13T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210914T060000Z",
@@ -5969,8 +6299,8 @@
     "location": "新北市三重區富華街38號2樓",
     "start": "2021-09-16T13:00:00+08:00",
     "end": "2021-09-16T15:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d1ec9935-1343-511a-8ad3-16a6e57de257",
+    "student_name": "美然"
   },
   {
     "id": "it36df2pkk821evl34252g9u3g",
@@ -5980,8 +6310,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-09-17T10:00:00+08:00",
     "end": "2021-09-17T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "8dgfgdc7njeeonck31dlo72dr4",
@@ -6024,8 +6354,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-09-24T10:00:00+08:00",
     "end": "2021-09-24T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "3mu3890vo9d0lhgj3dq2pjesa8",
@@ -6046,8 +6376,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-09-25T16:00:00+08:00",
     "end": "2021-09-25T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20210928T060000Z",
@@ -6068,8 +6398,8 @@
     "location": "台北市重慶南路一段10號10樓",
     "start": "2021-09-30T14:00:00+08:00",
     "end": "2021-09-30T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "nairf8i2ml08oddg7ov1iafuj8",
@@ -6079,8 +6409,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-01T10:00:00+08:00",
     "end": "2021-10-01T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "c03nde6r0h1qnm4hugek4bclos",
@@ -6101,8 +6431,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-10-02T16:00:00+08:00",
     "end": "2021-10-02T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211005T060000Z",
@@ -6123,8 +6453,8 @@
     "location": "新北市板橋區中山路一段15號",
     "start": "2021-10-06T15:30:00+08:00",
     "end": "2021-10-06T17:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "bt8n46tskq003ns5gn7n1i8h0s",
@@ -6145,8 +6475,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-08T10:00:00+08:00",
     "end": "2021-10-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "0ncbbnu0nh9tulcjottvnjr3cg",
@@ -6178,8 +6508,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-10-09T16:00:00+08:00",
     "end": "2021-10-09T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "lp0fnr6id17ga60qbcnj8580ec",
@@ -6211,8 +6541,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-13T14:00:00+08:00",
     "end": "2021-10-13T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "fa64nfs5h325h7fjbmqqb12e6s",
@@ -6222,8 +6552,8 @@
     "location": "新北市板橋區中山路一段15號",
     "start": "2021-10-14T10:00:00+08:00",
     "end": "2021-10-14T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "i27i6v7bb0lnso1rlg58dfot1k",
@@ -6244,8 +6574,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-15T14:00:00+08:00",
     "end": "2021-10-15T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211019T060000Z",
@@ -6266,8 +6596,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-20T14:00:00+08:00",
     "end": "2021-10-20T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "a315j1udek756i7g9pas3isuf4",
@@ -6288,8 +6618,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2021-10-21T13:30:00+08:00",
     "end": "2021-10-21T15:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "mv0j5n8q4jogl4aupaur80grdo",
@@ -6299,8 +6629,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-22T12:00:00+08:00",
     "end": "2021-10-22T14:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "saeukdmkudgm6rgojmc7kh6904",
@@ -6321,8 +6651,8 @@
     "location": "新北市板橋區中山路一段15號",
     "start": "2021-10-25T10:00:00+08:00",
     "end": "2021-10-25T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "fodctqosu11nkbcgrpem58ft44",
@@ -6354,8 +6684,8 @@
     "location": "新北市三重區富華街38號2樓",
     "start": "2021-10-26T10:00:00+08:00",
     "end": "2021-10-26T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d1ec9935-1343-511a-8ad3-16a6e57de257",
+    "student_name": "美然"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211026T060000Z",
@@ -6376,8 +6706,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2021-10-27T13:00:00+08:00",
     "end": "2021-10-27T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "6do5maj4vn5jep2hpeieson82s",
@@ -6387,8 +6717,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-27T14:00:00+08:00",
     "end": "2021-10-27T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "pak7tc690d018b1h9k4d9a31b4",
@@ -6409,8 +6739,8 @@
     "location": "南港研究院落一段130巷99號",
     "start": "2021-10-29T10:00:00+08:00",
     "end": "2021-10-29T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "vqqpm8r2up6n2hdm0q2qqme4r0",
@@ -6420,8 +6750,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-10-30T16:00:00+08:00",
     "end": "2021-10-30T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "9jgp88lg1d69oqpcseo24qrqoc",
@@ -6585,8 +6915,8 @@
     "location": "新北市板橋區中山路一段15號",
     "start": "2021-11-15T10:00:00+08:00",
     "end": "2021-11-15T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "mt1kekb3o1lbq8tirbdas229eo",
@@ -6618,8 +6948,8 @@
     "location": "新北市三重區富華街38號2樓",
     "start": "2021-11-18T10:00:00+08:00",
     "end": "2021-11-18T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d1ec9935-1343-511a-8ad3-16a6e57de257",
+    "student_name": "美然"
   },
   {
     "id": "v8jno2qgtsn34jo7tuold32ej4",
@@ -6640,8 +6970,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2021-11-19T17:00:00+08:00",
     "end": "2021-11-19T19:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "2in3esnkic9qiun4ld3o4994tg",
@@ -6651,8 +6981,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-11-20T16:00:00+08:00",
     "end": "2021-11-20T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "a71s6ab5vitgf6latcsbron2u8",
@@ -6699,6 +7029,17 @@
     "student_name": "瓊方"
   },
   {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20211126T020000Z",
+    "date": "2021-11-26",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2021-11-26T10:00:00+08:00",
+    "end": "2021-11-26T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
+  },
+  {
     "id": "aujl59qf21slhahb772mtdd32o",
     "date": "2021-11-26",
     "title": "04.龔金華數位管理教學",
@@ -6706,8 +7047,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2021-11-26T16:00:00+08:00",
     "end": "2021-11-26T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "hmf1dvltjodvq0jbqpm55cuipk",
@@ -6717,8 +7058,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-11-27T16:00:00+08:00",
     "end": "2021-11-27T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "gdjcu70ibl6dihobku0ji5jvg8",
@@ -6728,8 +7069,8 @@
     "location": "新北市板橋區民族路183-1號7樓",
     "start": "2021-11-30T10:00:00+08:00",
     "end": "2021-11-30T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211130T060000Z",
@@ -6805,8 +7146,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-12-11T16:00:00+08:00",
     "end": "2021-12-11T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211214T060000Z",
@@ -6829,6 +7170,17 @@
     "end": "2021-12-16T15:30:00+08:00",
     "student_id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
     "student_name": "瓊方"
+  },
+  {
+    "id": "_6gs38hho8h1jcb9n6t0jgb9k68skab9p8kqk6b9g8kr3icpl6gqjee2160",
+    "date": "2021-12-18",
+    "title": "岳陵姐，休息一次",
+    "description": "",
+    "location": "",
+    "start": "2021-12-18",
+    "end": "2021-12-19",
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211221T060000Z",
@@ -6882,8 +7234,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2021-12-24T16:00:00+08:00",
     "end": "2021-12-24T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "rdvc1caada16kpccumlfg96arc",
@@ -6893,8 +7245,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2021-12-25T16:00:00+08:00",
     "end": "2021-12-25T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20211228T060000Z",
@@ -6930,6 +7282,17 @@
     "student_name": "瓊方"
   },
   {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20211231T020000Z",
+    "date": "2021-12-31",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2021-12-31T10:00:00+08:00",
+    "end": "2021-12-31T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
+  },
+  {
     "id": "firmbg7slk76e18vuea3p0aj6k",
     "date": "2021-12-31",
     "title": "28-4.Kelly Woo蘋果家教",
@@ -6959,8 +7322,8 @@
     "location": "新北市板橋區民族路183-1號7樓",
     "start": "2022-01-04T10:00:00+08:00",
     "end": "2022-01-04T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "179189a3-67cc-57f5-9006-17a2e6efc9fb",
+    "student_name": "林嘉琪"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220104T060000Z",
@@ -6985,6 +7348,17 @@
     "student_name": "瓊方"
   },
   {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20220107T020000Z",
+    "date": "2022-01-07",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2022-01-07T10:00:00+08:00",
+    "end": "2022-01-07T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
+  },
+  {
     "id": "f1b9jsdfkdrcj2fs0iepr4lvg8",
     "date": "2022-01-07",
     "title": "06-2.龔金華數位管理教學",
@@ -6992,8 +7366,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-01-07T16:00:00+08:00",
     "end": "2022-01-07T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "hkbo082a64nj15tdnjo3q0pmv8",
@@ -7027,6 +7401,17 @@
     "end": "2022-01-13T11:30:00+08:00",
     "student_id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
     "student_name": "瓊方"
+  },
+  {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20220114T020000Z",
+    "date": "2022-01-14",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2022-01-14T10:00:00+08:00",
+    "end": "2022-01-14T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "mhd19087sndkqaatcd95t1gmtc",
@@ -7084,6 +7469,17 @@
     "student_name": "敏穎"
   },
   {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20220121T020000Z",
+    "date": "2022-01-21",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2022-01-21T10:00:00+08:00",
+    "end": "2022-01-21T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
+  },
+  {
     "id": "j3n654mssjlv2s1fv0oseogkkg",
     "date": "2022-01-22",
     "title": "安妮數位管理教學",
@@ -7128,6 +7524,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20220128T020000Z",
+    "date": "2022-01-28",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2022-01-28T10:00:00+08:00",
+    "end": "2022-01-28T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
+  },
+  {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220201T060000Z",
     "date": "2022-02-01",
     "title": "蘋果總裁班（休息一次）",
@@ -7137,6 +7544,17 @@
     "end": "2022-02-01T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "4mcj16p9o40e6sf9075r6pq6qs_20220204T020000Z",
+    "date": "2022-02-04",
+    "title": "浩峰生技",
+    "description": "",
+    "location": "",
+    "start": "2022-02-04T10:00:00+08:00",
+    "end": "2022-02-04T12:00:00+08:00",
+    "student_id": "5d43d498-d7d0-5764-ad91-2ee1696f62cd",
+    "student_name": "浩峰生技陳董事長"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220208T060000Z",
@@ -7201,8 +7619,8 @@
     "location": "Louisa Coffee 路易．莎咖啡(德行西門市), 111台灣台北市士林區德行西路36號",
     "start": "2022-02-14T14:00:00+08:00",
     "end": "2022-02-14T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "student_name": "夏紫騰"
   },
   {
     "id": "2d7mrsmontm7212lingvvdq3as",
@@ -7245,8 +7663,8 @@
     "location": "台北市內湖區大湖山莊街164號4F",
     "start": "2022-02-18T14:00:00+08:00",
     "end": "2022-02-18T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "561d8767-01b6-525b-a39d-f7ccb75da17f",
+    "student_name": "呂怡儒"
   },
   {
     "id": "vhu0il15ns32diaii8dvbbcvrg",
@@ -7267,8 +7685,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-02-19T16:00:00+08:00",
     "end": "2022-02-19T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "cvmn5jac569q5rp8b2al810a44",
@@ -7289,8 +7707,8 @@
     "location": "復興北路154號, 10491台灣台北市中山區復興北路154號",
     "start": "2022-02-22T10:30:00+08:00",
     "end": "2022-02-22T12:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "student_name": "夏紫騰"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220222T060000Z",
@@ -7322,8 +7740,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-02-25T16:00:00+08:00",
     "end": "2022-02-25T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "ou7m9rip76mddk2s3t146t2v5s",
@@ -7344,8 +7762,8 @@
     "location": "復興北路156號, 10491台灣台北市中山區復興北路156號",
     "start": "2022-03-01T10:30:00+08:00",
     "end": "2022-03-01T12:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "student_name": "夏紫騰"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220301T060000Z",
@@ -7399,8 +7817,8 @@
     "location": "台北市內湖區大湖山莊街164號4F",
     "start": "2022-03-08T10:00:00+08:00",
     "end": "2022-03-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "561d8767-01b6-525b-a39d-f7ccb75da17f",
+    "student_name": "呂怡儒"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220308T060000Z",
@@ -7454,8 +7872,8 @@
     "location": "南京西路36號, 103台灣台北市大同區南京西路36號",
     "start": "2022-03-14T14:00:00+08:00",
     "end": "2022-03-14T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "student_name": "夏紫騰"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220315T060000Z",
@@ -7487,8 +7905,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-03-19T16:00:00+08:00",
     "end": "2022-03-19T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220322T060000Z",
@@ -7531,8 +7949,8 @@
     "location": "台北市內湖區大湖山莊街164號4F",
     "start": "2022-03-25T09:30:00+08:00",
     "end": "2022-03-25T11:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "561d8767-01b6-525b-a39d-f7ccb75da17f",
+    "student_name": "呂怡儒"
   },
   {
     "id": "2g1albj3t7h1odc1jn98fjl5uk",
@@ -7641,8 +8059,8 @@
     "location": "南京西路36號, 103台灣台北市大同區南京西路36號",
     "start": "2022-04-12T10:00:00+08:00",
     "end": "2022-04-12T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "8b19c796-a606-5060-8f50-893aa4262a9a",
+    "student_name": "夏紫騰"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220412T060000Z",
@@ -7828,8 +8246,8 @@
     "location": "台北市臨沂街33巷27號4樓",
     "start": "2022-05-16T10:00:00+08:00",
     "end": "2022-05-16T13:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220517T060000Z",
@@ -7850,8 +8268,8 @@
     "location": "台北市內湖區民權東路六段206巷128號3樓",
     "start": "2022-05-19T11:00:00+08:00",
     "end": "2022-05-19T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9af408f6-eabb-5af4-9e90-641d06ed2cb1",
+    "student_name": "賴怡之"
   },
   {
     "id": "mrlsrrlijiq2guvpoi15k5ug0s",
@@ -7883,8 +8301,8 @@
     "location": "台北市臨沂街33巷27號4樓",
     "start": "2022-05-26T10:00:00+08:00",
     "end": "2022-05-26T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "8cgi5gal6jo1fn148156avgqhk",
@@ -7905,8 +8323,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-05-27T14:00:00+08:00",
     "end": "2022-05-27T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "3s744vqf0okair24uee1dk6d4c",
@@ -7927,8 +8345,8 @@
     "location": "台北市臨沂街33巷27號4樓",
     "start": "2022-05-30T14:00:00+08:00",
     "end": "2022-05-30T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "oj72kjottiqbavmcdpruvh8gmd_20220531T060000Z",
@@ -7993,8 +8411,8 @@
     "location": "台北市臨沂街33巷27號4樓",
     "start": "2022-06-09T10:00:00+08:00",
     "end": "2022-06-09T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "hke241r6qnvmj7is5sim709t0o",
@@ -8015,8 +8433,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2022-06-10T10:00:00+08:00",
     "end": "2022-06-10T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "3n9hrdkrfv9faalrt4neb1i7s0",
@@ -8081,8 +8499,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-06-17T16:30:00+08:00",
     "end": "2022-06-17T18:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "8tpllp07oqnl4h20rcukfbvn0k",
@@ -8125,8 +8543,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-06-25T16:00:00+08:00",
     "end": "2022-06-25T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "ivtcvej14ifg058mkhp2heoc04",
@@ -8136,8 +8554,8 @@
     "location": "台北市中正區忠孝東路一段76號12樓",
     "start": "2022-06-28T10:00:00+08:00",
     "end": "2022-06-28T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "8dfij0rah9f6nd0un6qd8ui1ls",
@@ -8158,8 +8576,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-07-02T16:00:00+08:00",
     "end": "2022-07-02T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "0vlu9riu03mc7mlhh9j57k7eco",
@@ -8169,8 +8587,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-07-09T16:00:00+08:00",
     "end": "2022-07-09T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "mttfqq6qbho75s9fcp4ivviroo",
@@ -8213,8 +8631,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-07-15T16:00:00+08:00",
     "end": "2022-07-15T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "jfdmsv2p5grlb3ongrel520ims",
@@ -8224,8 +8642,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-07-16T16:00:00+08:00",
     "end": "2022-07-16T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "3ham6g3qdnsg7cpktvv2vph5t8",
@@ -8237,6 +8655,17 @@
     "end": "2022-07-18T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "mo2irj8f2dukm8kbveq4ne1bu4",
+    "date": "2022-07-18",
+    "title": "龔金華內部培訓討論",
+    "description": "",
+    "location": "臺北市南港區福德街268巷43號",
+    "start": "2022-07-18T17:00:00+08:00",
+    "end": "2022-07-18T19:00:00+08:00",
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "cd7h2tce74305g05q8l6hjqbsc",
@@ -8334,8 +8763,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-07-30T14:00:00+08:00",
     "end": "2022-07-30T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "1ba0ec3b61maa4d1sq76o9ndk8",
@@ -8356,8 +8785,8 @@
     "location": "臺北市南港區同德路66巷1號",
     "start": "2022-08-02T14:00:00+08:00",
     "end": "2022-08-02T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "hn5d3k9f9k2n4cv6prum0sra6c",
@@ -8389,8 +8818,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-08-06T16:00:00+08:00",
     "end": "2022-08-06T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "770d42nk280rbi2cri5t3g7684",
@@ -8444,8 +8873,8 @@
     "location": "新北市淡水區新民街一段25之1號9樓B棟",
     "start": "2022-08-12T14:00:00+08:00",
     "end": "2022-08-12T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "f37d8qo9h25is3a6fi1l9roc38",
@@ -8466,8 +8895,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-08-13T16:00:00+08:00",
     "end": "2022-08-13T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "peqaepqeqvl6gotdo0pej78kgc",
@@ -8499,8 +8928,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-08-17T16:30:00+08:00",
     "end": "2022-08-17T18:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "pnqruolinbp50d5gdq9bmu3u6g",
@@ -8510,8 +8939,8 @@
     "location": "新北市淡水區新民街一段25之1號9樓B棟",
     "start": "2022-08-18T15:00:00+08:00",
     "end": "2022-08-18T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "rp81mm5g0p0gilekad75k3rbps",
@@ -8543,8 +8972,8 @@
     "location": "Middle Name coffee & space, 103台灣台北市大同區南京西路18巷10號",
     "start": "2022-08-26T18:00:00+08:00",
     "end": "2022-08-26T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "crs01bui6c22unrsion4jcdp78",
@@ -8565,8 +8994,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-08-27T14:00:00+08:00",
     "end": "2022-08-27T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "hu41fipm29ku3rojeu38iabul8",
@@ -8587,8 +9016,8 @@
     "location": "新北市淡水區新民街一段25之1號9樓B棟",
     "start": "2022-09-01T15:00:00+08:00",
     "end": "2022-09-01T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "boghj7u3rnic5a668msus8kjh0",
@@ -8598,8 +9027,19 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-09-02T18:00:00+08:00",
     "end": "2022-09-02T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
+  },
+  {
+    "id": "21vtvs76klvr65ufet68p7qm1k",
+    "date": "2022-09-03",
+    "title": "蔡教練和彭彭線上一對一",
+    "description": "",
+    "location": "",
+    "start": "2022-09-03T10:00:00+08:00",
+    "end": "2022-09-03T11:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "p3e11mheccr1lpl65rlj19e2eo",
@@ -8611,6 +9051,17 @@
     "end": "2022-09-06T12:00:00+08:00",
     "student_id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
     "student_name": "郭姐"
+  },
+  {
+    "id": "o0prgtkdunlafv4bf72c08nah8",
+    "date": "2022-09-06",
+    "title": "彭彭線上討論",
+    "description": "",
+    "location": "",
+    "start": "2022-09-06T16:00:00+08:00",
+    "end": "2022-09-06T17:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "ad7fs4tgs403a0a36i1g65bm2o",
@@ -8686,8 +9137,8 @@
     "location": "星巴克 (時代寓所門市), 100024台灣台北市中正區林森南路7-1號",
     "start": "2022-09-15T10:00:00+08:00",
     "end": "2022-09-15T13:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7f8def80-e6eb-5225-9b1a-9eb0de24f7e2",
+    "student_name": "吳潤慈"
   },
   {
     "id": "ljasd9epu707lnd2ircfofb518",
@@ -8708,8 +9159,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-09-16T18:00:00+08:00",
     "end": "2022-09-16T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "tgapr3s0ajh0pgt0bif3uevj2k",
@@ -8719,8 +9170,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-09-17T15:00:00+08:00",
     "end": "2022-09-17T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "07vcf3tef3het2arrs1ihcgpn8",
@@ -8752,8 +9203,8 @@
     "location": "臺北市內湖區新民路343號8樓",
     "start": "2022-09-19T16:00:00+08:00",
     "end": "2022-09-19T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "9ca22b11-51cd-5d86-8d47-ff4969ebad35",
+    "student_name": "龔金華"
   },
   {
     "id": "3qockbmtgcqle135jrlnuhfqks",
@@ -8763,8 +9214,8 @@
     "location": "羊毛與花 ‧ 光點 youmoutoohana Coffee, 104台灣台北市中山區中山北路二段18號",
     "start": "2022-09-30T18:00:00+08:00",
     "end": "2022-09-30T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "5j0kpafh1m0fjierh5gce4ud1s",
@@ -8833,6 +9284,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "9g8spm5rkf9krnblr7ctctjfms",
+    "date": "2022-10-07",
+    "title": "協助彭彭",
+    "description": "",
+    "location": "10050台北市中正區忠孝東路一段76號12F之一",
+    "start": "2022-10-07T12:00:00+08:00",
+    "end": "2022-10-07T14:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
+  },
+  {
     "id": "famit5shm2lnj0ttv9rqkl05jk",
     "date": "2022-10-08",
     "title": "33-25.岳陵姐數位管理教學",
@@ -8840,8 +9302,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-10-08T15:00:00+08:00",
     "end": "2022-10-08T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "08igk3u39lsr55qc04m2lieaes",
@@ -8866,6 +9328,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "noqmmsrip7b67og9l9b1hnim28",
+    "date": "2022-10-14",
+    "title": "和彭彭線上討論",
+    "description": "",
+    "location": "",
+    "start": "2022-10-14T13:00:00+08:00",
+    "end": "2022-10-14T14:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
+  },
+  {
     "id": "j077nitmqo7hltqbvo8s2rv9co",
     "date": "2022-10-14",
     "title": "16-4.Stanley 數位管理教學",
@@ -8884,8 +9357,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-10-14T18:00:00+08:00",
     "end": "2022-10-14T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "osfkrbepe3htpqs4b487tshuvg",
@@ -8899,6 +9372,17 @@
     "student_name": "邱醫師"
   },
   {
+    "id": "ck0c1spgdr0rlspmfap98bctko",
+    "date": "2022-10-17",
+    "title": "和彭彭討論簡報",
+    "description": "",
+    "location": "",
+    "start": "2022-10-17T17:00:00+08:00",
+    "end": "2022-10-17T18:00:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
+  },
+  {
     "id": "ah9g42h5kgbgcjm2lp6jrlg8k8",
     "date": "2022-10-18",
     "title": "40-8.瓊方數位管理教學",
@@ -8908,6 +9392,17 @@
     "end": "2022-10-18T15:30:00+08:00",
     "student_id": "a5399c3d-2616-4ff9-b649-478ec8df040f",
     "student_name": "瓊方"
+  },
+  {
+    "id": "jbrm4doe3loa1i0mvh96a7sovc",
+    "date": "2022-10-18",
+    "title": "和曾珮貞用Line聊一下",
+    "description": "",
+    "location": "",
+    "start": "2022-10-18T17:00:00+08:00",
+    "end": "2022-10-18T18:00:00+08:00",
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "36v77r2rgk3urvv3vl7htmue0k",
@@ -8994,8 +9489,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-10-25T16:00:00+08:00",
     "end": "2022-10-25T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "7jsf4pk5eo3q56uk0pcgg58o1o",
@@ -9038,8 +9533,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-10-28T18:00:00+08:00",
     "end": "2022-10-28T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "2okjna6qgk9pmt2ebc27ubatos",
@@ -9071,8 +9566,8 @@
     "location": "碩哲商務中心忠孝一館, 10050台灣台北市中正區忠孝東路一段76號12F之一",
     "start": "2022-11-04T09:00:00+08:00",
     "end": "2022-11-04T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "d0dfthhlcfvkio39a8ma1bri40",
@@ -9093,8 +9588,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-11-08T10:00:00+08:00",
     "end": "2022-11-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "cso5js83hkt4omrnnga47f69k0",
@@ -9115,8 +9610,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-11-09T17:00:00+08:00",
     "end": "2022-11-09T19:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20221110T060000Z",
@@ -9137,8 +9632,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-11-11T18:00:00+08:00",
     "end": "2022-11-11T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "el5muv1h1octru5bqm00m0p5a4",
@@ -9148,8 +9643,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-11-14T14:00:00+08:00",
     "end": "2022-11-14T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "cuqe99inqdj2pnl5nhe3ad3ago",
@@ -9247,8 +9742,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-11-21T13:00:00+08:00",
     "end": "2022-11-21T15:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "99208i0ds1sdf28g8j9i67airg",
@@ -9280,8 +9775,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-11-25T18:00:00+08:00",
     "end": "2022-11-25T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "57dpnrpkveo1bhl5urp56q505o",
@@ -9291,8 +9786,8 @@
     "location": "台北市松山區敦化北路145巷26-3號5F",
     "start": "2022-11-26T15:00:00+08:00",
     "end": "2022-11-26T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "994ed6b9-0bf8-5c0e-aeb4-3539e075e454",
+    "student_name": "岳陵姐"
   },
   {
     "id": "m4cl2utvkupt6h8kpeu8vnclv8",
@@ -9445,8 +9940,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-12-09T18:00:00+08:00",
     "end": "2022-12-09T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "_6923ah2260r46ba28l2j4b9k6523cb9o84rj0b9p6cq30cpn70q4ch1o8g",
@@ -9478,8 +9973,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-12-12T14:00:00+08:00",
     "end": "2022-12-12T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "h04hdqbl27n4nm8mmivn0cs77c",
@@ -9566,8 +10061,8 @@
     "location": "新北市八里區龍米路一段308號3樓之七",
     "start": "2022-12-19T15:00:00+08:00",
     "end": "2022-12-19T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "l4anrt9q995l5fsq78ob9ml440",
@@ -9599,8 +10094,8 @@
     "location": "台北市臨沂街33巷27號4樓",
     "start": "2022-12-23T10:00:00+08:00",
     "end": "2022-12-23T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "53810b9b-0e5b-579a-a56d-c2708aae8bf0",
+    "student_name": "Ben哥線上"
   },
   {
     "id": "nn6uqevq6fle4vi2qinqghnd3o",
@@ -9610,8 +10105,8 @@
     "location": "王品牛排台北中山北店, 104台灣台北市中山區中山北路二段33號2F",
     "start": "2022-12-23T18:00:00+08:00",
     "end": "2022-12-23T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "g3lljunds5ms8810j6di3c9098",
@@ -9632,8 +10127,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2022-12-27T09:00:00+08:00",
     "end": "2022-12-27T11:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "n98lsg8hj7nfla28jbin14o8lc",
@@ -9643,8 +10138,8 @@
     "location": "伯朗咖啡館 南京一店, 10491台灣台北市中山區南京東路二段218號",
     "start": "2022-12-27T14:30:00+08:00",
     "end": "2022-12-27T16:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "40d33283-147b-5c3e-b4cc-818e6158edd2",
+    "student_name": "秀敏姐"
   },
   {
     "id": "sk0v6l3kj6e4aagg8mggc8oa8g",
@@ -9676,8 +10171,8 @@
     "location": "新北市淡水區新民街一段25之1號9樓B棟",
     "start": "2022-12-30T10:00:00+08:00",
     "end": "2022-12-30T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "00550bd0-c728-571b-8a84-382c6259a015",
+    "student_name": "胡大姐"
   },
   {
     "id": "ocrm8qmi9in8uh9tfacmmgctls",
@@ -9698,8 +10193,8 @@
     "location": "集客人間茶館-三越店, 104台灣台北市中山區中山北路一段140巷6-1號",
     "start": "2022-12-30T18:00:00+08:00",
     "end": "2022-12-30T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "7e0eff74-9383-5e96-934b-aea307cf7ca1",
+    "student_name": "李小姐"
   },
   {
     "id": "n3ktb3ip65cvgfk9119ms2mru8",
@@ -9720,8 +10215,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-01-03T12:30:00+08:00",
     "end": "2023-01-03T14:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230105T060000Z",
@@ -9819,8 +10314,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-01-10T12:30:00+08:00",
     "end": "2023-01-10T14:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "7vhkh8g31u3qv75phneb294t4k",
@@ -9896,8 +10391,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-01-30T10:00:00+08:00",
     "end": "2023-01-30T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "kr63uqij05429cavmttmmj538k",
@@ -9962,8 +10457,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-02-06T10:00:00+08:00",
     "end": "2023-02-06T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "81ku0kqjpi83oe4l6hk72slddk",
@@ -10039,8 +10534,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-02-14T10:00:00+08:00",
     "end": "2023-02-14T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230216T060000Z",
@@ -10149,8 +10644,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-03-06T10:00:00+08:00",
     "end": "2023-03-06T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "2clqorint94b68th0nuq0e489o",
@@ -10215,8 +10710,8 @@
     "location": "台北市北平東路30號14樓",
     "start": "2023-03-14T10:00:00+08:00",
     "end": "2023-03-14T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "d45349eb-ffb5-5fc9-84e6-5007d2a37e79",
+    "student_name": "曾珮貞"
   },
   {
     "id": "dcl0l85rqnosf67al1g0tphp1c",
@@ -10644,8 +11139,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-05-13T10:00:00+08:00",
     "end": "2023-05-13T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "09de67c0-1c5f-5b15-8331-4dfe658e0719",
+    "student_name": "張淑華"
   },
   {
     "id": "iaevuv4gdip2sv28ieov4aag0o",
@@ -10677,8 +11172,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-05-17T17:30:00+08:00",
     "end": "2023-05-17T19:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "09de67c0-1c5f-5b15-8331-4dfe658e0719",
+    "student_name": "張淑華"
   },
   {
     "id": "ef6qhidbfmrlvvibh49h1duv50",
@@ -10842,8 +11337,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-06-06T16:00:00+08:00",
     "end": "2023-06-06T18:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230608T060000Z",
@@ -10864,8 +11359,8 @@
     "location": "台北市中山區林森北路65號",
     "start": "2023-06-09T14:00:00+08:00",
     "end": "2023-06-09T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "ql1cca6lmbu21r9b3pds4kmkuk",
@@ -10886,8 +11381,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-06-13T14:00:00+08:00",
     "end": "2023-06-13T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230615T060000Z",
@@ -10919,8 +11414,8 @@
     "location": "台北市中山區民權西路65號",
     "start": "2023-06-16T14:00:00+08:00",
     "end": "2023-06-16T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "9u6u1jcp080jg12i9b6ahh7jvo",
@@ -10941,8 +11436,8 @@
     "location": "台北市中正區信義路二段259號",
     "start": "2023-06-20T10:00:00+08:00",
     "end": "2023-06-20T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "9mcq3nagh9gt12dsg96oqjmd2c",
@@ -10952,8 +11447,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-06-20T14:00:00+08:00",
     "end": "2023-06-20T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "lo7h414or5fo2dp1h63k9tr3kk",
@@ -10996,8 +11491,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-06-27T14:00:00+08:00",
     "end": "2023-06-27T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230629T060000Z",
@@ -11018,8 +11513,8 @@
     "location": "台北市林森北路65號",
     "start": "2023-07-03T10:00:00+08:00",
     "end": "2023-07-03T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "3slsv8np47ig71uhoj718gqp4c",
@@ -11095,8 +11590,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-07-13T10:00:00+08:00",
     "end": "2023-07-13T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230713T060000Z",
@@ -11117,8 +11612,8 @@
     "location": "台北市林森北路65號",
     "start": "2023-07-14T10:00:00+08:00",
     "end": "2023-07-14T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "6blrvlon700lt504ob5c4k6l78",
@@ -11161,8 +11656,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-07-18T14:00:00+08:00",
     "end": "2023-07-18T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "hjd6p6o3a3butt08ff1uis0a1k",
@@ -11172,8 +11667,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-07-19T14:15:00+08:00",
     "end": "2023-07-19T16:15:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230720T060000Z",
@@ -11194,8 +11689,8 @@
     "location": "台北市林森北路65號",
     "start": "2023-07-25T10:00:00+08:00",
     "end": "2023-07-25T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230727T060000Z",
@@ -11238,8 +11733,8 @@
     "location": "台北市林森北路65號",
     "start": "2023-07-31T14:00:00+08:00",
     "end": "2023-07-31T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "p43osj1326u8vhc7q0o5hq8e6g",
@@ -11249,8 +11744,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-08-01T14:00:00+08:00",
     "end": "2023-08-01T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230803T060000Z",
@@ -11304,8 +11799,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-08-08T14:00:00+08:00",
     "end": "2023-08-08T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "r5ppmvbg9untmr0d8n47d6bs60",
@@ -11315,8 +11810,8 @@
     "location": "台北市林森北路65號",
     "start": "2023-08-10T10:00:00+08:00",
     "end": "2023-08-10T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230810T060000Z",
@@ -11414,8 +11909,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-08-24T10:00:00+08:00",
     "end": "2023-08-24T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230824T060000Z",
@@ -11458,8 +11953,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-08-31T10:00:00+08:00",
     "end": "2023-08-31T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230831T060000Z",
@@ -11502,8 +11997,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-09-07T10:00:00+08:00",
     "end": "2023-09-07T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230907T060000Z",
@@ -11557,8 +12052,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-09-14T10:00:00+08:00",
     "end": "2023-09-14T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230914T060000Z",
@@ -11590,8 +12085,8 @@
     "location": "105台灣臺北市松山區民生東路四段80巷15弄9號4樓之一",
     "start": "2023-09-19T10:00:00+08:00",
     "end": "2023-09-19T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "6854ea9b-c067-5b83-bf85-3b18120114e8",
+    "student_name": "達賢"
   },
   {
     "id": "07q8s8benn6n8crsdt56or69ek",
@@ -11601,8 +12096,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-09-21T10:00:00+08:00",
     "end": "2023-09-21T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230921T060000Z",
@@ -11634,8 +12129,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-09-28T10:00:00+08:00",
     "end": "2023-09-28T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20230928T060000Z",
@@ -11689,8 +12184,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-10-05T10:00:00+08:00",
     "end": "2023-10-05T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231005T060000Z",
@@ -11744,8 +12239,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-10-12T10:00:00+08:00",
     "end": "2023-10-12T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231012T060000Z",
@@ -11898,8 +12393,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-10-26T10:00:00+08:00",
     "end": "2023-10-26T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231026T060000Z",
@@ -12008,8 +12503,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-11-02T10:00:00+08:00",
     "end": "2023-11-02T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231102T060000Z",
@@ -12041,8 +12536,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-11-09T10:00:00+08:00",
     "end": "2023-11-09T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231109T060000Z",
@@ -12096,8 +12591,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-11-16T10:00:00+08:00",
     "end": "2023-11-16T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231116T060000Z",
@@ -12129,8 +12624,8 @@
     "location": "新北市新莊區中正路80-1號5樓",
     "start": "2023-11-23T10:00:00+08:00",
     "end": "2023-11-23T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "2d8d94a4-951d-5ee9-92a8-d32cee3ab739",
+    "student_name": "陳淑華"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20231123T060000Z",
@@ -12208,6 +12703,17 @@
     "end": "2023-12-05T16:00:00+08:00",
     "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
     "student_name": "邱醫師"
+  },
+  {
+    "id": "bu2d57u5i849re4vr4bd6c34tg",
+    "date": "2023-12-06",
+    "title": "彭彭線上一對一",
+    "description": "",
+    "location": "",
+    "start": "2023-12-06T19:30:00+08:00",
+    "end": "2023-12-06T20:30:00+08:00",
+    "student_id": "5a449d3e-dcf9-55d9-9b61-fc5ce935c482",
+    "student_name": "彭彭"
   },
   {
     "id": "al0ti7ubbtqk3css50on8jm1fg",
@@ -13944,8 +14450,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-06-12T16:30:00+08:00",
     "end": "2024-06-12T18:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "cuveodkfoaekvpaem6bfdrnel8",
@@ -14010,8 +14516,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-06-17T18:00:00+08:00",
     "end": "2024-06-17T20:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "8jjf5u7gkueamcb1a5vf4avr08",
@@ -14021,8 +14527,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-06-20T10:00:00+08:00",
     "end": "2024-06-20T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20240620T060000Z",
@@ -14098,8 +14604,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-06-25T09:00:00+08:00",
     "end": "2024-06-25T11:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "17a7e3asv7fut6l80a07c0h1f8",
@@ -14120,8 +14626,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-06-27T09:30:00+08:00",
     "end": "2024-06-27T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20240627T060000Z",
@@ -14175,8 +14681,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-07-01T10:00:00+08:00",
     "end": "2024-07-01T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "e8n4a57nofcsihn12e62nvsrcg",
@@ -14241,8 +14747,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-07-05T15:30:00+08:00",
     "end": "2024-07-05T17:30:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "nelprbn2ivapuvlnu1blgsss1g",
@@ -14263,8 +14769,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-07-08T10:00:00+08:00",
     "end": "2024-07-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "gdq6r22mrkbkuar76i4u78253g",
@@ -14274,8 +14780,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-07-09T09:00:00+08:00",
     "end": "2024-07-09T11:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "86qj9td7fhqua13pfb0vf668p8",
@@ -14560,8 +15066,8 @@
     "location": "台北市民族東路767號2樓之1",
     "start": "2024-08-13T15:00:00+08:00",
     "end": "2024-08-13T17:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "b5ce2201-33e7-52f1-bd2d-75525f49cb2c",
+    "student_name": "Ray"
   },
   {
     "id": "2m2o7umi4dfs6l62ho5frojn6o",
@@ -14584,6 +15090,17 @@
     "end": "2024-08-15T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "l9d4mkshbanqf5cas1s8m9mt8k",
+    "date": "2024-08-15",
+    "title": "五分鐘簡報  @張益堯 Tony  線上",
+    "description": "",
+    "location": "",
+    "start": "2024-08-15T20:40:00+08:00",
+    "end": "2024-08-15T21:40:00+08:00",
+    "student_id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
+    "student_name": "益堯哥"
   },
   {
     "id": "jrlcpp03vq73irll6rm7vu53ok",
@@ -14681,8 +15198,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-08-29T10:00:00+08:00",
     "end": "2024-08-29T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20240829T060000Z",
@@ -14703,8 +15220,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-08-30T10:00:00+08:00",
     "end": "2024-08-30T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "nbo8pa77rkaka3l21jekmi9448",
@@ -14725,8 +15242,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-09-01T10:00:00+08:00",
     "end": "2024-09-01T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "bb1l54vbe3c9masebc347f3nc8",
@@ -14824,8 +15341,8 @@
     "location": "天母西路136號12樓",
     "start": "2024-09-08T10:00:00+08:00",
     "end": "2024-09-08T12:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "3509694d-8129-5f44-a5f9-7523e9a20bb1",
+    "student_name": "Polly"
   },
   {
     "id": "qsu44hbmfr8ehhl9tqfjn85tjs",
@@ -15913,8 +16430,8 @@
     "location": "台北市安和路二段43號一樓",
     "start": "2025-01-06T14:00:00+08:00",
     "end": "2025-01-06T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "student_id": "fa9f0bd9-d7fd-57ed-b84c-e6adbaf060ab",
+    "student_name": "Tina"
   },
   {
     "id": "2c8s5q7ab0c469j666ovsgr7po",
@@ -19052,6 +19569,17 @@
     "student_name": "政佑"
   },
   {
+    "id": "da0jakk6t8n51rnbqvptjt93mc",
+    "date": "2025-11-30",
+    "title": "Liya線上BNI一對一",
+    "description": "",
+    "location": "",
+    "start": "2025-11-30T08:45:00+08:00",
+    "end": "2025-11-30T09:45:00+08:00",
+    "student_id": "806fac9e-6139-54e0-a774-75f87fc0202e",
+    "student_name": "Liya"
+  },
+  {
     "id": "b9558530eqajualttmjdmg4fug",
     "date": "2025-11-30",
     "title": "08.湘祺姐數位管理教學@捷運大安站4號出口",
@@ -20204,7 +20732,7 @@
     "start": "2026-03-10T14:00:00+08:00",
     "end": "2026-03-10T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20260312T060000Z",
@@ -20358,7 +20886,7 @@
     "start": "2026-03-24T14:00:00+08:00",
     "end": "2026-03-24T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "afjjjo37l4dhhe87q7l13e5ptc",
@@ -20424,7 +20952,7 @@
     "start": "2026-03-31T14:00:00+08:00",
     "end": "2026-03-31T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "grri03su7sa7gssf10kuafh5og",
@@ -20512,7 +21040,7 @@
     "start": "2026-04-07T14:00:00+08:00",
     "end": "2026-04-07T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20260409T060000Z",
@@ -20578,7 +21106,7 @@
     "start": "2026-04-14T14:00:00+08:00",
     "end": "2026-04-14T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "86bvvsdbmp7h6k8glhtsmi2vhg",
@@ -20864,7 +21392,7 @@
     "start": "2026-05-05T14:00:00+08:00",
     "end": "2026-05-05T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "luhb0v1otbrnrjlsnm98p8rkng",
@@ -20996,7 +21524,7 @@
     "start": "2026-05-12T14:00:00+08:00",
     "end": "2026-05-12T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "0amj1beckmnn528g0mtuv8gs9o_20260513T080000Z",
@@ -22063,7 +22591,7 @@
     "start": "2026-07-28T14:00:00+08:00",
     "end": "2026-07-28T16:00:00+08:00",
     "student_id": "2944f0c1-48fb-4751-be82-9f6195607294",
-    "student_name": "禮品公會"
+    "student_name": "禮品公會第二期"
   },
   {
     "id": "9j6mkt75le393n5ikb9riboiks",
@@ -22561,6 +23089,17 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "_68o34dhg74o38bbkclmn0r31ehiiqb9i6opj8e1o70pjgcpn68ojanqvedglus3iclk6aobkbtk6asjfbtkmug3netrissj1f5n6arpecdnmq",
+    "date": "2026-09-04",
+    "title": "RayNeo iO Launch",
+    "description": "RayNeo iO AI Glasses become available. Upgrade your mind for everyday productivity.",
+    "location": "https://www.rayneo.com/pages/rayneo-io-ai-glasses",
+    "start": "2026-09-04",
+    "end": "2026-09-05",
+    "student_id": "b5ce2201-33e7-52f1-bd2d-75525f49cb2c",
+    "student_name": "Ray"
+  },
+  {
     "id": "6vfu2ec0ae5tcgqu9drf3oimnc",
     "date": "2026-09-04",
     "title": "26-8.陳海陸數位管理教學",
@@ -22873,22 +23412,11 @@
     "date": "2026-09-29",
     "title": "08.資深少年AI學習團",
     "description": "",
-    "location": "",
+    "location": "長頸鹿美語總管理處, 100台灣臺北市中正區梅花里忠孝東路一段9號",
     "start": "2026-09-29T14:00:00+08:00",
     "end": "2026-09-29T16:00:00+08:00",
     "student_id": "d243b860-318e-4a64-9b98-95a28cb93821",
     "student_name": "資深少年 AI 學習團"
-  },
-  {
-    "id": "18fq0ft48mipnmrklgd0hogjuh_20260930T080000Z",
-    "date": "2026-09-30",
-    "title": "和陳顧問合作課程",
-    "description": "",
-    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
-    "start": "2026-09-30T16:00:00+08:00",
-    "end": "2026-09-30T18:00:00+08:00",
-    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
-    "student_name": "陳顧問"
   },
   {
     "id": "tn8gn7aqdrjnbpdfe70nlk4mis",
@@ -22904,7 +23432,7 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261001T060000Z",
     "date": "2026-10-01",
-    "title": "蘋果總裁班",
+    "title": "1366.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-10-01T14:00:00+08:00",
@@ -22946,17 +23474,6 @@
     "student_name": "Amy"
   },
   {
-    "id": "5584sir7ekk0n51997kfr9vr4g",
-    "date": "2026-10-04",
-    "title": "08.顧蓓華數位管理教學",
-    "description": "",
-    "location": "台北市大安區安和路二段175號15樓之一",
-    "start": "2026-10-04T09:30:00+08:00",
-    "end": "2026-10-04T11:30:00+08:00",
-    "student_id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
-    "student_name": "顧蓓華"
-  },
-  {
     "id": "u77robao2g0b8s9uhpu6ale2vo",
     "date": "2026-10-05",
     "title": "77-5.陳姐Charlotte數位管理教學",
@@ -22979,26 +23496,15 @@
     "student_name": "張素幸"
   },
   {
-    "id": "4gdirrm9qna9j6d1tglt862aus",
+    "id": "i06344hihd76fbig5d3r37ncns",
     "date": "2026-10-06",
-    "title": "15-7.曾小米數位管理教學",
+    "title": "24-1.Shelley 陳萱玲數位管理教學",
     "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-10-06T10:00:00+08:00",
-    "end": "2026-10-06T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
-  },
-  {
-    "id": "bqsol0nfv3enk3captfm56e244",
-    "date": "2026-10-06",
-    "title": "17-1.曾小米數位管理教學",
-    "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-10-06T10:00:00+08:00",
-    "end": "2026-10-06T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
+    "location": "台北市南京東路四段164號8樓",
+    "start": "2026-10-06T10:30:00+08:00",
+    "end": "2026-10-06T12:30:00+08:00",
+    "student_id": "b5b5aef3-3514-478e-bbca-b0c568434551",
+    "student_name": "Shelley 陳萱玲"
   },
   {
     "id": "60nsq5e1ib2ij631jcbdg2fdfs",
@@ -23006,26 +23512,15 @@
     "title": "01.Liya數位管理教學",
     "description": "",
     "location": "新北市中和區興南路一段135巷22弄14號",
-    "start": "2026-10-06T14:00:00+08:00",
-    "end": "2026-10-06T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
-  },
-  {
-    "id": "laadhaab4k5uvln3jcg6d2mvv8",
-    "date": "2026-10-06",
-    "title": "02.Liya數位管理教學",
-    "description": "",
-    "location": "新北市中和區興南路一段135巷22弄14號",
-    "start": "2026-10-06T14:00:00+08:00",
-    "end": "2026-10-06T16:00:00+08:00",
-    "student_id": "",
-    "student_name": ""
+    "start": "2026-10-06T14:30:00+08:00",
+    "end": "2026-10-06T16:30:00+08:00",
+    "student_id": "806fac9e-6139-54e0-a774-75f87fc0202e",
+    "student_name": "Liya"
   },
   {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20261007T080000Z",
     "date": "2026-10-07",
-    "title": "和陳顧問合作課程",
+    "title": "15.和陳顧問合作課程",
     "description": "",
     "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
     "start": "2026-10-07T16:00:00+08:00",
@@ -23034,31 +23529,20 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "c7db3s0fbs7465mv213npvhnho",
+    "id": "n9qq27i7guvj4rd9rm4m67vhf0",
     "date": "2026-10-08",
-    "title": "48-8.查米數位管理教學 315",
+    "title": "18-2.Anna蕭數位管理教學",
     "description": "",
-    "location": "106台灣大安區敦化南路一段233巷20號315",
+    "location": "Louisa Coffee 路易莎咖啡(德行西門市), 111台灣台北市士林區德行西路36號",
     "start": "2026-10-08T10:00:00+08:00",
     "end": "2026-10-08T12:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
-  },
-  {
-    "id": "pm1e2a00ghnd2ueotdi4m99rhg",
-    "date": "2026-10-08",
-    "title": "46-6.查米數位管理教學",
-    "description": "",
-    "location": "106台灣大安區敦化南路一段233巷20號315",
-    "start": "2026-10-08T10:00:00+08:00",
-    "end": "2026-10-08T12:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
+    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
+    "student_name": "Anna 蕭"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261008T060000Z",
     "date": "2026-10-08",
-    "title": "蘋果總裁班",
+    "title": "1367.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-10-08T14:00:00+08:00",
@@ -23073,7 +23557,7 @@
     "description": "",
     "location": "瑞安街135巷27號7F",
     "start": "2026-10-11T08:00:00+08:00",
-    "end": "2026-10-11T10:00:00+08:00",
+    "end": "2026-10-11T12:00:00+08:00",
     "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
     "student_name": "Kelly Woo"
   },
@@ -23089,15 +23573,15 @@
     "student_name": "大腳旅行社曹淑鈴Crystal"
   },
   {
-    "id": "kv8756bs93fvdn7cu01fdrjloo",
+    "id": "6ntcku37t80orid07no07kra2o",
     "date": "2026-10-12",
-    "title": "20-4.張素幸數位管理教學",
+    "title": "19-3.Anna蕭數位管理教學",
     "description": "",
-    "location": "桃園市桃園區中正路1400之6號3樓",
+    "location": "Louisa Coffee 路易莎咖啡(德行西門市), 111台灣台北市士林區德行西路36號",
     "start": "2026-10-12T14:00:00+08:00",
-    "end": "2026-10-12T16:00:00+08:00",
-    "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
-    "student_name": "張素幸"
+    "end": "2026-10-12T17:00:00+08:00",
+    "student_id": "bdc7faee-6ffe-451e-8134-c923fc906238",
+    "student_name": "Anna 蕭"
   },
   {
     "id": "af4bkeqpv9brsd1jvbbp64kld8",
@@ -23122,17 +23606,6 @@
     "student_name": "邱醫師"
   },
   {
-    "id": "18fq0ft48mipnmrklgd0hogjuh_20261014T080000Z",
-    "date": "2026-10-14",
-    "title": "和陳顧問合作課程",
-    "description": "",
-    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
-    "start": "2026-10-14T16:00:00+08:00",
-    "end": "2026-10-14T18:00:00+08:00",
-    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
-    "student_name": "陳顧問"
-  },
-  {
     "id": "6k8sii6emmgtuvng8r93genues",
     "date": "2026-10-15",
     "title": "28-2.陳海陸數位管理教學",
@@ -23146,7 +23619,7 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261015T060000Z",
     "date": "2026-10-15",
-    "title": "蘋果總裁班",
+    "title": "1368.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-10-15T14:00:00+08:00",
@@ -23166,42 +23639,31 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "qhrn5c9f0ecvprahobd23rv5k4",
-    "date": "2026-10-17",
-    "title": "11-3.Amy數位管理教學",
-    "description": "",
-    "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
-    "start": "2026-10-17T15:00:00+08:00",
-    "end": "2026-10-17T17:00:00+08:00",
-    "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
-    "student_name": "Amy"
-  },
-  {
     "id": "jav1t7gsreui2mjv9h8mb8ol04",
     "date": "2026-10-18",
     "title": "Amanda若麟婚宴",
     "description": "",
     "location": "BRICK YARD 33 1/3美軍俱樂部, 111台灣臺北市士林區凱旋路49號",
     "start": "2026-10-18T12:00:00+08:00",
-    "end": "2026-10-18T17:00:00+08:00",
+    "end": "2026-10-18T14:00:00+08:00",
     "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
     "student_name": "Amanda 蕭秉慧"
   },
   {
-    "id": "i0buksm5qt6emob2mqoihtlm1o",
-    "date": "2026-10-19",
-    "title": "79-7.陳姐Charlotte數位管理教學",
+    "id": "r30dv1oah6bejagoug55qq33kg",
+    "date": "2026-10-18",
+    "title": "72-3.Kelly Woo 數位管理教學",
     "description": "",
-    "location": "台北市杭州南路一段6巷9號5樓",
-    "start": "2026-10-19T10:00:00+08:00",
-    "end": "2026-10-19T12:00:00+08:00",
-    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
-    "student_name": "Charlotte"
+    "location": "瑞安街135巷27號7F",
+    "start": "2026-10-18T15:00:00+08:00",
+    "end": "2026-10-18T17:00:00+08:00",
+    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "student_name": "Kelly Woo"
   },
   {
-    "id": "38lhigvtvkkccullmc2gvpajh4",
+    "id": "kv8756bs93fvdn7cu01fdrjloo",
     "date": "2026-10-19",
-    "title": "21-5.張素幸數位管理教學",
+    "title": "20-4.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2026-10-19T14:00:00+08:00",
@@ -23210,64 +23672,31 @@
     "student_name": "張素幸"
   },
   {
-    "id": "gcgisesa3ltr25gmk4dpulut14",
+    "id": "laadhaab4k5uvln3jcg6d2mvv8",
     "date": "2026-10-20",
-    "title": "18-2.曾小米數位管理教學",
+    "title": "02.Liya數位管理教學",
     "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "location": "新北市中和區興南路一段135巷22弄14號",
     "start": "2026-10-20T10:00:00+08:00",
     "end": "2026-10-20T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
-  },
-  {
-    "id": "nuju4d030r48bg0hnrtjvovl18",
-    "date": "2026-10-20",
-    "title": "16-8.曾小米數位管理教學",
-    "description": "",
-    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-10-20T10:00:00+08:00",
-    "end": "2026-10-20T12:00:00+08:00",
-    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
-    "student_name": "曾小米"
+    "student_id": "806fac9e-6139-54e0-a774-75f87fc0202e",
+    "student_name": "Liya"
   },
   {
     "id": "ck3mufg03rqbpjq1q5ma247b50",
     "date": "2026-10-20",
-    "title": "07.Bill 楊文祥數位管理教學",
-    "description": "第二堂到家裡\n\n南京東路六段350之2號6樓之6\n0922258525",
-    "location": "W Hotel 咖啡區",
+    "title": "07.Bill 楊文祥數位管理教學@Zoom",
+    "description": "南京東路六段350之2號6樓之6\n0922258525",
+    "location": "南港高鐵站2樓的Tsutaya書店",
     "start": "2026-10-20T14:00:00+08:00",
     "end": "2026-10-20T16:00:00+08:00",
     "student_id": "2e0e45d1-b962-46e8-90df-2f77ed1262d3",
     "student_name": "Bill 楊文祥"
   },
   {
-    "id": "18fq0ft48mipnmrklgd0hogjuh_20261021T080000Z",
-    "date": "2026-10-21",
-    "title": "和陳顧問合作課程",
-    "description": "",
-    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
-    "start": "2026-10-21T16:00:00+08:00",
-    "end": "2026-10-21T18:00:00+08:00",
-    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
-    "student_name": "陳顧問"
-  },
-  {
-    "id": "aqkhl4mc56tdkvrk0435o2og5c",
+    "id": "pm1e2a00ghnd2ueotdi4m99rhg",
     "date": "2026-10-22",
-    "title": "49-1.查米數位管理教學 315",
-    "description": "",
-    "location": "106台灣大安區敦化南路一段233巷20號315",
-    "start": "2026-10-22T10:00:00+08:00",
-    "end": "2026-10-22T12:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
-  },
-  {
-    "id": "o3jbo1920d9p6s8bs2p9liu858",
-    "date": "2026-10-22",
-    "title": "47-7.查米數位管理教學 315",
+    "title": "46-6.查米數位管理教學",
     "description": "",
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-10-22T10:00:00+08:00",
@@ -23278,24 +23707,13 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261022T060000Z",
     "date": "2026-10-22",
-    "title": "蘋果總裁班",
+    "title": "1369.蘋果總裁班(小樹屋）907",
     "description": "",
-    "location": "台北市民族東路767號2樓之1",
+    "location": "臺北市中山區復興北路150號",
     "start": "2026-10-22T14:00:00+08:00",
     "end": "2026-10-22T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
-  },
-  {
-    "id": "f4qnkpbmpgm1c8ij1slkhk6aak",
-    "date": "2026-10-23",
-    "title": "02.益堯哥數位管理教學",
-    "description": "",
-    "location": "STARBUCKS 星巴克 (北寧門市), 105台灣臺北市松山區南京東路四段56號",
-    "start": "2026-10-23T10:00:00+08:00",
-    "end": "2026-10-23T12:00:00+08:00",
-    "student_id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
-    "student_name": "益堯哥"
   },
   {
     "id": "1mcoghh2n1dlksh1mck2c9m2nc",
@@ -23307,17 +23725,6 @@
     "end": "2026-10-23T16:00:00+08:00",
     "student_id": "4f92926b-01da-4aa5-8b3c-d1ec1dac1b84",
     "student_name": "青玫姐"
-  },
-  {
-    "id": "_74qj4ca260qj2b9j710jgb9k8h23eb9p8cr3eba284o34e1p752k2c1n84",
-    "date": "2026-10-24",
-    "title": "84-2.Annie數位管理教學",
-    "description": "",
-    "location": "93巷人文空間, 10491台灣台北市中山區松江路93巷2號",
-    "start": "2026-10-24T13:30:00+08:00",
-    "end": "2026-10-24T17:30:00+08:00",
-    "student_id": "e8d71234-9abc-4def-a123-567890abcdef",
-    "student_name": "Annie"
   },
   {
     "id": "r8bpvoq8ue2rk4qs9rbjj69qqg",
@@ -23333,7 +23740,7 @@
   {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20261028T080000Z",
     "date": "2026-10-28",
-    "title": "和陳顧問合作課程",
+    "title": "16.和陳顧問合作課程",
     "description": "",
     "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
     "start": "2026-10-28T16:00:00+08:00",
@@ -23342,20 +23749,20 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "lh6vet72iq419mj6ah6cbe8voo",
+    "id": "e88ac06r6gfq0dqtmip6ukjcos",
     "date": "2026-10-29",
-    "title": "29-4.陳海陸數位管理教學",
+    "title": "38-4.Yvonne數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
-    "start": "2026-10-29T10:00:00+08:00",
-    "end": "2026-10-29T12:00:00+08:00",
-    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
-    "student_name": "陳海陸"
+    "start": "2026-10-29T09:30:00+08:00",
+    "end": "2026-10-29T11:30:00+08:00",
+    "student_id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
+    "student_name": "Yvonne"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261029T060000Z",
     "date": "2026-10-29",
-    "title": "蘋果總裁班",
+    "title": "1370.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-10-29T14:00:00+08:00",
@@ -23364,9 +23771,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "f6na1fcu8bcnfpqjn782e6pr78",
+    "id": "i0buksm5qt6emob2mqoihtlm1o",
     "date": "2026-10-30",
-    "title": "80-8.陳姐Charlotte數位管理教學",
+    "title": "79-7.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-10-30T10:00:00+08:00",
@@ -23386,15 +23793,15 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "dfrsueccptf5p1e5epc47pr8e8",
+    "id": "p442nt1ohh4nkqelvf0tjefmpc",
     "date": "2026-11-02",
-    "title": "22-6.張素幸數位管理教學",
+    "title": "25-1.元偉琴數位管理教學",
     "description": "",
-    "location": "桃園市桃園區中正路1400之6號3樓",
+    "location": "台北市杭州南路一段18巷13號3樓",
     "start": "2026-11-02T14:00:00+08:00",
     "end": "2026-11-02T16:00:00+08:00",
-    "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
-    "student_name": "張素幸"
+    "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
+    "student_name": "元偉琴"
   },
   {
     "id": "ql8tip5bflgnlf7s4kintosus8",
@@ -23408,31 +23815,20 @@
     "student_name": "家具怡君"
   },
   {
-    "id": "qvogbm87rmprvprde16fvdsjsk",
+    "id": "4gdirrm9qna9j6d1tglt862aus",
     "date": "2026-11-03",
-    "title": "19-3.曾小米數位管理教學",
+    "title": "15-7.曾小米數位管理教學(沒上課)",
     "description": "",
     "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
-    "start": "2026-11-03T10:00:00+08:00",
-    "end": "2026-11-03T12:00:00+08:00",
+    "start": "2026-11-03T14:00:00+08:00",
+    "end": "2026-11-03T16:00:00+08:00",
     "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
     "student_name": "曾小米"
   },
   {
-    "id": "18fq0ft48mipnmrklgd0hogjuh_20261104T080000Z",
-    "date": "2026-11-04",
-    "title": "和陳顧問合作課程",
-    "description": "",
-    "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
-    "start": "2026-11-04T16:00:00+08:00",
-    "end": "2026-11-04T18:00:00+08:00",
-    "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
-    "student_name": "陳顧問"
-  },
-  {
-    "id": "f9icqp6p84tn2bs30vvgnik79s",
+    "id": "o3jbo1920d9p6s8bs2p9liu858",
     "date": "2026-11-05",
-    "title": "50-2.查米數位管理教學 315",
+    "title": "47-7.查米數位管理教學",
     "description": "",
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-11-05T10:00:00+08:00",
@@ -23443,7 +23839,7 @@
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261105T060000Z",
     "date": "2026-11-05",
-    "title": "蘋果總裁班",
+    "title": "1371.蘋果總裁班",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-11-05T14:00:00+08:00",
@@ -23461,28 +23857,6 @@
     "end": "2026-11-06T12:00:00+08:00",
     "student_id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
     "student_name": "郭姐"
-  },
-  {
-    "id": "9ksu4e95kf9tp55iaeg79diq14",
-    "date": "2026-11-06",
-    "title": "44-6.Lucia數位管理教學",
-    "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
-    "location": "台北市士林區基河路21號21樓",
-    "start": "2026-11-06T14:00:00+08:00",
-    "end": "2026-11-06T16:00:00+08:00",
-    "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
-    "student_name": "Lucia 徐露華"
-  },
-  {
-    "id": "niba3qud8tup5n1kaqcedhm540",
-    "date": "2026-11-07",
-    "title": "12-4.Amy數位管理教學",
-    "description": "",
-    "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
-    "start": "2026-11-07T15:00:00+08:00",
-    "end": "2026-11-07T17:00:00+08:00",
-    "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
-    "student_name": "Amy"
   },
   {
     "id": "hum65svujjcfo0d6t6d7g4qsgk",
@@ -23507,15 +23881,15 @@
     "student_name": "明志"
   },
   {
-    "id": "3en5s2s51gj78k01lgihuukdlc",
+    "id": "f6na1fcu8bcnfpqjn782e6pr78",
     "date": "2026-11-09",
-    "title": "72-3.Kelly Woo 數位管理教學",
+    "title": "80-8.陳姐Charlotte數位管理教學",
     "description": "",
-    "location": "瑞安街135巷27號7F",
+    "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-11-09T14:00:00+08:00",
     "end": "2026-11-09T16:00:00+08:00",
-    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
-    "student_name": "Kelly Woo"
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
   },
   {
     "id": "ief9u89n8nnq65tamgoucle64k",
@@ -23542,7 +23916,7 @@
   {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20261111T080000Z",
     "date": "2026-11-11",
-    "title": "和陳顧問合作課程",
+    "title": "17.和陳顧問合作課程",
     "description": "",
     "location": "台北牛乳大王, 103台灣臺北市大同區建泰里南京西路20號",
     "start": "2026-11-11T16:00:00+08:00",
@@ -23551,26 +23925,26 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "b7ifolcgntb1c8sfgquk57f4k0",
+    "id": "3en5s2s51gj78k01lgihuukdlc",
     "date": "2026-11-12",
-    "title": "81-1.陳姐Charlotte數位管理教學",
+    "title": "73-4.Kelly Woo 數位管理教學",
     "description": "",
-    "location": "台北市杭州南路一段6巷9號5樓",
+    "location": "瑞安街135巷27號7F",
     "start": "2026-11-12T10:00:00+08:00",
     "end": "2026-11-12T12:00:00+08:00",
-    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
-    "student_name": "Charlotte"
+    "student_id": "28ef42b0-8fc9-496f-a804-56b57b4011db",
+    "student_name": "Kelly Woo"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261112T060000Z",
     "date": "2026-11-12",
-    "title": "蘋果總裁班",
+    "title": "改去Roger老師的梅桂莊園",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-11-12T14:00:00+08:00",
     "end": "2026-11-12T17:00:00+08:00",
-    "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
-    "student_name": "蘋果總裁班"
+    "student_id": "07815d8c-5d40-4d31-926e-5f74f01818a8",
+    "student_name": "Roger 黃凱亮"
   },
   {
     "id": "g376hl6mpdt8p8ri0qeip7p6p0",
@@ -23595,17 +23969,6 @@
     "student_name": "Teresa"
   },
   {
-    "id": "_6p14adq674o44ba171130b9k752k4b9p8gpkaba58gr46e1o68sj6dhg6o",
-    "date": "2026-11-14",
-    "title": "85-3.Annie數位管理教學",
-    "description": "",
-    "location": "93巷人文空間, 10491台灣台北市中山區松江路93巷2號",
-    "start": "2026-11-14T13:30:00+08:00",
-    "end": "2026-11-14T17:30:00+08:00",
-    "student_id": "e8d71234-9abc-4def-a123-567890abcdef",
-    "student_name": "Annie"
-  },
-  {
     "id": "_6ksj4da588qj2ba6712j6b9k8p1jgb9p84ojgba18gpjcdi485132c9n6g",
     "date": "2026-11-15",
     "title": "86-4.Annie數位管理教學",
@@ -23617,9 +23980,31 @@
     "student_name": "Annie"
   },
   {
-    "id": "vnuqdd6boc556on23dtr80vf8o",
+    "id": "_6p14adq674o44ba171130b9k752k4b9p8gpkaba58gr46e1o68sj6dhg6o",
+    "date": "2026-11-15",
+    "title": "85-3.Annie數位管理教學",
+    "description": "",
+    "location": "93巷人文空間, 10491台灣台北市中山區松江路93巷2號",
+    "start": "2026-11-15T13:30:00+08:00",
+    "end": "2026-11-15T17:30:00+08:00",
+    "student_id": "e8d71234-9abc-4def-a123-567890abcdef",
+    "student_name": "Annie"
+  },
+  {
+    "id": "_74qj4ca260qj2b9j710jgb9k8h23eb9p8cr3eba284o34e1p752k2c1n84",
+    "date": "2026-11-15",
+    "title": "84-2,85-3.Annie數位管理教學",
+    "description": "",
+    "location": "93巷人文空間, 10491台灣台北市中山區松江路93巷2號",
+    "start": "2026-11-15T13:30:00+08:00",
+    "end": "2026-11-15T17:30:00+08:00",
+    "student_id": "e8d71234-9abc-4def-a123-567890abcdef",
+    "student_name": "Annie"
+  },
+  {
+    "id": "b7ifolcgntb1c8sfgquk57f4k0",
     "date": "2026-11-16",
-    "title": "82-2.陳姐Charlotte數位管理教學",
+    "title": "81-1.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-11-16T10:00:00+08:00",
@@ -23633,15 +24018,15 @@
     "title": "66-5.Julie 陳怡君醫師數位管理教學",
     "description": "",
     "location": "台北市松山區復興北路313巷10號1樓",
-    "start": "2026-11-16T14:00:00+08:00",
-    "end": "2026-11-16T16:00:00+08:00",
+    "start": "2026-11-16T13:30:00+08:00",
+    "end": "2026-11-16T15:30:00+08:00",
     "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
     "student_name": "Julie 陳怡君"
   },
   {
     "id": "5pak45cef28eciofd32tutrslg",
     "date": "2026-11-17",
-    "title": "38-6.Yvonne數位管理教學",
+    "title": "39-6.Yvonne數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-11-17T09:30:00+08:00",
@@ -23650,9 +24035,9 @@
     "student_name": "Yvonne"
   },
   {
-    "id": "a8r4aduf84t50qphv912b2q7do",
+    "id": "nuju4d030r48bg0hnrtjvovl18",
     "date": "2026-11-17",
-    "title": "20-4.曾小米數位管理教學",
+    "title": "16-8.曾小米數位管理教學",
     "description": "",
     "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
     "start": "2026-11-17T14:00:00+08:00",
@@ -23672,9 +24057,9 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "3mph7m73lcg4ngqd51e6tr8hf4",
+    "id": "c7db3s0fbs7465mv213npvhnho",
     "date": "2026-11-19",
-    "title": "51-3.查米數位管理教學 315",
+    "title": "48-8.查米數位管理教學",
     "description": "",
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-11-19T10:00:00+08:00",
@@ -23694,9 +24079,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "ac3gieuejbbuc3cqp24f4vhoak",
+    "id": "lh6vet72iq419mj6ah6cbe8voo",
     "date": "2026-11-20",
-    "title": "30-.陳海陸數位管理教學",
+    "title": "29-陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-11-20T10:00:00+08:00",
@@ -23707,7 +24092,7 @@
   {
     "id": "gmh9rfjbe3gqd6somnul0htjdg",
     "date": "2026-11-20",
-    "title": "24-1.Shelley 陳萱玲數位管理教學",
+    "title": "25-2.Shelley 陳萱玲數位管理教學",
     "description": "",
     "location": "台北市南京東路四段164號8樓",
     "start": "2026-11-20T14:00:00+08:00",
@@ -23716,9 +24101,9 @@
     "student_name": "Shelley 陳萱玲"
   },
   {
-    "id": "dm06lbr4bfkvn4vpu8hbbku06s",
+    "id": "qhrn5c9f0ecvprahobd23rv5k4",
     "date": "2026-11-21",
-    "title": "13-5.Amy數位管理教學",
+    "title": "11-3.Amy數位管理教學",
     "description": "",
     "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
     "start": "2026-11-21T15:00:00+08:00",
@@ -23729,18 +24114,18 @@
   {
     "id": "mgb5pi5s1q2ksoklji3kt8u9ag",
     "date": "2026-11-22",
-    "title": "25-1.元偉琴數位管理教學$32000",
+    "title": "26-2.元偉琴數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段18巷13號3樓",
-    "start": "2026-11-22T10:00:00+08:00",
-    "end": "2026-11-22T12:00:00+08:00",
+    "start": "2026-11-22T10:15:00+08:00",
+    "end": "2026-11-22T12:15:00+08:00",
     "student_id": "939ecca6-8dc5-42b4-8bb4-3e2cc56a3900",
     "student_name": "元偉琴"
   },
   {
-    "id": "to1q7a3ftts7nmltl93cilssk0",
+    "id": "vnuqdd6boc556on23dtr80vf8o",
     "date": "2026-11-23",
-    "title": "83-3.陳姐Charlotte數位管理教學",
+    "title": "82-2.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-11-23T10:00:00+08:00",
@@ -23751,7 +24136,7 @@
   {
     "id": "eidf4caudkm6vsmjgnkef8sm48",
     "date": "2026-11-23",
-    "title": "73-4.Kelly Woo 數位管理教學",
+    "title": "74-5.Kelly Woo 數位管理教學",
     "description": "",
     "location": "瑞安街135巷27號7F",
     "start": "2026-11-23T14:00:00+08:00",
@@ -23771,9 +24156,20 @@
     "student_name": "Yvonne"
   },
   {
-    "id": "8bq5n6gtgh0u1s0dsahf0p7rus",
+    "id": "38lhigvtvkkccullmc2gvpajh4",
     "date": "2026-11-24",
-    "title": "23-7.張素幸數位管理教學",
+    "title": "21-5.張素幸數位管理教學",
+    "description": "",
+    "location": "桃園市桃園區中正路1400之6號3樓",
+    "start": "2026-11-24T14:00:00+08:00",
+    "end": "2026-11-24T16:00:00+08:00",
+    "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
+    "student_name": "張素幸"
+  },
+  {
+    "id": "dfrsueccptf5p1e5epc47pr8e8",
+    "date": "2026-11-24",
+    "title": "22-6.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2026-11-24T14:00:00+08:00",
@@ -23815,15 +24211,26 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "fu1doaab913neiocdd2nf57qsk",
+    "id": "f4qnkpbmpgm1c8ij1slkhk6aak",
     "date": "2026-11-27",
-    "title": "Amanda數位管理教學",
+    "title": "02.益堯哥數位管理教學",
     "description": "",
-    "location": "",
+    "location": "STARBUCKS 星巴克 (北寧門市), 105台灣臺北市松山區南京東路四段56號",
     "start": "2026-11-27T10:00:00+08:00",
     "end": "2026-11-27T12:00:00+08:00",
-    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
-    "student_name": "Amanda 蕭秉慧"
+    "student_id": "c52e5807-2b65-4ef7-96fa-565ae878a0e9",
+    "student_name": "益堯哥"
+  },
+  {
+    "id": "9ksu4e95kf9tp55iaeg79diq14",
+    "date": "2026-11-27",
+    "title": "44-6.Lucia數位管理教學",
+    "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
+    "location": "台北市士林區基河路21號21樓",
+    "start": "2026-11-27T14:00:00+08:00",
+    "end": "2026-11-27T16:00:00+08:00",
+    "student_id": "9f4dac5a-3229-4dec-9c28-d0554ead4822",
+    "student_name": "Lucia 徐露華"
   },
   {
     "id": "rv5rrus76rpkvoir2qedaftf88",
@@ -23837,9 +24244,20 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "d7l0br6k82ggalc051f27io0v8",
+    "id": "5584sir7ekk0n51997kfr9vr4g",
+    "date": "2026-11-29",
+    "title": "08.顧蓓華數位管理教學",
+    "description": "",
+    "location": "台北市大安區安和路二段175號15樓之一",
+    "start": "2026-11-29T09:30:00+08:00",
+    "end": "2026-11-29T11:30:00+08:00",
+    "student_id": "e0e5853e-f2b1-4f90-8c1f-4e2c9f44d69a",
+    "student_name": "顧蓓華"
+  },
+  {
+    "id": "to1q7a3ftts7nmltl93cilssk0",
     "date": "2026-11-30",
-    "title": "84-4.陳姐Charlotte數位管理教學",
+    "title": "83-3.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-11-30T10:00:00+08:00",
@@ -23853,8 +24271,8 @@
     "title": "66-Julie 陳怡君醫師數位管理教學",
     "description": "",
     "location": "台北市松山區復興北路313巷10號1樓",
-    "start": "2026-11-30T14:00:00+08:00",
-    "end": "2026-11-30T16:00:00+08:00",
+    "start": "2026-11-30T13:30:00+08:00",
+    "end": "2026-11-30T15:30:00+08:00",
     "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
     "student_name": "Julie 陳怡君"
   },
@@ -23870,9 +24288,9 @@
     "student_name": "鄺姐"
   },
   {
-    "id": "vertstk3dkarha1d715ls06oqc",
+    "id": "bqsol0nfv3enk3captfm56e244",
     "date": "2026-12-01",
-    "title": "21-5.曾小米數位管理教學",
+    "title": "17-1.曾小米數位管理教學",
     "description": "",
     "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
     "start": "2026-12-01T14:00:00+08:00",
@@ -23925,15 +24343,26 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "rupo900r3hotj3urn57euimkns",
+    "id": "niba3qud8tup5n1kaqcedhm540",
     "date": "2026-12-05",
-    "title": "14-6.Amy數位管理教學",
+    "title": "12-4.Amy數位管理教學",
     "description": "",
     "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
     "start": "2026-12-05T15:00:00+08:00",
     "end": "2026-12-05T17:00:00+08:00",
     "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
     "student_name": "Amy"
+  },
+  {
+    "id": "bp12hllsa2se8rsoif0leh9qpo",
+    "date": "2026-12-06",
+    "title": "09-1.政佑數位管理教學",
+    "description": "",
+    "location": "Louisa Coffee 路易莎咖啡(德行西門市), 111台灣臺北市士林區德行西路36號",
+    "start": "2026-12-06T10:00:00+08:00",
+    "end": "2026-12-06T12:00:00+08:00",
+    "student_id": "3037a53b-0c97-4253-bd2a-d236af440191",
+    "student_name": "政佑"
   },
   {
     "id": "sn598ukm7c499n9e6r3hu600mo",
@@ -23949,7 +24378,7 @@
   {
     "id": "8cib7r569d3antb9kbpopine98",
     "date": "2026-12-07",
-    "title": "74-5.Kelly Woo 數位管理教學",
+    "title": "75-6.Kelly Woo 數位管理教學",
     "description": "",
     "location": "瑞安街135巷27號7F",
     "start": "2026-12-07T14:00:00+08:00",
@@ -23958,9 +24387,9 @@
     "student_name": "Kelly Woo"
   },
   {
-    "id": "7as062bfv6gc6khr070o406158",
+    "id": "d7l0br6k82ggalc051f27io0v8",
     "date": "2026-12-08",
-    "title": "85-5.陳姐Charlotte數位管理教學",
+    "title": "84-4.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-12-08T10:00:00+08:00",
@@ -23991,9 +24420,9 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "ce6vfks0vbuircl6olk5bqir94",
+    "id": "aqkhl4mc56tdkvrk0435o2og5c",
     "date": "2026-12-10",
-    "title": "52-4.查米數位管理教學 315",
+    "title": "49-1.查米數位管理教學",
     "description": "",
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2026-12-10T10:00:00+08:00",
@@ -24018,15 +24447,15 @@
     "title": "40-1.彭老師數位管理教學@伯朗咖啡南京一店松江南京站",
     "description": "",
     "location": "伯朗咖啡館 南京一店, 10491台灣台北市中山區南京東路二段218號",
-    "start": "2026-12-11T09:00:00+08:00",
-    "end": "2026-12-11T11:00:00+08:00",
+    "start": "2026-12-11T10:00:00+08:00",
+    "end": "2026-12-11T12:00:00+08:00",
     "student_id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
     "student_name": "彭老師"
   },
   {
-    "id": "54kah05dguofvi73rmmst6v58o",
+    "id": "8bq5n6gtgh0u1s0dsahf0p7rus",
     "date": "2026-12-11",
-    "title": "24-8.張素幸數位管理教學",
+    "title": "23-7.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2026-12-11T14:00:00+08:00",
@@ -24035,9 +24464,9 @@
     "student_name": "張素幸"
   },
   {
-    "id": "kr3efpltsf07adovpu6odl2b2o",
+    "id": "7as062bfv6gc6khr070o406158",
     "date": "2026-12-14",
-    "title": "86-6.陳姐Charlotte數位管理教學",
+    "title": "85-5.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-12-14T10:00:00+08:00",
@@ -24048,7 +24477,7 @@
   {
     "id": "svh6aklp365q26i56roenkh3ks",
     "date": "2026-12-14",
-    "title": "75-6.Kelly Woo 數位管理教學",
+    "title": "76-7.Kelly Woo 數位管理教學",
     "description": "",
     "location": "瑞安街135巷27號7F",
     "start": "2026-12-14T14:00:00+08:00",
@@ -24057,9 +24486,9 @@
     "student_name": "Kelly Woo"
   },
   {
-    "id": "46p2krkjvee5m2q61k9mi72o5k",
+    "id": "ac3gieuejbbuc3cqp24f4vhoak",
     "date": "2026-12-15",
-    "title": "32-.陳海陸數位管理教學",
+    "title": "30-.陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-12-15T10:00:00+08:00",
@@ -24068,9 +24497,9 @@
     "student_name": "陳海陸"
   },
   {
-    "id": "lov8mj6qp1q48hb4ofamdte938",
+    "id": "gcgisesa3ltr25gmk4dpulut14",
     "date": "2026-12-15",
-    "title": "22-6.曾小米數位管理教學",
+    "title": "18-2.曾小米數位管理教學",
     "description": "",
     "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
     "start": "2026-12-15T14:00:00+08:00",
@@ -24123,9 +24552,9 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "vhigk40p7mpbld8uret2jvrkts",
+    "id": "dm06lbr4bfkvn4vpu8hbbku06s",
     "date": "2026-12-19",
-    "title": "15-7.Amy數位管理教學",
+    "title": "13-5.Amy數位管理教學",
     "description": "",
     "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
     "start": "2026-12-19T15:00:00+08:00",
@@ -24134,9 +24563,9 @@
     "student_name": "Amy"
   },
   {
-    "id": "tsnneuu29k5lmn4beeq78em11c",
+    "id": "kr3efpltsf07adovpu6odl2b2o",
     "date": "2026-12-21",
-    "title": "87-7.陳姐Charlotte數位管理教學",
+    "title": "86-6.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-12-21T10:00:00+08:00",
@@ -24150,15 +24579,15 @@
     "title": "67-Julie 陳怡君醫師數位管理教學",
     "description": "",
     "location": "台北市松山區復興北路313巷10號1樓",
-    "start": "2026-12-21T14:00:00+08:00",
-    "end": "2026-12-21T16:00:00+08:00",
+    "start": "2026-12-21T13:30:00+08:00",
+    "end": "2026-12-21T15:30:00+08:00",
     "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
     "student_name": "Julie 陳怡君"
   },
   {
-    "id": "g70lhsrgddbk6vjm1f4bi3c2r8",
+    "id": "46p2krkjvee5m2q61k9mi72o5k",
     "date": "2026-12-22",
-    "title": "33-陳海陸數位管理教學",
+    "title": "31-.陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-12-22T10:00:00+08:00",
@@ -24189,20 +24618,9 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "njf13ehlk9lpmde1dhgmtpdsck",
-    "date": "2026-12-24",
-    "title": "53-5.查米數位管理教學 315",
-    "description": "",
-    "location": "106台灣大安區敦化南路一段233巷20號315",
-    "start": "2026-12-24T10:00:00+08:00",
-    "end": "2026-12-24T12:00:00+08:00",
-    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
-    "student_name": "查米"
-  },
-  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20261224T060000Z",
     "date": "2026-12-24",
-    "title": "蘋果總裁班",
+    "title": "蘋果總裁班(暫停一次)",
     "description": "",
     "location": "台北市民族東路767號2樓之1",
     "start": "2026-12-24T14:00:00+08:00",
@@ -24211,9 +24629,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "ddf70vrfv20htr0peb9u385oc0",
+    "id": "tsnneuu29k5lmn4beeq78em11c",
     "date": "2026-12-28",
-    "title": "88-8.陳姐Charlotte數位管理教學",
+    "title": "87-7.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2026-12-28T10:00:00+08:00",
@@ -24224,7 +24642,7 @@
   {
     "id": "pv6t813vh9fh6m8jo2cmja590o",
     "date": "2026-12-28",
-    "title": "25-2.Shelley 陳萱玲數位管理教學",
+    "title": "26-3.Shelley 陳萱玲數位管理教學",
     "description": "",
     "location": "台北市南京東路四段164號8樓",
     "start": "2026-12-28T14:00:00+08:00",
@@ -24233,9 +24651,9 @@
     "student_name": "Shelley 陳萱玲"
   },
   {
-    "id": "k2gthrap63ijf4duh8t1ks18ao",
+    "id": "g70lhsrgddbk6vjm1f4bi3c2r8",
     "date": "2026-12-29",
-    "title": "34陳海陸數位管理教學",
+    "title": "32-.陳海陸數位管理教學",
     "description": "",
     "location": "台北市復興北路313巷14號6樓",
     "start": "2026-12-29T10:00:00+08:00",
@@ -24244,9 +24662,9 @@
     "student_name": "陳海陸"
   },
   {
-    "id": "mk677jh6h147pmbnghlqi600sk",
+    "id": "54kah05dguofvi73rmmst6v58o",
     "date": "2026-12-29",
-    "title": "25-1.張素幸數位管理教學",
+    "title": "24-8.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2026-12-29T14:00:00+08:00",
@@ -24288,9 +24706,9 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "tqekmb65h1q1onrdg62psi70j0",
+    "id": "ddf70vrfv20htr0peb9u385oc0",
     "date": "2027-01-04",
-    "title": "89-1.陳姐Charlotte數位管理教學",
+    "title": "88-8.陳姐Charlotte數位管理教學",
     "description": "",
     "location": "台北市杭州南路一段6巷9號5樓",
     "start": "2027-01-04T10:00:00+08:00",
@@ -24299,20 +24717,31 @@
     "student_name": "Charlotte"
   },
   {
+    "id": "9qqsjomelmrmorunvk7cckb2so",
+    "date": "2027-01-04",
+    "title": "68-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-01-04T13:30:00+08:00",
+    "end": "2027-01-04T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
     "id": "7n8i1hs72ho2suabn8lusdd6tk",
     "date": "2027-01-05",
-    "title": "Amanda數位管理教學",
+    "title": "07.Amanda數位管理教學",
     "description": "",
-    "location": "",
+    "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2027-01-05T10:00:00+08:00",
     "end": "2027-01-05T12:00:00+08:00",
     "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
     "student_name": "Amanda 蕭秉慧"
   },
   {
-    "id": "a0qjemal2j7h67hrjcmrj27654",
+    "id": "mk677jh6h147pmbnghlqi600sk",
     "date": "2027-01-05",
-    "title": "26-2.張素幸數位管理教學",
+    "title": "25-1.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-01-05T14:00:00+08:00",
@@ -24332,9 +24761,9 @@
     "student_name": "陳顧問"
   },
   {
-    "id": "0cjfmsk7vrq7cafrg888b54q3c",
+    "id": "f9icqp6p84tn2bs30vvgnik79s",
     "date": "2027-01-07",
-    "title": "54-6.查米數位管理教學 315",
+    "title": "50-2.查米數位管理教學",
     "description": "",
     "location": "106台灣大安區敦化南路一段233巷20號315",
     "start": "2027-01-07T10:00:00+08:00",
@@ -24354,9 +24783,20 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "k2gthrap63ijf4duh8t1ks18ao",
+    "date": "2027-01-08",
+    "title": "33-.陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-01-08T10:00:00+08:00",
+    "end": "2027-01-08T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
     "id": "romqo1bv80eao7hua13og5rflc",
     "date": "2027-01-08",
-    "title": "48-10..Lucia數位管理教學",
+    "title": "48-10.Lucia數位管理教學",
     "description": "在 劍潭捷運站旁\n圓山1號院\n基河路21號21樓",
     "location": "台北市士林區基河路21號21樓",
     "start": "2027-01-08T14:00:00+08:00",
@@ -24365,9 +24805,9 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "499skcnbrtc2mpetc6clr06h70",
+    "id": "rupo900r3hotj3urn57euimkns",
     "date": "2027-01-09",
-    "title": "16-8.Amy數位管理教學",
+    "title": "14-6.Amy數位管理教學",
     "description": "",
     "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
     "start": "2027-01-09T15:00:00+08:00",
@@ -24385,6 +24825,17 @@
     "end": "2027-01-11T12:00:00+08:00",
     "student_id": "bea3a100-3534-4183-9d8c-db789f71302f",
     "student_name": "大腳旅行社曹淑鈴Crystal"
+  },
+  {
+    "id": "tl2fn748gl1q8upfprq7hcarqc",
+    "date": "2027-01-11",
+    "title": "69-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-01-11T13:30:00+08:00",
+    "end": "2027-01-11T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
   },
   {
     "id": "2i4db66jmbqdb9qu8vp312ooa8",
@@ -24464,20 +24915,42 @@
     "student_name": "湘祺"
   },
   {
+    "id": "tqekmb65h1q1onrdg62psi70j0",
+    "date": "2027-01-18",
+    "title": "89-1.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-01-18T10:00:00+08:00",
+    "end": "2027-01-18T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "bmvpngo30ugu7gn0assm6hp31g",
+    "date": "2027-01-18",
+    "title": "70-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-01-18T13:30:00+08:00",
+    "end": "2027-01-18T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
     "id": "rq6mt5gumcccfh3cj26e8mkugk",
     "date": "2027-01-19",
-    "title": "Amanda數位管理教學",
+    "title": "08.Amanda數位管理教學",
     "description": "",
-    "location": "",
+    "location": "湛盧咖啡 市府館, 11072台灣台北市信義區忠孝東路四段553巷6弄4號",
     "start": "2027-01-19T10:00:00+08:00",
     "end": "2027-01-19T12:00:00+08:00",
     "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
     "student_name": "Amanda 蕭秉慧"
   },
   {
-    "id": "ksen0c7vsng8rqkmpk08c8tuf8",
+    "id": "a0qjemal2j7h67hrjcmrj27654",
     "date": "2027-01-19",
-    "title": "27-3.張素幸數位管理教學",
+    "title": "26-2.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-01-19T14:00:00+08:00",
@@ -24530,9 +25003,64 @@
     "student_name": "黃奕溱"
   },
   {
-    "id": "oq7m8d7rhsimn5e34kuh3dett8",
+    "id": "on4d3k13ncr8e1vd4jcalvri18",
+    "date": "2027-01-22",
+    "title": "23-15.王敏賢數位管理教學",
+    "description": "",
+    "location": "台北市士林區士商路149-1號6樓",
+    "start": "2027-01-22T14:00:00+08:00",
+    "end": "2027-01-22T16:00:00+08:00",
+    "student_id": "65b736c6-06a8-486d-9db5-45ca0aba209e",
+    "student_name": "王敏賢"
+  },
+  {
+    "id": "vhigk40p7mpbld8uret2jvrkts",
+    "date": "2027-01-23",
+    "title": "15-7.Amy數位管理教學",
+    "description": "",
+    "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
+    "start": "2027-01-23T15:00:00+08:00",
+    "end": "2027-01-23T17:00:00+08:00",
+    "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
+    "student_name": "Amy"
+  },
+  {
+    "id": "_8l23adi66sp32b9g6oskab9k84qk6b9p6cq4cb9m6l23adi384sjic2274",
+    "date": "2027-01-25",
+    "title": "90-2.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-01-25T10:00:00+08:00",
+    "end": "2027-01-25T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "0kpojh6jf4md05km576b3j2t14",
+    "date": "2027-01-25",
+    "title": "71-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-01-25T13:30:00+08:00",
+    "end": "2027-01-25T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "ne08vk42chmljv2nter64p199c",
     "date": "2027-01-26",
-    "title": "28-4.張素幸數位管理教學",
+    "title": "34陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-01-26T10:00:00+08:00",
+    "end": "2027-01-26T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "ksen0c7vsng8rqkmpk08c8tuf8",
+    "date": "2027-01-26",
+    "title": "27-3.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-01-26T14:00:00+08:00",
@@ -24596,6 +25124,39 @@
     "student_name": "Lucia 徐露華"
   },
   {
+    "id": "_8gpk8dhp64p36b9l8oojcb9k711j6b9p7123aba48cr38dpl6gqj4g9o70",
+    "date": "2027-02-01",
+    "title": "91-3.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-02-01T10:00:00+08:00",
+    "end": "2027-02-01T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "db5mumiq3o7lq20k206un8n1h0",
+    "date": "2027-02-01",
+    "title": "72-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-02-01T13:30:00+08:00",
+    "end": "2027-02-01T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "qgul2rs4r3anre53856v28a3ig",
+    "date": "2027-02-02",
+    "title": "35陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-02-02T10:00:00+08:00",
+    "end": "2027-02-02T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
     "id": "fd73706m2ho0s8bvjgr13deknc",
     "date": "2027-02-02",
     "title": "55-7.邱醫師數位管理教學 頂溪捷運站2號出口",
@@ -24640,6 +25201,17 @@
     "student_name": "陳顧問"
   },
   {
+    "id": "3mph7m73lcg4ngqd51e6tr8hf4",
+    "date": "2027-02-11",
+    "title": "51-3.查米數位管理教學",
+    "description": "",
+    "location": "106台灣大安區敦化南路一段233巷20號315",
+    "start": "2027-02-11T10:00:00+08:00",
+    "end": "2027-02-11T12:00:00+08:00",
+    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
+    "student_name": "查米"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270211T060000Z",
     "date": "2027-02-11",
     "title": "蘋果總裁班",
@@ -24651,9 +25223,64 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "jjiv9u8c67gpo8babq1idk6in4",
+    "id": "fu1doaab913neiocdd2nf57qsk",
+    "date": "2027-02-12",
+    "title": "09-1.Amanda數位管理教學",
+    "description": "",
+    "location": "",
+    "start": "2027-02-12T10:00:00+08:00",
+    "end": "2027-02-12T12:00:00+08:00",
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
+  },
+  {
+    "id": "55efvjutthbacqoaf1dktl5g9o",
+    "date": "2027-02-12",
+    "title": "09-1.郭姐數位管理教學@9樓之7",
+    "description": "",
+    "location": "喬盟國際顧問股份有限公司, 106台灣台北市大安區忠孝東路四段183號9號",
+    "start": "2027-02-12T14:00:00+08:00",
+    "end": "2027-02-12T16:00:00+08:00",
+    "student_id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
+    "student_name": "郭姐"
+  },
+  {
+    "id": "499skcnbrtc2mpetc6clr06h70",
+    "date": "2027-02-13",
+    "title": "16-8.Amy數位管理教學",
+    "description": "",
+    "location": "馨天鑫地 共享辦公室．商務中心｜ 30-50人場地租借｜",
+    "start": "2027-02-13T15:00:00+08:00",
+    "end": "2027-02-13T17:00:00+08:00",
+    "student_id": "be1c9162-c39e-4689-a316-85402600a2ef",
+    "student_name": "Amy"
+  },
+  {
+    "id": "to201c3e5ff6q3cl949uai4uro",
+    "date": "2027-02-15",
+    "title": "73-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-02-15T13:30:00+08:00",
+    "end": "2027-02-15T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "7cld7jpnkbr8j7481f0ia835qo",
     "date": "2027-02-16",
-    "title": "29-5.張素幸數位管理教學",
+    "title": "36陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-02-16T10:00:00+08:00",
+    "end": "2027-02-16T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "oq7m8d7rhsimn5e34kuh3dett8",
+    "date": "2027-02-16",
+    "title": "28-4.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-02-16T14:00:00+08:00",
@@ -24695,9 +25322,64 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "7p88djdbkpd6gml0td80jviv98",
+    "id": "skirci1a2p6ev276udvlooap7o",
+    "date": "2027-02-19",
+    "title": "41-2.彭老師數位管理教學@伯朗咖啡南京一店松江南京站",
+    "description": "",
+    "location": "伯朗咖啡館 南京一店, 10491台灣台北市中山區南京東路二段218號",
+    "start": "2027-02-19T10:00:00+08:00",
+    "end": "2027-02-19T12:00:00+08:00",
+    "student_id": "3405cfa2-be2e-4260-a65b-b6430a3f5c8f",
+    "student_name": "彭老師"
+  },
+  {
+    "id": "2gl9u8l023n7q72va10ll7t788",
+    "date": "2027-02-19",
+    "title": "10-2.Amanda數位管理教學",
+    "description": "",
+    "location": "",
+    "start": "2027-02-19T14:00:00+08:00",
+    "end": "2027-02-19T16:00:00+08:00",
+    "student_id": "236c5b9f-d51e-450e-8a03-7b8c8d87a1d1",
+    "student_name": "Amanda 蕭秉慧"
+  },
+  {
+    "id": "_64oj0dpk6sskab9l8kq3cb9k6d0j0b9p652jcba58crkcgpn6or42e9k6s",
+    "date": "2027-02-22",
+    "title": "92-4.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-02-22T10:00:00+08:00",
+    "end": "2027-02-22T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "02u1pj38db9te3m3alhvht43es",
+    "date": "2027-02-22",
+    "title": "74-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-02-22T13:30:00+08:00",
+    "end": "2027-02-22T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "h7ll23mfc3d1fp0lqbsas90if8",
     "date": "2027-02-23",
-    "title": "30-6.張素幸數位管理教學",
+    "title": "03.家具怡君數位管理教學",
+    "description": "",
+    "location": "臺北市松山區敦化北路 341 號",
+    "start": "2027-02-23T10:00:00+08:00",
+    "end": "2027-02-23T12:00:00+08:00",
+    "student_id": "e27176d0-22eb-4c16-95aa-c55fe2352bcf",
+    "student_name": "家具怡君"
+  },
+  {
+    "id": "jjiv9u8c67gpo8babq1idk6in4",
+    "date": "2027-02-23",
+    "title": "29-5.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-02-23T14:00:00+08:00",
@@ -24715,6 +25397,17 @@
     "end": "2027-02-24T18:00:00+08:00",
     "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
     "student_name": "陳顧問"
+  },
+  {
+    "id": "ce6vfks0vbuircl6olk5bqir94",
+    "date": "2027-02-25",
+    "title": "52-4.查米數位管理教學",
+    "description": "",
+    "location": "106台灣大安區敦化南路一段233巷20號315",
+    "start": "2027-02-25T10:00:00+08:00",
+    "end": "2027-02-25T12:00:00+08:00",
+    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
+    "student_name": "查米"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270225T060000Z",
@@ -24739,9 +25432,31 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "rf91u7jnrpeqrjilc2m6btl8ak",
+    "id": "jcf26jffgv1jl6i897jp0eota8",
+    "date": "2027-03-01",
+    "title": "75-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-03-01T13:30:00+08:00",
+    "end": "2027-03-01T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "scia5qm1p0dm1062rqr8qd3af0",
     "date": "2027-03-02",
-    "title": "31-7.張素幸數位管理教學",
+    "title": "37.陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-03-02T10:00:00+08:00",
+    "end": "2027-03-02T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "7p88djdbkpd6gml0td80jviv98",
+    "date": "2027-03-02",
+    "title": "30-6.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-03-02T14:00:00+08:00",
@@ -24761,6 +25476,17 @@
     "student_name": "陳顧問"
   },
   {
+    "id": "vgjpjmc4r506qs3ttl82id41j8",
+    "date": "2027-03-04",
+    "title": "09-1.郭姐數位管理教學@9樓之7",
+    "description": "",
+    "location": "喬盟國際顧問股份有限公司, 106台灣台北市大安區忠孝東路四段183號9號",
+    "start": "2027-03-04T10:00:00+08:00",
+    "end": "2027-03-04T12:00:00+08:00",
+    "student_id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
+    "student_name": "郭姐"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270304T060000Z",
     "date": "2027-03-04",
     "title": "蘋果總裁班",
@@ -24770,6 +25496,39 @@
     "end": "2027-03-04T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "_84s42dq1650kab9l712j4b9k6l330b9p6d346b9l611jegq68d1k4hhl8o",
+    "date": "2027-03-05",
+    "title": "94-6.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-03-05T10:00:00+08:00",
+    "end": "2027-03-05T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "qvogbm87rmprvprde16fvdsjsk",
+    "date": "2027-03-05",
+    "title": "19-3.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2027-03-05T14:00:00+08:00",
+    "end": "2027-03-05T16:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
+  },
+  {
+    "id": "607lgearrfmn6i6nklrcpjji78",
+    "date": "2027-03-08",
+    "title": "76-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-03-08T13:30:00+08:00",
+    "end": "2027-03-08T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
   },
   {
     "id": "oft0v02bkh3cqstabtvg151u4g",
@@ -24783,9 +25542,9 @@
     "student_name": "邱醫師"
   },
   {
-    "id": "va4aeur44p56th9asqv096jejg",
+    "id": "rf91u7jnrpeqrjilc2m6btl8ak",
     "date": "2027-03-09",
-    "title": "32-8.張素幸數位管理教學",
+    "title": "31-7.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-03-09T14:00:00+08:00",
@@ -24805,6 +25564,17 @@
     "student_name": "陳顧問"
   },
   {
+    "id": "njf13ehlk9lpmde1dhgmtpdsck",
+    "date": "2027-03-11",
+    "title": "53-5.查米數位管理教學",
+    "description": "",
+    "location": "106台灣大安區敦化南路一段233巷20號315",
+    "start": "2027-03-11T10:00:00+08:00",
+    "end": "2027-03-11T12:00:00+08:00",
+    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
+    "student_name": "查米"
+  },
+  {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270311T060000Z",
     "date": "2027-03-11",
     "title": "蘋果總裁班",
@@ -24814,6 +25584,17 @@
     "end": "2027-03-11T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "_70r34gi274q30b9j8or3ib9k6csjcb9o75232ba270o30da28orkcc1p6c",
+    "date": "2027-03-12",
+    "title": "95-7.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-03-12T10:00:00+08:00",
+    "end": "2027-03-12T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
   },
   {
     "id": "o7lltp7lkprrp7g1dbpgu9lct4",
@@ -24827,9 +25608,31 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "pu89rn995oaqs7sq2botr95u90",
+    "id": "f02vhk9asdfacumql5pdbvf4pk",
+    "date": "2027-03-15",
+    "title": "77-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-03-15T13:30:00+08:00",
+    "end": "2027-03-15T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "keepe4o3ulq56fsi736rh04qfc",
     "date": "2027-03-16",
-    "title": "33-1.張素幸數位管理教學",
+    "title": "38陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-03-16T10:00:00+08:00",
+    "end": "2027-03-16T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "va4aeur44p56th9asqv096jejg",
+    "date": "2027-03-16",
+    "title": "32-8.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-03-16T14:00:00+08:00",
@@ -24860,9 +25663,53 @@
     "student_name": "蘋果總裁班"
   },
   {
-    "id": "fggdonk24ouuntritp9f8o3si4",
+    "id": "_8h1j4g9h6p144b9n64o42b9k74q30b9o68p38ba46osj6g9h60r48d1p6c",
+    "date": "2027-03-19",
+    "title": "96-8.陳姐Charlotte數位管理教學",
+    "description": "",
+    "location": "台北市杭州南路一段6巷9號5樓",
+    "start": "2027-03-19T10:00:00+08:00",
+    "end": "2027-03-19T12:00:00+08:00",
+    "student_id": "78fd9e3f-6a0c-4f92-bd10-2834903478fa",
+    "student_name": "Charlotte"
+  },
+  {
+    "id": "a8r4aduf84t50qphv912b2q7do",
+    "date": "2027-03-19",
+    "title": "20-4.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2027-03-19T14:00:00+08:00",
+    "end": "2027-03-19T16:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
+  },
+  {
+    "id": "g16cv1mvda9nh9cfbfkks9pt5g",
+    "date": "2027-03-22",
+    "title": "57-1.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
+    "location": "新北市永和區福和路275號11樓",
+    "start": "2027-03-22T10:00:00+08:00",
+    "end": "2027-03-22T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
+  },
+  {
+    "id": "0o20ci2fffe62eo0sptm0q1lo4",
+    "date": "2027-03-22",
+    "title": "78-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-03-22T13:30:00+08:00",
+    "end": "2027-03-22T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "pu89rn995oaqs7sq2botr95u90",
     "date": "2027-03-23",
-    "title": "34-2.張素幸數位管理教學",
+    "title": "33-1.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-03-23T14:00:00+08:00",
@@ -24880,6 +25727,17 @@
     "end": "2027-03-24T18:00:00+08:00",
     "student_id": "f13107ba-79fb-5bae-8728-99648687ef48",
     "student_name": "陳顧問"
+  },
+  {
+    "id": "0cjfmsk7vrq7cafrg888b54q3c",
+    "date": "2027-03-25",
+    "title": "54-6.查米數位管理教學",
+    "description": "",
+    "location": "106台灣大安區敦化南路一段233巷20號315",
+    "start": "2027-03-25T10:00:00+08:00",
+    "end": "2027-03-25T12:00:00+08:00",
+    "student_id": "d06bb300-4b9e-44b5-8cd3-1b47695cdee4",
+    "student_name": "查米"
   },
   {
     "id": "1kcf5tv27h5kpmicr7c57nejfk_20270325T060000Z",
@@ -24904,9 +25762,31 @@
     "student_name": "Lucia 徐露華"
   },
   {
-    "id": "dean78438mje8rvck22vvuab2c",
+    "id": "cubgdr7e4kd0kial7as8deaeac",
+    "date": "2027-03-29",
+    "title": "79-Julie 陳怡君醫師數位管理教學",
+    "description": "",
+    "location": "台北市松山區復興北路313巷10號1樓",
+    "start": "2027-03-29T13:30:00+08:00",
+    "end": "2027-03-29T15:30:00+08:00",
+    "student_id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
+    "student_name": "Julie 陳怡君"
+  },
+  {
+    "id": "95n75m6a1aijgi55rt3u9fkd1k",
     "date": "2027-03-30",
-    "title": "35-3.張素幸數位管理教學",
+    "title": "39陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-03-30T10:00:00+08:00",
+    "end": "2027-03-30T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "fggdonk24ouuntritp9f8o3si4",
+    "date": "2027-03-30",
+    "title": "34-2.張素幸數位管理教學",
     "description": "",
     "location": "桃園市桃園區中正路1400之6號3樓",
     "start": "2027-03-30T14:00:00+08:00",
@@ -24981,6 +25861,17 @@
     "student_name": "Lucia 徐露華"
   },
   {
+    "id": "mqeckcu39cnklt67pgm0ssc3rc",
+    "date": "2027-04-12",
+    "title": "58-2.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
+    "location": "新北市永和區福和路275號11樓",
+    "start": "2027-04-12T10:00:00+08:00",
+    "end": "2027-04-12T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
+  },
+  {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20270414T080000Z",
     "date": "2027-04-14",
     "title": "和陳顧問合作課程",
@@ -25003,6 +25894,39 @@
     "student_name": "蘋果總裁班"
   },
   {
+    "id": "vertstk3dkarha1d715ls06oqc",
+    "date": "2027-04-16",
+    "title": "21-5.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2027-04-16T14:00:00+08:00",
+    "end": "2027-04-16T16:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
+  },
+  {
+    "id": "uraad6ipjbbdjn5smi0882t1sc",
+    "date": "2027-04-20",
+    "title": "40陳海陸數位管理教學",
+    "description": "",
+    "location": "台北市復興北路313巷14號6樓",
+    "start": "2027-04-20T10:00:00+08:00",
+    "end": "2027-04-20T12:00:00+08:00",
+    "student_id": "488bb965-ccbe-4909-b45a-cdce45778281",
+    "student_name": "陳海陸"
+  },
+  {
+    "id": "dean78438mje8rvck22vvuab2c",
+    "date": "2027-04-20",
+    "title": "35-3.張素幸數位管理教學",
+    "description": "",
+    "location": "桃園市桃園區中正路1400之6號3樓",
+    "start": "2027-04-20T14:00:00+08:00",
+    "end": "2027-04-20T16:00:00+08:00",
+    "student_id": "8b225cfb-46ff-4a4e-9d7f-a5c4b055e5d4",
+    "student_name": "張素幸"
+  },
+  {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20270421T080000Z",
     "date": "2027-04-21",
     "title": "和陳顧問合作課程",
@@ -25023,6 +25947,17 @@
     "end": "2027-04-22T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "ol67lf40u01qhjlcc68uirhuss",
+    "date": "2027-04-26",
+    "title": "59-3.邱醫師數位管理教學 頂溪捷運站2號出口",
+    "description": "紅線—東門捷運站\n\n橘線—往南勢角\n頂溪捷運站\n2號出口\n\n搭乘公車往中和\n262 \n249\n624\n670",
+    "location": "新北市永和區福和路275號11樓",
+    "start": "2027-04-26T10:00:00+08:00",
+    "end": "2027-04-26T12:00:00+08:00",
+    "student_id": "b2cfee38-2d73-4508-b145-9ad6a40822da",
+    "student_name": "邱醫師"
   },
   {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20270428T080000Z",
@@ -25067,6 +26002,17 @@
     "end": "2027-05-06T17:00:00+08:00",
     "student_id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",
     "student_name": "蘋果總裁班"
+  },
+  {
+    "id": "lov8mj6qp1q48hb4ofamdte938",
+    "date": "2027-05-07",
+    "title": "22-6.曾小米數位管理教學",
+    "description": "",
+    "location": "世界豆漿大王, 234台灣新北市永和區永和路二段284號",
+    "start": "2027-05-07T14:00:00+08:00",
+    "end": "2027-05-07T16:00:00+08:00",
+    "student_id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
+    "student_name": "曾小米"
   },
   {
     "id": "18fq0ft48mipnmrklgd0hogjuh_20270512T080000Z",
