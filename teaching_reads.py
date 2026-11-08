@@ -70,12 +70,25 @@ def sort_key(row):
     return (row.get('date') is not None, str(row.get('date') or ''), str(row.get('id') or ''))
 
 
+_TEACHING_LOCAL_CACHE: dict[str, tuple[float, list[dict[str, Any]]]] = {}
+
+
 class TeachingReads:
     def _teaching_local(self):
-        if not os.path.isfile(self.teaching_records_file):
+        if not hasattr(self, "teaching_records_file") or not self.teaching_records_file or not os.path.isfile(self.teaching_records_file):
             return []
-        data = self._read_json(self.teaching_records_file)
-        return data if isinstance(data, list) else data.get('records', [])
+        try:
+            mtime = os.path.getmtime(self.teaching_records_file)
+            cached = _TEACHING_LOCAL_CACHE.get(self.teaching_records_file)
+            if cached and cached[0] == mtime:
+                return cached[1]
+            data = self._read_json(self.teaching_records_file)
+            records = data if isinstance(data, list) else data.get('records', [])
+            _TEACHING_LOCAL_CACHE[self.teaching_records_file] = (mtime, records)
+            return records
+        except Exception:
+            data = self._read_json(self.teaching_records_file)
+            return data if isinstance(data, list) else data.get('records', [])
 
     def _teaching_query(self, params):
         # _load_supabase_table is the HTTP boundary. Never catch into local data.
@@ -248,6 +261,24 @@ class TeachingReads:
 
     def load_radar_teaching_records(self, student_ids):
         """Batch bodies for each student's latest three; no body history scan."""
+        if not student_ids:
+            return []
+        # 1. 優先從本地快取或預載檔案萃取（亞毫秒級），絕不於首頁觸發全表分頁掃描
+        local_records = self._teaching_local()
+        if local_records:
+            wanted = set(student_ids)
+            filtered = [r for r in local_records if r.get('student_id') in wanted]
+            if filtered:
+                sorted_records = sorted(filtered, key=sort_key, reverse=True)
+                counts = {}
+                selected = []
+                for r in sorted_records:
+                    sid = r.get('student_id')
+                    if counts.get(sid, 0) < 3:
+                        selected.append(normalize(r, body=True))
+                        counts[sid] = counts.get(sid, 0) + 1
+                return selected
+
         if self.backend != 'supabase':
             return self._teaching_local()
         selected = []

@@ -5,6 +5,7 @@ import copy
 import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -440,22 +441,31 @@ class StudentDataGateway(TeachingReads):
         # raw 可能含完整教學筆記；正式窄投影不會帶回它，但保留相容性以支援既有測試/快取資料。
         program_raw = program.get("raw") if isinstance(program.get("raw"), dict) else {}
         encoded_program_id = quote(program_id, safe="")
-        venues = self._load_supabase_table(
-            "apple_venues",
-            query=f"select={APPLE_VENUE_COLUMNS}&program_id=eq.{encoded_program_id}",
-        )
-        attendance = self._load_supabase_table(
-            "apple_attendance_records",
-            query=f"select={APPLE_ATTENDANCE_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
-        )
-        ledger = self._load_supabase_table(
-            "apple_venue_ledger",
-            query=f"select={APPLE_LEDGER_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
-        )
-        rounds = self._load_supabase_table(
-            "apple_student_rounds",
-            query=f"select={APPLE_ROUND_COLUMNS}&program_id=eq.{encoded_program_id}&order=student_name.asc,sort_order.asc",
-        )
+        with ThreadPoolExecutor(max_workers=4) as executor:
+            venues_fut = executor.submit(
+                self._load_supabase_table,
+                "apple_venues",
+                f"select={APPLE_VENUE_COLUMNS}&program_id=eq.{encoded_program_id}",
+            )
+            attendance_fut = executor.submit(
+                self._load_supabase_table,
+                "apple_attendance_records",
+                f"select={APPLE_ATTENDANCE_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
+            )
+            ledger_fut = executor.submit(
+                self._load_supabase_table,
+                "apple_venue_ledger",
+                f"select={APPLE_LEDGER_COLUMNS}&program_id=eq.{encoded_program_id}&order=date.asc",
+            )
+            rounds_fut = executor.submit(
+                self._load_supabase_table,
+                "apple_student_rounds",
+                f"select={APPLE_ROUND_COLUMNS}&program_id=eq.{encoded_program_id}&order=student_name.asc,sort_order.asc",
+            )
+            venues = venues_fut.result()
+            attendance = attendance_fut.result()
+            ledger = ledger_fut.result()
+            rounds = rounds_fut.result()
 
         grouped_rounds: dict[str, list[dict[str, Any]]] = {}
         grouped_aliases: dict[str, list[str]] = {}

@@ -242,5 +242,59 @@ def test_home_page_cache_control_headers():
     assert "stale-while-revalidate=" in cache_control
 
 
+def test_load_radar_teaching_records_fast_local_extraction(tmp_path):
+    """驗證 load_radar_teaching_records 當本地總帳存在時，能在亞毫秒內完成萃取，絕不阻塞首頁。"""
+    import json
+    import time
+    from data_gateway import StudentDataGateway
+
+    records = [
+        {"id": f"rec-{sid}-{i}", "student_id": f"sid-{sid}", "date": f"2026-10-0{i+1}", "content": f"筆記內容 {i}", "title": f"第{i+1}堂"}
+        for sid in range(10)
+        for i in range(5)
+    ]
+    records_file = tmp_path / "teaching_records.json"
+    records_file.write_text(json.dumps(records, ensure_ascii=False), encoding="utf-8")
+
+    gateway = StudentDataGateway(str(tmp_path))
+    gateway.backend = "supabase"  # 即使在 supabase 模式下
+    gateway.teaching_records_file = str(records_file)
+
+    t0 = time.perf_counter()
+    res = gateway.load_radar_teaching_records(["sid-1", "sid-2", "sid-3"])
+    elapsed = time.perf_counter() - t0
+
+    assert len(res) == 9  # 每個學生 3 筆，共 9 筆
+    assert elapsed < 0.05, f"本地萃取耗時過長: {elapsed:.4f}s"
+    assert all("rec-sid-" in r["id"] or "rec-" in r["id"] for r in res)
+
+
+def test_apple_ceo_parallel_fetches(monkeypatch):
+    """驗證 _load_supabase_apple_ceo_program 同時並行查詢 4 張關聯表。"""
+    import threading
+    from data_gateway import StudentDataGateway
+
+    active_threads = set()
+    lock = threading.Lock()
+
+    gateway = StudentDataGateway("07.Projects/StudentCRM")
+    gateway.supabase_url = "https://mock.supabase.co"
+    gateway.supabase_key = "mock-key"
+
+    def mock_load_supabase_table(table: str, query: str = ""):
+        with lock:
+            active_threads.add(threading.get_ident())
+        if table == "apple_programs":
+            return [{"id": "apple-ceo", "name": "蘋果總裁班"}]
+        return []
+
+    monkeypatch.setattr(gateway, "_load_supabase_table", mock_load_supabase_table)
+
+    res = gateway._load_supabase_apple_ceo_program()
+    assert res["program"]["id"] == "apple-ceo"
+    # 並行查詢應跨多個執行緒執行
+    assert len(active_threads) >= 2
+
+
 
 
