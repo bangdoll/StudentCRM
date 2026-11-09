@@ -128,17 +128,17 @@
       "陳姐 Charlotte"
     ],
     "file": "/01.Docs/Students/Charlotte.md",
-    "lessons_count": 79,
-    "latest_date": "2026-10-30",
-    "next_lesson": "2026-11-09",
+    "lessons_count": 80,
+    "latest_date": "2026-11-09",
+    "next_lesson": "2026-11-16",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2023-12-07",
-    "current_cycle_lesson": 7,
+    "current_cycle_lesson": 8,
     "status": "active",
-    "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 7 堂）"
+    "completion_status": "completed",
+    "completion_note": "課程已上完（滿 8 堂結訓）"
   },
   {
     "id": "1ca75c73-5b8e-4d2d-95a5-5fd87fa88757",
@@ -645,17 +645,17 @@
     "name": "明志",
     "aliases": [],
     "file": "/01.Docs/Students/ming_zhi.md",
-    "lessons_count": 5,
-    "latest_date": "2026-04-20",
+    "lessons_count": 6,
+    "latest_date": "2026-11-09",
     "next_lesson": "2026-11-09",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-04-22",
-    "current_cycle_lesson": 5,
+    "current_cycle_lesson": 6,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 5 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 6 堂）"
   },
   {
     "id": "4e1eb7d3-8228-4e1e-95d8-e005754fdbdd",
@@ -703,7 +703,7 @@
     "file": "/01.Docs/Students/bo_yu.md",
     "lessons_count": 7,
     "latest_date": "2026-11-08",
-    "next_lesson": "2026-11-08",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
