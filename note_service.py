@@ -775,3 +775,62 @@ def resolve_note_detail(
     if matched_file_path and file_mtime > 0:
         _NOTE_DETAIL_CACHE[cache_key] = (file_mtime, detail)
     return detail
+
+
+def resolve_note_view(
+    path: str,
+    gateway: Any,
+    base_dir: str,
+    students: list[dict],
+    access_token: str = "",
+    is_admin: bool = False,
+    apple_program_loader: Callable[[], dict] | None = None,
+    cloud_notes_loader: Callable[[], list[dict]] | None = None,
+) -> NoteDetail | None:
+    """【深模組單一法定入口】封裝單篇教學筆記讀取、雙引擎權限查核與上下篇鄰居解析。
+    
+    消除路由層 (routers/student.py) 對 Supabase、Token 解包與 scope 計算之洩漏耦合。
+    """
+    from fastapi import HTTPException
+
+    if not path or path.startswith(".."):
+        return None
+
+    if getattr(gateway, "backend", "") == "supabase":
+        from auth_service import is_authorized_apple_ceo_student, authorized_teaching_student_ids
+        from student_service import resolve_student_access_id, is_valid_student_access_key
+
+        st = gateway.get_student_profile(resolve_student_access_id(access_token, students)) if access_token else None
+        if not is_admin and (not st or not is_valid_student_access_key(access_token, st)):
+            raise HTTPException(status_code=403, detail="請使用有效的學員專屬連結")
+
+        if is_admin:
+            record = gateway.load_teaching_record_detail(path)
+        else:
+            scope = authorized_teaching_student_ids(access_token, st, students)
+            record = gateway.load_teaching_record_detail(path, student_ids=scope)
+
+        records = [record, *gateway.teaching_neighbors(record)] if record else []
+        apple_notes = []
+        if not record and (is_admin or is_authorized_apple_ceo_student(access_token, st)):
+            apple_notes = apple_program_loader().get("teaching_notes", []) if apple_program_loader else []
+
+        return resolve_note_detail(
+            path_or_filename=record["path"] if record else path,
+            base_dir=base_dir,
+            apple_notes=apple_notes,
+            cloud_records=records,
+            students=students,
+            allow_local=False,
+        )
+    else:
+        apple_notes = apple_program_loader().get("teaching_notes", []) if apple_program_loader else []
+        records = cloud_notes_loader() if cloud_notes_loader else []
+        return resolve_note_detail(
+            path_or_filename=path,
+            base_dir=base_dir,
+            apple_notes=apple_notes,
+            cloud_records=records,
+            students=students,
+            record_detail_loader=getattr(gateway, "load_teaching_record_detail", None),
+        )

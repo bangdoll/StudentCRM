@@ -33,6 +33,8 @@ def test_instant_prefetch_script_integrity():
     assert "prefetchUrl" in content
     assert "initLinkPrefetching" in content
     assert "initImageEnhancements" in content
+    assert "initInstantNavigation" in content
+    assert "instant-progress-bar" in content
     assert "touchstart" in content
     assert "mouseover" in content
 

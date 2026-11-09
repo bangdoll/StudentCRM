@@ -2606,4 +2606,44 @@ html, body {
     }
 }
 
+/* ── 7. Instant SPA Navigation & Progress Bar (微過渡與零白屏流光進度條) ── */
+#instant-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #58a6ff, #bc8cff, #3fb950);
+    box-shadow: 0 0 10px rgba(88, 166, 255, 0.7);
+    z-index: 9999999;
+    pointer-events: none;
+    opacity: 0;
+    transition: width 0.25s cubic-bezier(0.1, 0.9, 0.2, 1), opacity 0.25s ease;
+}
+
+#instant-progress-bar.active {
+    opacity: 1;
+}
+
+#instant-progress-bar.done {
+    width: 100% !important;
+    opacity: 0;
+    transition: width 0.15s ease, opacity 0.3s ease 0.1s;
+}
+
+.instant-fade-enter {
+    animation: instantPageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes instantPageFadeIn {
+    from {
+        opacity: 0.9;
+        transform: translateY(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 

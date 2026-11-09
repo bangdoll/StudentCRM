@@ -84,39 +84,25 @@ async def open_file(request: Request, path: str):
     deps = get_student_deps()
     gateway = deps["student_gateway"]
     students = deps["load_students"]()
-    if gateway.backend == "supabase":
-        from auth_service import is_authenticated_admin, ADMIN_PASSKEYS, is_authorized_apple_ceo_student, authorized_teaching_student_ids
-        from student_service import resolve_student_access_id, is_valid_student_access_key
-        access = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
-        admin = is_authenticated_admin(request) or any(
-            (request.query_params.get(key) or "").strip().lower() in ADMIN_PASSKEYS
-            for key in ("key", "passkey", "token")
-        )
-        st = gateway.get_student_profile(resolve_student_access_id(access, students)) if access else None
-        if not admin and (not st or not is_valid_student_access_key(access, st)):
-            raise HTTPException(status_code=403, detail="請使用有效的學員專屬連結")
-        if admin:
-            record = gateway.load_teaching_record_detail(path)
-        else:
-            scope = authorized_teaching_student_ids(access, st, students)
-            record = gateway.load_teaching_record_detail(path, student_ids=scope)
-        records = [record, *gateway.teaching_neighbors(record)] if record else []
-        apple_notes = []
-        if not record and (admin or is_authorized_apple_ceo_student(access, st)):
-            apple_notes = deps["load_apple_ceo_program"]().get("teaching_notes", [])
-        note = resolve_note_detail(
-            path_or_filename=record["path"] if record else path,
-            base_dir=deps["BASE_DIR"], apple_notes=apple_notes, cloud_records=records,
-            students=students, allow_local=False,
-        )
-    else:
-        apple_notes = deps["load_apple_ceo_program"]().get("teaching_notes", [])
-        records = deps["load_cloud_digital_management_notes"]()
-        note = resolve_note_detail(
-            path_or_filename=path, base_dir=deps["BASE_DIR"], apple_notes=apple_notes,
-            cloud_records=records, students=students,
-            record_detail_loader=getattr(gateway, "load_teaching_record_detail", None),
-        )
+    from auth_service import is_authenticated_admin, ADMIN_PASSKEYS
+    from note_service import resolve_note_view
+
+    access = request.query_params.get("token") or request.cookies.get("last_student_token") or ""
+    admin = is_authenticated_admin(request) or any(
+        (request.query_params.get(key) or "").strip().lower() in ADMIN_PASSKEYS
+        for key in ("key", "passkey", "token")
+    )
+
+    note = resolve_note_view(
+        path=path,
+        gateway=gateway,
+        base_dir=deps["BASE_DIR"],
+        students=students,
+        access_token=access,
+        is_admin=admin,
+        apple_program_loader=deps["load_apple_ceo_program"],
+        cloud_notes_loader=deps["load_cloud_digital_management_notes"],
+    )
 
     query_token = request.query_params.get("token") or ""
     cookie_token = request.cookies.get("last_student_token") or ""

@@ -14,7 +14,8 @@ class StudentProfile(BaseModel):
     name: str = Field(..., description="學員顯示名稱")
     file: Optional[str] = Field(default="", description="對應 Markdown 教案路徑")
     lessons_count: int = Field(default=0, ge=0, description="累計上課堂數")
-    current_cycle_lesson: int = Field(default=1, ge=0, description="當前梯次進度 (1~8)")
+    cycle_size: int = Field(default=8, ge=1, description="一輪梯次總堂數規約 (如 4, 8, 30)")
+    current_cycle_lesson: int = Field(default=1, ge=0, description="當前梯次進度 (1~cycle_size)")
     first_lesson_date: Optional[str] = Field(default=None, description="首次上課日期 (YYYY-MM-DD)")
     latest_date: Optional[str] = Field(default=None, description="最後上課日期 (YYYY-MM-DD)")
     next_lesson: Optional[str] = Field(default=None, description="下次預約日期")
@@ -22,7 +23,13 @@ class StudentProfile(BaseModel):
     hardware: list[str] = Field(default_factory=list, description="學員使用硬體")
     status: str = Field(default="active", description="學員生命週期狀態：active, paused, graduated, memorial")
     status_reason: Optional[str] = Field(default=None, description="狀態備註或原因，例如 deceased, long_term_inactive")
+    public_token: Optional[str] = Field(default=None, description="學員私域專屬 Token")
     raw: dict[str, Any] = Field(default_factory=dict, description="自訂擴充屬性")
+
+    @property
+    def cycle_progress_text(self) -> str:
+        """回傳當前梯次進度文字，例如 '5/8 堂' 或 '14/30 堂'。"""
+        return f"{self.current_cycle_lesson}/{self.cycle_size} 堂"
 
     @field_validator("first_lesson_date")
     @classmethod

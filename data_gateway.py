@@ -91,88 +91,8 @@ from apple_ceo_service import (
 )
 
 
-class StudentDataGateway(TeachingReads):
-    """StudentCRM 雙引擎資料讀取閘道。
-
-    預設維持本地 JSON；只有設定 STUDENTCRM_DATA_BACKEND=supabase 時才讀雲端。
-    雲端失敗時會退回本地快取，確保桌面版與 Web 版仍可讀取。
-    """
-
-    def __init__(self, base_dir: str) -> None:
-        base_dir = os.path.abspath(base_dir)
-        self.base_dir = base_dir
-
-        # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
-        current = os.path.abspath(base_dir)
-        detected_repo_root = None
-        while True:
-            if os.path.isdir(os.path.join(current, "OpenClaw")):
-                detected_repo_root = current
-                break
-            parent = os.path.dirname(current)
-            if parent == current:
-                break
-            current = parent
-        self.repo_root = detected_repo_root or os.path.abspath(base_dir)
-
-        if os.path.isdir(os.path.join(self.repo_root, "07.Projects/StudentCRM")):
-            self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
-        elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
-            self.app_dir = os.path.join(self.repo_root, "StudentCRM")
-        elif os.path.isdir(os.path.join(base_dir, "data")) or os.path.basename(base_dir) == "StudentCRM":
-            self.app_dir = base_dir
-        else:
-            self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
-
-        openclaw_students = os.path.join(self.repo_root, "OpenClaw/Data/students.json")
-        if os.path.exists(openclaw_students):
-            self.students_file = openclaw_students
-        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
-            bundled_students = os.path.join(self.app_dir, "data/students.json")
-            if os.path.exists(bundled_students):
-                self.students_file = bundled_students
-            else:
-                self.students_file = openclaw_students
-        else:
-            self.students_file = openclaw_students
-
-        openclaw_apple = os.path.join(self.repo_root, "OpenClaw/Data/apple_ceo_class.json")
-        if os.path.exists(openclaw_apple):
-            self.apple_ceo_file = openclaw_apple
-        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
-            bundled_apple = os.path.join(self.app_dir, "data/apple_ceo_class.json")
-            if os.path.exists(bundled_apple):
-                self.apple_ceo_file = bundled_apple
-            else:
-                self.apple_ceo_file = openclaw_apple
-        else:
-            self.apple_ceo_file = openclaw_apple
-
-        self.teaching_records_file = os.path.join(self.app_dir, "data/teaching_records.json")
-        if not os.path.exists(self.teaching_records_file):
-            cache_teaching = os.path.join(self.app_dir, "cache/teaching_records.json")
-            if os.path.exists(cache_teaching):
-                self.teaching_records_file = cache_teaching
-
-        default_cache_dir = "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(self.app_dir, "cache")
-        self.cache_dir = os.getenv("STUDENTCRM_CACHE_DIR", default_cache_dir)
-        self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
-        self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
-        self.teaching_records_cache_file = os.path.join(self.cache_dir, "teaching_records_cloud_cache.json")
-        self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
-        self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
-        self.radar_cache_file = os.path.join(self.cache_dir, "effectiveness_radar.json")
-
-        self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
-        self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
-        self.supabase_key = (
-            os.getenv("SUPABASE_ANON_KEY", "").strip()
-            or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
-        )
-        self.supabase_write_key = (
-            os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
-            or self.supabase_key
-        )
+class StudentRepositoryMixin:
+    """【學員領域倉庫 Mixin】負責學員資料正規化、快取與 CRUD 持久化。"""
 
     def normalize_student(self, student: dict[str, Any]) -> dict[str, Any]:
         """【深模組封裝】正規化單一學員資料，提昇 raw 內部欄位並推導缺失之輪次堂數。
@@ -305,6 +225,38 @@ class StudentDataGateway(TeachingReads):
                 )
                 return []
 
+    def _load_local_students(self) -> list[dict[str, Any]]:
+        if not os.path.exists(self.students_file):
+            raise DataGatewayError(f"找不到本地 students 檔案：{self.students_file}")
+        return self._read_json(self.students_file)
+
+    def save_students(self, payload: list[dict[str, Any]]) -> None:
+        """安全寫入學員資料庫，鎖定 first_lesson_date 不可退化。"""
+        target_path = os.path.join(self.app_dir, "data", "students.json")
+        if os.path.exists(target_path):
+            try:
+                with open(target_path, "r", encoding="utf-8") as f:
+                    old_students = json.load(f)
+                old_map = {s.get("id"): s for s in old_students if isinstance(s, dict)}
+                for s in payload:
+                    sid = s.get("id")
+                    if sid and sid in old_map:
+                        old_first = old_map[sid].get("first_lesson_date")
+                        if old_first and not s.get("first_lesson_date"):
+                            s["first_lesson_date"] = old_first
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        self._write_json(target_path, payload)
+        root_path = os.path.join(self.repo_root, "OpenClaw", "Data", "students.json")
+        if os.path.exists(os.path.dirname(root_path)):
+            self._write_json(root_path, payload)
+        clear_gateway_memory_cache()
+
+
+class AppleCeoRepositoryMixin:
+    """【蘋果總裁班領域倉庫 Mixin】負責總裁班班務、排程、出缺席與流水帳管理。"""
+
     def load_apple_ceo_program(self) -> dict[str, Any]:
         now = time.time()
         cache_key = f"apple_ceo_{self.backend}_{self.apple_ceo_file}"
@@ -376,23 +328,6 @@ class StudentDataGateway(TeachingReads):
                 return local_payload
             return self._empty_apple_ceo_program()
 
-
-    def status(self) -> dict[str, Any]:
-        if os.path.exists(self.status_file):
-            return self._read_json(self.status_file)
-        return {
-            "engine": "local",
-            "source": self.students_file,
-            "cache_path": self.students_cache_file,
-            "last_error": "",
-            "checked_at": "",
-        }
-
-    def _load_local_students(self) -> list[dict[str, Any]]:
-        if not os.path.exists(self.students_file):
-            raise DataGatewayError(f"找不到本地 students 檔案：{self.students_file}")
-        return self._read_json(self.students_file)
-
     def _load_local_apple_ceo_program(self) -> dict[str, Any]:
         if not os.path.exists(self.apple_ceo_file):
             raise DataGatewayError(f"找不到本地蘋果總裁班檔案：{self.apple_ceo_file}")
@@ -438,7 +373,6 @@ class StudentDataGateway(TeachingReads):
 
         program = programs[0]
         program_id = program.get("id", "apple-ceo")
-        # raw 可能含完整教學筆記；正式窄投影不會帶回它，但保留相容性以支援既有測試/快取資料。
         program_raw = program.get("raw") if isinstance(program.get("raw"), dict) else {}
         encoded_program_id = quote(program_id, safe="")
         with ThreadPoolExecutor(max_workers=4) as executor:
@@ -546,70 +480,6 @@ class StudentDataGateway(TeachingReads):
             "balance_after": row.get("balance_after", 0),
         }
 
-    def _load_supabase_table(self, table: str, query: str = "select=id") -> list[dict[str, Any]]:
-        if not self.supabase_url or not self.supabase_key:
-            raise DataGatewayError("Supabase 環境變數未設定完整")
-
-        encoded_table = quote(table, safe="")
-        url = f"{self.supabase_url}/rest/v1/{encoded_table}?{query}"
-        request = Request(
-            url,
-            headers={
-                "apikey": self.supabase_key,
-                "Authorization": f"Bearer {self.supabase_key}",
-                "Accept": "application/json",
-            },
-            method="GET",
-        )
-
-        try:
-            with urlopen(request, timeout=10) as response:
-                payload = response.read().decode("utf-8")
-        except HTTPError as exc:
-            raise DataGatewayError(f"Supabase HTTP {exc.code}") from exc
-        except URLError as exc:
-            raise DataGatewayError(f"Supabase 連線失敗：{exc.reason}") from exc
-        except TimeoutError as exc:
-            raise DataGatewayError("Supabase 連線逾時") from exc
-
-        try:
-            data = json.loads(payload)
-        except json.JSONDecodeError as exc:
-            raise DataGatewayError("Supabase 回傳無效 JSON") from exc
-        if not isinstance(data, list):
-            raise DataGatewayError("Supabase 回傳格式不是列表")
-        return data
-
-    def _upsert_supabase_table(self, table: str, rows: list[dict[str, Any]]) -> None:
-        """以最小欄位增量 upsert；不執行 DELETE，避免前台寫入造成歷史資料消失。"""
-        if not self.supabase_url or not self.supabase_write_key:
-            raise DataGatewayError("Supabase 寫入環境變數未設定完整")
-        if not rows:
-            return
-
-        endpoint = f"{self.supabase_url}/rest/v1/{quote(table, safe='')}"
-        payload = json.dumps(rows, ensure_ascii=False).encode("utf-8")
-        request = Request(
-            endpoint,
-            data=payload,
-            headers={
-                "apikey": self.supabase_write_key,
-                "Authorization": f"Bearer {self.supabase_write_key}",
-                "Content-Type": "application/json",
-                "Prefer": "resolution=merge-duplicates,return=minimal",
-            },
-            method="POST",
-        )
-        try:
-            with urlopen(request, timeout=15) as response:
-                response.read()
-        except HTTPError as exc:
-            raise DataGatewayError(f"Supabase {table} 寫入 HTTP {exc.code}") from exc
-        except URLError as exc:
-            raise DataGatewayError(f"Supabase {table} 寫入連線失敗：{exc.reason}") from exc
-        except TimeoutError as exc:
-            raise DataGatewayError(f"Supabase {table} 寫入逾時") from exc
-
     @staticmethod
     def _build_apple_ceo_incremental_rows(payload: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
         """將完整領域物件投影為前台單堂寫入所需的三張 Supabase 表格。"""
@@ -715,99 +585,6 @@ class StudentDataGateway(TeachingReads):
             },
         }
 
-    @classmethod
-    def _read_fresh_json_cache(cls, path: str) -> Any | None:
-        """只讀取未過期的磁碟快取，避免每次 Vercel cold start 重拉雲端。"""
-        if not path or not os.path.isfile(path):
-            return None
-        try:
-            age = max(time.time() - os.path.getmtime(path), 0.0)
-            if age > CLOUD_DISK_CACHE_TTL_SECONDS:
-                return None
-            return cls._read_json(path)
-        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
-            return None
-
-
-    def _write_status(self, status: GatewayStatus) -> None:
-        payload = {
-            "engine": status.engine,
-            "source": status.source,
-            "cache_path": status.cache_path,
-            "last_error": status.last_error,
-            "checked_at": datetime.now(timezone.utc).isoformat(),
-        }
-        try:
-            self._write_json(self.status_file, payload)
-        except Exception:
-            pass
-
-    @staticmethod
-    def _read_json(path: str) -> Any:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
-
-    @staticmethod
-    def _write_json(path: str, payload: Any) -> None:
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        # 1. 斷路器 (Circuit Breaker)：若即將寫入的資料筆數異常減少超過 20%，觸發保護以防止資料被清空
-        if os.path.exists(path) and isinstance(payload, list):
-            try:
-                with open(path, "r", encoding="utf-8") as existing_f:
-                    existing_data = json.load(existing_f)
-                if isinstance(existing_data, list) and len(existing_data) >= 10 and len(payload) < len(existing_data) * 0.8:
-                    raise DataGatewayError(
-                        f"資產防護斷路器熔斷：即將寫入的列表筆數 ({len(payload)}) 異常小於現存筆數 ({len(existing_data)})，拒絕寫入以防止教學資產丟失！"
-                    )
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                pass
-
-        # 2. 自動快照備份 (Pre-Write Snapshot)
-        if os.path.exists(path) and os.path.getsize(path) > 10:
-            backup_dir = os.path.join(os.path.dirname(path), "backups")
-            os.makedirs(backup_dir, exist_ok=True)
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            backup_file = os.path.join(backup_dir, f"{os.path.basename(path)}.{timestamp}.bak")
-            try:
-                import shutil
-                shutil.copy2(path, backup_file)
-            except Exception:
-                pass
-
-        tmp_path = f"{path}.{os.getpid()}.tmp"
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
-        try:
-            os.replace(tmp_path, path)
-        except OSError:
-            if os.path.exists(tmp_path):
-                os.remove(tmp_path)
-
-    def save_teaching_records(self, payload: dict[str, Any]) -> None:
-        """安全寫入教學記錄總帳，100% 具備前置快照與單調不減斷路器保護。"""
-        new_records = payload.get("records", []) if isinstance(payload, dict) else payload
-        if not isinstance(new_records, list):
-            raise DataGatewayError("教學記錄 payload 必須包含 records 列表")
-
-        # 斷路器：若目前已有檔案，檢查筆數是否異常縮水
-        target_path = os.path.join(self.app_dir, "data", "teaching_records.json")
-        if os.path.exists(target_path):
-            try:
-                with open(target_path, "r", encoding="utf-8") as f:
-                    old_data = json.load(f)
-                old_records = old_data.get("records", []) if isinstance(old_data, dict) else old_data
-                if isinstance(old_records, list) and len(old_records) >= 10 and len(new_records) < len(old_records) * 0.8:
-                    raise DataGatewayError(
-                        f"教學記錄斷路器熔斷：即將寫入 {len(new_records)} 筆，遠少於現有 {len(old_records)} 筆，拒絕覆寫！"
-                    )
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                pass
-
-        self._write_json(target_path, payload)
-        cache_path = os.path.join(self.app_dir, "cache", "teaching_records.json")
-        self._write_json(cache_path, payload)
-        clear_gateway_memory_cache()
-
     def save_apple_ceo_program(self, payload: dict[str, Any]) -> None:
         """安全寫入蘋果總裁班資料，保護教案與出席不倒退。"""
         target_path = os.path.join(self.app_dir, "data", "apple_ceo_class.json")
@@ -817,28 +594,9 @@ class StudentDataGateway(TeachingReads):
             self._write_json(root_path, payload)
         clear_gateway_memory_cache()
 
-    def save_students(self, payload: list[dict[str, Any]]) -> None:
-        """安全寫入學員資料庫，鎖定 first_lesson_date 不可退化。"""
-        target_path = os.path.join(self.app_dir, "data", "students.json")
-        if os.path.exists(target_path):
-            try:
-                with open(target_path, "r", encoding="utf-8") as f:
-                    old_students = json.load(f)
-                old_map = {s.get("id"): s for s in old_students if isinstance(s, dict)}
-                for s in payload:
-                    sid = s.get("id")
-                    if sid and sid in old_map:
-                        old_first = old_map[sid].get("first_lesson_date")
-                        if old_first and not s.get("first_lesson_date"):
-                            s["first_lesson_date"] = old_first
-            except (json.JSONDecodeError, UnicodeDecodeError):
-                pass
 
-        self._write_json(target_path, payload)
-        root_path = os.path.join(self.repo_root, "OpenClaw", "Data", "students.json")
-        if os.path.exists(os.path.dirname(root_path)):
-            self._write_json(root_path, payload)
-        clear_gateway_memory_cache()
+class RadarRepositoryMixin:
+    """【成效雷達領域倉庫 Mixin】負責成效雷達資料、快取與 CSM 追蹤更新。"""
 
     def get_effectiveness_radar_data(self) -> dict[str, Any]:
         """安全讀取成效雷達資料與快取（多級快取：記憶體 -> /tmp 快取 -> 預載 JSON）。"""
@@ -936,3 +694,261 @@ class StudentDataGateway(TeachingReads):
 
         self.save_effectiveness_radar_data(radar_data)
         return target_item
+
+
+class StudentDataGateway(
+    StudentRepositoryMixin,
+    AppleCeoRepositoryMixin,
+    RadarRepositoryMixin,
+    TeachingReads,
+):
+    """StudentCRM 雙引擎資料讀取閘道。
+
+    預設維持本地 JSON；只有設定 STUDENTCRM_DATA_BACKEND=supabase 時才讀雲端。
+    雲端失敗時會退回本地快取，確保桌面版與 Web 版仍可讀取。
+    架構採用 Ports & Adapters 與 Repository Mixin 解耦設計，保持對外 API 100% 向後相容。
+    """
+
+    def __init__(self, base_dir: str) -> None:
+        base_dir = os.path.abspath(base_dir)
+        self.base_dir = base_dir
+
+        # 自動尋找包含 OpenClaw 的工作區根目錄 (repo_root)
+        current = os.path.abspath(base_dir)
+        detected_repo_root = None
+        while True:
+            if os.path.isdir(os.path.join(current, "OpenClaw")):
+                detected_repo_root = current
+                break
+            parent = os.path.dirname(current)
+            if parent == current:
+                break
+            current = parent
+        self.repo_root = detected_repo_root or os.path.abspath(base_dir)
+
+        if os.path.isdir(os.path.join(self.repo_root, "07.Projects/StudentCRM")):
+            self.app_dir = os.path.join(self.repo_root, "07.Projects/StudentCRM")
+        elif os.path.isdir(os.path.join(self.repo_root, "StudentCRM")):
+            self.app_dir = os.path.join(self.repo_root, "StudentCRM")
+        elif os.path.isdir(os.path.join(base_dir, "data")) or os.path.basename(base_dir) == "StudentCRM":
+            self.app_dir = base_dir
+        else:
+            self.app_dir = os.path.dirname(os.path.abspath(__file__)) if os.path.isdir(os.path.dirname(os.path.abspath(__file__))) else base_dir
+
+        openclaw_students = os.path.join(self.repo_root, "OpenClaw/Data/students.json")
+        if os.path.exists(openclaw_students):
+            self.students_file = openclaw_students
+        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
+            bundled_students = os.path.join(self.app_dir, "data/students.json")
+            if os.path.exists(bundled_students):
+                self.students_file = bundled_students
+            else:
+                self.students_file = openclaw_students
+        else:
+            self.students_file = openclaw_students
+
+        openclaw_apple = os.path.join(self.repo_root, "OpenClaw/Data/apple_ceo_class.json")
+        if os.path.exists(openclaw_apple):
+            self.apple_ceo_file = openclaw_apple
+        elif (os.getenv("VERCEL") or base_dir == self.app_dir):
+            bundled_apple = os.path.join(self.app_dir, "data/apple_ceo_class.json")
+            if os.path.exists(bundled_apple):
+                self.apple_ceo_file = bundled_apple
+            else:
+                self.apple_ceo_file = openclaw_apple
+        else:
+            self.apple_ceo_file = openclaw_apple
+
+        self.teaching_records_file = os.path.join(self.app_dir, "data/teaching_records.json")
+        if not os.path.exists(self.teaching_records_file):
+            cache_teaching = os.path.join(self.app_dir, "cache/teaching_records.json")
+            if os.path.exists(cache_teaching):
+                self.teaching_records_file = cache_teaching
+
+        default_cache_dir = "/tmp/studentcrm-cache" if os.getenv("VERCEL") else os.path.join(self.app_dir, "cache")
+        self.cache_dir = os.getenv("STUDENTCRM_CACHE_DIR", default_cache_dir)
+        self.students_cache_file = os.path.join(self.cache_dir, "students_cloud_cache.json")
+        self.apple_ceo_cache_file = os.path.join(self.cache_dir, "apple_ceo_cloud_cache.json")
+        self.teaching_records_cache_file = os.path.join(self.cache_dir, "teaching_records_cloud_cache.json")
+        self.status_file = os.path.join(self.cache_dir, "cloud_gateway_status.json")
+        self.radar_file = os.path.join(self.app_dir, "data", "effectiveness_radar.json")
+        self.radar_cache_file = os.path.join(self.cache_dir, "effectiveness_radar.json")
+
+        self.backend = os.getenv("STUDENTCRM_DATA_BACKEND", "local").strip().lower()
+        self.supabase_url = os.getenv("SUPABASE_URL", "").strip().rstrip("/")
+        self.supabase_key = (
+            os.getenv("SUPABASE_ANON_KEY", "").strip()
+            or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+        )
+        self.supabase_write_key = (
+            os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+            or self.supabase_key
+        )
+
+    def status(self) -> dict[str, Any]:
+        if os.path.exists(self.status_file):
+            return self._read_json(self.status_file)
+        return {
+            "engine": "local",
+            "source": self.students_file,
+            "cache_path": self.students_cache_file,
+            "last_error": "",
+            "checked_at": "",
+        }
+
+    def _load_supabase_table(self, table: str, query: str = "select=id") -> list[dict[str, Any]]:
+        if not self.supabase_url or not self.supabase_key:
+            raise DataGatewayError("Supabase 環境變數未設定完整")
+
+        encoded_table = quote(table, safe="")
+        url = f"{self.supabase_url}/rest/v1/{encoded_table}?{query}"
+        request = Request(
+            url,
+            headers={
+                "apikey": self.supabase_key,
+                "Authorization": f"Bearer {self.supabase_key}",
+                "Accept": "application/json",
+            },
+            method="GET",
+        )
+
+        try:
+            with urlopen(request, timeout=10) as response:
+                payload = response.read().decode("utf-8")
+        except HTTPError as exc:
+            raise DataGatewayError(f"Supabase HTTP {exc.code}") from exc
+        except URLError as exc:
+            raise DataGatewayError(f"Supabase 連線失敗：{exc.reason}") from exc
+        except TimeoutError as exc:
+            raise DataGatewayError("Supabase 連線逾時") from exc
+
+        try:
+            data = json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise DataGatewayError("Supabase 回傳無效 JSON") from exc
+        if not isinstance(data, list):
+            raise DataGatewayError("Supabase 回傳格式不是列表")
+        return data
+
+    def _upsert_supabase_table(self, table: str, rows: list[dict[str, Any]]) -> None:
+        """以最小欄位增量 upsert；不執行 DELETE，避免前台寫入造成歷史資料消失。"""
+        if not self.supabase_url or not self.supabase_write_key:
+            raise DataGatewayError("Supabase 寫入環境變數未設定完整")
+        if not rows:
+            return
+
+        endpoint = f"{self.supabase_url}/rest/v1/{quote(table, safe='')}"
+        payload = json.dumps(rows, ensure_ascii=False).encode("utf-8")
+        request = Request(
+            endpoint,
+            data=payload,
+            headers={
+                "apikey": self.supabase_write_key,
+                "Authorization": f"Bearer {self.supabase_write_key}",
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates,return=minimal",
+            },
+            method="POST",
+        )
+        try:
+            with urlopen(request, timeout=15) as response:
+                response.read()
+        except HTTPError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入 HTTP {exc.code}") from exc
+        except URLError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入連線失敗：{exc.reason}") from exc
+        except TimeoutError as exc:
+            raise DataGatewayError(f"Supabase {table} 寫入逾時") from exc
+
+    @classmethod
+    def _read_fresh_json_cache(cls, path: str) -> Any | None:
+        """只讀取未過期的磁碟快取，避免每次 Vercel cold start 重拉雲端。"""
+        if not path or not os.path.isfile(path):
+            return None
+        try:
+            age = max(time.time() - os.path.getmtime(path), 0.0)
+            if age > CLOUD_DISK_CACHE_TTL_SECONDS:
+                return None
+            return cls._read_json(path)
+        except (OSError, json.JSONDecodeError, UnicodeDecodeError):
+            return None
+
+    def _write_status(self, status: GatewayStatus) -> None:
+        payload = {
+            "engine": status.engine,
+            "source": status.source,
+            "cache_path": status.cache_path,
+            "last_error": status.last_error,
+            "checked_at": datetime.now(timezone.utc).isoformat(),
+        }
+        try:
+            self._write_json(self.status_file, payload)
+        except Exception:
+            pass
+
+    @staticmethod
+    def _read_json(path: str) -> Any:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    @staticmethod
+    def _write_json(path: str, payload: Any) -> None:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        # 1. 斷路器 (Circuit Breaker)：若即將寫入的資料筆數異常減少超過 20%，觸發保護以防止資料被清空
+        if os.path.exists(path) and isinstance(payload, list):
+            try:
+                with open(path, "r", encoding="utf-8") as existing_f:
+                    existing_data = json.load(existing_f)
+                if isinstance(existing_data, list) and len(existing_data) >= 10 and len(payload) < len(existing_data) * 0.8:
+                    raise DataGatewayError(
+                        f"資產防護斷路器熔斷：即將寫入的列表筆數 ({len(payload)}) 異常小於現存筆數 ({len(existing_data)})，拒絕寫入以防止教學資產丟失！"
+                    )
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        # 2. 自動快照備份 (Pre-Write Snapshot)
+        if os.path.exists(path) and os.path.getsize(path) > 10:
+            backup_dir = os.path.join(os.path.dirname(path), "backups")
+            os.makedirs(backup_dir, exist_ok=True)
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            backup_file = os.path.join(backup_dir, f"{os.path.basename(path)}.{timestamp}.bak")
+            try:
+                import shutil
+                shutil.copy2(path, backup_file)
+            except Exception:
+                pass
+
+        tmp_path = f"{path}.{os.getpid()}.tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+        try:
+            os.replace(tmp_path, path)
+        except OSError:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+
+    def save_teaching_records(self, payload: dict[str, Any]) -> None:
+        """安全寫入教學記錄總帳，100% 具備前置快照與單調不減斷路器保護。"""
+        new_records = payload.get("records", []) if isinstance(payload, dict) else payload
+        if not isinstance(new_records, list):
+            raise DataGatewayError("教學記錄 payload 必須包含 records 列表")
+
+        # 斷路器：若目前已有檔案，檢查筆數是否異常縮水
+        target_path = os.path.join(self.app_dir, "data", "teaching_records.json")
+        if os.path.exists(target_path):
+            try:
+                with open(target_path, "r", encoding="utf-8") as f:
+                    old_data = json.load(f)
+                old_records = old_data.get("records", []) if isinstance(old_data, dict) else old_data
+                if isinstance(old_records, list) and len(old_records) >= 10 and len(new_records) < len(old_records) * 0.8:
+                    raise DataGatewayError(
+                        f"教學記錄斷路器熔斷：即將寫入 {len(new_records)} 筆，遠少於現有 {len(old_records)} 筆，拒絕覆寫！"
+                    )
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                pass
+
+        self._write_json(target_path, payload)
+        cache_path = os.path.join(self.app_dir, "cache", "teaching_records.json")
+        self._write_json(cache_path, payload)
+        clear_gateway_memory_cache()
+

@@ -24,7 +24,7 @@
             // 僅預載同源、非檔案下載、非登出或外部連結
             if (parsed.origin !== window.location.origin) return;
             // Personal and computed documents load only after navigation.
-            if (/^\/(note|open_file|radar|search|my|hub|student|digital-management)(\/|$)/.test(parsed.pathname)) return;
+            if (/^\/(search|my|hub|digital-management)(\/|$)/.test(parsed.pathname)) return;
             if (parsed.pathname === window.location.pathname && parsed.search === window.location.search) return;
             if (parsed.pathname.startsWith('/logout') || parsed.pathname.startsWith('/api/')) return;
             if (parsed.pathname.match(/\.(pdf|zip|mp4|png|jpg|jpeg|gif)$/i)) return;
@@ -150,14 +150,144 @@
         }
     }
 
-    // ── 5. 自動啟動 ───────────────────────────────────────────
+    // ── 5. 即時無刷換頁引擎 (Instant SPA Navigation / Turbo-like PJAX) ──
+    let progressBar = null;
+    let progressTimer = null;
+    let isNavigating = false;
+
+    function getProgressBar() {
+        if (!progressBar) {
+            progressBar = document.getElementById('instant-progress-bar');
+            if (!progressBar) {
+                progressBar = document.createElement('div');
+                progressBar.id = 'instant-progress-bar';
+                document.body.appendChild(progressBar);
+            }
+        }
+        return progressBar;
+    }
+
+    function startProgress() {
+        const bar = getProgressBar();
+        clearTimeout(progressTimer);
+        bar.className = 'active';
+        bar.style.width = '25%';
+        progressTimer = setTimeout(function () {
+            bar.style.width = '75%';
+        }, 150);
+    }
+
+    function finishProgress() {
+        const bar = getProgressBar();
+        clearTimeout(progressTimer);
+        bar.style.width = '100%';
+        bar.className = 'done';
+        setTimeout(function () {
+            bar.className = '';
+            bar.style.width = '0%';
+        }, 350);
+    }
+
+    async function navigateTo(url, pushState) {
+        if (isNavigating) return;
+        isNavigating = true;
+        startProgress();
+        try {
+            const resp = await fetch(url, {
+                headers: { 'X-Requested-With': 'StudentCRM-Instant' },
+                credentials: 'same-origin'
+            });
+
+            if (!resp.ok) {
+                window.location.href = url;
+                return;
+            }
+
+            const html = await resp.text();
+            const parser = new DOMParser();
+            const newDoc = parser.parseFromString(html, 'text/html');
+
+            document.title = newDoc.title;
+
+            // 平滑替換 body 內容
+            const newBody = newDoc.body;
+            document.body.innerHTML = newBody.innerHTML;
+            document.body.className = newBody.className;
+            document.body.classList.add('instant-fade-enter');
+
+            // 重新執行新頁面中的 inline scripts
+            const scripts = document.body.querySelectorAll('script');
+            scripts.forEach(function (oldScript) {
+                if (oldScript.src && oldScript.src.includes('instant-prefetch.js')) return;
+                const newScript = document.createElement('script');
+                Array.from(oldScript.attributes).forEach(function (attr) {
+                    newScript.setAttribute(attr.name, attr.value);
+                });
+                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                oldScript.parentNode.replaceChild(newScript, oldScript);
+            });
+
+            if (pushState !== false) {
+                window.history.pushState({ instant: true, url: url }, newDoc.title, url);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            finishProgress();
+            isNavigating = false;
+
+            // 重新初始化各元件
+            initLinkPrefetching();
+            initImageEnhancements();
+            document.dispatchEvent(new Event('DOMContentLoaded'));
+        } catch (err) {
+            isNavigating = false;
+            window.location.href = url;
+        }
+    }
+
+    function initInstantNavigation() {
+        document.addEventListener('click', function (e) {
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+                return;
+            }
+
+            const anchor = e.target.closest('a');
+            if (!anchor) return;
+
+            const href = anchor.getAttribute('href');
+            if (!href || href.startsWith('#') || href.startsWith('javascript:')) return;
+            if (anchor.target && anchor.target !== '_self') return;
+            if (anchor.hasAttribute('download') || anchor.hasAttribute('data-no-pjax')) return;
+
+            try {
+                const parsed = new URL(href, window.location.origin);
+                if (parsed.origin !== window.location.origin) return;
+                if (parsed.pathname === window.location.pathname && parsed.search === window.location.search) return;
+                if (parsed.pathname.startsWith('/logout') || parsed.pathname.startsWith('/api/') || parsed.pathname.startsWith('/trigger_open')) return;
+                if (parsed.pathname.match(/\.(pdf|zip|mp4|png|jpg|jpeg|gif|svg)$/i)) return;
+
+                e.preventDefault();
+                navigateTo(parsed.href, true);
+            } catch (err) {
+                // 忽略解析錯誤，交由原生導航處理
+            }
+        });
+
+        window.addEventListener('popstate', function () {
+            navigateTo(window.location.href, false);
+        });
+    }
+
+    // ── 6. 自動啟動 ───────────────────────────────────────────
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             initLinkPrefetching();
             initImageEnhancements();
+            initInstantNavigation();
         });
     } else {
         initLinkPrefetching();
         initImageEnhancements();
+        initInstantNavigation();
     }
 })();

@@ -77,3 +77,26 @@ def test_get_student_profile_by_id_and_token():
         # 3. 查無資料
         p3 = gateway.get_student_profile("non-existent")
         assert p3 is None
+
+
+def test_student_data_gateway_mixin_architecture():
+    """【架構防護】驗證 StudentDataGateway 依 Ports & Adapters 拆解為三大高內聚領域 Mixin。"""
+    from data_gateway import (
+        StudentRepositoryMixin,
+        AppleCeoRepositoryMixin,
+        RadarRepositoryMixin,
+        StudentDataGateway,
+    )
+    from teaching_reads import TeachingReads
+
+    assert issubclass(StudentDataGateway, StudentRepositoryMixin)
+    assert issubclass(StudentDataGateway, AppleCeoRepositoryMixin)
+    assert issubclass(StudentDataGateway, RadarRepositoryMixin)
+    assert issubclass(StudentDataGateway, TeachingReads)
+
+    gateway = StudentDataGateway(base_dir=".")
+    assert isinstance(gateway, StudentRepositoryMixin)
+    assert isinstance(gateway, AppleCeoRepositoryMixin)
+    assert isinstance(gateway, RadarRepositoryMixin)
+    assert isinstance(gateway, TeachingReads)
+
