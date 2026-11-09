@@ -1001,15 +1001,42 @@
     "file": "/01.Docs/Students/蕭世典.md",
     "lessons_count": 6,
     "latest_date": "2026-09-01",
+    "last_lesson_date": "2026-09-01",
     "next_lesson": "2026-11-10",
     "tags": [
-      "一般學員"
+      "一般學員",
+      "第1輪4堂",
+      "7/24改8堂"
     ],
     "first_lesson_date": "2024-04-10",
+    "cycle_size": 8,
+    "previous_cycles_lessons": 4,
+    "previous_cycles_count": 1,
+    "cycle_round": 2,
+    "cycle_start_date": "2026-07-24",
     "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
+    "completion_note": "第 1 輪 4 堂已結訓；2026-07-24 起改為一輪 8 堂課（目前已上 2/8 堂，剩餘 6 堂）",
+    "cycle_history": [
+      {
+        "round": 1,
+        "cycle_size": 4,
+        "start_date": "2024-04-10",
+        "end_date": "2026-03-10",
+        "lessons": 4,
+        "status": "completed",
+        "note": "第 1 輪 4 堂微循環專案（滿 4 堂結訓）"
+      },
+      {
+        "round": 2,
+        "cycle_size": 8,
+        "start_date": "2026-07-24",
+        "lessons": 2,
+        "status": "in_progress",
+        "note": "2026-07-24 起改為一輪 8 堂課標準方案（目前已上 2/8 堂）"
+      }
+    ]
   },
   {
     "id": "adf9958b-a23d-4e9b-a4a2-156b5329b0ed",

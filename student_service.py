@@ -149,11 +149,23 @@ def generate_student_renewal_reminder(student: dict[str, Any]) -> str:
 
     total_lessons = student.get("lessons_count", 0)
     cycle_size = student.get("cycle_size") or 8
+    prev_lessons = student.get("previous_cycles_lessons") or 0
+    effective_lessons = (
+        max(total_lessons - prev_lessons, 1)
+        if isinstance(prev_lessons, int) and 0 < prev_lessons < total_lessons
+        else total_lessons
+    )
     cycle_lesson = student.get("current_cycle_lesson")
     if cycle_lesson is None:
-        cycle_lesson = (total_lessons % cycle_size) or (cycle_size if total_lessons > 0 else 0)
+        cycle_lesson = (effective_lessons % cycle_size) or (cycle_size if effective_lessons > 0 else 0)
 
-    cycle_num = ((total_lessons - 1) // cycle_size) + 1 if total_lessons > 0 else 1
+    if isinstance(prev_lessons, int) and 0 < prev_lessons < total_lessons:
+        prev_rounds = int(student.get("previous_cycles_count") or 1)
+        cycle_num = prev_rounds + ((effective_lessons - 1) // cycle_size) + 1
+    elif student.get("cycle_round"):
+        cycle_num = int(student["cycle_round"])
+    else:
+        cycle_num = ((total_lessons - 1) // cycle_size) + 1 if total_lessons > 0 else 1
 
     if cycle_lesson == cycle_size and total_lessons > 0:
         headline = f"已圓滿完成第 {cycle_num} 輪（滿 {cycle_size} 堂，累計達 {total_lessons} 堂課）！🎉"
@@ -190,11 +202,17 @@ def get_global_renewal_radar(students: list[dict[str, Any]]) -> list[dict[str, A
         if cnt <= 0:
             continue
 
-        # 優先以 Google 日曆標題精準解析之當期堂數為主，未登錄時 fallback 至 cnt % cycle_size
+        # 優先以 Google 日曆標題精準解析之當期堂數為主，未登錄時 fallback 至 (cnt - previous_cycles_lessons) % cycle_size
         cycle_size = s.get("cycle_size") or 8
         cycle_lesson = s.get("current_cycle_lesson")
         if cycle_lesson is None:
-            cycle_lesson = (cnt % cycle_size) or (cycle_size if cnt > 0 else 0)
+            prev_lessons = s.get("previous_cycles_lessons") or 0
+            eff_cnt = (
+                max(cnt - prev_lessons, 1)
+                if isinstance(prev_lessons, int) and 0 < prev_lessons < cnt
+                else cnt
+            )
+            cycle_lesson = (eff_cnt % cycle_size) or (cycle_size if eff_cnt > 0 else 0)
 
         if cycle_lesson == cycle_size:
             status_code = "completed"
@@ -243,7 +261,13 @@ def generate_preclass_briefing(student: dict[str, Any], teaching_notes: list[dic
     cycle = student.get("current_cycle_lesson")
     cycle_sz = student.get("cycle_size") or 8
     if cycle is None:
-        cycle = ((cnt % cycle_sz) or cycle_sz) if cnt > 0 else 1
+        prev_lessons = student.get("previous_cycles_lessons") or 0
+        eff_cnt = (
+            max(cnt - prev_lessons, 1)
+            if isinstance(prev_lessons, int) and 0 < prev_lessons < cnt
+            else cnt
+        )
+        cycle = ((eff_cnt % cycle_sz) or cycle_sz) if eff_cnt > 0 else 1
 
     # 1. 技能庫詞典
     SKILL_KEYWORDS = [

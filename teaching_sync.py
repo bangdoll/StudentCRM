@@ -512,15 +512,25 @@ def sync_teaching_records_to_crm(
             if latest_sub is not None:
                 s["current_cycle_lesson"] = latest_sub
             else:
-                s["current_cycle_lesson"] = ((max_lesson % cycle_size) or cycle_size) if max_lesson > 0 else 0
+                prev_lessons = s.get("previous_cycles_lessons") or 0
+                eff_lesson = (
+                    max(max_lesson - prev_lessons, 1)
+                    if isinstance(prev_lessons, int) and 0 < prev_lessons < max_lesson
+                    else max_lesson
+                )
+                s["current_cycle_lesson"] = ((eff_lesson % cycle_size) or cycle_size) if eff_lesson > 0 else 0
 
             if s.get("current_cycle_lesson", 0) >= cycle_size:
                 s["completion_status"] = "completed"
                 s["completion_note"] = f"課程已上完（滿 {cycle_size} 堂結訓）"
             else:
                 s["completion_status"] = "has_remaining"
-                if cycle_size != 8:
-                    rem = cycle_size - s.get("current_cycle_lesson", 0)
+                prev_lessons = s.get("previous_cycles_lessons") or 0
+                cycle_start = s.get("cycle_start_date") or ""
+                rem = cycle_size - s.get("current_cycle_lesson", 0)
+                if prev_lessons and cycle_start:
+                    s["completion_note"] = f"第 1 輪 {prev_lessons} 堂已結訓；{cycle_start} 起改為一輪 {cycle_size} 堂課（目前已上 {s.get('current_cycle_lesson')}/{cycle_size} 堂，剩餘 {rem} 堂）"
+                elif cycle_size != 8:
                     s["completion_note"] = f"{cycle_size} 堂課專案進行中（目前已上 {s.get('current_cycle_lesson')} 堂，剩餘 {rem} 堂）"
                 else:
                     s["completion_note"] = f"尚有剩餘課程未上完（目前已上 {s.get('current_cycle_lesson')} 堂）"

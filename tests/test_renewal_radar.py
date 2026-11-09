@@ -176,3 +176,70 @@ def test_renewal_radar_with_4_lesson_cycle():
     assert sig_3 == "upgrade_ready"
 
 
+def test_hsiao_shih_tien_4_to_8_cycle_transition():
+    """驗證蕭世典（第 1 輪 4 堂結業，2026-07-24 起改為一輪 8 堂課）之跨輪次週期推導與續約雷達。"""
+    from data_gateway import StudentDataGateway
+
+    gw = StudentDataGateway("07.Projects/StudentCRM")
+
+    # 1. 目前狀態：累計 6 堂（06-2），第 2 輪第 2/8 堂
+    hsiao_now = gw.normalize_student({
+        "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
+        "name": "蕭世典",
+        "lessons_count": 6,
+        "cycle_size": 8,
+        "previous_cycles_lessons": 4,
+        "previous_cycles_count": 1,
+        "cycle_start_date": "2026-07-24",
+        "latest_date": "2026-09-01",
+    })
+    assert hsiao_now["current_cycle_lesson"] == 2
+
+    # 2. 當上到第 8 堂（08-4）時，應為本輪第 4/8 堂，絕不應誤判為 8/8 滿堂！
+    hsiao_l8 = gw.normalize_student({
+        "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
+        "name": "蕭世典",
+        "lessons_count": 8,
+        "cycle_size": 8,
+        "previous_cycles_lessons": 4,
+        "previous_cycles_count": 1,
+        "latest_date": "2026-12-01",
+    })
+    assert hsiao_l8["current_cycle_lesson"] == 4
+
+    # 3. 當上到第 11 堂（11-7）時，本輪 7/8 堂，觸發預警
+    hsiao_l11 = gw.normalize_student({
+        "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
+        "name": "蕭世典",
+        "lessons_count": 11,
+        "cycle_size": 8,
+        "previous_cycles_lessons": 4,
+        "previous_cycles_count": 1,
+        "latest_date": "2027-02-01",
+    })
+    assert hsiao_l11["current_cycle_lesson"] == 7
+
+    # 4. 當上到第 12 堂（12-8）時，本輪 8/8 堂，觸發第 2 輪結訓與第 3 期續約通知
+    hsiao_l12 = gw.normalize_student({
+        "id": "201ebe4e-6aeb-464e-8062-a565c7111be7",
+        "name": "蕭世典",
+        "lessons_count": 12,
+        "cycle_size": 8,
+        "previous_cycles_lessons": 4,
+        "previous_cycles_count": 1,
+        "latest_date": "2027-03-01",
+    })
+    assert hsiao_l12["current_cycle_lesson"] == 8
+
+    radar = get_global_renewal_radar([hsiao_now, hsiao_l8, hsiao_l11, hsiao_l12])
+    assert len(radar) == 2
+    ratios = [r["progress_ratio"] for r in radar]
+    assert "7/8" in ratios
+    assert "8/8" in ratios
+
+    msg_l12 = generate_student_renewal_reminder(hsiao_l12)
+    assert "第 2 輪（滿 8 堂，累計達 12 堂課）" in msg_l12
+    assert "第 3 期・8 堂" in msg_l12
+
+
+

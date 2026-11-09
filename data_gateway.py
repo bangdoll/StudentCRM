@@ -127,7 +127,13 @@ class StudentRepositoryMixin:
         if current_cycle is None or current_cycle == "":
             lessons_count = s.get("lessons_count")
             if isinstance(lessons_count, int) and lessons_count > 0:
-                s["current_cycle_lesson"] = (lessons_count % cycle_size) or cycle_size
+                prev_lessons = s.get("previous_cycles_lessons")
+                effective_lessons = (
+                    max(lessons_count - prev_lessons, 1)
+                    if isinstance(prev_lessons, int) and 0 < prev_lessons < lessons_count
+                    else lessons_count
+                )
+                s["current_cycle_lesson"] = (effective_lessons % cycle_size) or cycle_size
             else:
                 s["current_cycle_lesson"] = 1
 

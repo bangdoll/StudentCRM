@@ -88,6 +88,9 @@
                     {% set lessons = student.meta.lessons_count or student.lessons_count or 0 %}
                     {% set cur_cycle = student.current_cycle_lesson or student.meta.current_cycle_lesson or ((lessons % cycle_size) or (cycle_size if lessons > 0 else 0)) %}
                     <p class="meta-info">📊 累計次數：{{ lessons }} 堂 <span style="color: var(--text-secondary); font-size: 0.9em;">(本輪第 {{ cur_cycle }}/{{ cycle_size }} 堂)</span></p>
+                    {% if student.previous_cycles_lessons or student.meta.previous_cycles_lessons %}
+                    <p class="meta-info" style="font-size: 0.82rem; color: #79c0ff; margin-top: 4px;">🔄 {{ student.completion_note or student.meta.completion_note }}</p>
+                    {% endif %}
 
                     {% if lessons > 0 and (cur_cycle == (cycle_size - 1) or cur_cycle >= cycle_size) and student.renewal_reminder != false and student.name != 'Calvin' and not ('禮品公會' in student.name) and not ('總裁班' in student.name) %}
                     <div style="margin-top: 14px; padding: 14px; background: rgba(246, 193, 119, 0.12); border: 1px solid rgba(246, 193, 119, 0.35); border-radius: 12px;">

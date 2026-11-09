@@ -131,6 +131,9 @@ class StudentProfileAssembler:
             student["current_cycle_lesson"] = student["meta"]["current_cycle_lesson"]
         if not student.get("cycle_size") and student["meta"].get("cycle_size"):
             student["cycle_size"] = student["meta"]["cycle_size"]
+        for extra_key in ("previous_cycles_lessons", "previous_cycles_count", "cycle_round", "cycle_start_date", "completion_note", "completion_status"):
+            if not student.get(extra_key) and student["meta"].get(extra_key):
+                student[extra_key] = student["meta"][extra_key]
 
         if not student["meta"].get("first_lesson_date") or student["meta"]["first_lesson_date"] in ("未記錄", "TBD"):
             student["meta"]["first_lesson_date"] = student.get("first_lesson_date") or "未記錄"
@@ -161,7 +164,7 @@ class StudentProfileAssembler:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read()
 
-                    parts = re.split(r"## 📅 教學時間軸 \(Lesson Timeline\)", content)
+                    parts = re.split(r"## 📅 (?:教學時間軸 \(Lesson Timeline\)|Google 日曆核對課程歷程[^\n]*)", content)
                     body = parts[1] if len(parts) > 1 else ""
                     body = body.replace("file://", "/open_file?path=")
 

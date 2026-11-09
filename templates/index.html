@@ -215,7 +215,7 @@
             {% set is_memorial = 1 if (student.status == 'memorial' or '歷史典藏' in s_status) else 0 %}
             {% set is_graduated = 1 if (student.status == 'graduated' or '期滿結訓' in s_status) else 0 %}
             {% set is_paused = 1 if (student.status == 'paused' or '休學暫停' in s_status) and not is_memorial and not is_graduated else 0 %}
-            {% set is_full_cycle = 1 if (cur_cycle >= cycle_size or student.completion_status == 'completed' or (lessons > 0 and lessons % cycle_size == 0)) else 0 %}
+            {% set is_full_cycle = 1 if (cur_cycle >= cycle_size or student.completion_status == 'completed') else 0 %}
             {% set completion_text = ('歷史典藏 已故' if is_memorial else ('課程已上完 結訓' if is_graduated else (('課程已上完' if is_full_cycle else '尚有剩餘課程未上完') if is_paused else ''))) %}
 
             <a href="/student/{{ student.id }}" class="student-card"

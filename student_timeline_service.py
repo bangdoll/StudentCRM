@@ -58,7 +58,7 @@ def get_student_metadata(file_path: str) -> dict:
             content = f.read(8192)
     except OSError:
         return {}
-    match = re.search(r"---\n(.*?)\n---", content, re.DOTALL)
+    match = re.search(r"---\n(.*?)\n?---", content, re.DOTALL)
     if not match:
         _STUDENT_METADATA_CACHE[file_path] = (mtime, {})
         return {}
@@ -123,7 +123,7 @@ def get_note_quality(path: str) -> tuple[str, str, str]:
 def get_architect_insight(path: str) -> dict:
     """Extract cognitive level and assessment from the note."""
     if not os.path.exists(path):
-        return {"level": "unknown", "badge": "❓", "class": "badge-unknown", "snippet": ""}
+        return {"level": "unknown", "badge": "❓", "class": "badge-unknown", "label": "未知", "snippet": ""}
 
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         content = f.read()
@@ -160,7 +160,8 @@ def inject_badges(html: str) -> str:
         path_match = re.search(r'path=([^\s"&]+)', href)
         if not path_match:
             return full_tag
-        path = path_match.group(1)
+        from urllib.parse import unquote
+        path = unquote(path_match.group(1))
 
         # 質量標籤
         q_emoji, q_cls, q_label = get_note_quality(path)
@@ -235,6 +236,11 @@ def build_cloud_student_meta(student: dict) -> dict:
         "latest_date": latest,
         "current_cycle_lesson": student.get("current_cycle_lesson") or raw.get("current_cycle_lesson"),
         "cycle_size": student.get("cycle_size") or raw.get("cycle_size") or 8,
+        "previous_cycles_lessons": student.get("previous_cycles_lessons") or raw.get("previous_cycles_lessons"),
+        "previous_cycles_count": student.get("previous_cycles_count") or raw.get("previous_cycles_count"),
+        "cycle_round": student.get("cycle_round") or raw.get("cycle_round"),
+        "cycle_start_date": student.get("cycle_start_date") or raw.get("cycle_start_date"),
+        "cycle_history": student.get("cycle_history") or raw.get("cycle_history"),
         "completion_status": student.get("completion_status") or raw.get("completion_status"),
         "completion_note": student.get("completion_note") or raw.get("completion_note"),
     }
