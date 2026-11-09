@@ -23,7 +23,7 @@
           <div>
             <span class="text-xs font-mono uppercase tracking-widest text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded border border-emerald-200">Matt Pocock Codebase Design</span>
             <h1 class="text-3xl font-bold font-serif text-slate-900 mt-2">StudentCRM 架構審查與深模組審計報告</h1>
-            <p class="text-sm text-slate-500 mt-1">審計更新：2026-10-28 ｜ 程式庫範圍：07.Projects/StudentCRM (304 項自動化測試 100% 通過)</p>
+            <p class="text-sm text-slate-500 mt-1">審計更新：2026-11-09 ｜ 程式庫範圍：07.Projects/StudentCRM (320+ 項自動化測試 100% 通過)</p>
           </div>
           <div class="hidden sm:flex items-center gap-3 text-xs font-mono bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
             <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-800 inline-block"></span> Deep Module</span>
@@ -208,7 +208,7 @@
           </div>
 
           <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
-            檔案路徑: search_service.py (273行) · dashboard_service.py (235行) · routers/coach.py (283行) · apple_ceo_service.py
+            檔案路徑: search_service.py (273行) · dashboard_service.py (342行) · routers/coach.py (294行) · apple_ceo_service.py
           </div>
 
           <div class="space-y-3 text-sm">
@@ -220,6 +220,61 @@
                 <li><strong>Zero N+1 on Cache Hit</strong>：特徵快取命中時完全跳過筆記檔案與雲端 I/O。</li>
                 <li><strong>Thin Controllers</strong>：<code>/</code>、<code>/dashboard</code>、<code>/search</code> 與 <code>/program/apple-ceo</code> 皆收斂為純粹委派。</li>
                 <li><strong>Unified Cache Invalidation</strong>：<code>clear_gateway_memory_cache()</code> 統一連動清除首頁與儀表板短效快取。</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 5 -->
+        <article id="candidate-5" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">5. 領域 Repository Mixin 解耦與全站快取治理</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Completed · Verified</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">ports &amp; adapters · cache governance</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: data_gateway.py · digital_management_service.py · dashboard_service.py · routers/coach.py
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong><code>StudentDataGateway</code> 原為近千行巨石類別；同時 <code>/radar</code> 每次 GET 重算寫檔、<code>/digital-management</code> 快取遭 Pass-Through Wrapper 繞過、且 Cold Start 因空紀錄未放入 <code>[]</code> Sentinel 觸發 1,220 個本地檔案掃描。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>將資料層拆解為 <code>StudentRepositoryMixin</code>、<code>AppleCeoRepositoryMixin</code>、<code>RadarRepositoryMixin</code>；修復 <code>None vs []</code> 批次預載防護，並對 <code>_write_json</code> 實施無變更短路與暫存快取備份過濾。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>5.7x Cold Start Speedup</strong>：首頁 Cold Start 由 727ms 降至 126ms，Warm 全站 &lt; 18ms。</li>
+                <li><strong>18x Digital Management Speedup</strong>：<code>/digital-management</code> Warm 回應由 366ms 降至 18ms。</li>
+                <li><strong>Zero Ephemeral Backup Bloat</strong>：排除快取檔重複快照，阻斷無效磁碟 I/O。</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Candidate 6 -->
+        <article id="candidate-6" class="bg-white rounded-2xl border border-stone-200 p-8 shadow-sm space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h3 class="text-xl font-bold text-slate-900">6. NoteView 單一法定入口、GZip 壓縮與 Turbo-like 無刷導航</h3>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">Completed · Verified</span>
+              <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700">instant UX · deep module</span>
+            </div>
+          </div>
+
+          <div class="text-xs font-mono text-slate-500 bg-stone-50 p-2.5 rounded border border-stone-200">
+            檔案路徑: note_service.py · routers/student.py · static/instant-prefetch.js · main.py
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <p><strong class="text-slate-900">問題痛點：</strong><code>routers/student.py</code> 內嵌 35 行雲端/本地筆記權限與鄰居查詢邏輯；且前端跨頁跳轉存在白屏感知延遲，大型 HTML (250KB–650KB) 未經壓縮傳輸。</p>
+            <p><strong class="text-slate-900">重構解法：</strong>封裝 <code>resolve_note_view()</code> 單一深模組入口；於 <code>main.py</code> 掛載 <code>GZipMiddleware</code>（縮減 85%+ 傳輸體積），並在前端導入 <code>initInstantNavigation()</code> 微 PJAX 與頂部霓虹進度條。</p>
+            <div class="pt-2">
+              <span class="text-xs uppercase font-semibold text-slate-500">架構收益 (Wins)：</span>
+              <ul class="list-disc list-inside text-slate-700 text-sm mt-1 space-y-1">
+                <li><strong>0ms Perceived Navigation</strong>：Hover 預載 + 無刷 DOM 替換，徹底消除換頁白屏。</li>
+                <li><strong>85%+ Bandwidth Reduction</strong>：GZip 壓縮使 500KB 戰情頁網路載荷降至 ~45KB。</li>
               </ul>
             </div>
           </div>

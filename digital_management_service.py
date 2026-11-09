@@ -616,9 +616,11 @@ def build_digital_management_profiles(
     calendar_events_loader=None,
     local_notes_loader=None,
     cloud_notes_loader=None,
+    *,
+    allow_cache: bool = False,
 ) -> dict:
     now_ts = time.time()
-    can_use_cache = (
+    can_use_cache = allow_cache or (
         students_loader is None
         and data_gateway is None
         and calendar_events_loader is None
@@ -626,7 +628,7 @@ def build_digital_management_profiles(
         and cloud_notes_loader is None
     )
     if can_use_cache and _PROFILES_CACHE["payload"] is not None:
-        if (now_ts - _PROFILES_CACHE["timestamp"] < 30.0) and (_PROFILES_CACHE["include_heptabase"] == include_heptabase):
+        if (now_ts - _PROFILES_CACHE["timestamp"] < 60.0) and (_PROFILES_CACHE["include_heptabase"] == include_heptabase):
             return copy.deepcopy(_PROFILES_CACHE["payload"])
 
     if students_loader:
@@ -793,6 +795,8 @@ def get_digital_management_student_profile(
     calendar_events_loader=None,
     local_notes_loader=None,
     cloud_notes_loader=None,
+    *,
+    allow_cache: bool = False,
 ) -> dict | None:
     """深模組單一學員查詢入口：直接取得特定學員的完整時間軸、筆記與統計。"""
     payload = build_digital_management_profiles(
@@ -802,6 +806,7 @@ def get_digital_management_student_profile(
         calendar_events_loader=calendar_events_loader,
         local_notes_loader=local_notes_loader,
         cloud_notes_loader=cloud_notes_loader,
+        allow_cache=allow_cache,
     )
     for student in payload.get("students", []):
         if student.get("id") == student_id:

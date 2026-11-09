@@ -5,6 +5,9 @@ from datetime import datetime, timedelta
 WEEKDAYS_ZH = ["（一）", "（二）", "（三）", "（四）", "（五）", "（六）", "（日）"]
 
 
+_EXCEPTIONS_CACHE: dict[str, tuple[float, list[str]]] = {}
+
+
 def get_document_exceptions(student_file_path: str) -> list[str]:
     """Scan student .md file for '暫停一次' and return the associated dates."""
     exceptions = []
@@ -12,12 +15,19 @@ def get_document_exceptions(student_file_path: str) -> list[str]:
         return exceptions
 
     try:
+        mtime = os.path.getmtime(student_file_path)
+        cached = _EXCEPTIONS_CACHE.get(student_file_path)
+        if cached and cached[0] == mtime:
+            return list(cached[1])
         with open(student_file_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
                 if "暫停一次" in line:
                     match = re.search(r"(\d{4}-\d{2}-\d{2})", line)
                     if match:
                         exceptions.append(match.group(1))
+        result = list(set(exceptions))
+        _EXCEPTIONS_CACHE[student_file_path] = (mtime, result)
+        return list(result)
     except Exception as e:
         print(f"DEBUG: Error scanning {student_file_path} for exceptions: {e}")
 

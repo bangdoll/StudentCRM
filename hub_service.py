@@ -257,6 +257,9 @@ def load_cloud_digital_management_notes(app_dir: str) -> list[dict]:
     return notes
 
 
+_MERGED_NOTES_MEMO: dict[str, Any] = {"key": None, "notes": []}
+
+
 def get_student_teaching_notes(
     student: dict,
     base_dir: str = "",
@@ -274,7 +277,13 @@ def get_student_teaching_notes(
 
     local_notes = local_notes_loader() if local_notes_loader is not None else load_local_digital_management_notes(base_dir)
     cloud_notes = cloud_notes_loader() if cloud_notes_loader is not None else load_cloud_digital_management_notes(app_dir)
-    teaching_notes = merge_teaching_notes(local_notes, cloud_notes)
+    memo_key = (id(local_notes), len(local_notes), id(cloud_notes), len(cloud_notes))
+    if _MERGED_NOTES_MEMO["key"] == memo_key:
+        teaching_notes = _MERGED_NOTES_MEMO["notes"]
+    else:
+        teaching_notes = merge_teaching_notes(local_notes, cloud_notes)
+        _MERGED_NOTES_MEMO["key"] = memo_key
+        _MERGED_NOTES_MEMO["notes"] = teaching_notes
 
     matched = []
     seen = set()

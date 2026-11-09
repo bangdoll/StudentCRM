@@ -43,15 +43,28 @@ DEFAULT_BASE_DIR = find_base_dir(APP_DIR)
 BASE_DIR = os.getenv("OPEN_CLAW_BASE_DIR", DEFAULT_BASE_DIR)
 
 
+_STUDENT_METADATA_CACHE: dict[str, tuple[float, dict]] = {}
+
+
 def get_student_metadata(file_path: str) -> dict:
-    if not os.path.isfile(file_path):
+    if not file_path or not os.path.isfile(file_path):
         return {}
-    with open(file_path, "r", encoding="utf-8") as f:
-        content = f.read()
+    try:
+        mtime = os.path.getmtime(file_path)
+        cached = _STUDENT_METADATA_CACHE.get(file_path)
+        if cached and cached[0] == mtime:
+            return dict(cached[1])
+        with open(file_path, "r", encoding="utf-8") as f:
+            content = f.read(8192)
+    except OSError:
+        return {}
     match = re.search(r"---\n(.*?)\n---", content, re.DOTALL)
     if not match:
+        _STUDENT_METADATA_CACHE[file_path] = (mtime, {})
         return {}
-    return parse_frontmatter_metadata(match.group(1))
+    parsed = parse_frontmatter_metadata(match.group(1))
+    _STUDENT_METADATA_CACHE[file_path] = (mtime, dict(parsed))
+    return parsed
 
 
 def parse_frontmatter_metadata(frontmatter: str) -> dict:

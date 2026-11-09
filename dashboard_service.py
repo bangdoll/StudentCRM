@@ -124,7 +124,7 @@ def build_dashboard_context(
 
     # 批次預載高流失風險學員最近紀錄，消除 N+1 查詢
     notes_by_student: dict[str, list[dict[str, Any]]] = {}
-    if data_gateway is not None and getattr(data_gateway, "backend", "") == "supabase":
+    if data_gateway is not None and hasattr(data_gateway, "load_radar_teaching_records"):
         today_date = datetime.now().date()
         needed_sids = []
         for s in students:
@@ -132,23 +132,30 @@ def build_dashboard_context(
             if st in ("memorial", "graduated", "paused"):
                 continue
             ld_str = s.get("latest_date") or s.get("last_lesson_date")
-            if ld_str and ld_str != "未記錄":
+            if not ld_str or ld_str == "未記錄":
+                if s.get("id"):
+                    needed_sids.append(s["id"])
+            else:
                 try:
                     ld = datetime.strptime(ld_str, "%Y-%m-%d").date()
                     days = (today_date - ld).days
                     if 14 < days < 365:
                         needed_sids.append(s["id"])
                 except Exception:
-                    pass
+                    if s.get("id"):
+                        needed_sids.append(s["id"])
         if needed_sids:
             try:
                 batched_records = data_gateway.load_radar_teaching_records(needed_sids)
+                if batched_records or getattr(data_gateway, "backend", "") == "supabase":
+                    for sid in needed_sids:
+                        notes_by_student[sid] = []
                 for rec in batched_records:
                     sid = rec.get("student_id")
                     if sid:
                         notes_by_student.setdefault(sid, []).append(rec)
             except Exception as e:
-                logger.warning(f"儀表板批次預載教學紀錄異常: {e}")
+                logger.warning(f"批次預載教學紀錄異常: {e}")
 
     for student in students:
         student_file = os.path.join(base_dir, student.get("file", "").lstrip("/"))
@@ -259,9 +266,9 @@ def build_home_context(
     raw_students = students_loader()
     students = copy.deepcopy(raw_students) if isinstance(raw_students, list) else []
 
-    # 批次預載高流失風險學員最近紀錄，消除 96 次 N+1 網路查詢
+    # 批次預載高流失風險學員最近紀錄，消除 96 次 N+1 網路與檔案查詢
     notes_by_student: dict[str, list[dict[str, Any]]] = {}
-    if data_gateway is not None and getattr(data_gateway, "backend", "") == "supabase":
+    if data_gateway is not None and hasattr(data_gateway, "load_radar_teaching_records"):
         today_date = datetime.now().date()
         needed_sids = []
         for s in students:
@@ -269,17 +276,24 @@ def build_home_context(
             if st in ("memorial", "graduated", "paused"):
                 continue
             ld_str = s.get("latest_date") or s.get("last_lesson_date")
-            if ld_str and ld_str != "未記錄":
+            if not ld_str or ld_str == "未記錄":
+                if s.get("id"):
+                    needed_sids.append(s["id"])
+            else:
                 try:
                     ld = datetime.strptime(ld_str, "%Y-%m-%d").date()
                     days = (today_date - ld).days
                     if 14 < days < 365:
                         needed_sids.append(s["id"])
                 except Exception:
-                    pass
+                    if s.get("id"):
+                        needed_sids.append(s["id"])
         if needed_sids:
             try:
                 batched_records = data_gateway.load_radar_teaching_records(needed_sids)
+                if batched_records or getattr(data_gateway, "backend", "") == "supabase":
+                    for sid in needed_sids:
+                        notes_by_student[sid] = []
                 for rec in batched_records:
                     sid = rec.get("student_id")
                     if sid:

@@ -162,14 +162,25 @@ async def get_effectiveness_radar_page(request: Request):
     """【成效與續約雷達戰情頁】展示 AI 導入階段、微行動卡進度、流失預警與 CSM 追蹤。"""
     deps = get_coach_deps()
     gateway = deps["student_gateway"]
-    try:
-        radar_data = build_full_effectiveness_radar(gateway)
-    except Exception as exc:
-        logger.warning(f"即時計算成效雷達異常，降級至快取資料: {exc}")
-        radar_data = gateway.get_effectiveness_radar_data()
+    force_refresh = request.query_params.get("refresh", "").lower() in ("1", "true", "yes")
+    radar_data = {} if force_refresh else gateway.get_effectiveness_radar_data()
+    cached_items = radar_data.get("items") if isinstance(radar_data, dict) else None
+    is_valid_cache = (
+        isinstance(cached_items, list)
+        and len(cached_items) > 0
+        and isinstance(cached_items[0], dict)
+        and "days_since_last" in cached_items[0]
+        and "ai_import_stage" in cached_items[0]
+    )
+    if not is_valid_cache:
+        try:
+            radar_data = build_full_effectiveness_radar(gateway)
+        except Exception as exc:
+            logger.warning(f"即時計算成效雷達異常，降級至快取資料: {exc}")
+            radar_data = gateway.get_effectiveness_radar_data()
     outcome_data = outcome_summary(deps["load_students"](), radar_data.get("items", []))
 
-    return deps["templates"].TemplateResponse(request, "radar.html", {
+    response = deps["templates"].TemplateResponse(request, "radar.html", {
         "request": request,
         "radar": radar_data,
         "summary": radar_data.get("summary", {}),
@@ -177,6 +188,8 @@ async def get_effectiveness_radar_page(request: Request):
         "generated_at": radar_data.get("generated_at", ""),
         "outcome_summary": outcome_data,
     })
+    response.headers["Cache-Control"] = "private, max-age=30, stale-while-revalidate=300"
+    return response
 
 
 @router.get("/api/radar", response_class=JSONResponse)

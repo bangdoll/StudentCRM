@@ -18,6 +18,7 @@ StudentCRM 主入口組裝層 (main.py)
 import os
 import time
 from fastapi import FastAPI, Request
+from fastapi.middleware.gzip import GZipMiddleware
 from pydantic import BaseModel, Field
 from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -103,6 +104,7 @@ class FallbackStaticFiles(CachedStaticFiles):
 
 # ── 建立 FastAPI 實例與模板掛載 ──────────────────────────────────────────────
 app = FastAPI(title="StudentCRM", version="2.5.0")
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 
 @app.exception_handler(TeachingReadError)
@@ -208,6 +210,20 @@ from digital_management_service import (
 )
 
 
+_DEFAULT_LOAD_STUDENTS = load_students
+
+
+def _is_default_dm_environment(current_module) -> bool:
+    return (
+        getattr(current_module, "load_students", None) is _DEFAULT_LOAD_STUDENTS
+        and getattr(current_module, "student_gateway", None) is student_gateway
+        and getattr(current_module, "load_digital_management_calendar_events", None) is load_digital_management_calendar_events
+        and getattr(current_module, "load_local_digital_management_notes", None) is load_local_digital_management_notes
+        and getattr(current_module, "load_cloud_digital_management_notes", None) is load_cloud_digital_management_notes
+        and _dm_svc.DIGITAL_MANAGEMENT_CALENDAR_CACHE == DIGITAL_MANAGEMENT_CALENDAR_CACHE
+    )
+
+
 def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
     import main as current_module
     return _dm_svc.build_digital_management_profiles(
@@ -217,6 +233,7 @@ def build_digital_management_profiles(include_heptabase: bool = False) -> dict:
         calendar_events_loader=lambda: current_module.load_digital_management_calendar_events(),
         local_notes_loader=lambda: current_module.load_local_digital_management_notes(),
         cloud_notes_loader=lambda: current_module.load_cloud_digital_management_notes(),
+        allow_cache=_is_default_dm_environment(current_module),
     )
 
 
@@ -242,6 +259,7 @@ def get_digital_management_student_profile(student_id: str, include_heptabase: b
         calendar_events_loader=lambda: current_module.load_digital_management_calendar_events(),
         local_notes_loader=lambda: current_module.load_local_digital_management_notes(),
         cloud_notes_loader=cloud_notes_loader,
+        allow_cache=(not cloud and _is_default_dm_environment(current_module)),
     )
 
     if profile and cloud_student_id:

@@ -298,5 +298,56 @@ def test_apple_ceo_parallel_fetches(monkeypatch):
     assert len(active_threads) >= 2
 
 
+def test_gzip_middleware_compresses_large_html_responses():
+    """驗證 GZipMiddleware 已啟用，對超過 1KB 的 HTML 頁面自動進行 gzip 壓縮。"""
+    from fastapi.testclient import TestClient
+    import main
+    from auth_service import SESSION_COOKIE_NAME, get_session_token
+
+    client = TestClient(main.app)
+    client.cookies.set(SESSION_COOKIE_NAME, get_session_token())
+
+    resp = client.get("/cases", headers={"Accept-Encoding": "gzip"})
+    assert resp.status_code == 200
+    assert resp.headers.get("content-encoding") == "gzip"
+
+
+def test_write_json_noop_shortcircuit_and_ephemeral_cache_no_backup(tmp_path):
+    """驗證 _write_json 對無變更資料短路不重複產生 .bak，且對 cache 目錄不產生 .bak。"""
+    from data_gateway import StudentDataGateway
+
+    # 1. 正式目錄：相同資料重複寫入不產生多餘 .bak
+    data_dir = tmp_path / "data"
+    data_file = data_dir / "students.json"
+    payload = [{"id": "s1", "name": "Alice"}]
+    StudentDataGateway._write_json(str(data_file), payload)
+    StudentDataGateway._write_json(str(data_file), payload)  # 內容完全相同，應短路
+    backup_dir = data_dir / "backups"
+    assert not backup_dir.exists() or len(list(backup_dir.glob("*.bak"))) == 0
+
+    # 2. 暫存快取目錄：即使內容改變也不應產生 .bak
+    cache_dir = tmp_path / "cache"
+    cache_file = cache_dir / "teaching_records.json"
+    StudentDataGateway._write_json(str(cache_file), [{"id": "r1"}])
+    StudentDataGateway._write_json(str(cache_file), [{"id": "r1"}, {"id": "r2"}])
+    assert not (cache_dir / "backups").exists()
+
+
+def test_digital_management_profiles_cache_works_via_main_wrapper():
+    """驗證 main.build_digital_management_profiles 在預設環境下能命中 _PROFILES_CACHE。"""
+    import main
+    from digital_management_service import _PROFILES_CACHE, clear_digital_management_profiles_cache
+
+    clear_digital_management_profiles_cache()
+    res1 = main.build_digital_management_profiles(include_heptabase=False)
+    assert _PROFILES_CACHE["payload"] is not None
+    ts1 = _PROFILES_CACHE["timestamp"]
+
+    res2 = main.build_digital_management_profiles(include_heptabase=False)
+    assert _PROFILES_CACHE["timestamp"] == ts1
+    assert len(res1.get("students", [])) == len(res2.get("students", []))
+
+
+
 
 
