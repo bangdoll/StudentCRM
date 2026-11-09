@@ -933,11 +933,26 @@ class StudentDataGateway(
         if not is_ephemeral_cache and os.path.exists(path) and os.path.getsize(path) > 10:
             backup_dir = os.path.join(os.path.dirname(path), "backups")
             os.makedirs(backup_dir, exist_ok=True)
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             backup_file = os.path.join(backup_dir, f"{basename}.{timestamp}.bak")
             try:
                 import shutil
                 shutil.copy2(path, backup_file)
+                # 滾動保留策略 (Rolling Retention)：每個檔案僅保留最新 5 份 .bak 快照，防止磁碟無限膨脹
+                existing_baks = sorted(
+                    (
+                        os.path.join(backup_dir, fname)
+                        for fname in os.listdir(backup_dir)
+                        if fname.startswith(f"{basename}.") and fname.endswith(".bak")
+                    ),
+                    key=lambda p: (os.path.getmtime(p), p),
+                    reverse=True,
+                )
+                for stale_bak in existing_baks[5:]:
+                    try:
+                        os.remove(stale_bak)
+                    except OSError:
+                        pass
             except Exception:
                 pass
 

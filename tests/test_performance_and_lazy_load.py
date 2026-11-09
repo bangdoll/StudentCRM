@@ -313,7 +313,7 @@ def test_gzip_middleware_compresses_large_html_responses():
 
 
 def test_write_json_noop_shortcircuit_and_ephemeral_cache_no_backup(tmp_path):
-    """驗證 _write_json 對無變更資料短路不重複產生 .bak，且對 cache 目錄不產生 .bak。"""
+    """驗證 _write_json 對無變更資料短路不重複產生 .bak、對 cache 目錄不產生 .bak，且每個檔案最多保留最新 5 份 .bak。"""
     from data_gateway import StudentDataGateway
 
     # 1. 正式目錄：相同資料重複寫入不產生多餘 .bak
@@ -325,7 +325,14 @@ def test_write_json_noop_shortcircuit_and_ephemeral_cache_no_backup(tmp_path):
     backup_dir = data_dir / "backups"
     assert not backup_dir.exists() or len(list(backup_dir.glob("*.bak"))) == 0
 
-    # 2. 暫存快取目錄：即使內容改變也不應產生 .bak
+    # 2. 滾動保留策略：連續寫入 8 次不同版本，最多僅保留最新 5 份 .bak
+    for ver in range(1, 9):
+        StudentDataGateway._write_json(str(data_file), [{"id": "s1", "name": f"Alice_v{ver}"}])
+    baks = sorted(backup_dir.glob("students.json.*.bak"))
+    assert len(baks) == 5
+    assert "Alice_v7" in baks[-1].read_text(encoding="utf-8")
+
+    # 3. 暫存快取目錄：即使內容改變也不應產生 .bak
     cache_dir = tmp_path / "cache"
     cache_file = cache_dir / "teaching_records.json"
     StudentDataGateway._write_json(str(cache_file), [{"id": "r1"}])
