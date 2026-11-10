@@ -647,7 +647,7 @@
     "file": "/01.Docs/Students/ming_zhi.md",
     "lessons_count": 6,
     "latest_date": "2026-11-09",
-    "next_lesson": "2026-11-09",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -999,8 +999,8 @@
     "name": "蕭世典",
     "aliases": [],
     "file": "/01.Docs/Students/蕭世典.md",
-    "lessons_count": 6,
-    "latest_date": "2026-09-01",
+    "lessons_count": 7,
+    "latest_date": "2026-11-10",
     "last_lesson_date": "2026-09-01",
     "next_lesson": "2026-11-10",
     "tags": [
@@ -1014,10 +1014,10 @@
     "previous_cycles_count": 1,
     "cycle_round": 2,
     "cycle_start_date": "2026-07-24",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 3,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "第 1 輪 4 堂已結訓；2026-07-24 起改為一輪 8 堂課（目前已上 2/8 堂，剩餘 6 堂）",
+    "completion_note": "第 1 輪 4 堂已結訓；2026-07-24 起改為一輪 8 堂課（目前已上 3/8 堂，剩餘 5 堂）",
     "cycle_history": [
       {
         "round": 1,
@@ -1126,17 +1126,17 @@
       "邱"
     ],
     "file": "/01.Docs/Students/邱醫師.md",
-    "lessons_count": 51,
-    "latest_date": "2026-10-13",
-    "next_lesson": "2026-11-10",
+    "lessons_count": 52,
+    "latest_date": "2026-11-10",
+    "next_lesson": "2026-12-08",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2018-03-02",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "67e399f1-55a5-48a1-97ce-29c4a72f1f37",
