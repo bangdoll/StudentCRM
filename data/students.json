@@ -162,17 +162,17 @@
     "name": "Kelly Woo",
     "aliases": [],
     "file": "/01.Docs/Students/kelly_woo.md",
-    "lessons_count": 72,
-    "latest_date": "2026-10-18",
-    "next_lesson": "2026-11-12",
+    "lessons_count": 73,
+    "latest_date": "2026-11-12",
+    "next_lesson": "2026-11-23",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2020-10-30",
-    "current_cycle_lesson": 3,
+    "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 3 堂）",
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）",
     "cycle_size": 8,
     "cycle_start_date": "2026-09-20",
     "tuition": 48000
@@ -1351,7 +1351,7 @@
     "file": "",
     "lessons_count": 16,
     "latest_date": "2026-10-28",
-    "next_lesson": "2026-11-11",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
