@@ -224,7 +224,7 @@
     "file": "/01.Docs/Students/Roger老師.md",
     "lessons_count": 15,
     "latest_date": "2026-07-20",
-    "next_lesson": "2026-11-12",
+    "next_lesson": "安排中",
     "tags": [
       "一般學員"
     ],
@@ -279,17 +279,17 @@
       "Teresa Test"
     ],
     "file": "/01.Docs/Students/Teresa.md",
-    "lessons_count": 17,
-    "latest_date": "2026-09-21",
+    "lessons_count": 18,
+    "latest_date": "2026-11-13",
     "next_lesson": "2026-11-13",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2024-06-30",
-    "current_cycle_lesson": 1,
+    "current_cycle_lesson": 2,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 1 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
   },
   {
     "id": "ba471b05-d30f-483e-9ccb-6051f70dc750",
@@ -1164,17 +1164,17 @@
       "鄺姐"
     ],
     "file": "/01.Docs/Students/鄺姐.md",
-    "lessons_count": 10,
-    "latest_date": "2026-06-26",
-    "next_lesson": "2026-11-13",
+    "lessons_count": 12,
+    "latest_date": "2026-11-13",
+    "next_lesson": "2026-12-01",
     "tags": [
       "一般學員"
     ],
     "first_lesson_date": "2022-06-16",
-    "current_cycle_lesson": 2,
+    "current_cycle_lesson": 4,
     "status": "active",
     "completion_status": "has_remaining",
-    "completion_note": "尚有剩餘課程未上完（目前已上 2 堂）"
+    "completion_note": "尚有剩餘課程未上完（目前已上 4 堂）"
   },
   {
     "id": "f448b91e-b8c1-4245-943a-7545d6e80925",
